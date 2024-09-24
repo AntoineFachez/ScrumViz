@@ -5,6 +5,7 @@ import {
   ArrowBackIos,
   CloseFullscreen,
   FilterList,
+  Grain,
   GridView,
   OndemandVideo,
   OpenInFull,
@@ -63,6 +64,18 @@ export default function MenuUserStory({
       onClick={() => handleSelectWidgetContext('card')}
     >
       <GridView />
+    </IconButton>,
+    <IconButton
+      key={'chip'}
+      sx={
+        selectedWidgetContext === 'chip'
+          ? styled?.widgetMenuButton?.active
+          : styled?.widgetMenuButton?.inactive
+      }
+      // sx={{ backgroundColor: "white" }}
+      onClick={() => handleSelectWidgetContext('chip')}
+    >
+      <Grain />
     </IconButton>,
     <IconButton
       key={'singleItem'}

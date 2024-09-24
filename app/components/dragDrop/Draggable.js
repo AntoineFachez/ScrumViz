@@ -13,7 +13,7 @@ export default function Draggable({
   return (
     <Box
       ref={listItemRef}
-      dataSlug={dataSlug}
+      data-slug={dataSlug}
       className={`draggable ${item}`}
       key={keyToPass}
       draggable={true}

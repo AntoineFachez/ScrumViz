@@ -122,7 +122,7 @@ const WidgetIndexTemplate = ({
                       {/* <Box sx={styled?.tableContainer}>{table}</Box> */}
                     </>
                   ) : widgetContext === 'chip' ? (
-                    <>{chip}</>
+                    <>{flexList}</>
                   ) : widgetContext === 'tree' ? (
                     <>{tree}</>
                   ) : widgetContext === 'singleItem' ? (

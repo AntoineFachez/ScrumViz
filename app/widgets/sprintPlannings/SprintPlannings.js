@@ -16,6 +16,8 @@ import MultiItems from '@/app/pages/MultiItems';
 import SingleItem from '@/app/pages/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import SearchContext from '@/context/SearchContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 
 export default function SprintPlannings({
   uiContext,
@@ -29,6 +31,11 @@ export default function SprintPlannings({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const { selectedUserStories, setSelectedUserStories } =
+    useContext(UserStoriesContext);
+  const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
+    SprintBackLogsContext
+  );
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
 
@@ -75,7 +82,23 @@ export default function SprintPlannings({
 
   const handleSetSprintPlanningInFocus = (sprintPlanning) => {
     setSprintPlanningInFocus(sprintPlanning);
-    // const found
+    const productBacklogItemIds = new Set(
+      sprintPlanning.sprint_backlog.map((item) => item.product_backlog_item_id)
+    );
+    console.log(productBacklogItemIds, selectedUserStories);
+
+    // 2. Filter userStories based on the extracted IDs
+    const filteredUserStories = selectedUserStories.filter((story) =>
+      productBacklogItemIds.has(story.id)
+    );
+
+    // 3. Do something with the filteredUserStories (e.g., update state, display them, etc.)
+    setSelectedUserStories(filteredUserStories);
+
+    const foundSprintLogs = displaySprintBackLogs.filter((backLog) =>
+      productBacklogItemIds.has(backLog.product_backlog_item_id)
+    );
+    setSelectedSprintBackLogs(foundSprintLogs);
   };
   const CardSubHeaderElement = (data) => (
     <Typography

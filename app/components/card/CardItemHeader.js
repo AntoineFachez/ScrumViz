@@ -54,7 +54,7 @@ export default function CardItemHeader({
       subheaderTypographyProps={
         isSelected ? styled?.textBody?.selected : styled?.textBody
       }
-      subheader={() => <CardSubHeaderElement item={item} />}
+      // subheader={() => <CardSubHeaderElement item={item} />}
       // sx={isSelected ? styled?.textBody?.selected : styled?.textBody}
       sx={{
         display: 'flex',

@@ -5,7 +5,10 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
   return (
     <Box className="widget" sx={styled?.widget}>
       {!itemInFocus ? (
-        <Typography sx={styled.textBody} variant={styled.textBody.variant}>
+        <Typography
+          sx={{ ...styled.textBody, height: 'fit-content' }}
+          variant={{ ...styled.textBody, height: 'fit-content' }.variant}
+        >
           select {itemContext}
         </Typography>
       ) : (
@@ -24,15 +27,17 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
                   {itemInFocus[singleItemScheme.title] || 'N/A'}{' '}
                   {/* Handle missing subTitle */}
                 </Typography>
-                <Box>
-                  <Typography
-                    sx={styled.widgetSubTitle}
-                    variant={styled.widgetSubTitle.variant}
-                  >
-                    {itemInFocus[singleItemScheme.subTitle] || 'N/A'}{' '}
-                    {/* Handle missing subTitle */}
-                  </Typography>
-                </Box>
+                {itemInFocus[singleItemScheme.subTitle] && (
+                  <Box>
+                    <Typography
+                      sx={styled.widgetSubTitle}
+                      variant={styled.widgetSubTitle.variant}
+                    >
+                      {itemInFocus[singleItemScheme.subTitle] || 'N/A'}{' '}
+                      {/* Handle missing subTitle */}
+                    </Typography>
+                  </Box>
+                )}
               </Box>
             </Box>
             <Box
@@ -44,19 +49,33 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
                 overflowX: 'hidden',
               }}
             >
-              <Typography sx={styled.textBody}>
-                {singleItemScheme.description}:{' '}
+              {' '}
+              {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
+                {singleItemScheme.title}:{' '}
+                {itemInFocus[singleItemScheme.title] || 'N/A'}
+              </Typography> */}
+              <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
+                {singleItemScheme.customField}:<br />
+                {itemInFocus[singleItemScheme.customField] || 'N/A'}
+              </Typography>
+              <br />
+              <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
+                {singleItemScheme.description}:<br />
+              </Typography>
+              <Typography
+                sx={{
+                  ...styled.textBody,
+                  height: 'fit-content',
+                  color: 'white',
+                }}
+              >
                 {itemInFocus[singleItemScheme.description] || 'N/A'}
               </Typography>
               {/* Add more fields here as needed, using the same pattern */}
-              <Typography sx={styled.textBody}>
+              {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
                 {singleItemScheme.id}:{' '}
                 {itemInFocus[singleItemScheme.id] || 'N/A'}
-              </Typography>
-              <Typography sx={styled.textBody}>
-                {singleItemScheme.title}:{' '}
-                {itemInFocus[singleItemScheme.title] || 'N/A'}
-              </Typography>
+              </Typography> */}
             </Box>
           </Box>
         </>

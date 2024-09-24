@@ -10,10 +10,11 @@ export const fieldsAccordion = {
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {
-  id: 'userStory_id',
+  id: 'id',
   title: 'userStory_name',
   subTitle: 'author',
   description: 'user_story',
+  customField: 'userStory_author',
 };
 
 export const headCellsTable = [

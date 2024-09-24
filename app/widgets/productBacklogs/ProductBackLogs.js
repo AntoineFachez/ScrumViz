@@ -146,38 +146,38 @@ export default function Products({
       styled={styled}
     />
   );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        data={selectedProductBackLogs.filter((product) =>
-          product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-        )}
-        selectedData={selectedProductBackLogs}
-        setSelectedItem={setSelectedProductBackLogs}
-        selector={{
-          selector: 'productBackLogsSelector',
-          selected: 'selectedProductBackLog',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={productBackLogInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetBackLogInFocus}
-        customElement={null}
-        alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
-        styled={styled}
-      />
-    </Box>
-  );
+  // const chip = (
+  //   <Box
+  //     className="widget"
+  //     sx={{
+  //       ...styled.widget,
+  //       // backgroundColor: '#555',
+  //     }}
+  //   >
+  //     <MultiItems
+  //       uiContext={uiContext}
+  //       singleItemScheme={singleItemScheme}
+  //       selectedWidgetContext={selectedWidgetContext}
+  //       data={selectedProductBackLogs.filter((product) =>
+  //         product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+  //       )}
+  //       selectedData={selectedProductBackLogs}
+  //       setSelectedItem={setSelectedProductBackLogs}
+  //       selector={{
+  //         selector: 'productBackLogsSelector',
+  //         selected: 'selectedProductBackLog',
+  //       }}
+  //       itemContext={widgetProps?.itemContext}
+  //       itemInFocus={productBackLogInFocus}
+  //       setActiveSearchTerm={setActiveSearchTerm}
+  //       handleSetItemInFocus={handleSetBackLogInFocus}
+  //       customElement={null}
+  //       alertElement={null}
+  //       cardSubHeaderElement={CardSubHeaderElement}
+  //       styled={styled}
+  //     />
+  //   </Box>
+  // );
   const tree = (
     <Box
       className="widget"
@@ -244,7 +244,7 @@ export default function Products({
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
-        chip={chip}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
       />

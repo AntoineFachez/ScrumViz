@@ -20,33 +20,23 @@ export default function MultiItems({
   styled,
 }) {
   let array = [];
-
-  const scrollToPiece = (item, checkId) => {
-    console.log(
-      listItemRef.current.getAttribute('dataslug'),
-      item.id === checkId
-    );
-    if (listItemRef.current) {
-      const itemElement = listItemRef.current.querySelector(
-        `[dataslug="${item.id}"]`
-      );
-      if (itemElement) {
-        itemElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest', // Adjust as needed
-          inline: 'nearest', // Adjust as needed
-        });
-      }
+  const flexListRef = useRef();
+  const scrollToPiece = (listItemRef) => {
+    if (listItemRef) {
+      listItemRef.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center', // Adjust as needed
+        inline: 'nearest', // Adjust as needed
+      });
     }
   };
 
   useEffect(() => {
     if (itemInFocus) {
-      // scrollToPiece(itemInFocus);
-    }
-    const checkId = '873a5f7a-cd47-4102-ad73-84f51ef934ed';
-    if (itemInFocus.id === checkId) {
-      scrollToPiece(itemInFocus, checkId);
+      const listItemRef = flexListRef.current.querySelector(
+        `[data-slug="${itemInFocus.id}"]`
+      );
+      scrollToPiece(listItemRef);
     }
   }, [itemInFocus]);
 
@@ -56,10 +46,9 @@ export default function MultiItems({
   } else if (uiContext === selector?.selected) {
     array = selectedData;
   }
-
   return (
     <>
-      <Box className="flexList" sx={styled?.flexList}>
+      <Box className="flexList" sx={styled?.flexList} ref={flexListRef}>
         {array.length < 1 ? (
           <>select an entity section or create new {`${itemContext}`}</>
         ) : (
@@ -67,6 +56,7 @@ export default function MultiItems({
             {array?.map((item, i) => {
               return (
                 <Draggable
+                  dataSlug={item.id}
                   context="draggable"
                   item={item}
                   key={i}
@@ -90,6 +80,7 @@ export default function MultiItems({
                       ) : (
                         <>
                           <Chip
+                            data-slug={item.id}
                             onClick={() => handleSetItemInFocus(item)}
                             multilines
                             avatar={

@@ -69,7 +69,7 @@ export default function Menu({
 
               // onMouseLeave={() => setTimeout(() => setIsOpen(false), 0)}
             >
-              {verticalArray.map((button, i) => (
+              {verticalArray?.map((button, i) => (
                 <Box
                   className="widgetMenuButton"
                   key={i}
@@ -82,14 +82,16 @@ export default function Menu({
           </Box>
           <Box
             className="widgetMenuButtonArray hor"
-            // sx={styled?.widgetMenuButtonArray?.hor}
-            sx={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              padding: '0 0rem 0 2rem',
-            }}
+            sx={styled?.widgetMenuButtonArray?.hor}
+            // sx={{
+            //   position: 'absolute',
+            //   top: 0,
+            //   width: '100%',
+            //   height: '2rem',
+            //   display: 'flex',
+            //   flexDirection: 'row',
+            //   padding: '0 0rem 0 2rem',
+            // }}
             // noValidate
             // autoComplete="off"
           >
