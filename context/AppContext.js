@@ -9,7 +9,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const startUp = 'scrumManager';
+  const startUp = 'userStories';
   const [playGround, setPlayGround] = useState(false);
 
   const [showDev, setShowDev] = useState(false);

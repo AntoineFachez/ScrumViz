@@ -70,6 +70,8 @@ export const UIProvider = ({ children }) => {
         switch (appContext) {
           case 'scrumManager':
             return scrumManagerMap;
+          case 'userStories':
+            return userStoriesMap;
           case 'productBackLogs':
             return productBackLogsMap;
           case 'sprintPlannings':
@@ -78,8 +80,6 @@ export const UIProvider = ({ children }) => {
             return teamMembersMap;
           case 'scrumTeam':
             return scrumTeamMap;
-          case 'userStories':
-            return userStoriesMap;
           case 'dailies':
             return dailyMap;
           case 'sprints':

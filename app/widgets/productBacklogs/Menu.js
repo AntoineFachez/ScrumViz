@@ -5,6 +5,7 @@ import {
   ArrowBackIos,
   CloseFullscreen,
   FilterList,
+  Grain,
   GridView,
   OndemandVideo,
   OpenInFull,
@@ -32,6 +33,7 @@ export default function MenuBackLogItem({
   searchTerm,
   searchString,
   selectedWidgetContext,
+  setSelectedWidgetContext,
   showSearchVideo,
   setShowSearchVideo,
   handleSearchTermChange,
@@ -67,6 +69,18 @@ export default function MenuBackLogItem({
       onClick={() => handleSelectWidgetContext('card')}
     >
       <GridView />
+    </IconButton>,
+    <IconButton
+      key={'chip'}
+      sx={
+        selectedWidgetContext === 'chip'
+          ? styled?.widgetMenuButton?.active
+          : styled?.widgetMenuButton?.inactive
+      }
+      // sx={{ backgroundColor: "white" }}
+      onClick={() => handleSelectWidgetContext('chip')}
+    >
+      <Grain />
     </IconButton>,
     <IconButton
       key={'singleItem'}

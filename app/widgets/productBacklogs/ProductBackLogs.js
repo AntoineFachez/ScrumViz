@@ -17,7 +17,8 @@ import MultiItems from '@/app/pages/MultiItems';
 import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
-export default function BackLogItem({
+
+export default function Products({
   uiContext,
   startUpWidgetLayout,
   url,
@@ -153,7 +154,28 @@ export default function BackLogItem({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems Chip
+      <MultiItems
+        uiContext={uiContext}
+        singleItemScheme={singleItemScheme}
+        selectedWidgetContext={selectedWidgetContext}
+        data={selectedProductBackLogs.filter((product) =>
+          product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+        )}
+        selectedData={selectedProductBackLogs}
+        setSelectedItem={setSelectedProductBackLogs}
+        selector={{
+          selector: 'productBackLogsSelector',
+          selected: 'selectedProductBackLog',
+        }}
+        itemContext={widgetProps?.itemContext}
+        itemInFocus={productBackLogInFocus}
+        setActiveSearchTerm={setActiveSearchTerm}
+        handleSetItemInFocus={handleSetBackLogInFocus}
+        customElement={null}
+        alertElement={null}
+        cardSubHeaderElement={CardSubHeaderElement}
+        styled={styled}
+      />
     </Box>
   );
   const tree = (

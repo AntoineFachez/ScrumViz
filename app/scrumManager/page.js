@@ -17,6 +17,7 @@ import AppContext from '@/context/AppContext';
 import Image from 'next/image';
 import { DeveloperBoard } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
+
 export default function ScrumManagerPage({
   uiContext,
   startUpWidgetLayout,
