@@ -1,0 +1,24 @@
+// .activeRow {
+//   background-color: green;
+//   outline: none;
+//   &:hover {
+//     /* Nest the hover pseudo-class here */
+//     background-color: green; /* Change the hover color to dodgerblue */
+//   }
+//   & > * {
+//     outline: none;
+//     border: none;
+//   }
+// }
+// .inactiveRow {
+//   background-color: grey;
+//   outline: none;
+//   & > * {
+//     outline: none;
+//     border: none;
+//   }
+// }
+// .inactiveRow:hover {
+//   /* Nest the hover pseudo-class here */
+//   background-color: green; /* Change the hover color to dodgerblue */
+// }

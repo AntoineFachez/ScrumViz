@@ -6,12 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next export"
   },
   "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@firebase/analytics": "^0.10.8",
+    "@firebase/auth": "^1.7.9",
+    "@mui/icons-material": "^6.1.1",
+    "@mui/material": "^6.1.1",
+    "@mui/x-data-grid": "^7.18.0",
+    "firebase": "^10.13.2",
+    "lodash": "^4.17.21",
+    "next": "14.2.12",
+    "nodemon": "^3.1.5",
+    "p5": "^1.10.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.12"
+    "react-dropzone": "^14.2.3",
+    "react-grid-layout": "^1.4.4",
+    "sass": "^1.79.1",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "eslint": "^8",
