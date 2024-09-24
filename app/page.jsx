@@ -10,7 +10,7 @@ export default function Home({ user }) {
       <main className={styles.main}>
         <SignupLogin />
       </main>
-      <footer className={styles.footer}></footer>
+      {/* <footer className={styles.footer}></footer> */}
     </div>
   );
 }
