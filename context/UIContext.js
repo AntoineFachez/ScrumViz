@@ -5,7 +5,6 @@ import AppContext from './AppContext';
 // import useIntersectionObserver from '../hooks/useIntersectionObserver';
 // import { styled } from "../themes/styled";
 import {
-  defaultMap,
   userStoriesMap,
   scrumManagerMap,
   teamMembersMap,
@@ -100,7 +99,7 @@ export const UIProvider = ({ children }) => {
             console.log('timeStamps:', appContext);
             return timeStampsMap;
           default:
-            return defaultMap;
+            return scrumManagerMap;
         }
       });
       setNavBarWidgetList(() => {
