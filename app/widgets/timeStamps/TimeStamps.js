@@ -2,7 +2,7 @@
 import { useContext, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';

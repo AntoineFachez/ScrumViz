@@ -69,34 +69,24 @@ export const UIProvider = ({ children }) => {
       setDomGridMap(() => {
         switch (appContext) {
           case 'scrumManager':
-            console.log('scrumManager:', appContext);
             return scrumManagerMap;
           case 'productBackLogs':
-            console.log('productBackLogs:', appContext);
             return productBackLogsMap;
           case 'sprintPlannings':
-            console.log('sprintPlannings:', appContext);
             return sprintPlanningsMap;
           case 'teamMembers':
-            console.log('teamMembers:', appContext);
             return teamMembersMap;
           case 'scrumTeam':
-            console.log('scrumTeam:', appContext);
             return scrumTeamMap;
           case 'userStories':
-            console.log('userStories:', appContext);
             return userStoriesMap;
           case 'dailies':
-            console.log('dailies:', appContext);
             return dailyMap;
           case 'sprints':
-            console.log('sprints:', appContext);
             return sprintsMap;
           case 'sprintReview':
-            console.log('sprintReview:', appContext);
             return sprintReviewMap;
           case 'timeStamps':
-            console.log('timeStamps:', appContext);
             return timeStampsMap;
           default:
             return scrumManagerMap;
