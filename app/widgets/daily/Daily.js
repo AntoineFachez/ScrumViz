@@ -36,6 +36,8 @@ export default function Daily({
     setSelectedDailies,
     dailiesInFocus,
     setDailiesInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(DailiesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -76,6 +78,14 @@ export default function Daily({
     //   item: universityInFocus,
     // });
   };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
+
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+  };
   const CardSubHeaderElement = (data) => (
     <Typography
       onClick={() => handleSetDailiesInFocus(data)}
@@ -87,8 +97,8 @@ export default function Daily({
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
       // handleFilterEntities={handleFilterEntities}
       // loading={loading}
       // getAllentitiesTypes={getAllentitiesTypes}
@@ -173,7 +183,7 @@ export default function Daily({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayDailies}
+        data={selectedDailies}
         selectedData={selectedDailies}
         setSelectedItem={setSelectedDailies}
         selector={{

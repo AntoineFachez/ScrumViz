@@ -32,7 +32,6 @@ export default function UserStory({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const {
     displayUserStories,
@@ -41,6 +40,8 @@ export default function UserStory({
     setSelectedUserStories,
     userStoryInFocus,
     setUserStoryInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(UserStoriesContext);
   const { displaySprintPlannings, setSelectedSprintPlannings } = useContext(
     SprintPlanningsContext
@@ -203,11 +204,7 @@ export default function UserStory({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={selectedUserStories.filter((userStory) =>
-          userStory.userStory_name
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-        )}
+        data={selectedUserStories}
         selectedData={selectedUserStories}
         setSelectedItem={setSelectedUserStories}
         selector={{

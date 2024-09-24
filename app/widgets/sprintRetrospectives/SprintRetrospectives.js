@@ -11,6 +11,7 @@ import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
+import SearchContext from '@/context/SearchContext';
 
 export default function SprintRetrospectives({
   uiContext,
@@ -22,7 +23,8 @@ export default function SprintRetrospectives({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { setActiveSearchTerm } = useContext(SearchContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprintRetrospective';
@@ -57,7 +59,14 @@ export default function SprintRetrospectives({
     //  } else {
     //  }
   };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
 
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+  };
   const newItem = (
     <Box
       className="widget"

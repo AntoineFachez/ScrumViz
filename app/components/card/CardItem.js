@@ -58,6 +58,7 @@ export default function CardItem({
   // }));
 
   const isSelected = itemInFocus?.id === item?.id;
+
   return (
     <Card
       sx={isSelected ? styled.card.selected : styled?.card}

@@ -77,6 +77,18 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
                 {itemInFocus[singleItemScheme.id] || 'N/A'}
               </Typography> */}
             </Box>
+            <img
+              style={{
+                zIndex: 1,
+                bottom: 0,
+                position: 'absolute',
+                width: '100%',
+                height: 'auto',
+                objectFit: 'cover',
+              }}
+              src={itemInFocus[singleItemScheme.img_uri]}
+              alt=""
+            />
           </Box>
         </>
       )}

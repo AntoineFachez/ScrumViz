@@ -30,7 +30,6 @@ export default function Products({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
 
   const { displayUserStories, setSelectedUserStories } =
     useContext(UserStoriesContext);
@@ -44,6 +43,8 @@ export default function Products({
     setSelectedProductBackLogs,
     productBackLogInFocus,
     setProductBackLogInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(BackLogsContext);
   const collection = 'productBackLogs';
   const widgetProps = {
@@ -213,9 +214,7 @@ export default function Products({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={selectedProductBackLogs.filter((product) =>
-          product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
-        )}
+        data={selectedProductBackLogs}
         selectedData={selectedProductBackLogs}
         setSelectedItem={setSelectedProductBackLogs}
         selector={{

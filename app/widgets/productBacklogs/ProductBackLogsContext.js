@@ -15,6 +15,16 @@ export const BackLogsProvider = ({ children }) => {
   );
   const [productBackLogInFocus, setProductBackLogInFocus] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    setSelectedProductBackLogs(
+      displayProductBackLogs.filter((product) =>
+        product.product_name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+
+    return () => {};
+  }, [searchTerm]);
   return (
     <BackLogsContext.Provider
       value={{
@@ -24,6 +34,8 @@ export const BackLogsProvider = ({ children }) => {
         setSelectedProductBackLogs,
         productBackLogInFocus,
         setProductBackLogInFocus,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

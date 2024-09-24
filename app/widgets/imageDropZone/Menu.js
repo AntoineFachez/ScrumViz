@@ -33,6 +33,7 @@ export default function MenuImageDrop({
   selectedWidgetContext,
   showSearchVideo,
   setShowSearchVideo,
+  handleSearchTermChange,
   handleSearch,
   handleFilterEntities,
   loading,

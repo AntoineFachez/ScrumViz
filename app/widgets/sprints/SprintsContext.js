@@ -12,6 +12,21 @@ export const SprintsProvider = ({ children }) => {
   const [selectedSprints, setSelectedSprints] = useState(displaySprints);
   const [sprintInFocus, setSprintInFocus] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    console.log(searchTerm);
+    const found = displaySprints.filter((sprint) => {
+      return console.log(sprint.sprint_name);
+      // sprint.sprint_name.toLowerCase().includes(searchTerm.toLowerCase())
+    });
+    console.log(found);
+    // setSelectedSprints(
+    // );
+
+    return () => {};
+  }, [searchTerm]);
+
   return (
     <SprintsContext.Provider
       value={{
@@ -21,6 +36,8 @@ export const SprintsProvider = ({ children }) => {
         setSelectedSprints,
         sprintInFocus,
         setSprintInFocus,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

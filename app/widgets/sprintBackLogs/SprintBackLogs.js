@@ -37,6 +37,8 @@ export default function SprintBackLogs({
     setSelectedSprintBackLogs,
     sprintBackLogInFocus,
     setSprintBackLogInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(SprintBackLogsContext);
   const {
     displayUserStories,
@@ -93,6 +95,14 @@ export default function SprintBackLogs({
     //   item: universityInFocus,
     // });
   };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
+
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+  };
   const CardSubHeaderElement = (data) => (
     <Typography
       onClick={() => handleSetBackLogInFocus(data)}
@@ -104,8 +114,8 @@ export default function SprintBackLogs({
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
       // handleFilterEntities={handleFilterEntities}
       // loading={loading}
       // getAllentitiesTypes={getAllentitiesTypes}

@@ -9,9 +9,18 @@ const DailiesContext = createContext();
 export const DailiesProvider = ({ children }) => {
   const { appContext, selectedStory } = useContext(AppContext);
   const [displayDailies, setDisplayDailies] = useState(dailies);
-  const [selectedDailies, setSelectedDailies] = useState(false);
+  const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailiesInFocus, setDailiesInFocus] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    setSelectedDailies(
+      displayDailies.filter((daily) =>
+        daily.done.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
 
+    return () => {};
+  }, [searchTerm]);
   return (
     <DailiesContext.Provider
       value={{
@@ -21,6 +30,8 @@ export const DailiesProvider = ({ children }) => {
         setSelectedDailies,
         dailiesInFocus,
         setDailiesInFocus,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

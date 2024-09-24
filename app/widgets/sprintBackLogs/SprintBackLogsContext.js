@@ -15,6 +15,19 @@ export const SprintBackLogsProvider = ({ children }) => {
   );
   const [sprintBackLogInFocus, setSprintBackLogInFocus] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  useEffect(() => {
+    setSelectedSprintBackLogs(
+      displaySprintBackLogs.filter((sprintBackLog) =>
+        sprintBackLog.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    );
+
+    return () => {};
+  }, [searchTerm]);
+
   return (
     <SprintBackLogsContext.Provider
       value={{
@@ -24,6 +37,8 @@ export const SprintBackLogsProvider = ({ children }) => {
         setSelectedSprintBackLogs,
         sprintBackLogInFocus,
         setSprintBackLogInFocus,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

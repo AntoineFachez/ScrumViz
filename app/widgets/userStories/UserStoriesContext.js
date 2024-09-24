@@ -13,6 +13,20 @@ export const UserStoriesProvider = ({ children }) => {
     useState(displayUserStories);
   const [userStoryInFocus, setUserStoryInFocus] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    setSelectedUserStories(
+      displayUserStories.filter((userStory) =>
+        userStory.userStory_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    );
+
+    return () => {};
+  }, [searchTerm]);
+
   return (
     <UserStoriesContext.Provider
       value={{
@@ -22,6 +36,8 @@ export const UserStoriesProvider = ({ children }) => {
         setSelectedUserStories,
         userStoryInFocus,
         setUserStoryInFocus,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

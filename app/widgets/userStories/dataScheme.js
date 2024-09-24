@@ -15,6 +15,7 @@ export const singleItemScheme = {
   subTitle: 'author',
   description: 'user_story',
   customField: 'userStory_author',
+  img_uri: 'wireFrame_uri',
 };
 
 export const headCellsTable = [

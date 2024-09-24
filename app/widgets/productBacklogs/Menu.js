@@ -30,10 +30,8 @@ export default function MenuBackLogItem({
   setArticleInFocus,
   setShowArticleInFocusInfoBox,
   handleSelectWidgetContext,
-  searchTerm,
   searchString,
   selectedWidgetContext,
-  setSelectedWidgetContext,
   showSearchVideo,
   setShowSearchVideo,
   handleSearchTermChange,
@@ -153,7 +151,7 @@ export default function MenuBackLogItem({
         sx={styled?.widgetMenuTextField}
         size="small"
         variant={styled?.widgetMenuTextField?.variant}
-        value={searchTerm}
+        value={searchString}
         onChange={handleSearchTermChange}
       />
       <IconButton
@@ -166,8 +164,6 @@ export default function MenuBackLogItem({
   ];
   return (
     <>
-      {' '}
-      {searchTerm}
       <Menu
         menuProps={menuProps}
         verticalArray={buttonArray}

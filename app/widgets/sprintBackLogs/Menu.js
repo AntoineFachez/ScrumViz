@@ -34,6 +34,7 @@ export default function MenuBackLogItem({
   selectedWidgetContext,
   showSearchVideo,
   setShowSearchVideo,
+  handleSearchTermChange,
   handleSearch,
   handleFilterEntities,
   loading,
@@ -151,9 +152,7 @@ export default function MenuBackLogItem({
         size="small"
         variant={styled?.widgetMenuTextField?.variant}
         value={searchString}
-        onChange={(event) => {
-          setSearchString(event.target.value);
-        }}
+        onChange={handleSearchTermChange}
       />
       <IconButton
         onClick={handleSearch}

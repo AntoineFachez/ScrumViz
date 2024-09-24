@@ -16,6 +16,7 @@ import SprintsContext from './SprintsContext';
 import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import SingleItem from '@/app/pages/SingleItem';
+import DailiesContext from '../daily/DailiesContext';
 
 export default function Sprints({
   uiContext,
@@ -36,7 +37,11 @@ export default function Sprints({
     setSelectedSprints,
     sprintInFocus,
     setSprintInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(SprintsContext);
+  const { displayDailies, selectedDailies, setSelectedDailies } =
+    useContext(DailiesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprints';
@@ -73,13 +78,26 @@ export default function Sprints({
   };
 
   const handleSetSprintInFocus = (sprint) => {
+    console.log(selectedDailies);
     setSprintInFocus(sprint);
-
+    const found = displayDailies.filter((daily) => {
+      console.log(daily);
+      return daily.sprint_id === sprint.id;
+    });
+    setSelectedDailies(found);
     // setActiveSearchTerm(userStory?.universityName);
     // setLastInFocusItem({
     //   context: widgetProps?.itemContext,
     //   item: universityInFocus,
     // });
+  };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
+
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
   };
   const CardSubHeaderElement = (data) => (
     <Typography
@@ -92,8 +110,8 @@ export default function Sprints({
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
       // handleFilterEntities={handleFilterEntities}
       // loading={loading}
       // getAllentitiesTypes={getAllentitiesTypes}

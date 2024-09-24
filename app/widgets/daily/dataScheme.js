@@ -11,9 +11,9 @@ export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {
   id: 'id',
-  title: 'sprint_id',
+  title: 'done',
   subTitle: 'date',
-  description: 'done',
+  description: 'planned',
 };
 
 export const headCellsTable = [

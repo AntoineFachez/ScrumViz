@@ -23,6 +23,8 @@ export default function Persons({
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { setActiveSearchTerm } = useContext(SearchContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const handleSelectWidgetContext = (context) => {
@@ -57,6 +59,14 @@ export default function Persons({
       setAppContext(collection);
       return;
     },
+  };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
+
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
   };
   const menu = (
     <Menu

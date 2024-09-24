@@ -31,6 +31,7 @@ export default function SprintPlannings({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const [searchTerm, setSearchTerm] = useState('');
   const { selectedUserStories, setSelectedUserStories } =
     useContext(UserStoriesContext);
   const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
@@ -99,6 +100,14 @@ export default function SprintPlannings({
       productBacklogItemIds.has(backLog.product_backlog_item_id)
     );
     setSelectedSprintBackLogs(foundSprintLogs);
+  };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    // setResetData();
+    console.log(e.target.value);
+
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
   };
   const CardSubHeaderElement = (data) => (
     <Typography

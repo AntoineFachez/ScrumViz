@@ -13,6 +13,18 @@ export const TimeStampsProvider = ({ children }) => {
   const [selectedTimeStamps, setSelectedTimeStamps] = useState(false);
   const [timeStampInFocus, setTimeStampInFocus] = useState(false);
 
+  const [searchStart, setSearchStart] = useState('');
+  const [searchEnd, setSearchEnd] = useState('');
+
+  useEffect(() => {
+    // setSelectedTimeStamps(
+    //   displayTimeStamps.filter((timeStamp) =>
+    //     timeStamp.start.toLowerCase().includes(searchStart.toLowerCase())
+    //   )
+    // );
+
+    return () => {};
+  }, [searchStart]);
   return (
     <TimeStampsContext.Provider
       value={{
@@ -22,6 +34,7 @@ export const TimeStampsProvider = ({ children }) => {
         setSelectedTimeStamps,
         timeStampInFocus,
         setTimeStampInFocus,
+        searchStart,
       }}
     >
       {children}

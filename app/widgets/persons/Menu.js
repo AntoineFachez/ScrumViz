@@ -34,6 +34,7 @@ export default function MenuPersons({
   selectedWidgetContext,
   showSearchVideo,
   setShowSearchVideo,
+  handleSearchTermChange,
   handleSearch,
   handleFilterEntities,
   loading,
@@ -148,9 +149,7 @@ export default function MenuPersons({
         size="small"
         variant={styled?.widgetMenuTextField?.variant}
         value={searchString}
-        onChange={(event) => {
-          setSearchString(event.target.value);
-        }}
+        onChange={handleSearchTermChange}
       />
       <IconButton
         onClick={handleSearch}
