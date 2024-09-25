@@ -1,5 +1,5 @@
 import React, { memo, useContext, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import AppContext from '@/context/AppContext';
@@ -22,6 +22,8 @@ const WidgetIndexTemplate = ({
   chip,
   tree,
   flexList,
+  isFiltered,
+  onResetFiltered,
 }) => {
   const { palette, styled } = themeSettings('dark');
   const { appContext } = useContext(AppContext);
@@ -107,6 +109,14 @@ const WidgetIndexTemplate = ({
                       {menu}
                     </Box>
                   )}{' '}
+                  {isFiltered && (
+                    <Button
+                      className="widgetMenuButton"
+                      onClick={onResetFiltered}
+                    >
+                      Resetter
+                    </Button>
+                  )}
                   {/* {uiContext === "horizontal" ? ( */}
                   {widgetContext === 'horizontal' ? (
                     <>{horizontal}</>

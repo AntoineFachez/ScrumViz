@@ -42,6 +42,7 @@ export default function Sprints({
   } = useContext(SprintsContext);
   const { displayDailies, selectedDailies, setSelectedDailies } =
     useContext(DailiesContext);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprints';
@@ -93,11 +94,15 @@ export default function Sprints({
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
+
+  const handleResetFiltered = () => {
+    setSelectedSprints(displaySprints);
+    setIsFiltered(false);
   };
   const CardSubHeaderElement = (data) => (
     <Typography
@@ -112,12 +117,6 @@ export default function Sprints({
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
     />
   );
   const newItem = (
@@ -227,6 +226,8 @@ export default function Sprints({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

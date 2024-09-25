@@ -15,14 +15,11 @@ export const SprintsProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    console.log(searchTerm);
-    const found = displaySprints.filter((sprint) => {
-      return console.log(sprint.sprint_name);
-      // sprint.sprint_name.toLowerCase().includes(searchTerm.toLowerCase())
-    });
-    console.log(found);
-    // setSelectedSprints(
-    // );
+    setSelectedSprints(
+      displaySprints.filter((sprint) =>
+        sprint.sprint_name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
 
     return () => {};
   }, [searchTerm]);

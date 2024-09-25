@@ -14,6 +14,11 @@ export const singleItemScheme = {
   title: 'name',
   subTitle: 'goal',
   description: 'end_date',
+  customArray: 'members',
+  customArrayKey: 'role',
+  customArrayKey_2: 'name',
+  itemInFocusIdKey: 'id',
+  filterArrayByIdKey: 'id',
 };
 
 export const headCellsTable = [

@@ -5,17 +5,18 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
-import { userStories } from './mockUserStories';
+import { sprintReviews } from './mockSprintReviews';
 
-const UserStoriesContext = createContext();
+const SprintReviewContext = createContext();
 
-export const UserStoriesProvider = ({ children }) => {
+export const SprintReviewProvider = ({ children }) => {
   const { appContext, selectedStory } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [displayUserStories, setDisplayUserStories] = useState(userStories);
-  const [selectedUserStories, setSelectedUserStories] =
-    useState(displayUserStories);
-  const [userStoryInFocus, setUserStoryInFocus] = useState(false);
+  const [displaySprintReviews, setDisplaySprintReviews] =
+    useState(sprintReviews);
+  const [selectedSprintReviews, setSelectedSprintReviews] =
+    useState(displaySprintReviews);
+  const [sprintReviewInFocus, setSprintReviewInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
@@ -29,23 +30,22 @@ export const UserStoriesProvider = ({ children }) => {
   };
 
   const handleResetFiltered = () => {
-    console.log('clicked');
-    setSelectedUserStories(displayUserStories);
+    setSelectedSprintReviews(displaySprintReviews);
     setIsFiltered(false);
   };
 
-  const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
-    const foundPlannings = displaySprintPlannings.filter((planning) =>
-      planning.sprint_backlog.some(
-        (task) => task.product_backlog_item_id === userStory.id
-      )
-    );
-    setSelectedSprintPlannings(foundPlannings);
-    const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog.product_backlog_item_id === userStory.id
-    );
-    setSelectedSprintBackLogs(foundSprintLogs);
+  const handleSetSprintReviewInFocus = (sprintReview) => {
+    setSprintReviewInFocus(sprintReview);
+    // const foundPlannings = displaySprintPlannings.filter((planning) =>
+    //   planning.sprint_backlog.some(
+    //     (task) => task.product_backlog_item_id === sprintReview.id
+    //   )
+    // );
+    // setSelectedSprintPlannings(foundPlannings);
+    // const foundSprintLogs = displaySprintBackLogs.filter(
+    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
+    // );
+    // setSelectedSprintBackLogs(foundSprintLogs);
   };
   const handleSelectWidgetContext = (context) => {
     //  if (generated) {
@@ -58,9 +58,9 @@ export const UserStoriesProvider = ({ children }) => {
     //  }
   };
   useEffect(() => {
-    setSelectedUserStories(
-      displayUserStories.filter((userStory) =>
-        userStory.userStory_name
+    setSelectedSprintReviews(
+      displaySprintReviews.filter((sprintReview) =>
+        sprintReview.accomplishments
           .toLowerCase()
           .includes(searchTerm.toLowerCase())
       )
@@ -70,29 +70,29 @@ export const UserStoriesProvider = ({ children }) => {
   }, [searchTerm]);
 
   return (
-    <UserStoriesContext.Provider
+    <SprintReviewContext.Provider
       value={{
-        displayUserStories,
-        setDisplayUserStories,
-        selectedUserStories,
-        setSelectedUserStories,
-        userStoryInFocus,
-        setUserStoryInFocus,
+        displaySprintReviews,
+        setDisplaySprintReviews,
+        selectedSprintReviews,
+        setSelectedSprintReviews,
+        sprintReviewInFocus,
+        setSprintReviewInFocus,
         searchTerm,
         setSearchTerm,
         isFiltered,
         setIsFiltered,
         handleSearchTermChange,
         handleResetFiltered,
-        handleSetUserStoryInFocus,
+        handleSetSprintReviewInFocus,
         handleSelectWidgetContext,
       }}
     >
       {children}
-    </UserStoriesContext.Provider>
+    </SprintReviewContext.Provider>
   );
 };
-export default UserStoriesContext;
-export const UserStoriesState = () => {
-  return useContext(UserStoriesContext);
+export default SprintReviewContext;
+export const SprintReviewsState = () => {
+  return useContext(SprintReviewContext);
 };

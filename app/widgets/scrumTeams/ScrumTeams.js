@@ -102,6 +102,12 @@ export default function ScrumTeam({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
+  const handleClickCustomArrayItem = (e) => {
+    const found = displayUserStories.filter(
+      (story) => story.id === e.userStory_id
+    )[0];
+    setUserStoryInFocus(found);
+  };
   const CardSubHeaderElement = (data) => (
     <Typography
       onClick={() => handleSetScrumTeamInFocus(data)}
@@ -212,6 +218,7 @@ export default function ScrumTeam({
         itemInFocus={scrumTeamInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
         handleSetItemInFocus={handleSetScrumTeamInFocus}
+        handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
         alertElement={null}
         cardSubHeaderElement={CardSubHeaderElement}

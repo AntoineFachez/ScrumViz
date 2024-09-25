@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 // import { makeStyles } from "@mui/styles";
 import Card from '@mui/material/Card';
@@ -44,20 +44,22 @@ export default function CardItem({
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const CardSubHeaderElement = cardSubHeaderElement;
+  const isSelected = itemInFocus?.id === item?.id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  // const useStyles = makeStyles((theme) => ({
-  //   menuColor: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: "#ffffff",
-  //   },
-  //   subColor: {
-  //     color: "#000000",
-  //   },
-  // }));
 
-  const isSelected = itemInFocus?.id === item?.id;
+  useEffect(() => {
+    if (isSelected) {
+      handleExpandClick();
+    }
+    //  else {
+    //   handleExpandClick();
+    // }
+    return () => {
+      // handleExpandClick();
+    };
+  }, [itemInFocus]);
 
   return (
     <Card

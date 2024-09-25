@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
-import { scrumTeams } from './mockPersons';
+import { scrumTeams } from './mockScrumTeams';
 
 const ScrumTeamsContext = createContext();
 

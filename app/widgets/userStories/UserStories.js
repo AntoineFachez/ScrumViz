@@ -49,6 +49,7 @@ export default function UserStory({
   const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
     SprintBackLogsContext
   );
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
@@ -69,14 +70,7 @@ export default function UserStory({
     },
   };
   const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
     setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
   };
 
   const handleSetUserStoryInFocus = (userStory) => {
@@ -87,25 +81,22 @@ export default function UserStory({
       )
     );
     setSelectedSprintPlannings(foundPlannings);
-    //filter sprintBackLogs
     const foundSprintLogs = displaySprintBackLogs.filter(
       (sprintBackLog) => sprintBackLog.product_backlog_item_id === userStory.id
     );
     setSelectedSprintBackLogs(foundSprintLogs);
-
-    // setActiveSearchTerm(userStory?.universityName);
-    // setLastInFocusItem({
-    //   context: widgetProps?.itemContext,
-    //   item: universityInFocus,
-    // });
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
+
+  const handleResetFiltered = () => {
+    setSelectedUserStories(displayUserStories);
+    setIsFiltered(false);
   };
   const CardSubHeaderElement = (data) => (
     <Typography
@@ -120,12 +111,6 @@ export default function UserStory({
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
     />
   );
   const newItem = (
@@ -199,7 +184,6 @@ export default function UserStory({
         // backgroundColor: '#555',
       }}
     >
-      {/* UserStory MultiItems */}
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
@@ -235,6 +219,8 @@ export default function UserStory({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

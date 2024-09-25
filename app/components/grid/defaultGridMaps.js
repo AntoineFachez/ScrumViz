@@ -1,17 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
-import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
-import UserStories from '@/app/widgets/userStories/UserStories';
-import ProductBackLogs from '@/app/widgets/productBacklogs/ProductBackLogs';
-import ImageDropZone from '@/app/widgets/imageDropZone/Index';
-import SprintPlannings from '@/app/widgets/sprintPlannings/SprintPlannings';
-import Sprints from '@/app/widgets/sprints/Sprints';
-import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
-import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
 import Persons from '@/app/widgets/persons/Persons';
-import TimeStamps from '@/app/widgets/timeStamps/TimeStamps';
-import Daily from '@/app/widgets/daily/Daily';
-import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
+import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
+import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
+import UserStories from '@/app/widgets/userStories/UserStories';
+import ImageDropZone from '@/app/widgets/imageDropZone/Index';
+import ProductBackLogs from '@/app/widgets/productBacklogs/ProductBackLogs';
+import SprintPlannings from '@/app/widgets/sprintPlannings/SprintPlannings';
 import SprintBackLogs from '@/app/widgets/sprintBackLogs/SprintBackLogs';
+import TimeStamps from '@/app/widgets/timeStamps/TimeStamps';
+import Sprints from '@/app/widgets/sprints/Sprints';
+import Daily from '@/app/widgets/daily/Daily';
+import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
+import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 
 export const scrumManagerMap = [
   {
@@ -132,7 +132,7 @@ export const scrumManagerMap = [
     id: uuidv4(),
     collection: 'sprintReviews',
     active: true,
-    uiContext: 'selector',
+    uiContext: 'sprintReviewSelector',
     startUpWidgetLayout: 'chip',
 
     w: 8,
@@ -352,9 +352,9 @@ export const sprintPlanningsMap = [
     collection: 'productBackLogs',
     active: true,
     uiContext: 'productBackLogsSelector',
-    startUpWidgetLayout: 'chip',
-    w: 6,
-    h: 12,
+    startUpWidgetLayout: 'card',
+    w: 8,
+    h: 22,
     x: 0,
     y: 0,
   },

@@ -12,6 +12,10 @@ import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
+import MultiItems from '@/app/pages/MultiItems';
+import { singleItemScheme } from './dataScheme';
+import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
+import SprintReviewContext from './SprintReviewsContext';
 
 export default function SprintReviews({
   uiContext,
@@ -25,7 +29,23 @@ export default function SprintReviews({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
+  const {
+    displaySprintReviews,
+    setDisplaySprintReviews,
+    selectedSprintReviews,
+    setSelectedSprintReviews,
+    sprintReviewInFocus,
+    setSprintReviewInFocus,
+    searchTerm,
+    setSearchTerm,
+    isFiltered,
+    setIsFiltered,
+    // handleSearchTermChange,
+    // handleResetFiltered,
+    handleSetSprintReviewInFocus,
+    // handleSelectWidgetContext,
+  } = useContext(SprintReviewContext);
+
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprintReviews';
@@ -38,16 +58,11 @@ export default function SprintReviews({
     itemContext: '',
     dropWidgetName: '',
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = '/sprint';
+      // window.location.href = `/userStory`;
       setAppContext(collection);
+      return;
     },
   };
   const handleSelectWidgetContext = (context) => {
@@ -62,24 +77,29 @@ export default function SprintReviews({
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
   };
+
+  const handleResetFiltered = () => {
+    setSelectedSprintReviews(displaySprintReviews);
+    setIsFiltered(false);
+  };
+  const CardSubHeaderElement = (data) => (
+    <Typography
+      onClick={() => handleSetUserStoryInFocus(data)}
+      sx={styled?.textBody}
+      variant={styled?.textBody?.variant}
+    ></Typography>
+  );
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -90,7 +110,7 @@ export default function SprintReviews({
         // backgroundColor: '#555',
       }}
     >
-      UserStory New Item
+      SprintReview New Item
     </Box>
   );
   const soloWidget = (
@@ -156,26 +176,26 @@ export default function SprintReviews({
         // backgroundColor: '#555',
       }}
     >
-      SprintReview
-      {/* <MultiItems
+      <MultiItems
         uiContext={uiContext}
+        singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
+        data={selectedSprintReviews}
+        selectedData={selectedSprintReviews}
+        setSelectedItem={setSelectedSprintReviews}
         selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
+          selector: 'sprintReviewSelector',
+          selected: 'selectedSprintReviews',
         }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
+        itemInFocus={sprintReviewInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
+        handleSetItemInFocus={handleSetSprintReviewInFocus}
         customElement={null}
         alertElement={null}
         cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
-      /> */}
+      />
     </Box>
   );
 
@@ -191,6 +211,8 @@ export default function SprintReviews({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );
