@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 // import SearchContext from "../../context/SearchContext";
 // import AutoCompleteTextField from '../auto-complete/Index';
 import { Settings } from '@mui/icons-material';
@@ -10,6 +10,8 @@ export default function Menu({
   setIsOpen,
   verticalArray,
   horizontalArray,
+  isFiltered,
+  onResetFiltered,
   styled,
 }) {
   return (

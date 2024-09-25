@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 // import { makeStyles } from "@mui/styles";
 import Card from '@mui/material/Card';
@@ -44,20 +44,22 @@ export default function CardItem({
 }) {
   const [expanded, setExpanded] = React.useState(false);
   const CardSubHeaderElement = cardSubHeaderElement;
+  const isSelected = itemInFocus?.id === item?.id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  // const useStyles = makeStyles((theme) => ({
-  //   menuColor: {
-  //     backgroundColor: theme.palette.primary.main,
-  //     color: "#ffffff",
-  //   },
-  //   subColor: {
-  //     color: "#000000",
-  //   },
-  // }));
 
-  const isSelected = itemInFocus?.id === item?.id;
+  useEffect(() => {
+    if (isSelected) {
+      handleExpandClick();
+    }
+    //  else {
+    //   handleExpandClick();
+    // }
+    return () => {
+      // handleExpandClick();
+    };
+  }, [itemInFocus]);
 
   return (
     <Card
@@ -77,19 +79,21 @@ export default function CardItem({
         styled={styled}
       />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardMedia
-          component="img"
-          image={item?.basics?.[`${itemContext}ImageUrl`]?.value}
-          alt={`image of ${item[singleItemScheme.title] || 'N/A'}`}
-          sx={{
-            width: '100%',
-            maxHeight: '10rem',
-            color: 'white',
-            fontSize: '0.6rem',
-            objectFit: 'contain',
-          }}
-          onClick={() => handleClick(item)}
-        />
+        {item[singleItemScheme.url] && (
+          <CardMedia
+            component="img"
+            image={item[singleItemScheme.url]}
+            alt={`image of ${item[singleItemScheme.title] || 'N/A'}`}
+            sx={{
+              width: '100%',
+              maxHeight: '10rem',
+              color: 'white',
+              fontSize: '0.6rem',
+              objectFit: 'contain',
+            }}
+            onClick={() => handleClick(item)}
+          />
+        )}
         <CardContent
           sx={{
             width: '100%',
@@ -116,7 +120,7 @@ export default function CardItem({
           {customElement && customElement}
         </CardContent>
       </Collapse>{' '}
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={{ margin: 0, padding: 0 }}>
         {' '}
         <IconButton
           aria-label="add to favorites"

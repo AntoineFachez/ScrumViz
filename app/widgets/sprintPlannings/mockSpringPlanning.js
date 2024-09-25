@@ -107,6 +107,13 @@ export const sprintPlannings = [
         assignee: 'cb1f431d-a83e-45b9-b6ae-b66b7ecbf4e7',
         estimated_hours: 1,
       },
+      {
+        id: 'task_5',
+        product_backlog_item_id: '755d041f-a4fb-48e2-8f14-315a51b58f9a',
+        description: 'Design first MoodBoard',
+        assignee: '997ea4ea-de46-4a46-9fc8-9f74ef5a4b75',
+        estimated_hours: 1,
+      },
     ],
   },
 ];

@@ -49,7 +49,6 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
                 overflowX: 'hidden',
               }}
             >
-              {' '}
               {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
                 {singleItemScheme.title}:{' '}
                 {itemInFocus[singleItemScheme.title] || 'N/A'}

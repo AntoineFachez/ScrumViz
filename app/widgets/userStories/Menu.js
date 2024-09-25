@@ -36,6 +36,8 @@ export default function MenuUserStory({
   setShowSearchVideo,
   handleSearchTermChange,
   handleSearch,
+  isFiltered,
+  onResetFiltered,
   handleFilterEntities,
   loading,
   getAllentitiesTypes,

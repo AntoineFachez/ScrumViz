@@ -30,6 +30,7 @@ export default function TimeStamps({
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
 
@@ -86,11 +87,15 @@ export default function TimeStamps({
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
+
+  const handleResetFiltered = () => {
+    setSelectedUserStories(displayUserStories);
+    setIsFiltered(false);
   };
   const CardSubHeaderElement = (data) => (
     <Typography
@@ -103,14 +108,8 @@ export default function TimeStamps({
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -219,6 +218,8 @@ export default function TimeStamps({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

@@ -1,7 +1,7 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
@@ -12,6 +12,11 @@ import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
+import TeamMembersContext from './TeamMembersContext';
+import MultiItems from '@/app/pages/MultiItems';
+import { singleItemScheme } from './dataScheme';
+import SingleItem from '@/app/pages/SingleItem';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 export default function TeamMembers({
   uiContext,
@@ -25,7 +30,18 @@ export default function TeamMembers({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
+  const {
+    displayTeamMembers,
+    setDisplayTeamMembers,
+    selectedTeamMembers,
+    setSelectedTeamMembers,
+    teamMemberInFocus,
+    setTeamMemberInFocus,
+    searchTerm,
+    setSearchTerm,
+  } = useContext(TeamMembersContext);
+  const { handleFindMemberInScrumTeam } = useContext(ScrumTeamsContext);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'teamMembers';
@@ -60,26 +76,32 @@ export default function TeamMembers({
     //  } else {
     //  }
   };
+  const handleSetTeamMemberInFocus = (teamMember) => {
+    setTeamMemberInFocus(teamMember);
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
   };
+
+  const handleResetFiltered = () => {
+    setSelectedTeamMembers(displayTeamMembers);
+    setIsFiltered(false);
+  };
+  useEffect(() => {
+    if (teamMemberInFocus) handleFindMemberInScrumTeam(teamMemberInFocus);
+    return () => {};
+  }, [teamMemberInFocus]);
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -90,7 +112,7 @@ export default function TeamMembers({
         // backgroundColor: '#555',
       }}
     >
-      UserStory New Item
+      TeamMember New Item
     </Box>
   );
   const soloWidget = (
@@ -105,15 +127,12 @@ export default function TeamMembers({
     </Box>
   );
   const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers SingleItem
-    </Box>
+    <SingleItem
+      singleItemScheme={singleItemScheme}
+      itemContext={widgetProps?.itemContext}
+      itemInFocus={teamMemberInFocus}
+      styled={styled}
+    />
   );
   const chip = (
     <Box
@@ -156,26 +175,25 @@ export default function TeamMembers({
         // backgroundColor: '#555',
       }}
     >
-      TeamMembers
-      {/* <MultiItems
+      <MultiItems
         uiContext={uiContext}
+        singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
+        data={selectedTeamMembers}
+        selectedData={selectedTeamMembers}
+        setSelectedItem={setSelectedTeamMembers}
         selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
+          selector: 'teamMembersSelector',
+          selected: 'selectedTeamMembers',
         }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
+        itemInFocus={teamMemberInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
+        handleSetItemInFocus={handleSetTeamMemberInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
-      /> */}
+      />
     </Box>
   );
 
@@ -191,6 +209,8 @@ export default function TeamMembers({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

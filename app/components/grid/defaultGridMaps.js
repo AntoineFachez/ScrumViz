@@ -1,17 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
-import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
-import UserStories from '@/app/widgets/userStories/UserStories';
-import ProductBackLogs from '@/app/widgets/productBacklogs/ProductBackLogs';
-import ImageDropZone from '@/app/widgets/imageDropZone/Index';
-import SprintPlannings from '@/app/widgets/sprintPlannings/SprintPlannings';
-import Sprints from '@/app/widgets/sprints/Sprints';
-import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
-import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
 import Persons from '@/app/widgets/persons/Persons';
-import TimeStamps from '@/app/widgets/timeStamps/TimeStamps';
-import Daily from '@/app/widgets/daily/Daily';
-import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
+import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
+import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
+import UserStories from '@/app/widgets/userStories/UserStories';
+import ImageDropZone from '@/app/widgets/imageDropZone/Index';
+import ProductBackLogs from '@/app/widgets/productBacklogs/ProductBackLogs';
+import SprintPlannings from '@/app/widgets/sprintPlannings/SprintPlannings';
 import SprintBackLogs from '@/app/widgets/sprintBackLogs/SprintBackLogs';
+import TimeStamps from '@/app/widgets/timeStamps/TimeStamps';
+import Sprints from '@/app/widgets/sprints/Sprints';
+import Daily from '@/app/widgets/dailies/Dailies';
+import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
+import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 
 export const scrumManagerMap = [
   {
@@ -132,7 +132,7 @@ export const scrumManagerMap = [
     id: uuidv4(),
     collection: 'sprintReviews',
     active: true,
-    uiContext: 'selector',
+    uiContext: 'sprintReviewSelector',
     startUpWidgetLayout: 'chip',
 
     w: 8,
@@ -306,7 +306,7 @@ export const scrumTeamsMap = [
     collection: 'scrumTeams',
     active: true,
     uiContext: 'scrumTeamSelector',
-    startUpWidgetLayout: 'chip',
+    startUpWidgetLayout: 'card',
     w: 8,
     h: 7,
     x: 0,
@@ -352,40 +352,24 @@ export const sprintPlanningsMap = [
     collection: 'productBackLogs',
     active: true,
     uiContext: 'productBackLogsSelector',
-    startUpWidgetLayout: 'chip',
-    w: 6,
-    h: 12,
+    startUpWidgetLayout: 'card',
+    w: 8,
+    h: 22,
     x: 0,
     y: 0,
   },
-
   {
-    // index: 0,
-    widget: SprintPlannings,
-    widgetName: 'SprintPlannings',
+    widget: UserStories,
+    widgetName: 'UserStories',
     id: uuidv4(),
-    collection: 'sprintPlannings',
+    collection: 'userStories',
     active: true,
-    uiContext: 'sprintPlanningsSelector',
+    uiContext: 'userStorySelector',
     startUpWidgetLayout: 'singleItem',
     w: 10,
-    h: 12,
-    x: 6,
-    y: 8,
-  },
-  {
-    // index: 0,
-    widget: ProductBackLogs,
-    widgetName: 'ProductBackLogs',
-    id: uuidv4(),
-    collection: 'productBackLogs',
-    active: true,
-    uiContext: 'productBackLogsSelector',
-    startUpWidgetLayout: 'chip',
-    w: 4,
-    h: 14,
-    x: 16,
-    y: 0,
+    h: 22,
+    x: 8,
+    y: 4,
   },
   {
     widget: ScrumTeams,
@@ -395,9 +379,52 @@ export const sprintPlanningsMap = [
     active: true,
     uiContext: 'scrumTeamSelector',
     startUpWidgetLayout: 'card',
-    w: 20,
+    w: 18,
     h: 8,
-    x: 8,
+    x: 22,
+    y: 0,
+  },
+  {
+    // index: 0,
+    widget: SprintPlannings,
+    widgetName: 'SprintPlannings',
+    id: uuidv4(),
+    collection: 'sprintPlannings',
+    active: true,
+    uiContext: 'sprintPlanningsSelector',
+    startUpWidgetLayout: 'singleItem',
+    w: 12,
+    h: 14,
+    x: 18,
+    y: 8,
+  },
+  // {
+  //   // index: 0,
+  //   widget: ProductBackLogs,
+  //   widgetName: 'ProductBackLogs',
+  //   id: uuidv4(),
+  //   collection: 'productBackLogs',
+  //   active: true,
+  //   uiContext: 'productBackLogsSelector',
+  //   startUpWidgetLayout: 'chip',
+  //   w: 4,
+  //   h: 14,
+  //   x: 16,
+  //   y: 0,
+  // },
+
+  {
+    // index: 0,
+    widget: SprintBackLogs,
+    widgetName: 'SprintBackLogs',
+    id: uuidv4(),
+    collection: 'sprintBackLogs',
+    active: true,
+    uiContext: 'sprintBackLogsSelector',
+    startUpWidgetLayout: 'chip',
+    w: 6,
+    h: 14,
+    x: 30,
     y: 0,
   },
 ];
@@ -409,11 +436,25 @@ export const teamMembersMap = [
     id: uuidv4(),
     collection: 'collection',
     active: true,
-    uiContext: 'chip',
-    startUpWidgetLayout: 'chip',
+    uiContext: 'teamMembersSelector',
+    startUpWidgetLayout: 'card',
     w: 8,
     h: 22,
     x: 0,
+    y: 0,
+  },
+  {
+    // index: 0,
+    widget: TeamMembers,
+    widgetName: 'TeamMembers',
+    id: uuidv4(),
+    collection: 'collection',
+    active: true,
+    uiContext: 'teamMembersSelector',
+    startUpWidgetLayout: 'singleItem',
+    w: 8,
+    h: 22,
+    x: 8,
     y: 0,
   },
   {
@@ -427,7 +468,7 @@ export const teamMembersMap = [
     startUpWidgetLayout: 'card',
     w: 8,
     h: 10,
-    x: 8,
+    x: 16,
     y: 0,
   },
   {
@@ -437,10 +478,10 @@ export const teamMembersMap = [
     collection: 'scrumTeams',
     active: true,
     uiContext: 'scrumTeamSelector',
-    startUpWidgetLayout: 'chip',
+    startUpWidgetLayout: 'card',
     w: 8,
     h: 12,
-    x: 8,
+    x: 16,
     y: 8,
   },
   {
@@ -452,10 +493,10 @@ export const teamMembersMap = [
     active: true,
     uiContext: 'selector',
     startUpWidgetLayout: 'chip',
-    w: 20,
+    w: 12,
     h: 22,
-    x: 16,
-    y: 3,
+    x: 24,
+    y: 0,
   },
 ];
 export const timeStampsMap = [

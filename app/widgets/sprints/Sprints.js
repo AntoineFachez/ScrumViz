@@ -1,29 +1,29 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
+import { Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 
+import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
+import DailiesContext from '../dailies/DailiesContext';
+import SearchContext from '@/context/SearchContext';
+import SprintsContext from './SprintsContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { Replay, SportsRugbyOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/pages/MultiItems';
-import SprintsContext from './SprintsContext';
-import SearchContext from '@/context/SearchContext';
-import { singleItemScheme } from './dataScheme';
 import SingleItem from '@/app/pages/SingleItem';
-import DailiesContext from '../daily/DailiesContext';
+import StandInTable from '@/app/components/table/StandInTable';
+import { singleItemScheme } from './dataScheme';
+
+import Menu from './Menu';
+
+import { themeSettings } from '@/app/theme/ThemeContext';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 export default function Sprints({
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -42,6 +42,9 @@ export default function Sprints({
   } = useContext(SprintsContext);
   const { displayDailies, selectedDailies, setSelectedDailies } =
     useContext(DailiesContext);
+  const { handleFindScrumTeam } = useContext(ScrumTeamsContext);
+
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprints';
@@ -54,70 +57,45 @@ export default function Sprints({
     itemContext: '',
     dropWidgetName: '',
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = '/sprint';
       setAppContext(collection);
     },
   };
   const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
     setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
   };
 
   const handleSetSprintInFocus = (sprint) => {
-    console.log(selectedDailies);
     setSprintInFocus(sprint);
     const found = displayDailies.filter((daily) => {
-      console.log(daily);
       return daily.sprint_id === sprint.id;
     });
     setSelectedDailies(found);
-    // setActiveSearchTerm(userStory?.universityName);
-    // setLastInFocusItem({
-    //   context: widgetProps?.itemContext,
-    //   item: universityInFocus,
-    // });
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetSprintInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+
+  const handleResetFiltered = () => {
+    setSelectedSprints(displaySprints);
+    setIsFiltered(false);
+  };
+  useEffect(() => {
+    if (sprintInFocus) handleFindScrumTeam(sprintInFocus, 'team_id');
+
+    return () => {};
+  }, [sprintInFocus]);
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
     />
   );
   const newItem = (
@@ -191,7 +169,6 @@ export default function Sprints({
         // backgroundColor: '#555',
       }}
     >
-      {/* UserStory MultiItems */}
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
@@ -209,7 +186,6 @@ export default function Sprints({
         handleSetItemInFocus={handleSetSprintInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>
@@ -227,6 +203,8 @@ export default function Sprints({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

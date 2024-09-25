@@ -1,4 +1,4 @@
-import { Avatar, Box, Chip } from '@mui/material';
+import { Avatar, Box, Button, Chip, Typography } from '@mui/material';
 import Draggable from '../components/dragDrop/Index';
 import CardItem from '../components/card/Index';
 import { stringAvatar } from '@/utils/colorHelpers';
@@ -15,7 +15,9 @@ export default function MultiItems({
   itemContext,
   itemInFocus,
   customElement,
+  customArrayItemInFocus,
   handleSetItemInFocus,
+  handleClickCustomArrayItem,
   alertElement,
   styled,
 }) {
@@ -54,6 +56,44 @@ export default function MultiItems({
         ) : (
           <>
             {array?.map((item, i) => {
+              const customElement = (
+                <Box
+                  component="ul"
+                  sx={{
+                    ...styled.widgetMenuButtonArray.vert,
+                    alignItems: 'center',
+                    gap: '1rem',
+                  }}
+                >
+                  {item[singleItemScheme.customArray]?.map((customItem, i) => {
+                    {
+                      /* console.log('customArray', customItem); */
+                    }
+                    return (
+                      <Button
+                        // sx={styled.menuButtonText.action}
+                        sx={
+                          customArrayItemInFocus?.[
+                            singleItemScheme.itemInFocusIdKey
+                          ] ===
+                          customItem?.[singleItemScheme.filterArrayByIdKey]
+                            ? styled.menuButtonText.selected
+                            : styled.menuButtonText.action
+                        }
+                        key={i}
+                        onClick={() => handleClickCustomArrayItem(customItem)}
+                      >
+                        {/* <Typography sx={styled.textBody}> */}
+                        {customItem[singleItemScheme.customArrayKey]}
+                        {/* </Typography> */}
+                        {/* <Typography sx={styled.textBody}> */}
+                        {customItem[singleItemScheme.customArrayKey_2]}
+                        {/* </Typography> */}
+                      </Button>
+                    );
+                  })}
+                </Box>
+              );
               return (
                 <Draggable
                   dataSlug={item.id}

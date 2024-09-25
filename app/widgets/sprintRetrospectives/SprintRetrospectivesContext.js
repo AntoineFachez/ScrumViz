@@ -9,7 +9,7 @@ const SprintRetrospectivesContext = createContext();
 export const SprintRetrospectivesProvider = ({ children }) => {
   const { appContext, selectedStory } = useContext(AppContext);
   const [displaySprintRetrospectives, setDisplaySprintRetrospectives] =
-    useState(sprintPlannings);
+    useState(null);
   const [selectedSprintRetrospectives, setSelectedSprintRetrospectives] =
     useState(false);
   const [sprintRetrospectiveInFocus, setSprintRetrospectiveInFocus] =

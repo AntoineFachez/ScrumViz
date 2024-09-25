@@ -6,6 +6,8 @@ const Index = ({
   menuProps,
   verticalArray,
   horizontalArray,
+  isFiltered,
+  onResetFiltered,
   contextSelector,
   autoCompleteData,
   keys,
@@ -28,6 +30,8 @@ const Index = ({
         setIsOpen={setIsOpen}
         verticalArray={verticalArray}
         horizontalArray={horizontalArray}
+        isFiltered={isFiltered}
+        onResetFiltered={onResetFiltered}
         contextSelector={contextSelector}
         autoCompleteData={autoCompleteData}
         keys={keys}

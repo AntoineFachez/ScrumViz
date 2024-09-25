@@ -82,7 +82,7 @@ export const generateDOM = (gridMap, styled) => {
 //   // console.log("newLayout", newLayout);
 //   //TODO ROW_HEIGHT
 //   //* setRowHeight(height / 100);
-//   //  onLayoutChange(newLayout, setActiveGridLayout);
+//   onLayoutChange(newLayout, setActiveGridLayout);
 // };
 export const handleDeleteSpace = () => {};
 // export const resetLayout = (viewerGridMap) => {
@@ -114,18 +114,21 @@ export function getFromLS(key) {
   }
 }
 export function saveToLS(uiGridMapContext, newMapValues) {
+  // console.log('uiGridMapContext', uiGridMapContext);
+
   if (global.localStorage) {
     const stringifiedMap = JSON.stringify(newMapValues);
     global.localStorage.setItem(uiGridMapContext + 'UiContext', stringifiedMap);
   }
 }
 export const onLayoutChange = (
+  newLayout,
+  layout,
   appContext,
   gridRef,
   setNewDomGridMap,
   domGridMap,
   latestGridValues,
-  layout,
   setLayout,
   prevAppContext,
   setPrevAppContext
@@ -134,18 +137,38 @@ export const onLayoutChange = (
 
   if (latestGridValues) latestGridValues[prevAppContext + 'UiContext'] = layout;
 
-  handleSetMapOnLayoutChange(
-    appContext,
-    gridRef,
-    setNewDomGridMap,
-    domGridMap,
-    latestGridValues,
-    layout,
-    setLayout,
-    prevAppContext,
-    setPrevAppContext
-  );
-  saveToLS(prevAppContext, layout);
+  function mergeObjectsByI(firstSet, secondSet) {
+    const mergedObjects = {};
+
+    // Iterate through the first set
+    firstSet?.forEach((obj) => {
+      const iValue = obj.i;
+
+      // Find the matching object in the second set
+      const matchingObj = secondSet.find((o) => o.i === iValue);
+
+      if (matchingObj) {
+        // Merge the objects if a match is found
+        mergedObjects[iValue] = { ...obj, ...matchingObj };
+      } else {
+        // Store the original object if no match is found
+        mergedObjects[iValue] = obj;
+      }
+    });
+
+    // Iterate through the second set to add any remaining objects
+    secondSet?.forEach((obj) => {
+      const iValue = obj.i;
+      if (!mergedObjects[iValue]) {
+        mergedObjects[iValue] = obj;
+      }
+    });
+
+    // Convert the dictionary to an array
+    return Object.values(mergedObjects);
+  }
+  const tempLayout = mergeObjectsByI(layout, newLayout);
+  saveToLS('UiContext', tempLayout);
 };
 export const handleSetMapOnLayoutChange = (
   appContext,
@@ -218,6 +241,8 @@ export const onResize = (
   layoutItem,
   placeholder
 ) => {
+  console.log('triggered onResize');
+
   // `oldLayoutItem` contains the state of the item before the resize.
   // You can modify `layoutItem` to enforce constraints.
   // console.log("triggered resize");

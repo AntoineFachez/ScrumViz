@@ -14,15 +14,18 @@ export const SprintsProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleFindSprints = (sprintIdKey, item, item_key) => {
+    const foundSprint = displaySprints.filter(
+      (sprint) => sprint[sprintIdKey] === item[item_key]
+    );
+    setSelectedSprints(foundSprint);
+  };
   useEffect(() => {
-    console.log(searchTerm);
-    const found = displaySprints.filter((sprint) => {
-      return console.log(sprint.sprint_name);
-      // sprint.sprint_name.toLowerCase().includes(searchTerm.toLowerCase())
-    });
-    console.log(found);
-    // setSelectedSprints(
-    // );
+    setSelectedSprints(
+      displaySprints.filter((sprint) =>
+        sprint.sprint_name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
 
     return () => {};
   }, [searchTerm]);
@@ -38,6 +41,7 @@ export const SprintsProvider = ({ children }) => {
         setSprintInFocus,
         searchTerm,
         setSearchTerm,
+        handleFindSprints,
       }}
     >
       {children}

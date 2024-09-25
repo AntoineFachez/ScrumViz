@@ -55,12 +55,28 @@ export default function CardItemHeader({
         isSelected ? styled?.textBody?.selected : styled?.textBody
       }
       // subheader={() => <CardSubHeaderElement item={item} />}
+      subheader={
+        <Typography
+          onClick={() => handleClick(item)}
+          sx={
+            isSelected
+              ? { ...styled?.textBody?.selected, fontSize: '0.7rem' }
+              : //   : item[singleItemScheme.title]?.length > 25
+                //   ? styled?.truncate
+                { ...styled?.textBody, fontSize: '0.7rem' }
+          }
+          variant={styled?.textBody?.variant}
+        >
+          {item[singleItemScheme.subTitle] || 'N/A'}
+        </Typography>
+      }
       // sx={isSelected ? styled?.textBody?.selected : styled?.textBody}
       sx={{
         display: 'flex',
         flexFlow: 'row nowrap',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
+        '& .MuiCardHeader-action': { marginRight: 0 },
       }}
       variant={styled?.textBody?.variant}
     />

@@ -7,6 +7,7 @@ import UIContext from '@/context/UIContext';
 import { props, draggableCancel, resizeHandle } from './gridProps';
 import {
   generateDOM,
+  handleLayoutChange,
   handleSetMapOnLayoutChange,
   onLayoutChange,
   onResize,
@@ -25,7 +26,8 @@ const ScaledLayout = ({
   cols = 36,
   styled,
 }) => {
-  const { latestGridValues, setLatestGridValues } = useContext(UIContext);
+  const { latestGridValues, setLatestGridValues, setGridDOMMap } =
+    useContext(UIContext);
   const [rowHeight, setRowHeight] = useState();
   const [layout, setLayout] = useState();
   const [prevAppContext, setPrevAppContext] = useState();
@@ -71,10 +73,10 @@ const ScaledLayout = ({
         // onDrag={(layout) => handleLayoutChange(layout, setGridDOMMap)}
         // onDrop={onDrop}
         // onLayoutChange={(layout) => handleLayoutChange(layout, setGridDOMMap)}
-        onLayoutChange={(layout) => onLayoutChange(layout)}
-        onResize={(layout, oldLayoutItem, layoutItem, placeholder) =>
-          onResize(layout, oldLayoutItem, layoutItem, placeholder)
-        }
+        onLayoutChange={(newLayout) => onLayoutChange(newLayout, layout)}
+        onResize={(layout, oldLayoutItem, layoutItem, placeholder) => {
+          onResize(layout, oldLayoutItem, layoutItem, placeholder);
+        }}
         draggableCancel={draggableCancel}
         preventCollision={false}
         allowOverlap={false}

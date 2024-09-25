@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, Typography } from '@mui/material';
 
@@ -43,12 +43,9 @@ export default function UserStory({
     searchTerm,
     setSearchTerm,
   } = useContext(UserStoriesContext);
-  const { displaySprintPlannings, setSelectedSprintPlannings } = useContext(
-    SprintPlanningsContext
-  );
-  const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
-    SprintBackLogsContext
-  );
+  const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
+  const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
@@ -69,43 +66,23 @@ export default function UserStory({
     },
   };
   const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
     setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
   };
 
   const handleSetUserStoryInFocus = (userStory) => {
     setUserStoryInFocus(userStory);
-    const foundPlannings = displaySprintPlannings.filter((planning) =>
-      planning.sprint_backlog.some(
-        (task) => task.product_backlog_item_id === userStory.id
-      )
-    );
-    setSelectedSprintPlannings(foundPlannings);
-    //filter sprintBackLogs
-    const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog.product_backlog_item_id === userStory.id
-    );
-    setSelectedSprintBackLogs(foundSprintLogs);
-
-    // setActiveSearchTerm(userStory?.universityName);
-    // setLastInFocusItem({
-    //   context: widgetProps?.itemContext,
-    //   item: universityInFocus,
-    // });
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
+
+  const handleResetFiltered = () => {
+    setSelectedUserStories(displayUserStories);
+    setIsFiltered(false);
   };
   const CardSubHeaderElement = (data) => (
     <Typography
@@ -114,18 +91,21 @@ export default function UserStory({
       variant={styled?.textBody?.variant}
     ></Typography>
   );
+  useEffect(() => {
+    if (userStoryInFocus) {
+      handleFindSprintPlannings(userStoryInFocus);
+      handleFindSprintBackLogs(userStoryInFocus);
+    }
+
+    return () => {};
+  }, [userStoryInFocus]);
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
     />
   );
   const newItem = (
@@ -199,7 +179,6 @@ export default function UserStory({
         // backgroundColor: '#555',
       }}
     >
-      {/* UserStory MultiItems */}
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
@@ -235,6 +214,8 @@ export default function UserStory({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

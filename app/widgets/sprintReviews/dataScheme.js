@@ -1,4 +1,4 @@
-export const context = 'productBackLogs';
+export const context = 'university';
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',
@@ -10,19 +10,17 @@ export const fieldsAccordion = {
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {
-  id: 'product_id',
-  title: 'product_name',
-  subTitle: 'status',
-  description: 'description',
-  customArray: 'backLog_items',
-  customArrayKey: 'userStory_name',
-  itemInFocusIdKey: 'id',
-  filterArrayByIdKey: 'userStory_id',
+  id: 'id',
+  title: 'accomplishments',
+  subTitle: 'goal',
+  description: 'feedback',
+  start_date: 'date',
+  end_date: 'end_date',
 };
 
 export const headCellsTable = [
   {
-    id: 'product_id',
+    id: 'id',
     numeric: false,
     disablePadding: false,
     label: 'UserStory',
@@ -33,11 +31,11 @@ export const headCellsTable = [
     editable: false,
   },
   {
-    id: 'product_name',
+    id: 'name',
     numeric: false,
     disablePadding: false,
-    label: 'Product Name',
-    field: 'product_name',
+    label: 'Sprint Name',
+    field: 'name',
     headerName: 'Sprint Name',
     // type: "number",
     width: 200,

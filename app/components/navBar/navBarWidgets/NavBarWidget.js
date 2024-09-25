@@ -9,7 +9,7 @@ import Persons from '../../../widgets/persons/Persons';
 import TeamMembers from '../../../widgets/teamMembers/TeamMembers';
 import SprintPlannings from '../../../widgets/sprintPlannings/SprintPlannings';
 import Sprint from '../../../widgets/sprints/Sprints';
-import Daily from '../../../widgets/daily/Daily';
+import Daily from '../../../widgets/dailies/Dailies';
 import SprintReviews from '../../../widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '../../../widgets/sprintRetrospectives/SprintRetrospectives';
 import ImageDropzone from '../../../widgets/imageDropZone/Index';

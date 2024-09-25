@@ -12,9 +12,9 @@ export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 export const singleItemScheme = {
   id: 'id',
   title: 'userStory_name',
-  subTitle: 'author',
+  subTitle: 'teamMemberName',
   description: 'user_story',
-  customField: 'userStory_author',
+  customField: 'teamMemberName',
   img_uri: 'wireFrame_uri',
 };
 
