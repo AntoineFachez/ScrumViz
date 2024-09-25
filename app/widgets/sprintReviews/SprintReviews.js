@@ -87,13 +87,7 @@ export default function SprintReviews({
     setSelectedSprintReviews(displaySprintReviews);
     setIsFiltered(false);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetUserStoryInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
@@ -193,7 +187,6 @@ export default function SprintReviews({
         handleSetItemInFocus={handleSetSprintReviewInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>

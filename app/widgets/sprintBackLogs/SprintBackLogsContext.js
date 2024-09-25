@@ -16,6 +16,13 @@ export const SprintBackLogsProvider = ({ children }) => {
   const [sprintBackLogInFocus, setSprintBackLogInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleFindSprintBackLogs = (item) => {
+    const foundSprintLogs = displaySprintBackLogs.filter(
+      (sprintBackLog) => sprintBackLog.product_backlog_item_id === item.id
+    );
+    setSelectedSprintBackLogs(foundSprintLogs);
+  };
   useEffect(() => {
     setSelectedSprintBackLogs(
       displaySprintBackLogs.filter((sprintBackLog) =>
@@ -39,6 +46,7 @@ export const SprintBackLogsProvider = ({ children }) => {
         setSprintBackLogInFocus,
         searchTerm,
         setSearchTerm,
+        handleFindSprintBackLogs,
       }}
     >
       {children}

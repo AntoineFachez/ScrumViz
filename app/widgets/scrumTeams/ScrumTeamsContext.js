@@ -11,7 +11,32 @@ export const ScrumTeamsProvider = ({ children }) => {
   const [displayScrumTeams, setDisplayScrumTeams] = useState(scrumTeams);
   const [selectedScrumTeams, setSelectedScrumTeams] = useState(false);
   const [scrumTeamInFocus, setScrumTeamInFocus] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
+  const handleFindScrumTeam = (item, sprint_IdKey) => {
+    const foundTeam = displayScrumTeams.filter((team) => {
+      return team.id === item[sprint_IdKey];
+    });
+    setSelectedScrumTeams(foundTeam);
+  };
+  const handleFindMemberInScrumTeam = (item) => {
+    const foundTeam = displayScrumTeams.filter((team) =>
+      team.members.some((member) => member.id === item.id)
+    );
+    setSelectedScrumTeams(foundTeam);
+  };
+
+  useEffect(() => {
+    setSelectedScrumTeams(
+      displayScrumTeams.filter((scrumTeam) =>
+        scrumTeam.scrumTeam_name
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      )
+    );
+
+    return () => {};
+  }, [searchTerm]);
   return (
     <ScrumTeamsContext.Provider
       value={{
@@ -21,6 +46,10 @@ export const ScrumTeamsProvider = ({ children }) => {
         setSelectedScrumTeams,
         scrumTeamInFocus,
         setScrumTeamInFocus,
+        handleFindScrumTeam,
+        handleFindMemberInScrumTeam,
+        searchTerm,
+        setSearchTerm,
       }}
     >
       {children}

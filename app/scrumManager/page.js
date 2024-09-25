@@ -26,8 +26,6 @@ export default function ScrumManagerPage({
   targetUrl,
   contextToolBar,
 }) {
-  console.log(uuidv4());
-
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);

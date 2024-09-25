@@ -79,19 +79,21 @@ export default function CardItem({
         styled={styled}
       />
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardMedia
-          component="img"
-          image={item?.basics?.[`${itemContext}ImageUrl`]?.value}
-          alt={`image of ${item[singleItemScheme.title] || 'N/A'}`}
-          sx={{
-            width: '100%',
-            maxHeight: '10rem',
-            color: 'white',
-            fontSize: '0.6rem',
-            objectFit: 'contain',
-          }}
-          onClick={() => handleClick(item)}
-        />
+        {item[singleItemScheme.url] && (
+          <CardMedia
+            component="img"
+            image={item[singleItemScheme.url]}
+            alt={`image of ${item[singleItemScheme.title] || 'N/A'}`}
+            sx={{
+              width: '100%',
+              maxHeight: '10rem',
+              color: 'white',
+              fontSize: '0.6rem',
+              objectFit: 'contain',
+            }}
+            onClick={() => handleClick(item)}
+          />
+        )}
         <CardContent
           sx={{
             width: '100%',
@@ -118,7 +120,7 @@ export default function CardItem({
           {customElement && customElement}
         </CardContent>
       </Collapse>{' '}
-      <CardActions disableSpacing>
+      <CardActions disableSpacing sx={{ margin: 0, padding: 0 }}>
         {' '}
         <IconButton
           aria-label="add to favorites"

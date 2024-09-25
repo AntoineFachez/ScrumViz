@@ -15,6 +15,14 @@ export const SprintPlanningsProvider = ({ children }) => {
   );
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
 
+  const handleFindSprintPlannings = (item) => {
+    const foundPlannings = displaySprintPlannings.filter((planning) =>
+      planning.sprint_backlog.some(
+        (task) => task.product_backlog_item_id === item.id
+      )
+    );
+    setSelectedSprintPlannings(foundPlannings);
+  };
   return (
     <SprintPlanningsContext.Provider
       value={{
@@ -24,6 +32,7 @@ export const SprintPlanningsProvider = ({ children }) => {
         setSelectedSprintPlannings,
         sprintPlanningInFocus,
         setSprintPlanningInFocus,
+        handleFindSprintPlannings,
       }}
     >
       {children}

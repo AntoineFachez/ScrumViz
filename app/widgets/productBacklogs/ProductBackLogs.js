@@ -84,13 +84,7 @@ export default function Products({
     )[0];
     setUserStoryInFocus(found);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetProductInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+
   const menu = (
     <>
       <Menu
@@ -182,7 +176,6 @@ export default function Products({
         handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>

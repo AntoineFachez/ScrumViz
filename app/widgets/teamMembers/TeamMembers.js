@@ -1,7 +1,7 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
@@ -13,6 +13,10 @@ import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from './TeamMembersContext';
+import MultiItems from '@/app/pages/MultiItems';
+import { singleItemScheme } from './dataScheme';
+import SingleItem from '@/app/pages/SingleItem';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 export default function TeamMembers({
   uiContext,
@@ -36,6 +40,7 @@ export default function TeamMembers({
     searchTerm,
     setSearchTerm,
   } = useContext(TeamMembersContext);
+  const { handleFindMemberInScrumTeam } = useContext(ScrumTeamsContext);
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -71,6 +76,9 @@ export default function TeamMembers({
     //  } else {
     //  }
   };
+  const handleSetTeamMemberInFocus = (teamMember) => {
+    setTeamMemberInFocus(teamMember);
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -83,6 +91,11 @@ export default function TeamMembers({
     setSelectedTeamMembers(displayTeamMembers);
     setIsFiltered(false);
   };
+  useEffect(() => {
+    if (teamMemberInFocus) handleFindMemberInScrumTeam(teamMemberInFocus);
+    return () => {};
+  }, [teamMemberInFocus]);
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
@@ -114,15 +127,12 @@ export default function TeamMembers({
     </Box>
   );
   const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers SingleItem
-    </Box>
+    <SingleItem
+      singleItemScheme={singleItemScheme}
+      itemContext={widgetProps?.itemContext}
+      itemInFocus={teamMemberInFocus}
+      styled={styled}
+    />
   );
   const chip = (
     <Box
@@ -173,16 +183,15 @@ export default function TeamMembers({
         selectedData={selectedTeamMembers}
         setSelectedItem={setSelectedTeamMembers}
         selector={{
-          selector: 'teamMemberSelector',
+          selector: 'teamMembersSelector',
           selected: 'selectedTeamMembers',
         }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
+        itemInFocus={teamMemberInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
         handleSetItemInFocus={handleSetTeamMemberInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>

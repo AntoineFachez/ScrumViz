@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Avatar, Box, Typography } from '@mui/material';
 
@@ -17,6 +17,7 @@ import SingleItem from '@/app/pages/SingleItem';
 import MultiItems from '@/app/pages/MultiItems';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
+import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
 export default function ScrumTeam({
   uiContext,
@@ -30,7 +31,7 @@ export default function ScrumTeam({
   const { appContext, setAppContext } = useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
+
   const {
     displayScrumTeams,
     setDisplayScrumTeams,
@@ -38,7 +39,11 @@ export default function ScrumTeam({
     setSelectedScrumTeams,
     scrumTeamInFocus,
     setScrumTeamInFocus,
+    searchTerm,
+    setSearchTerm,
   } = useContext(ScrumTeamsContext);
+  const { displayTeamMembers, teamMemberInFocus, setTeamMemberInFocus } =
+    useContext(TeamMembersContext);
   const {
     displaySprints,
     setDisplaySprints,
@@ -46,7 +51,9 @@ export default function ScrumTeam({
     setSelectedSprints,
     sprintInFocus,
     setSprintInFocus,
+    handleFindSprints,
   } = useContext(SprintsContext);
+  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'scrumTeams';
@@ -96,38 +103,37 @@ export default function ScrumTeam({
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
+
+  const handleResetFiltered = () => {
+    setSelectedScrumTeams(displayScrumTeams);
+    setIsFiltered(false);
   };
   const handleClickCustomArrayItem = (e) => {
-    const found = displayUserStories.filter(
-      (story) => story.id === e.userStory_id
+    const found = displayTeamMembers.filter(
+      (teamMember) => teamMember.id === e.id
     )[0];
-    setUserStoryInFocus(found);
+    console.log(found);
+    setTeamMemberInFocus(found);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetScrumTeamInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+  useEffect(() => {
+    if (scrumTeamInFocus) {
+      handleFindSprints('team_id', scrumTeamInFocus, 'id');
+    }
+
+    return () => {};
+  }, [scrumTeamInFocus]);
 
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -207,7 +213,7 @@ export default function ScrumTeam({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayScrumTeams}
+        data={selectedScrumTeams}
         selectedData={selectedScrumTeams}
         setSelectedItem={setSelectedScrumTeams}
         selector={{
@@ -217,11 +223,11 @@ export default function ScrumTeam({
         itemContext={widgetProps?.itemContext}
         itemInFocus={scrumTeamInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
+        customArrayItemInFocus={teamMemberInFocus}
         handleSetItemInFocus={handleSetScrumTeamInFocus}
         handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>
@@ -239,6 +245,8 @@ export default function ScrumTeam({
         chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

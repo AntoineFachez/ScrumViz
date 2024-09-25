@@ -103,25 +103,13 @@ export default function SprintBackLogs({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetBackLogInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
     />
   );
   const newItem = (
@@ -212,7 +200,6 @@ export default function SprintBackLogs({
         handleSetItemInFocus={handleSetBackLogInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>

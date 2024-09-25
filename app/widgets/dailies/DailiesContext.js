@@ -12,6 +12,7 @@ export const DailiesProvider = ({ children }) => {
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailiesInFocus, setDailiesInFocus] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     setSelectedDailies(
       displayDailies.filter((daily) =>

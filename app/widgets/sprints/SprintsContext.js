@@ -14,6 +14,12 @@ export const SprintsProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleFindSprints = (sprintIdKey, item, item_key) => {
+    const foundSprint = displaySprints.filter(
+      (sprint) => sprint[sprintIdKey] === item[item_key]
+    );
+    setSelectedSprints(foundSprint);
+  };
   useEffect(() => {
     setSelectedSprints(
       displaySprints.filter((sprint) =>
@@ -35,6 +41,7 @@ export const SprintsProvider = ({ children }) => {
         setSprintInFocus,
         searchTerm,
         setSearchTerm,
+        handleFindSprints,
       }}
     >
       {children}

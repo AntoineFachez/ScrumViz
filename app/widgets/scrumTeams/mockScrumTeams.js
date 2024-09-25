@@ -1,7 +1,7 @@
 export const scrumTeams = [
   {
     id: '9fabb029-9a95-415b-be32-ea85f759bf26',
-    name: 'Team Alpha',
+    scrumTeam_name: 'Team Alpha',
     members: [
       {
         name: 'Alice',
@@ -32,7 +32,7 @@ export const scrumTeams = [
   },
   {
     id: '1bd4dc4c-44e7-465e-80ce-5b3fc39a5bed',
-    name: 'Team Beta',
+    scrumTeam_name: 'Team Beta',
     members: [
       {
         name: 'Ivy',
@@ -63,7 +63,7 @@ export const scrumTeams = [
   },
   {
     id: '4633333e-a73e-4330-83f5-0c3331321383',
-    name: 'Team Gamma',
+    scrumTeam_name: 'Team Gamma',
     members: [
       {
         name: 'Alice',

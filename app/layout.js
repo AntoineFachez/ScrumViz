@@ -12,7 +12,7 @@ import { SprintsProvider } from './widgets/sprints/SprintsContext';
 import { ScrumTeamsProvider } from './widgets/scrumTeams/ScrumTeamsContext';
 import { TimeStampsProvider } from './widgets/timeStamps/TimeStampsContext';
 import { BackLogsProvider } from './widgets/productBacklogs/ProductBackLogsContext';
-import { DailiesProvider } from './widgets/daily/DailiesContext';
+import { DailiesProvider } from './widgets/dailies/DailiesContext';
 import { SprintPlanningsProvider } from './widgets/sprintPlannings/SprintPlanningsContext';
 import { SprintBackLogsProvider } from './widgets/sprintBackLogs/SprintBackLogsContext';
 import { SprintReviewProvider } from './widgets/sprintReviews/SprintReviewsContext';

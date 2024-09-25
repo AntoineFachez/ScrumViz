@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, Typography } from '@mui/material';
 
@@ -43,12 +43,8 @@ export default function UserStory({
     searchTerm,
     setSearchTerm,
   } = useContext(UserStoriesContext);
-  const { displaySprintPlannings, setSelectedSprintPlannings } = useContext(
-    SprintPlanningsContext
-  );
-  const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
-    SprintBackLogsContext
-  );
+  const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
+  const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -75,16 +71,6 @@ export default function UserStory({
 
   const handleSetUserStoryInFocus = (userStory) => {
     setUserStoryInFocus(userStory);
-    const foundPlannings = displaySprintPlannings.filter((planning) =>
-      planning.sprint_backlog.some(
-        (task) => task.product_backlog_item_id === userStory.id
-      )
-    );
-    setSelectedSprintPlannings(foundPlannings);
-    const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog.product_backlog_item_id === userStory.id
-    );
-    setSelectedSprintBackLogs(foundSprintLogs);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -105,6 +91,15 @@ export default function UserStory({
       variant={styled?.textBody?.variant}
     ></Typography>
   );
+  useEffect(() => {
+    if (userStoryInFocus) {
+      handleFindSprintPlannings(userStoryInFocus);
+      handleFindSprintBackLogs(userStoryInFocus);
+    }
+
+    return () => {};
+  }, [userStoryInFocus]);
+
   const menu = (
     <Menu
       widgetProps={widgetProps}

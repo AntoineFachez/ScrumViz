@@ -66,7 +66,9 @@ export default function MultiItems({
                   }}
                 >
                   {item[singleItemScheme.customArray]?.map((customItem, i) => {
-                    console.log(customItem);
+                    {
+                      /* console.log('customArray', customItem); */
+                    }
                     return (
                       <Button
                         // sx={styled.menuButtonText.action}

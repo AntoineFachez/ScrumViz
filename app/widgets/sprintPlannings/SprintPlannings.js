@@ -86,14 +86,11 @@ export default function SprintPlannings({
     const productBacklogItemIds = new Set(
       sprintPlanning.sprint_backlog.map((item) => item.product_backlog_item_id)
     );
-    console.log(productBacklogItemIds, selectedUserStories);
 
-    // 2. Filter userStories based on the extracted IDs
     const filteredUserStories = selectedUserStories.filter((story) =>
       productBacklogItemIds.has(story.id)
     );
 
-    // 3. Do something with the filteredUserStories (e.g., update state, display them, etc.)
     setSelectedUserStories(filteredUserStories);
 
     const foundSprintLogs = displaySprintBackLogs.filter((backLog) =>
@@ -103,31 +100,17 @@ export default function SprintPlannings({
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetSprintPlanningInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
+
   const menu = (
     <Menu
       widgetProps={widgetProps}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -219,7 +202,6 @@ export default function SprintPlannings({
         handleSetItemInFocus={handleSetSprintPlanningInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>
