@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, IconButton } from '@mui/material';
-import RGL, { Responsive, WidthProvider } from 'react-grid-layout';
+import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import RGL, { WidthProvider } from 'react-grid-layout';
 
-import UIContext from '@/context/UIContext';
-
-import { props, draggableCancel, resizeHandle } from './gridProps';
+import { props, draggableCancel } from './gridProps';
 import {
   generateDOM,
-  handleLayoutChange,
+  generateLayout,
+  getFromLS,
+  handleOnDragStop,
   handleSetMapOnLayoutChange,
   onLayoutChange,
   onResize,
+  saveToLS,
 } from './helperFunctions';
 
 import './grid-styles.css';
@@ -21,32 +22,24 @@ const ScaledLayout = ({
   gridRef,
   userRole,
   appContext,
-  domGridMap,
+  defaultGridMap,
   className = 'gridLayout',
   cols = 36,
   styled,
 }) => {
-  const { latestGridValues, setLatestGridValues, setGridDOMMap } =
-    useContext(UIContext);
   const [rowHeight, setRowHeight] = useState();
-  const [layout, setLayout] = useState();
-  const [prevAppContext, setPrevAppContext] = useState();
+  const [currentLayout, setCurrentLayout] = useState();
+  const [prevAppContext, setPrevAppContext] = useState(null);
 
-  const [newDomGridMap, setNewDomGridMap] = useState(domGridMap);
   useEffect(() => {
-    handleSetMapOnLayoutChange(
+    return handleSetMapOnLayoutChange(
       appContext,
       gridRef,
-      setNewDomGridMap,
-      domGridMap,
-      latestGridValues,
-      layout,
-      setLayout,
-      prevAppContext,
-      setPrevAppContext
+      defaultGridMap,
+      // getFromLS(appContext),
+      setCurrentLayout
     );
-    return handleSetMapOnLayoutChange;
-  }, [domGridMap, userRole, appContext]);
+  }, [defaultGridMap, userRole, appContext]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -58,6 +51,21 @@ const ScaledLayout = ({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const delayLayout = (layoutOnLayoutChange) => {
+    const mergedLayout = onLayoutChange(
+      layoutOnLayoutChange,
+      currentLayout,
+      setCurrentLayout,
+      appContext,
+      gridRef
+    );
+    return mergedLayout;
+  };
+  useEffect(() => {
+    return () => {};
+  }, [currentLayout]);
+
   return (
     <Box
       ref={gridRef}
@@ -69,19 +77,26 @@ const ScaledLayout = ({
       <ReactGridLayout
         {...props}
         className={className}
-        layout={layout}
-        // onDrag={(layout) => handleLayoutChange(layout, setGridDOMMap)}
-        // onDrop={onDrop}
-        // onLayoutChange={(layout) => handleLayoutChange(layout, setGridDOMMap)}
-        onLayoutChange={(newLayout) => onLayoutChange(newLayout, layout)}
-        onResize={(layout, oldLayoutItem, layoutItem, placeholder) => {
-          onResize(layout, oldLayoutItem, layoutItem, placeholder);
+        layout={currentLayout}
+        onLayoutChange={(layoutOnLayoutChange) =>
+          delayLayout(layoutOnLayoutChange)
+        }
+        onDragStop={handleOnDragStop}
+        onResize={(currentLayout, oldLayoutItem, layoutItem, placeholder) => {
+          onResize(
+            currentLayout,
+            oldLayoutItem,
+            layoutItem,
+            placeholder,
+            appContext,
+            currentLayout
+          );
         }}
         draggableCancel={draggableCancel}
         preventCollision={false}
         allowOverlap={false}
         autoSize={true}
-        measureBeforeMount={false} //If `true`, `WidthProvider` will measure the container's width before mounting children.
+        measureBeforeMount={false}
         containerPadding={[10, 10]}
         margin={[10, 10]}
         useCSSTransforms={true}
@@ -89,7 +104,7 @@ const ScaledLayout = ({
         rowHeight={rowHeight}
         cols={cols}
       >
-        {generateDOM(newDomGridMap, styled)}
+        {generateDOM(defaultGridMap, styled)}
       </ReactGridLayout>
     </Box>
   );

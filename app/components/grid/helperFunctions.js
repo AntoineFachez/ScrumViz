@@ -67,181 +67,47 @@ export const generateDOM = (gridMap, styled) => {
     } else return null;
   });
 };
-// export const onLayoutChange = (
-//   activeGridLayout,
-//   setActiveGridLayout,
-//   setParentHeight,
-//   gridRef,
-// ) => {
-//   // setActiveGridLayout(activeGridLayout);
-//   //TODO ROW_HEIGHT
-//   //* setParentHeight(gridRef?.current?.offsetHeight);
-// };
-// export const handleLayoutChange = (newLayout, setActiveGridLayout) => {
-//   // setActiveGridLayout(generateLayout(newLayout));
-//   // console.log("newLayout", newLayout);
-//   //TODO ROW_HEIGHT
-//   //* setRowHeight(height / 100);
-//   onLayoutChange(newLayout, setActiveGridLayout);
-// };
-export const handleDeleteSpace = () => {};
-// export const resetLayout = (viewerGridMap) => {
-//   // generateLayout(viewerGridMap);
-// };
-//TODO:! not in use:
-export const handleCloseSpace = (e, direction, activeSpaces) => {
-  e.preventDefault();
-  const tempSpaces = activeSpaces.filter((space) => {
-    return (
-      space?.spaceId === activeSpaces[0][0].props.children.props.data.spaceId
-    );
-  });
-};
-export function getFromLS(key) {
-  // console.log("domGridMap", key);
-  let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem(key)) || newDomGridMap;
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  if (ls) {
-    return ls;
-  } else {
-    return newDomGridMap;
-  }
-}
-export function saveToLS(uiGridMapContext, newMapValues) {
-  // console.log('uiGridMapContext', uiGridMapContext);
 
-  if (global.localStorage) {
-    const stringifiedMap = JSON.stringify(newMapValues);
-    global.localStorage.setItem(uiGridMapContext + 'UiContext', stringifiedMap);
-  }
-}
 export const onLayoutChange = (
-  newLayout,
-  layout,
+  layoutOnLayoutChange,
+  currentLayout,
+  setCurrentLayout,
   appContext,
-  gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
+  gridRef
 ) => {
   /*eslint no-console: 0*/
 
-  if (latestGridValues) latestGridValues[prevAppContext + 'UiContext'] = layout;
+  const tempLayout = mergeLayouts(layoutOnLayoutChange, currentLayout);
 
-  function mergeObjectsByI(firstSet, secondSet) {
-    const mergedObjects = {};
-
-    // Iterate through the first set
-    firstSet?.forEach((obj) => {
-      const iValue = obj.i;
-
-      // Find the matching object in the second set
-      const matchingObj = secondSet.find((o) => o.i === iValue);
-
-      if (matchingObj) {
-        // Merge the objects if a match is found
-        mergedObjects[iValue] = { ...obj, ...matchingObj };
-      } else {
-        // Store the original object if no match is found
-        mergedObjects[iValue] = obj;
-      }
-    });
-
-    // Iterate through the second set to add any remaining objects
-    secondSet?.forEach((obj) => {
-      const iValue = obj.i;
-      if (!mergedObjects[iValue]) {
-        mergedObjects[iValue] = obj;
-      }
-    });
-
-    // Convert the dictionary to an array
-    return Object.values(mergedObjects);
-  }
-  const tempLayout = mergeObjectsByI(layout, newLayout);
-  saveToLS('UiContext', tempLayout);
+  // saveToLS(appContext, currentLayout);
+  setCurrentLayout(tempLayout);
+  return tempLayout;
 };
 export const handleSetMapOnLayoutChange = (
   appContext,
   gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  layout,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
+  defaultGridMap,
+  setLayout
 ) => {
-  if (setNewDomGridMap)
-    setNewDomGridMap(
-      updateLayoutWithNewValues(
-        appContext,
-        gridRef,
-        setNewDomGridMap,
-        domGridMap,
-        latestGridValues,
-        layout,
-        setLayout,
-        prevAppContext,
-        setPrevAppContext
-      )
-    );
+  const storedLayout = getFromLS(appContext);
+
+  let layoutToUse =
+    storedLayout && Object.keys(storedLayout).length > 0
+      ? storedLayout
+      : defaultGridMap;
+
+  setLayout(generateLayout(layoutToUse, gridRef));
 };
-export function updateLayoutWithNewValues(
-  appContext,
-  gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  layout,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
-) {
-  if (!latestGridValues) return domGridMap;
 
-  // Map over the original readMap and update values based on latestGridValues
-  const updatedReadMap = domGridMap?.map((item, i) => {
-    const matchingValue = latestGridValues?.[
-      prevAppContext + 'UiContext'
-    ]?.find((value) => {
-      return +value.i === i;
-    }); // Find matching value by ID
-
-    if (matchingValue) {
-      // If a match is found, update the properties
-      return {
-        ...item, // Keep all other properties
-        w: matchingValue.w,
-        h: matchingValue.h,
-        x: matchingValue.x,
-        y: matchingValue.y,
-      };
-    } else {
-      // If no match is found, return the original item unchanged
-      return item;
-    }
-  });
-  setLayout(generateLayout(updatedReadMap, gridRef));
-  setPrevAppContext(appContext);
-  return updatedReadMap; // Return the updated layout
-}
 export const onResize = (
   domContext,
   oldLayoutItem,
   layoutItem,
-  placeholder
+  placeholder,
+  appContext,
+  currentLayout
 ) => {
-  console.log('triggered onResize');
+  // console.log('triggered onResize');
 
   // `oldLayoutItem` contains the state of the item before the resize.
   // You can modify `layoutItem` to enforce constraints.
@@ -255,4 +121,75 @@ export const onResize = (
     layoutItem.w = 2;
     placeholder.w = 2;
   }
+  saveToLS(appContext, currentLayout);
 };
+export const handleOnDragStop = (currentLayout) => {
+  console.log('dragStopped', currentLayout);
+  saveToLS(appContext, currentLayout);
+};
+//TODO:! not in use:
+export const handleCloseSpace = (e, direction, activeSpaces) => {
+  e.preventDefault();
+  const tempSpaces = activeSpaces.filter((space) => {
+    return (
+      space?.spaceId === activeSpaces[0][0].props.children.props.data.spaceId
+    );
+  });
+};
+export function getFromLS(uiGridMapContext) {
+  // console.log("defaultGridMap", uiGridMapContext);
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls =
+        JSON.parse(
+          global.localStorage.getItem('UI Grid ' + uiGridMapContext)
+        ) || newdefaultGridMap;
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  if (ls) {
+    return ls;
+  } else {
+    return newdefaultGridMap;
+  }
+}
+export function saveToLS(uiGridMapContext, newMapValues) {
+  // console.log('uiGridMapContext', uiGridMapContext, newMapValues);
+
+  if (global.localStorage) {
+    const stringifiedMap = JSON.stringify(newMapValues);
+    global.localStorage.setItem('UI Grid ' + uiGridMapContext, stringifiedMap);
+  }
+}
+function mergeLayouts(firstSet, secondSet) {
+  const mergedObjects = {};
+
+  // Iterate through the first set
+  firstSet?.forEach((obj) => {
+    const iValue = obj.i;
+
+    // Find the matching object in the second set
+    const matchingObj = secondSet.find((o) => o.i === iValue);
+
+    if (matchingObj) {
+      // Merge the objects if a match is found
+      mergedObjects[iValue] = { ...obj, ...matchingObj };
+    } else {
+      // Store the original object if no match is found
+      mergedObjects[iValue] = obj;
+    }
+  });
+
+  // Iterate through the second set to add any remaining objects
+  secondSet?.forEach((obj) => {
+    const iValue = obj.i;
+    if (!mergedObjects[iValue]) {
+      mergedObjects[iValue] = obj;
+    }
+  });
+
+  // Convert the dictionary to an array
+  return Object.values(mergedObjects);
+}

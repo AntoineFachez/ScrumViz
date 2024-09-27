@@ -16,6 +16,7 @@ import {
   timeStampsMap,
 } from '@/app/components/grid/defaultGridMaps';
 import { widgetListHome } from '@/app/pages/navBarWidgetList';
+import { getFromLS, saveToLS } from '@/app/components/grid/helperFunctions';
 
 const UIContext = createContext();
 
@@ -36,8 +37,8 @@ export const UIProvider = ({ children }) => {
   const [showDailyMenu, setShowDailyMenu] = useState(false);
   const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
 
-  const [domGridMap, setDomGridMap] = useState(null);
-  const [gridDOMMap, setGridDOMMap] = useState(domGridMap);
+  const [defaultGridMap, setDefaultGridMap] = useState(null);
+  const [gridDOMMap, setGridDOMMap] = useState(defaultGridMap);
   const [latestGridValues, setLatestGridValues] = useState({});
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -64,9 +65,9 @@ export const UIProvider = ({ children }) => {
   //   return () => {};
   // }, [userRole]);
   useEffect(() => {
-    setDomGridMap();
+    setDefaultGridMap();
     setTimeout(() => {
-      setDomGridMap(() => {
+      setDefaultGridMap(() => {
         switch (appContext) {
           case 'scrumManager':
             return scrumManagerMap;
@@ -92,6 +93,45 @@ export const UIProvider = ({ children }) => {
             return scrumManagerMap;
         }
       });
+
+      // setDefaultGridMap(() => {
+      //   switch (appContext) {
+      //     case 'scrumManager':
+      //       saveToLS(appContext, scrumManagerMap);
+      //       return scrumManagerMap;
+      //     case 'userStories':
+      //       saveToLS(appContext, userStoriesMap);
+      //       return userStoriesMap;
+      //     case 'productBackLogs':
+      //       saveToLS(appContext, productBackLogsMap);
+      //       return productBackLogsMap;
+      //     case 'sprintPlannings':
+      //       saveToLS(appContext, sprintPlanningsMap);
+      //       return sprintPlanningsMap;
+      //     case 'teamMembers':
+      //       saveToLS(appContext, teamMembersMap);
+      //       return teamMembersMap;
+      //     case 'scrumTeam':
+      //       saveToLS(appContext, scrumTeamMap);
+      //       return scrumTeamMap;
+      //     case 'dailies':
+      //       saveToLS(appContext, dailyMap);
+      //       return dailyMap;
+      //     case 'sprints':
+      //       saveToLS(appContext, sprintsMap);
+      //       return sprintsMap;
+      //     case 'sprintReview':
+      //       saveToLS(appContext, sprintReviewMap);
+      //       return sprintReviewMap;
+      //     case 'timeStamps':
+      //       saveToLS(appContext, timeStampsMap);
+      //       return timeStampsMap;
+      //     default:
+      //       saveToLS(appContext, scrumManagerMap);
+      //       return scrumManagerMap;
+      //   }
+      // });
+
       setNavBarWidgetList(() => {
         switch (appContext) {
           case 'home':
@@ -104,8 +144,10 @@ export const UIProvider = ({ children }) => {
       });
     }, 5);
 
+    // saveToLS(appContext, defaultGridMap);
     return () => {};
   }, [appContext]);
+
   return (
     <UIContext.Provider
       value={{
@@ -129,8 +171,8 @@ export const UIProvider = ({ children }) => {
         setShowDailyMenu,
         showSprinReviewtMenu,
         setShowSprinReviewtMenu,
-        domGridMap,
-        setDomGridMap,
+        defaultGridMap,
+        setDefaultGridMap,
         gridDOMMap,
         setGridDOMMap,
         latestGridValues,

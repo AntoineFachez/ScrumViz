@@ -25,9 +25,9 @@ export default function Index({}) {
     setShowPaneMenu,
     userRole,
     gridDOMMap,
+    defaultGridMap,
     setGridDOMMap,
-    domGridMap,
-    setDomGridMap,
+    setDefaultGridMap,
   } = useContext(UIContext);
   const gridRef = useRef();
   // const [generatedDOM, setGeneratedDOM] = useState();
@@ -41,7 +41,7 @@ export default function Index({}) {
     // }, 10);
     // generateLayout(
     //   // gridDOMMap ? gridDOMMap : textAnalyzerGridMap,
-    //   domGridMap,
+    //   defaultGridMap,
     //   //TODO ROW_HEIGHT
     //   //* setParentHeight,
     //   gridRef,
@@ -51,7 +51,7 @@ export default function Index({}) {
         gridRef={gridRef}
         userRole={userRole}
         appContext={appContext}
-        domGridMap={domGridMap}
+        defaultGridMap={defaultGridMap}
         gridDOMMap={gridDOMMap}
         // generatedDOM={generatedDOM}
         setGridDOMMap={setGridDOMMap}
@@ -65,7 +65,7 @@ export default function Index({}) {
     );
 
     return () => {};
-  }, [domGridMap]);
+  }, [defaultGridMap]);
 
   return <>{resetGrid}</>;
 }
