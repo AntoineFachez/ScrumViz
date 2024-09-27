@@ -14,10 +14,12 @@ import MultiItems from '@/app/pages/MultiItems';
 import SingleItem from '@/app/pages/SingleItem';
 
 import { singleItemScheme } from './dataScheme';
-import Menu from './Menu';
 
 import StandInTable from '@/app/components/table/StandInTable';
 import SprintsContext from '../sprints/SprintsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function Dailies({
   uiContext,
@@ -26,7 +28,13 @@ export default function Dailies({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    showDailyMenu,
+    setShowDailyMenu,
+    toggleDrawer,
+  } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     selectedDailies,
@@ -55,8 +63,11 @@ export default function Dailies({
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowDailyMenu,
+    },
+    states: { showMenu: showDailyMenu, widgetProps: widgetProps },
   };
 
   const handleSetDailiesInFocus = (dailies) => {
@@ -74,8 +85,10 @@ export default function Dailies({
   }, [dailiesInFocus]);
 
   const menu = (
-    <Menu
+    <WidgetMenu
       widgetProps={widgetProps}
+      menuProps={menuProps}
+      setSelectedWidgetContext={setSelectedWidgetContext}
       handleSelectWidgetContext={handleSelectWidgetContext}
       handleSearchTermChange={handleSearchTermChange}
       searchTerm={searchTerm}

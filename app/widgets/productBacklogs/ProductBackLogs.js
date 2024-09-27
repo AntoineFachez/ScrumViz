@@ -1,11 +1,11 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
+import WidgetMenu from '../../pages/WidgetMenu';
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -17,6 +17,8 @@ import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
+import { handleSelectWidgetContext } from '../actions';
+
 export default function Products({
   uiContext,
   startUpWidgetLayout,
@@ -24,7 +26,13 @@ export default function Products({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    showBackLogItemMenu,
+    setShowBackLogItemMenu,
+    toggleDrawer,
+  } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -33,10 +41,10 @@ export default function Products({
     userStoryInFocus,
     setUserStoryInFocus,
   } = useContext(UserStoriesContext);
-  const [selectedWidgetContext, setSelectedWidgetContext] =
-    useState(startUpWidgetLayout);
 
   const {
+    // selectedWidgetContext,
+    // setSelectedWidgetContext,
     displayProductBackLogs,
     setDisplayProductBackLogs,
     selectedProductBackLogs,
@@ -46,7 +54,10 @@ export default function Products({
     searchTerm,
     setSearchTerm,
   } = useContext(BackLogsContext);
+  const [selectedWidgetContext, setSelectedWidgetContext] =
+    useState(startUpWidgetLayout);
   const collection = 'productBackLogs';
+
   const widgetProps = {
     iconButton: <AddToQueue />,
     collection: collection,
@@ -62,8 +73,14 @@ export default function Products({
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
+    },
+    states: {
+      showMenu: showBackLogItemMenu,
+      widgetProps: widgetProps,
+    },
   };
   const handleSetProductInFocus = (backLog) => {
     setProductBackLogInFocus(backLog);
@@ -87,8 +104,10 @@ export default function Products({
 
   const menu = (
     <>
-      <Menu
+      <WidgetMenu
         widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
         handleSelectWidgetContext={handleSelectWidgetContext}
         handleSearchTermChange={handleSearchTermChange}
         searchTerm={searchTerm}

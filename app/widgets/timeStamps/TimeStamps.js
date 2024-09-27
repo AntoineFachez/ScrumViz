@@ -12,10 +12,12 @@ import TimeStampsContext from './TimeStampsContext';
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import Menu from './Menu';
 import SingleItem from '@/app/pages/SingleItem';
 import MultiItems from '@/app/pages/MultiItems';
 import { singleItemScheme } from './dataScheme';
+
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
 
 export default function TimeStamps({
   uiContext,
@@ -27,7 +29,7 @@ export default function TimeStamps({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
@@ -64,16 +66,11 @@ export default function TimeStamps({
       setAppContext(collection);
     },
   };
-
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
+    },
+    states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
   };
 
   const handleSetTimeStampInFocus = (timeStamp) => {
@@ -105,12 +102,16 @@ export default function TimeStamps({
     ></Typography>
   );
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box

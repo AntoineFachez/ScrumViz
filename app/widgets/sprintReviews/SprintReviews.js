@@ -6,7 +6,6 @@ import { Box } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -16,6 +15,9 @@ import MultiItems from '@/app/pages/MultiItems';
 import { singleItemScheme } from './dataScheme';
 import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
 import SprintReviewContext from './SprintReviewsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintReviews({
   uiContext,
@@ -27,7 +29,8 @@ export default function SprintReviews({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
+    useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprintReviews,
@@ -65,15 +68,14 @@ export default function SprintReviews({
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowSprinReviewtMenu,
+    },
+    states: {
+      showMenu: showSprinReviewtMenu,
+      widgetProps: widgetProps,
+    },
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -89,12 +91,16 @@ export default function SprintReviews({
   };
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box

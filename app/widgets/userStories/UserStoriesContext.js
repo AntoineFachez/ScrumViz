@@ -13,6 +13,8 @@ export const UserStoriesProvider = ({ children }) => {
   const { appContext, selectedStory } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { displayTeamMembers } = useContext(TeamMembersContext);
+  const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
+
   const [displayUserStories, setDisplayUserStories] = useState(userStories);
   const [selectedUserStories, setSelectedUserStories] =
     useState(displayUserStories);
@@ -36,6 +38,8 @@ export const UserStoriesProvider = ({ children }) => {
   return (
     <UserStoriesContext.Provider
       value={{
+        selectedWidgetContext,
+        setSelectedWidgetContext,
         displayUserStories,
         setDisplayUserStories,
         selectedUserStories,

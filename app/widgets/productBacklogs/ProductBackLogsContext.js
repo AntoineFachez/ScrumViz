@@ -8,6 +8,7 @@ const BackLogsContext = createContext();
 
 export const BackLogsProvider = ({ children }) => {
   const { appContext, selectedStory } = useContext(AppContext);
+  const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displayProductBackLogs, setDisplayProductBackLogs] =
     useState(productBackLogs);
   const [selectedProductBackLogs, setSelectedProductBackLogs] = useState(
@@ -16,6 +17,7 @@ export const BackLogsProvider = ({ children }) => {
   const [productBackLogInFocus, setProductBackLogInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     setSelectedProductBackLogs(
       displayProductBackLogs.filter((product) =>
@@ -25,9 +27,12 @@ export const BackLogsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+
   return (
     <BackLogsContext.Provider
       value={{
+        selectedWidgetContext,
+        setSelectedWidgetContext,
         displayProductBackLogs,
         setDisplayProductBackLogs,
         selectedProductBackLogs,

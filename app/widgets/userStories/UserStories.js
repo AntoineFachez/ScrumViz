@@ -6,7 +6,6 @@ import { Box, Typography } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -19,6 +18,9 @@ import SingleItem from '@/app/pages/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function UserStory({
   uiContext,
@@ -30,7 +32,7 @@ export default function UserStory({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -65,8 +67,11 @@ export default function UserStory({
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowUserStoryMenu,
+    },
+    states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
   };
 
   const handleSetUserStoryInFocus = (userStory) => {
@@ -101,12 +106,16 @@ export default function UserStory({
   }, [userStoryInFocus]);
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box

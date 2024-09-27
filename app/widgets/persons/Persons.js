@@ -9,8 +9,10 @@ import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import StandInTable from '@/app/components/table/StandInTable';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function Persons({
   uiContext,
@@ -27,16 +29,7 @@ export default function Persons({
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
-  };
+
   const collection = 'persons';
   const widgetProps = {
     iconButton: <Group />,
@@ -60,6 +53,12 @@ export default function Persons({
       return;
     },
   };
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowPersonsMenu,
+    },
+    states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     // setResetData();
@@ -69,17 +68,13 @@ export default function Persons({
     setActiveSearchTerm(e.target.value);
   };
   const menu = (
-    <Menu
+    <WidgetMenu
       widgetProps={widgetProps}
+      menuProps={menuProps}
+      setSelectedWidgetContext={setSelectedWidgetContext}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (

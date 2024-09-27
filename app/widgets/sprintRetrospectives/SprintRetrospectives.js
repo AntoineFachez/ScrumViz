@@ -2,16 +2,18 @@
 import { useContext, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box } from '@mui/material';
+import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
+import { themeSettings } from '@/app/theme/ThemeContext';
+import AppContext from '@/context/AppContext';
+import SearchContext from '@/context/SearchContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
-import SearchContext from '@/context/SearchContext';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintRetrospectives({
   uiContext,
@@ -24,6 +26,8 @@ export default function SprintRetrospectives({
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
+    useContext(UIContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -49,16 +53,13 @@ export default function SprintRetrospectives({
       setAppContext(collection);
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowSprinReviewtMenu,
+    },
+    states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
   };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     // setResetData();
@@ -79,18 +80,16 @@ export default function SprintRetrospectives({
     </Box>
   );
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const soloWidget = (
     <Box

@@ -6,7 +6,7 @@ import { Box, Typography } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
+
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -17,18 +17,23 @@ import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 import SprintBackLogsContext from './SprintBackLogsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintBackLogs({
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    showBackLogItemMenu,
+    setShowBackLogItemMenu,
+  } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprintBackLogs,
@@ -66,15 +71,14 @@ export default function SprintBackLogs({
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
+    },
+    states: {
+      showMenu: showBackLogItemMenu,
+      widgetProps: widgetProps,
+    },
   };
 
   const handleSetBackLogInFocus = (sprintBackLog) => {
@@ -105,12 +109,16 @@ export default function SprintBackLogs({
   };
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box

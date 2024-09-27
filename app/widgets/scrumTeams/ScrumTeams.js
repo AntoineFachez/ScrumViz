@@ -19,6 +19,9 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
 export default function ScrumTeam({
   uiContext,
   startUpWidgetLayout,
@@ -29,7 +32,13 @@ export default function ScrumTeam({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    showTeamMembersMenu,
+    setShowTeamMembersMenu,
+    toggleDrawer,
+  } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -78,15 +87,11 @@ export default function ScrumTeam({
       setAppContext(collection);
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowTeamMembersMenu,
+    },
+    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
   };
   const handleSetScrumTeamInFocus = (scrumTeam) => {
     setScrumTeamInFocus(scrumTeam);
@@ -129,12 +134,16 @@ export default function ScrumTeam({
   }, [scrumTeamInFocus]);
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box

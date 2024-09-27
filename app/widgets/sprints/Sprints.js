@@ -16,10 +16,11 @@ import SingleItem from '@/app/pages/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
-import Menu from './Menu';
-
 import { themeSettings } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
+
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
 
 export default function Sprints({
   uiContext,
@@ -28,7 +29,7 @@ export default function Sprints({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprints,
@@ -62,8 +63,11 @@ export default function Sprints({
       setAppContext(collection);
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    functions: {
+      handleShowMenu: setShowSprintMenu,
+    },
+    states: { showMenu: showSprintMenu, widgetProps: widgetProps },
   };
 
   const handleSetSprintInFocus = (sprint) => {
@@ -90,13 +94,18 @@ export default function Sprints({
 
     return () => {};
   }, [sprintInFocus]);
+
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
