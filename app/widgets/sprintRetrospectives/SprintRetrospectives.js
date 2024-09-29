@@ -41,7 +41,7 @@ export default function SprintRetrospectives({
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,

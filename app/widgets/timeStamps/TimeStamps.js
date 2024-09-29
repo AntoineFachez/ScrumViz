@@ -51,7 +51,7 @@ export default function TimeStamps({
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,

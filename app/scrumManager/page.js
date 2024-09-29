@@ -43,7 +43,7 @@ export default function ScrumManagerPage({
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // soloWidget: soloWidget,
     // chip:chip,

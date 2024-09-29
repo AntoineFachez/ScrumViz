@@ -16,74 +16,90 @@ export default function Space({
   contextSpaces,
   viewerGridMap,
   selectedWidget,
-  selectedWidgetName,
+  dropWidgetName,
   showPaneMenu,
   menuSpace,
   dynamicComponent,
   styled,
 }) {
-  const [droppedWidgetName, setDroppedWidgetName] =
-    useState(selectedWidgetName);
+  const [droppedWidgetName, setDroppedWidgetName] = useState(dropWidgetName);
   const [passWidgetContext, setPassWidgetContext] =
     useState(startUpWidgetLayout);
   const SelectedWidget = selectedWidget;
   const [droppedWidget, setDroppedWidget] = useState(
     <SelectedWidget
+      // uiContext={uiContext}
       widget={widget}
-      uiContext={uiContext}
-      widgetContext={widgetContext}
-      generated={generated}
-      startUpWidgetLayout={passWidgetContext}
-      contextSpaces={contextSpaces}
-      setPassWidgetContext={setPassWidgetContext}
-      dynamicComponent={dynamicComponent}
+      uiContext={widget?.uiContext}
+      startUpWidgetLayout={widget?.startUpWidgetLayout}
+      // startUpWidgetLayout={'singleItem'}
+      widgetContext={widget?.widgetContext}
+      generated={true} // contextSpaces={contextSpaces}
+      // selectedWidget={selectedWidget}
+      // dynamicComponent={dynamicComponent}
+      // showPaneMenu={showPaneMenu}
+      // menuSpace={menuSpace}
+      viewerGridMap={viewerGridMap}
+      // contextSpaces="top-left-top"
+      selectedWidget={selectedWidget}
+      dropWidgetName={widget.collection}
+      setPassWidgetContext=""
+      dynamicComponent={null}
       styled={styled}
     />
   );
   const handleDropWidgetIntoSpace = (droppedItemName) => {
-    // console.log(
-    //   "droppedWidget",
-    //   droppedItemName,
-    //   setDroppedWidget,
-    //   viewerGridMap,
-    // );
+    console.log('droppedItemName', viewerGridMap, dropWidgetName);
     const tempWidget = viewerGridMap?.filter((item) => {
-      return JSON.stringify(item?.widgetName) === droppedItemName;
+      return JSON.stringify(item?.collection) === droppedItemName;
     });
     const TempWidget = tempWidget[0]?.widget;
+    console.log('droppedItemName', TempWidget);
     if (TempWidget)
       setDroppedWidget(
         <TempWidget
+          // uiContext={uiContext}
           widget={widget}
-          uiContext={uiContext}
-          widgetContext={widgetContext}
-          generated={generated}
-          startUpWidgetLayout={passWidgetContext}
-          contextSpaces={contextSpaces}
-          setPassWidgetContext={setPassWidgetContext}
-          dynamicComponent={dynamicComponent}
+          uiContext={widget?.uiContext}
+          startUpWidgetLayout={widget?.startUpWidgetLayout}
+          // startUpWidgetLayout={'singleItem'}
+          widgetContext={widget?.widgetContext}
+          generated={true} // contextSpaces={contextSpaces}
+          // selectedWidget={selectedWidget}
+          // dynamicComponent={dynamicComponent}
+          // showPaneMenu={showPaneMenu}
+          // menuSpace={menuSpace}
+          viewerGridMap={viewerGridMap}
+          // contextSpaces="top-left-top"
+          selectedWidget={selectedWidget}
+          dropWidgetName={widget.collection}
+          setPassWidgetContext=""
+          dynamicComponent={null}
           styled={styled}
         />
       );
   };
-  //   const handleDropWidgetIntoSpace = (droppedItemsArray) => {
-  //     const tempWidget = widgetsArray?.filter((item) => {
-  // return JSON.stringify(item.componentName) === droppedItemsArray;
-  //     });
-  //     setDroppedWidgetName(tempWidget[0]?.component);
-  //   };
-  // console.log("startUpWidgetLayout", startUpWidgetLayout);
+
   useEffect(() => {
     setDroppedWidget(
       <SelectedWidget
+        // uiContext={uiContext}
         widget={widget}
-        uiContext={uiContext}
-        widgetContext={widgetContext}
-        generated={generated}
-        startUpWidgetLayout={startUpWidgetLayout}
-        contextSpaces={contextSpaces}
-        setPassWidgetContext={setPassWidgetContext}
-        dynamicComponent={dynamicComponent}
+        uiContext={widget?.uiContext}
+        startUpWidgetLayout={widget?.startUpWidgetLayout}
+        // startUpWidgetLayout={'singleItem'}
+        widgetContext={widget?.widgetContext}
+        generated={true} // contextSpaces={contextSpaces}
+        // selectedWidget={selectedWidget}
+        // dynamicComponent={dynamicComponent}
+        // showPaneMenu={showPaneMenu}
+        // menuSpace={menuSpace}
+        viewerGridMap={viewerGridMap}
+        // contextSpaces="top-left-top"
+        selectedWidget={selectedWidget}
+        dropWidgetName={widget.collection}
+        setPassWidgetContext=""
+        dynamicComponent={null}
         styled={styled}
       />
     );
@@ -93,15 +109,12 @@ export default function Space({
 
   return (
     <>
-      {/* <Box className="spaceWithDropZone" sx={styled?.widget}> */}
-      {/* {startUpWidgetLayout} */}
-      {/* {selectedWidgetName} */}
       <>
         {showPaneMenu && (
           <Draggable
             key={uuidv4()}
             styled={styled}
-            item={selectedWidgetName}
+            item={dropWidgetName}
             context="draggable"
             htmlItem={
               <>
@@ -122,8 +135,7 @@ export default function Space({
           handleDrop={handleDropWidgetIntoSpace}
           styled={styled}
         />
-      </>{' '}
-      {/* </Box>{" "} */}
+      </>
     </>
   );
 }

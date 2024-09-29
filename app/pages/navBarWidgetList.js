@@ -27,6 +27,11 @@ export const widgetListHome = {
 
       {
         _uid: uuidv4(),
+        widget: 'ScrumTeams',
+        name: 'ScrumTeams',
+      },
+      {
+        _uid: uuidv4(),
         widget: 'TeamMembers',
         name: 'TeamMembers',
       },

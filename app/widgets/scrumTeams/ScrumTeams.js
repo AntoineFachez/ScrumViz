@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
-import { StoreMallDirectoryOutlined } from '@mui/icons-material';
+import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
 
@@ -25,9 +25,6 @@ export default function ScrumTeam({
   widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -48,6 +45,8 @@ export default function ScrumTeam({
     setSelectedScrumTeams,
     scrumTeamInFocus,
     setScrumTeamInFocus,
+    isFiltered,
+    handleResetFiltered,
     searchTerm,
     setSearchTerm,
   } = useContext(ScrumTeamsContext);
@@ -62,30 +61,25 @@ export default function ScrumTeam({
     setSprintInFocus,
     handleFindSprints,
   } = useContext(SprintsContext);
-  const [isFiltered, setIsFiltered] = useState(false);
+
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'scrumTeams';
   const widgetProps = {
     appContext: appContext,
-    iconButton: <Avatar />,
+    iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = `/scrumTeam`;
+      // window.location.href = `/userStory`;
       setAppContext(collection);
+      return;
     },
   };
   const menuProps = {
@@ -115,10 +109,6 @@ export default function ScrumTeam({
     setIsFiltered(true);
   };
 
-  const handleResetFiltered = () => {
-    setSelectedScrumTeams(displayScrumTeams);
-    setIsFiltered(false);
-  };
   const handleClickCustomArrayItem = (e) => {
     const found = displayTeamMembers.filter(
       (teamMember) => teamMember.id === e.id
@@ -224,6 +214,9 @@ export default function ScrumTeam({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        handleClickCustomArrayItem={handleClickCustomArrayItem}
+        customElement={null}
+        alertElement={null}
         data={selectedScrumTeams}
         selectedData={selectedScrumTeams}
         setSelectedItem={setSelectedScrumTeams}
@@ -236,9 +229,6 @@ export default function ScrumTeam({
         setActiveSearchTerm={setActiveSearchTerm}
         customArrayItemInFocus={teamMemberInFocus}
         handleSetItemInFocus={handleSetScrumTeamInFocus}
-        handleClickCustomArrayItem={handleClickCustomArrayItem}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -254,7 +244,7 @@ export default function ScrumTeam({
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
-        chip={chip}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
         isFiltered={isFiltered}

@@ -6,7 +6,11 @@ import { Box, Typography } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import {
+  Group,
+  GroupAdd,
+  StoreMallDirectoryOutlined,
+} from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
@@ -47,13 +51,13 @@ export default function TeamMembers({
   const collection = 'teamMembers';
   const widgetProps = {
     appContext: appContext,
-    iconButton: <Group />,
+    iconButton: <GroupAdd />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,

@@ -62,10 +62,11 @@ export default function Products({
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
 
     onClick: () => {
+      // window.location.href = `/userStory`;
       setAppContext(collection);
       return;
     },

@@ -35,6 +35,7 @@ export const generateDOM = (appContext, widgetMap, styled) => {
 
   return mapToRender?.map((widget, i) => {
     const selectedWidget = widget?.widget;
+
     if (selectedWidget !== undefined) {
       return (
         <Box
@@ -67,8 +68,7 @@ export const generateDOM = (appContext, widgetMap, styled) => {
             viewerGridMap={widgetMap}
             // contextSpaces="top-left-top"
             selectedWidget={selectedWidget}
-            // selectedWidgetName={selectedWidgetName}
-
+            dropWidgetName={widget.collection}
             setPassWidgetContext=""
             dynamicComponent={null}
             styled={styled}
