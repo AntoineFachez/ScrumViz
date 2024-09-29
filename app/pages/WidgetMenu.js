@@ -11,8 +11,12 @@ import {
 } from '@mui/icons-material';
 import Menu from '../components/menu/Index';
 import { themeSettings } from '@/app/theme/ThemeContext';
+import { Fragment } from 'react';
+import { buttonData } from './widgetMenuButtonData';
 
 export default function WidgetMenu({
+  widget,
+  widgetProps,
   menuProps,
   handleSelectWidgetContext,
   setSelectedWidgetContext,
@@ -20,87 +24,70 @@ export default function WidgetMenu({
   selectedWidgetContext,
   handleSearchTermChange,
   handleSearch,
+  // buttonData,
 }) {
   const { palette, styled } = themeSettings('dark');
 
-  const buttonArray = [
-    <IconButton
-      key={'card'}
-      sx={
-        selectedWidgetContext === 'card'
-          ? styled?.widgetMenuButton?.active
-          : styled?.widgetMenuButton?.inactive
+  const renderedButtons = (buttonDataToRender) => {
+    return buttonDataToRender.map((buttonData, index) => {
+      if (buttonData.state === 'table') {
+        // Special case for 'table' button with expansion
+        return (
+          <Fragment key={index}>
+            {' '}
+            {/* Fragment to group multiple elements */}
+            <IconButton
+              sx={
+                selectedWidgetContext === 'table'
+                  ? styled?.widgetMenuButton?.active
+                  : styled?.widgetMenuButton?.inactive
+              }
+              onClick={() =>
+                handleSelectWidgetContext(
+                  widget,
+                  widgetProps,
+                  setSelectedWidgetContext,
+                  'table'
+                )
+              }
+            >
+              {buttonData.icon} {/* Use the icon from buttonData */}
+            </IconButton>
+            {selectedWidgetContext === 'table' ? (
+              <IconButton
+                onClick={() => setIsExpandedTable((prev) => !prev)}
+                sx={styled?.widgetMenuButton?.inactive}
+              >
+                {isExpandedTable ? <CloseFullscreen /> : <OpenInFull />}
+              </IconButton>
+            ) : null}
+          </Fragment>
+        );
+      } else {
+        // Standard button rendering
+        return (
+          <IconButton
+            key={buttonData.state} // Use state as the key
+            sx={
+              selectedWidgetContext === buttonData.state
+                ? styled?.widgetMenuButton?.active
+                : styled?.widgetMenuButton?.inactive
+            }
+            onClick={() =>
+              handleSelectWidgetContext(
+                widget,
+                widgetProps,
+                setSelectedWidgetContext,
+                buttonData.state
+              )
+            }
+          >
+            {buttonData.icon}
+          </IconButton>
+        );
       }
-      onClick={() =>
-        handleSelectWidgetContext(setSelectedWidgetContext, 'card')
-      }
-    >
-      <GridView />
-    </IconButton>,
-    <IconButton
-      key={'chip'}
-      sx={
-        selectedWidgetContext === 'chip'
-          ? styled?.widgetMenuButton?.active
-          : styled?.widgetMenuButton?.inactive
-      }
-      onClick={() =>
-        handleSelectWidgetContext(setSelectedWidgetContext, 'chip')
-      }
-    >
-      <Grain />
-    </IconButton>,
-    <IconButton
-      key={'singleItem'}
-      sx={
-        selectedWidgetContext === 'singleItem'
-          ? styled?.widgetMenuButton?.active
-          : styled?.widgetMenuButton?.inactive
-      }
-      onClick={() =>
-        handleSelectWidgetContext(setSelectedWidgetContext, 'singleItem')
-      }
-    >
-      <Summarize />
-    </IconButton>,
-
-    <IconButton
-      key={'tree'}
-      sx={
-        selectedWidgetContext === 'tree'
-          ? styled?.widgetMenuButton?.active
-          : styled?.widgetMenuButton?.inactive
-      }
-      onClick={() =>
-        handleSelectWidgetContext(setSelectedWidgetContext, 'tree')
-      }
-    >
-      {' '}
-      <AccountTree />
-    </IconButton>,
-    <>
-      <IconButton
-        sx={
-          selectedWidgetContext === 'table'
-            ? styled?.widgetMenuButton?.active
-            : styled?.widgetMenuButton?.inactive
-        }
-        onClick={() =>
-          handleSelectWidgetContext(setSelectedWidgetContext, 'table')
-        }
-      >
-        <FilterList />
-      </IconButton>
-      {selectedWidgetContext === 'table' ? (
-        <IconButton
-          onClick={() => setIsExpandedTable((prev) => !prev)}
-          sx={styled?.widgetMenuButton?.inactive}
-        >
-          {isExpandedTable ? <CloseFullscreen /> : <OpenInFull />}
-        </IconButton>
-      ) : null}
-    </>,
-  ];
+    });
+  };
 
   const fieldsArray = [
     <>
@@ -124,7 +111,7 @@ export default function WidgetMenu({
     <>
       <Menu
         menuProps={menuProps}
-        verticalArray={buttonArray}
+        verticalArray={renderedButtons(buttonData)}
         horizontalArray={fieldsArray}
         contextSelector={<></>}
         // autoCompleteData={autoCompleteData}

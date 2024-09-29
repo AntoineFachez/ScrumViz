@@ -20,11 +20,9 @@ import { handleSelectWidgetContext } from '../actions';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 export default function TimeStamps({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -46,6 +44,7 @@ export default function TimeStamps({
   } = useContext(TimeStampsContext);
   const collection = 'timeStamps';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -67,10 +66,10 @@ export default function TimeStamps({
     },
   };
   const menuProps = {
+    states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowBackLogItemMenu,
     },
-    states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
   };
 
   const handleSetTimeStampInFocus = (timeStamp) => {
@@ -104,6 +103,7 @@ export default function TimeStamps({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -210,6 +210,7 @@ export default function TimeStamps({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

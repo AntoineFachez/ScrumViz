@@ -322,6 +322,8 @@ export const themeSettings = (mode) => {
           '&:active': {
             backgroundColor: palette.secondary.main,
           },
+          // margin: 0,
+          // padding: 0,
         },
         spaces: {
           position: 'relative',
@@ -333,6 +335,8 @@ export const themeSettings = (mode) => {
           alignItems: 'center',
           overflow: 'scroll',
           backgroundColor: palette.transparent,
+          // margin: 0,
+          // padding: 0,
         },
         space: {
           height: '100%',
@@ -346,6 +350,8 @@ export const themeSettings = (mode) => {
           // backgroundColor: palette.neutral.light,
           overflow: 'scroll',
           backgroundColor: palette.transparent,
+          // margin: 0,
+          // padding: 0,
         },
         spacesMenu: {
           zIndex: '50',
@@ -927,7 +933,7 @@ export const themeSettings = (mode) => {
           // borderRadius: "10px",
           // border: "1px solid #555",
           // scrollSnapAlign: "center",
-          padding: '1rem 2rem 1rem 2rem',
+          padding: '0.5rem 2rem 0.5rem 2rem',
           minHeight: {},
           backgroundColor: palette.neutral.light,
         },

@@ -23,6 +23,7 @@ import { handleSelectWidgetContext } from '../actions';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 export default function Sprints({
+  widget,
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
@@ -50,6 +51,7 @@ export default function Sprints({
     useState(startUpWidgetLayout);
   const collection = 'sprints';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     collection: collection,
     uiContext: uiContext,
@@ -64,10 +66,10 @@ export default function Sprints({
     },
   };
   const menuProps = {
+    states: { showMenu: showSprintMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowSprintMenu,
     },
-    states: { showMenu: showSprintMenu, widgetProps: widgetProps },
   };
 
   const handleSetSprintInFocus = (sprint) => {
@@ -98,6 +100,7 @@ export default function Sprints({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -203,6 +206,7 @@ export default function Sprints({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

@@ -22,6 +22,7 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function Dailies({
+  widget,
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
@@ -43,12 +44,18 @@ export default function Dailies({
     setDailiesInFocus,
     searchTerm,
     setSearchTerm,
+    isFiltered,
+    setIsFiltered,
+    handleResetFiltered,
+    handleSetDailiesInFocus,
+    handleSearchTermChange,
   } = useContext(DailiesContext);
   const { handleFindSprints } = useContext(SprintsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'dailies';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <DateRange />,
     collection: collection,
     uiContext: uiContext,
@@ -64,20 +71,12 @@ export default function Dailies({
     },
   };
   const menuProps = {
+    states: { showMenu: showDailyMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowDailyMenu,
     },
-    states: { showMenu: showDailyMenu, widgetProps: widgetProps },
   };
 
-  const handleSetDailiesInFocus = (dailies) => {
-    setDailiesInFocus(dailies);
-  };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-  };
   useEffect(() => {
     if (dailiesInFocus) handleFindSprints('id', dailiesInFocus, 'sprint_id');
 
@@ -85,14 +84,17 @@ export default function Dailies({
   }, [dailiesInFocus]);
 
   const menu = (
-    <WidgetMenu
-      widgetProps={widgetProps}
-      menuProps={menuProps}
-      setSelectedWidgetContext={setSelectedWidgetContext}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -156,9 +158,14 @@ export default function Dailies({
       }}
     >
       <MultiItems
+        widget={widget}
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        setActiveSearchTerm={setActiveSearchTerm}
+        handleSetItemInFocus={handleSetDailiesInFocus}
+        customElement={null}
+        alertElement={null}
         data={selectedDailies}
         selectedData={selectedDailies}
         setSelectedItem={setSelectedDailies}
@@ -168,10 +175,6 @@ export default function Dailies({
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={dailiesInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetDailiesInFocus}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -180,6 +183,7 @@ export default function Dailies({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
@@ -188,6 +192,8 @@ export default function Dailies({
         singleItem={singleItem}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

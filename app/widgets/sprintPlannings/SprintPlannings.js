@@ -24,6 +24,7 @@ import { singleItemScheme } from './dataScheme';
 import { themeSettings } from '@/app/theme/ThemeContext';
 
 export default function SprintPlannings({
+  widget,
   uiContext,
   startUpWidgetLayout,
   url,
@@ -55,6 +56,7 @@ export default function SprintPlannings({
   } = useContext(SprintPlanningsContext);
   const collection = 'sprintPlannings';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Schedule />,
     collection: collection,
     uiContext: uiContext,
@@ -76,10 +78,10 @@ export default function SprintPlannings({
     },
   };
   const menuProps = {
+    states: { showMenu: showSprintPlanningMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowSprintPlanningMenu,
     },
-    states: { showMenu: showSprintPlanningMenu, widgetProps: widgetProps },
   };
 
   const handleSetSprintPlanningInFocus = (sprintPlanning) => {
@@ -109,6 +111,7 @@ export default function SprintPlannings({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -215,6 +218,7 @@ export default function SprintPlannings({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

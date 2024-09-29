@@ -20,11 +20,10 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintReviews({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
+
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -53,6 +52,7 @@ export default function SprintReviews({
     useState(startUpWidgetLayout);
   const collection = 'sprintReviews';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <RateReview />,
     collection: collection,
     uiContext: uiContext,
@@ -69,12 +69,12 @@ export default function SprintReviews({
     },
   };
   const menuProps = {
-    functions: {
-      handleShowMenu: setShowSprinReviewtMenu,
-    },
     states: {
       showMenu: showSprinReviewtMenu,
       widgetProps: widgetProps,
+    },
+    functions: {
+      handleShowMenu: setShowSprinReviewtMenu,
     },
   };
   const handleSearchTermChange = (e) => {
@@ -93,6 +93,7 @@ export default function SprintReviews({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -180,6 +181,10 @@ export default function SprintReviews({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        setActiveSearchTerm={setActiveSearchTerm}
+        handleSetItemInFocus={handleSetSprintReviewInFocus}
+        customElement={null}
+        alertElement={null}
         data={selectedSprintReviews}
         selectedData={selectedSprintReviews}
         setSelectedItem={setSelectedSprintReviews}
@@ -189,10 +194,6 @@ export default function SprintReviews({
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={sprintReviewInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintReviewInFocus}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -201,6 +202,7 @@ export default function SprintReviews({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

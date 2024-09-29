@@ -8,6 +8,7 @@ import DropZone from '../../components/dragDrop/Index';
 // import { handleDropWidgetIntoSpace } from "./helperFunctions";
 
 export default function Space({
+  widget,
   generated,
   uiContext,
   startUpWidgetLayout,
@@ -28,6 +29,7 @@ export default function Space({
   const SelectedWidget = selectedWidget;
   const [droppedWidget, setDroppedWidget] = useState(
     <SelectedWidget
+      widget={widget}
       uiContext={uiContext}
       widgetContext={widgetContext}
       generated={generated}
@@ -52,6 +54,7 @@ export default function Space({
     if (TempWidget)
       setDroppedWidget(
         <TempWidget
+          widget={widget}
           uiContext={uiContext}
           widgetContext={widgetContext}
           generated={generated}
@@ -73,6 +76,7 @@ export default function Space({
   useEffect(() => {
     setDroppedWidget(
       <SelectedWidget
+        widget={widget}
         uiContext={uiContext}
         widgetContext={widgetContext}
         generated={generated}

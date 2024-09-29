@@ -12,19 +12,28 @@ export const generateLayout = (widgetMap, gridRef) => {
       w: widget?.w,
       h: widget?.h,
       i: i.toString(),
+      // // index: i.toString(),
       component: widget?.widgetName,
       id: widget?.id,
       context: widget?.context,
       active: widget?.active,
       uiContext: widget?.uiContext,
       widgetContext: widget?.widgetContext,
+      startUpWidgetLayout: widget?.startUpWidgetLayout,
+      // startUpWidgetLayout: 'singleItem',
     };
   });
 };
 
-export const generateDOM = (gridMap, styled) => {
-  // console.log("gridMap", gridMap);
-  return gridMap?.map((widget, i) => {
+export const generateDOM = (appContext, widgetMap, styled) => {
+  const storedLayout = getFromLS(appContext);
+
+  let mapToRender =
+    storedLayout && Object.keys(storedLayout).length > 0
+      ? mergeLayouts(widgetMap, storedLayout)
+      : widgetMap;
+
+  return mapToRender?.map((widget, i) => {
     const selectedWidget = widget?.widget;
     if (selectedWidget !== undefined) {
       return (
@@ -45,16 +54,18 @@ export const generateDOM = (gridMap, styled) => {
         >
           <Space
             // uiContext={uiContext}
+            widget={widget}
             uiContext={widget?.uiContext}
             startUpWidgetLayout={widget?.startUpWidgetLayout}
+            // startUpWidgetLayout={'singleItem'}
             widgetContext={widget?.widgetContext}
             generated={true} // contextSpaces={contextSpaces}
             // selectedWidget={selectedWidget}
             // dynamicComponent={dynamicComponent}
             // showPaneMenu={showPaneMenu}
             // menuSpace={menuSpace}
-            viewerGridMap={gridMap}
-            contextSpaces="top-left-top"
+            viewerGridMap={widgetMap}
+            // contextSpaces="top-left-top"
             selectedWidget={selectedWidget}
             // selectedWidgetName={selectedWidgetName}
 
@@ -68,7 +79,7 @@ export const generateDOM = (gridMap, styled) => {
   });
 };
 
-export const onLayoutChange = (
+export const handleOnLayoutChange = (
   layoutOnLayoutChange,
   currentLayout,
   setCurrentLayout,
@@ -76,17 +87,18 @@ export const onLayoutChange = (
   gridRef
 ) => {
   /*eslint no-console: 0*/
+  // console.log('currentLayout', currentLayout);
 
-  const tempLayout = mergeLayouts(layoutOnLayoutChange, currentLayout);
+  // const tempLayout = mergeLayouts(currentLayout, layoutOnLayoutChange);
 
   // saveToLS(appContext, currentLayout);
-  setCurrentLayout(tempLayout);
-  return tempLayout;
+  setCurrentLayout(currentLayout);
+  return currentLayout;
 };
 export const handleSetMapOnLayoutChange = (
   appContext,
   gridRef,
-  defaultGridMap,
+  defaultWidgetMap,
   setLayout
 ) => {
   const storedLayout = getFromLS(appContext);
@@ -94,39 +106,57 @@ export const handleSetMapOnLayoutChange = (
   let layoutToUse =
     storedLayout && Object.keys(storedLayout).length > 0
       ? storedLayout
-      : defaultGridMap;
+      : defaultWidgetMap;
 
   setLayout(generateLayout(layoutToUse, gridRef));
 };
 
-export const onResize = (
-  domContext,
+export const handleOnResize = (
+  currentLayout,
   oldLayoutItem,
   layoutItem,
   placeholder,
   appContext,
-  currentLayout
+  defaultWidgetMap
 ) => {
-  // console.log('triggered onResize');
-
   // `oldLayoutItem` contains the state of the item before the resize.
   // You can modify `layoutItem` to enforce constraints.
-  // console.log("triggered resize");
-  if (layoutItem.h < 3 && layoutItem.w > 2) {
-    layoutItem.w = 2;
-    placeholder.w = 2;
+
+  if (layoutItem.h < 2 && layoutItem.w > 2) {
+    layoutItem.w = 3;
+    layoutItem.h = 1;
+    placeholder.w = 3;
+    placeholder.h = 1;
   }
 
-  if (layoutItem.h >= 3 && layoutItem.w < 2) {
-    layoutItem.w = 2;
-    placeholder.w = 2;
+  if (layoutItem.h >= 1 && layoutItem.w < 2) {
+    layoutItem.w = 3;
+    layoutItem.h = 1;
+    placeholder.w = 3;
+    placeholder.h = 1;
   }
-  saveToLS(appContext, currentLayout);
 };
-export const handleOnDragStop = (currentLayout) => {
-  console.log('dragStopped', currentLayout);
-  saveToLS(appContext, currentLayout);
+export const handleOnResizeStop = (
+  currentLayout,
+  appContext,
+  defaultWidgetMap
+) => {
+  const storedLayout = getFromLS(appContext);
+  const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
+  const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
+  saveToLS(appContext, tempLayout2);
 };
+export const handleOnDragStop = (
+  currentLayout,
+  appContext,
+  defaultWidgetMap
+) => {
+  const storedLayout = getFromLS(appContext);
+  const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
+  const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
+  saveToLS(appContext, tempLayout2);
+};
+
 //TODO:! not in use:
 export const handleCloseSpace = (e, direction, activeSpaces) => {
   e.preventDefault();
@@ -137,7 +167,7 @@ export const handleCloseSpace = (e, direction, activeSpaces) => {
   });
 };
 export function getFromLS(uiGridMapContext) {
-  // console.log("defaultGridMap", uiGridMapContext);
+  // console.log("defaultWidgetMap", uiGridMapContext);
   let ls = {};
   if (global.localStorage) {
     try {
@@ -164,32 +194,54 @@ export function saveToLS(uiGridMapContext, newMapValues) {
   }
 }
 function mergeLayouts(firstSet, secondSet) {
-  const mergedObjects = {};
+  const mergedArray = [];
 
-  // Iterate through the first set
-  firstSet?.forEach((obj) => {
-    const iValue = obj.i;
+  // Iterate through the arrays using their indices
+  for (let i = 0; i < Math.max(firstSet?.length, secondSet?.length); i++) {
+    const firstObj = firstSet[i];
+    const secondObj = secondSet[i];
 
-    // Find the matching object in the second set
-    const matchingObj = secondSet.find((o) => o.i === iValue);
-
-    if (matchingObj) {
-      // Merge the objects if a match is found
-      mergedObjects[iValue] = { ...obj, ...matchingObj };
-    } else {
-      // Store the original object if no match is found
-      mergedObjects[iValue] = obj;
+    if (firstObj && secondObj) {
+      // Merge the objects if both exist at the same index
+      mergedArray.push({ ...firstObj, ...secondObj });
+    } else if (firstObj) {
+      // Include the first object if the second is missing
+      mergedArray.push(firstObj);
+    } else if (secondObj) {
+      // Include the second object if the first is missing
+      mergedArray.push(secondObj);
     }
-  });
+  }
 
-  // Iterate through the second set to add any remaining objects
-  secondSet?.forEach((obj) => {
-    const iValue = obj.i;
-    if (!mergedObjects[iValue]) {
-      mergedObjects[iValue] = obj;
-    }
-  });
-
-  // Convert the dictionary to an array
-  return Object.values(mergedObjects);
+  return mergedArray;
 }
+export const updateWidgetContext = (widget, widgetProps, context) => {
+  const storedLayout = getFromLS(widgetProps.appContext);
+  // console.log('updateWidgetContext', widget, widgetProps, context);
+  if (Object.keys(storedLayout).length) {
+    console.log(storedLayout);
+
+    const widgetIndex = storedLayout?.findIndex(
+      (storedWidget) => storedWidget?.id === widget?.id
+    );
+    const temp = storedLayout[widgetIndex];
+    const widgetToUpdate = {
+      ...temp,
+      startUpWidgetLayout: context,
+    };
+
+    if (widgetIndex !== -1) {
+      // Replace the widget at the found index
+      const updatedLayout = [
+        ...storedLayout.slice(0, widgetIndex),
+        widgetToUpdate, // Insert the updated widget
+        ...storedLayout.slice(widgetIndex + 1),
+      ];
+
+      // console.log(widget, updatedLayout);
+      saveToLS(widgetProps.appContext, updatedLayout);
+    } else {
+      console.warn('Widget not found in stored layout. Unable to update.');
+    }
+  }
+};

@@ -6,7 +6,6 @@ import { Box, Typography } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -22,11 +21,9 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function TeamMembers({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -49,6 +46,7 @@ export default function TeamMembers({
     useState(startUpWidgetLayout);
   const collection = 'teamMembers';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
@@ -70,10 +68,10 @@ export default function TeamMembers({
     },
   };
   const menuProps = {
+    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowTeamMembersMenu,
     },
-    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
   };
 
   const handleSetTeamMemberInFocus = (teamMember) => {
@@ -99,6 +97,7 @@ export default function TeamMembers({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -204,6 +203,7 @@ export default function TeamMembers({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

@@ -36,6 +36,7 @@ export default function ScrumManagerPage({
 
   const collection = 'scrumManager';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <DeveloperBoard />,
     collection: collection,
     uiContext: uiContext,

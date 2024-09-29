@@ -13,6 +13,19 @@ export const DailiesProvider = ({ children }) => {
   const [dailiesInFocus, setDailiesInFocus] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [isFiltered, setIsFiltered] = useState(false);
+  const handleResetFiltered = () => {
+    setSelectedDailies(displayDailies);
+    setIsFiltered(false);
+  };
+  const handleSetDailiesInFocus = (dailies) => {
+    setDailiesInFocus(dailies);
+  };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+  };
   useEffect(() => {
     setSelectedDailies(
       displayDailies.filter((daily) =>
@@ -22,6 +35,7 @@ export const DailiesProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+
   return (
     <DailiesContext.Provider
       value={{
@@ -33,6 +47,11 @@ export const DailiesProvider = ({ children }) => {
         setDailiesInFocus,
         searchTerm,
         setSearchTerm,
+        isFiltered,
+        setIsFiltered,
+        handleResetFiltered,
+        handleSetDailiesInFocus,
+        handleSearchTermChange,
       }}
     >
       {children}

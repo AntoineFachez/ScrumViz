@@ -21,13 +21,12 @@ import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import { widgetProps, menuProps } from '../actions';
 
 export default function UserStory({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
@@ -36,22 +35,22 @@ export default function UserStory({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
-    displayUserStories,
-    setDisplayUserStories,
     selectedUserStories,
     setSelectedUserStories,
+    isFiltered,
     userStoryInFocus,
-    setUserStoryInFocus,
     searchTerm,
-    setSearchTerm,
+    handleResetFiltered,
+    handleSetUserStoryInFocus,
+    handleSearchTermChange,
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
   const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
-  const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Assignment />,
     collection: collection,
     uiContext: uiContext,
@@ -68,34 +67,12 @@ export default function UserStory({
     },
   };
   const menuProps = {
+    states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowUserStoryMenu,
     },
-    states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
   };
 
-  const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
-  };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
-
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-    setIsFiltered(true);
-  };
-
-  const handleResetFiltered = () => {
-    setSelectedUserStories(displayUserStories);
-    setIsFiltered(false);
-  };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetUserStoryInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
   useEffect(() => {
     if (userStoryInFocus) {
       handleFindSprintPlannings(userStoryInFocus);
@@ -108,6 +85,7 @@ export default function UserStory({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -147,17 +125,7 @@ export default function UserStory({
       styled={styled}
     />
   );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      UserStory Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -192,6 +160,11 @@ export default function UserStory({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        itemContext={widgetProps?.itemContext}
+        setActiveSearchTerm={setActiveSearchTerm}
+        handleSetItemInFocus={handleSetUserStoryInFocus}
+        customElement={null}
+        alertElement={null}
         data={selectedUserStories}
         selectedData={selectedUserStories}
         setSelectedItem={setSelectedUserStories}
@@ -199,13 +172,7 @@ export default function UserStory({
           selector: 'userStorySelector',
           selected: 'selectedUserStories',
         }}
-        itemContext={widgetProps?.itemContext}
         itemInFocus={userStoryInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
-        customElement={null}
-        alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
         styled={styled}
       />
     </Box>
@@ -214,13 +181,14 @@ export default function UserStory({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
-        chip={chip}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
         isFiltered={isFiltered}

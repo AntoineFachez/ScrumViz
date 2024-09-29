@@ -15,6 +15,7 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function Persons({
+  widget,
   uiContext,
   startUpWidgetLayout,
   url,
@@ -32,6 +33,7 @@ export default function Persons({
 
   const collection = 'persons';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
@@ -54,10 +56,10 @@ export default function Persons({
     },
   };
   const menuProps = {
+    states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowPersonsMenu,
     },
-    states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -177,6 +179,7 @@ export default function Persons({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

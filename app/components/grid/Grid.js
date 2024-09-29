@@ -7,11 +7,12 @@ import {
   generateDOM,
   generateLayout,
   getFromLS,
-  handleOnDragStop,
   handleSetMapOnLayoutChange,
-  onLayoutChange,
-  onResize,
+  handleOnLayoutChange,
+  handleOnResize,
+  handleOnResizeStop,
   saveToLS,
+  handleOnDragStop,
 } from './helperFunctions';
 
 import './grid-styles.css';
@@ -22,29 +23,34 @@ const ScaledLayout = ({
   gridRef,
   userRole,
   appContext,
-  defaultGridMap,
+  defaultWidgetMap,
+  gridDOMMap,
+  setGridDOMMap,
+  generateDOM,
+  showDev,
+  showPaneMenu,
+  setShowPaneMenu,
+  styled,
   className = 'gridLayout',
   cols = 36,
-  styled,
 }) => {
   const [rowHeight, setRowHeight] = useState();
   const [currentLayout, setCurrentLayout] = useState();
-  const [prevAppContext, setPrevAppContext] = useState(null);
 
   useEffect(() => {
     return handleSetMapOnLayoutChange(
       appContext,
       gridRef,
-      defaultGridMap,
+      defaultWidgetMap,
       // getFromLS(appContext),
       setCurrentLayout
     );
-  }, [defaultGridMap, userRole, appContext]);
+  }, [defaultWidgetMap, userRole, appContext]);
 
   useEffect(() => {
     const handleResize = () => {
       const parentHeight = gridRef?.current?.clientHeight;
-      const desiredRowHeight = parentHeight / 36;
+      const desiredRowHeight = parentHeight / 32;
       setRowHeight(desiredRowHeight);
     };
     handleResize();
@@ -53,7 +59,7 @@ const ScaledLayout = ({
   }, []);
 
   const delayLayout = (layoutOnLayoutChange) => {
-    const mergedLayout = onLayoutChange(
+    const mergedLayout = handleOnLayoutChange(
       layoutOnLayoutChange,
       currentLayout,
       setCurrentLayout,
@@ -62,9 +68,6 @@ const ScaledLayout = ({
     );
     return mergedLayout;
   };
-  useEffect(() => {
-    return () => {};
-  }, [currentLayout]);
 
   return (
     <Box
@@ -81,17 +84,15 @@ const ScaledLayout = ({
         onLayoutChange={(layoutOnLayoutChange) =>
           delayLayout(layoutOnLayoutChange)
         }
-        onDragStop={handleOnDragStop}
-        onResize={(currentLayout, oldLayoutItem, layoutItem, placeholder) => {
-          onResize(
-            currentLayout,
-            oldLayoutItem,
-            layoutItem,
-            placeholder,
-            appContext,
-            currentLayout
-          );
-        }}
+        onDragStop={(currentLayout) =>
+          handleOnDragStop(currentLayout, appContext, defaultWidgetMap)
+        }
+        onResize={(currentLayout, oldLayoutItem, layoutItem, placeholder) =>
+          handleOnResize(currentLayout, oldLayoutItem, layoutItem, placeholder)
+        }
+        onResizeStop={(currentLayout) =>
+          handleOnResizeStop(currentLayout, appContext, defaultWidgetMap)
+        }
         draggableCancel={draggableCancel}
         preventCollision={false}
         allowOverlap={false}
@@ -104,7 +105,7 @@ const ScaledLayout = ({
         rowHeight={rowHeight}
         cols={cols}
       >
-        {generateDOM(defaultGridMap, styled)}
+        {generateDOM(appContext, defaultWidgetMap, styled)}
       </ReactGridLayout>
     </Box>
   );

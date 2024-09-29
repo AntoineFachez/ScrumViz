@@ -22,6 +22,7 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintBackLogs({
+  widget,
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
@@ -56,6 +57,7 @@ export default function SprintBackLogs({
 
   const collection = 'sprintBackLogs';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -72,12 +74,12 @@ export default function SprintBackLogs({
     },
   };
   const menuProps = {
-    functions: {
-      handleShowMenu: setShowBackLogItemMenu,
-    },
     states: {
       showMenu: showBackLogItemMenu,
       widgetProps: widgetProps,
+    },
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
     },
   };
 
@@ -111,6 +113,7 @@ export default function SprintBackLogs({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -216,6 +219,7 @@ export default function SprintBackLogs({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

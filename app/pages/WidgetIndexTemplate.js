@@ -13,6 +13,7 @@ import { themeSettings } from '../theme/ThemeContext';
 // import { styled } from "../themes/styled";
 
 const WidgetIndexTemplate = ({
+  widget,
   widgetProps,
   menu,
   newItem,

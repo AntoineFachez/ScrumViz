@@ -22,7 +22,20 @@ export const UserStoriesProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+  const handleResetFiltered = () => {
+    setSelectedUserStories(displayUserStories);
+    setIsFiltered(false);
+  };
+  const handleSetUserStoryInFocus = (userStory) => {
+    setUserStoryInFocus(userStory);
+  };
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
 
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+    setIsFiltered(true);
+  };
   useEffect(() => {
     setSelectedUserStories(
       displayUserStories.filter((userStory) =>
@@ -50,9 +63,10 @@ export const UserStoriesProvider = ({ children }) => {
         setSearchTerm,
         isFiltered,
         setIsFiltered,
-        // handleSearchTermChange,
+        handleResetFiltered,
+        handleSearchTermChange,
         // handleResetFiltered,
-        // handleSetUserStoryInFocus,
+        handleSetUserStoryInFocus,
         // handleSelectWidgetContext,
       }}
     >

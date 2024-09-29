@@ -16,6 +16,7 @@ import StandInTable from '@/app/components/table/StandInTable';
 import { handleSelectWidgetContext } from '../actions';
 
 export default function SprintRetrospectives({
+  widget,
   uiContext,
   startUpWidgetLayout,
   url,
@@ -33,6 +34,7 @@ export default function SprintRetrospectives({
     useState(startUpWidgetLayout);
   const collection = 'sprintRetrospective';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <RateReview />,
     collection: collection,
     uiContext: uiContext,
@@ -54,10 +56,10 @@ export default function SprintRetrospectives({
     },
   };
   const menuProps = {
+    states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowSprinReviewtMenu,
     },
-    states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
   };
 
   const handleSearchTermChange = (e) => {
@@ -82,6 +84,7 @@ export default function SprintRetrospectives({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -180,6 +183,7 @@ export default function SprintRetrospectives({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

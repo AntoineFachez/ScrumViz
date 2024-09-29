@@ -31,6 +31,7 @@ export default function ImageDrop({
     useState(startUpWidgetLayout);
   const collection = '';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Upload />,
     collection: collection,
     uiContext: uiContext,

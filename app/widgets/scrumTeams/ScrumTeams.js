@@ -1,13 +1,12 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Avatar, Box, Typography } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
+import { StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
@@ -23,6 +22,7 @@ import { handleSelectWidgetContext } from '../actions';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 export default function ScrumTeam({
+  widget,
   uiContext,
   startUpWidgetLayout,
   url,
@@ -67,6 +67,7 @@ export default function ScrumTeam({
     useState(startUpWidgetLayout);
   const collection = 'scrumTeams';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Avatar />,
     collection: collection,
     uiContext: uiContext,
@@ -88,10 +89,10 @@ export default function ScrumTeam({
     },
   };
   const menuProps = {
+    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
     functions: {
       handleShowMenu: setShowTeamMembersMenu,
     },
-    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
   };
   const handleSetScrumTeamInFocus = (scrumTeam) => {
     setScrumTeamInFocus(scrumTeam);
@@ -136,6 +137,7 @@ export default function ScrumTeam({
   const menu = (
     <>
       <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
         menuProps={menuProps}
         setSelectedWidgetContext={setSelectedWidgetContext}
@@ -245,6 +247,7 @@ export default function ScrumTeam({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
