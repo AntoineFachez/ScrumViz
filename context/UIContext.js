@@ -7,20 +7,29 @@ import AppContext from './AppContext';
 import {
   userStoriesMap,
   scrumManagerMap,
+  scrumTeamsMap,
   teamMembersMap,
   productBackLogsMap,
-  dailyMap,
-  sprintsMap,
-  sprintReviewMap,
+  dailiesMap,
   sprintPlanningsMap,
+  sprintsMap,
+  sprintReviewsMap,
+  sprintRetrospectivesMap,
   timeStampsMap,
 } from '@/app/components/grid/defaultGridMaps';
-import { widgetListHome } from '@/app/pages/navBarWidgetList';
+import {
+  widgetListHome,
+  widgetListScrumManager,
+} from '@/app/pages/navBarWidgetList';
+import { getFromLS, saveToLS } from '@/app/components/grid/helperFunctions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
+  const { appContext, selectedStory, scrumManagerContext } =
+    useContext(AppContext);
+
   const [intro, setIntro] = useState(false);
   const [userRole, setUserRole] = useState('viewer');
   const [homeUiSelected, setHomeUiSelected] = useState('locations');
@@ -36,8 +45,8 @@ export const UIProvider = ({ children }) => {
   const [showDailyMenu, setShowDailyMenu] = useState(false);
   const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
 
-  const [domGridMap, setDomGridMap] = useState(null);
-  const [gridDOMMap, setGridDOMMap] = useState(domGridMap);
+  const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
+  const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
   const [latestGridValues, setLatestGridValues] = useState({});
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -48,26 +57,12 @@ export const UIProvider = ({ children }) => {
     }
     setOrientationDrawer({ ...orientationDrawer, [anchor]: open });
   };
-  // useEffect(() => {
-  //   setDomContext(
-  //     userRole === 'viewer'
-  //       ? viewerGridMap
-  //       : userRole === 'creator'
-  //       ? textAnalyzerGridMap
-  //       : userRole === 'researcher'
-  //       ? researcherGridMap
-  //       : userRole === 'dev'
-  //       ? standAloneWidget
-  //       : textAnalyzerGridMap
-  //   );
 
-  //   return () => {};
-  // }, [userRole]);
   useEffect(() => {
-    setDomGridMap();
+    setDefaultWidgetMap();
     setTimeout(() => {
-      setDomGridMap(() => {
-        switch (appContext) {
+      setDefaultWidgetMap(() => {
+        switch (scrumManagerContext) {
           case 'scrumManager':
             return scrumManagerMap;
           case 'userStories':
@@ -78,34 +73,40 @@ export const UIProvider = ({ children }) => {
             return sprintPlanningsMap;
           case 'teamMembers':
             return teamMembersMap;
-          case 'scrumTeam':
-            return scrumTeamMap;
+          case 'scrumTeams':
+            return scrumTeamsMap;
           case 'dailies':
-            return dailyMap;
+            return dailiesMap;
           case 'sprints':
             return sprintsMap;
           case 'sprintReview':
-            return sprintReviewMap;
+            return sprintReviewsMap;
+          case 'sprintRetrospectives':
+            return sprintRetrospectivesMap;
           case 'timeStamps':
             return timeStampsMap;
           default:
             return scrumManagerMap;
         }
       });
-      setNavBarWidgetList(() => {
-        switch (appContext) {
-          case 'home':
-            return widgetListHome;
-          case 'userStory':
-            return widgetListHome;
-          default:
-            return widgetListHome;
-        }
-      });
     }, 5);
+    return () => {};
+  }, [scrumManagerContext]);
 
+  useEffect(() => {
+    setNavBarWidgetList(() => {
+      switch (appContext) {
+        case 'home':
+          return widgetListHome;
+        case 'scrumManager':
+          return widgetListScrumManager;
+        default:
+          return widgetListScrumManager;
+      }
+    });
     return () => {};
   }, [appContext]);
+
   return (
     <UIContext.Provider
       value={{
@@ -129,8 +130,8 @@ export const UIProvider = ({ children }) => {
         setShowDailyMenu,
         showSprinReviewtMenu,
         setShowSprinReviewtMenu,
-        domGridMap,
-        setDomGridMap,
+        defaultWidgetMap,
+        setDefaultWidgetMap,
         gridDOMMap,
         setGridDOMMap,
         latestGridValues,

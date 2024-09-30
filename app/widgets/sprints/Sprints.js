@@ -16,19 +16,27 @@ import SingleItem from '@/app/pages/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
-import Menu from './Menu';
-
 import { themeSettings } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+
 export default function Sprints({
+  widget,
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprints,
@@ -49,21 +57,27 @@ export default function Sprints({
     useState(startUpWidgetLayout);
   const collection = 'sprints';
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
 
     onClick: () => {
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    states: { showMenu: showSprintMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowSprintMenu,
+    },
   };
 
   const handleSetSprintInFocus = (sprint) => {
@@ -90,13 +104,19 @@ export default function Sprints({
 
     return () => {};
   }, [sprintInFocus]);
+
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -194,6 +214,7 @@ export default function Sprints({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

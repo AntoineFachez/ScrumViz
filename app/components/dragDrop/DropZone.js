@@ -34,7 +34,7 @@ export default function DropZone({
       }}
       onDrop={(e) => {
         e.preventDefault();
-
+        // console.log('dataTransfer', e.dataTransfer.getData('text/plain'));
         const droppedData = e.dataTransfer.getData('text/plain');
         //    console.log("dropped", JSON.parse(droppedData));
         // handleDrop(JSON.parse(droppedData));

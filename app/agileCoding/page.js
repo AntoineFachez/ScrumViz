@@ -17,30 +17,23 @@ import AppContext from '@/context/AppContext';
 import Image from 'next/image';
 import { DeveloperBoard } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
-import ScrumManagerContext from './ScrumManagerContext';
 
-export default function ScrumManagerPage({
+export default function AgileCodingPage({
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
-  const { scrumManagerContext, setScrumManagerContext } =
-    useContext(ScrumManagerContext);
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const image =
     'https://firebasestorage.googleapis.com/v0/b/scrum-viz.appspot.com/o/images%2FScrum__MainView.png?alt=media&token=91f8b1c7-d38c-4e28-b0f2-eae4ee163841';
 
-  const collection = 'scrumManager';
+  const collection = 'agileCoding';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
     iconButton: <DeveloperBoard />,
     collection: collection,
     uiContext: uiContext,
@@ -52,13 +45,7 @@ export default function ScrumManagerPage({
     // soloWidget: soloWidget,
     // chip:chip,
     // widgetRight:flexList,
-    // onClick: () => setAppContext(collection),
-    onClick: (e) => {
-      e.preventDefault();
-      // window.location.href = '/scrumManager';
-      setAppContext(collection);
-      return;
-    },
+    onClick: () => setAppContext(collection),
   };
   const handleSetWidget = (e) => {
     // e.preventDefault();

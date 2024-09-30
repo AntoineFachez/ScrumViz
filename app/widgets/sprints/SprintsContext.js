@@ -7,7 +7,6 @@ import { sprints } from './mockSprints';
 const SprintsContext = createContext();
 
 export const SprintsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displaySprints, setDisplaySprints] = useState(sprints);
   const [selectedSprints, setSelectedSprints] = useState(displaySprints);
   const [sprintInFocus, setSprintInFocus] = useState(false);

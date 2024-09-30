@@ -7,7 +7,6 @@ import { sprintPlannings } from './mockSpringPlanning';
 const SprintPlanningsContext = createContext();
 
 export const SprintPlanningsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displaySprintPlannings, setDisplaySprintPlannings] =
     useState(sprintPlannings);
   const [selectedSprintPlannings, setSelectedSprintPlannings] = useState(

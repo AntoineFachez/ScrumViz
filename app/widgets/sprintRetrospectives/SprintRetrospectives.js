@@ -2,71 +2,92 @@
 import { useContext, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box } from '@mui/material';
+import {
+  History,
+  RateReview,
+  Replay,
+  SportsRugbyOutlined,
+} from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
-
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
+import AppContext from '@/context/AppContext';
 import SearchContext from '@/context/SearchContext';
 
+import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+import StandInTable from '@/app/components/table/StandInTable';
+
+import { handleSelectWidgetContext } from '../actions';
+import SprintRetrospectivesContext from './SprintRetrospectivesContext';
+import SingleItem from '@/app/pages/SingleItem';
+import { singleItemScheme } from './dataScheme';
+import MultiItems from '@/app/pages/MultiItems';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+
 export default function SprintRetrospectives({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const [searchTerm, setSearchTerm] = useState('');
+  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
+    useContext(UIContext);
+
+  const {
+    selectedSprintRetrospectives,
+    setSelectedSprintRetrospectives,
+    isFiltered,
+    sprintRetrospectiveInFocus,
+    setSprintRetrospectiveInFocus,
+    searchTerm,
+    handleResetFiltered,
+    handleSetSprintRetrospectiveInFocus,
+    handleSearchTermChange,
+  } = useContext(SprintRetrospectivesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const collection = 'sprintRetrospective';
+  const collection = 'sprintRetrospectives';
   const widgetProps = {
-    iconButton: <RateReview />,
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
+    iconButton: <History />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowSprinReviewtMenu,
+    },
   };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-  };
+  // const handleSearchTermChange = (e) => {
+  //   e.preventDefault();
+  //   // setResetData();
+  //   console.log(e.target.value);
+
+  //   setSearchTerm(e.target.value);
+  //   setActiveSearchTerm(e.target.value);
+  // };
   const newItem = (
     <Box
       className="widget"
@@ -75,22 +96,21 @@ export default function SprintRetrospectives({
         // backgroundColor: '#555',
       }}
     >
-      UserStory New Item
+      SprintRetrospective New Item
     </Box>
   );
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const soloWidget = (
     <Box
@@ -104,15 +124,12 @@ export default function SprintRetrospectives({
     </Box>
   );
   const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Sprint Retrospective SingleItem
-    </Box>
+    <SingleItem
+      singleItemScheme={singleItemScheme}
+      itemContext={widgetProps?.itemContext}
+      itemInFocus={sprintRetrospectiveInFocus}
+      styled={styled}
+    />
   );
   const chip = (
     <Box
@@ -155,41 +172,43 @@ export default function SprintRetrospectives({
         // backgroundColor: '#555',
       }}
     >
-      Sprint Retrospective
-      {/* <MultiItems
+      <MultiItems
         uiContext={uiContext}
+        singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
-        selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
-        }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
+        handleSetItemInFocus={handleSetSprintRetrospectiveInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
+        data={selectedSprintRetrospectives}
+        selectedData={selectedSprintRetrospectives}
+        setSelectedItem={setSelectedSprintRetrospectives}
+        selector={{
+          selector: 'sprintRetrospectiveSelector',
+          selected: 'selectedSprintRetrospectives',
+        }}
+        itemInFocus={sprintRetrospectiveInFocus}
         styled={styled}
-      /> */}
+      />
     </Box>
   );
 
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
-        chip={chip}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

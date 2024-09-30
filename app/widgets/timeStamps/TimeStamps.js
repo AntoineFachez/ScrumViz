@@ -12,22 +12,28 @@ import TimeStampsContext from './TimeStampsContext';
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import Menu from './Menu';
 import SingleItem from '@/app/pages/SingleItem';
 import MultiItems from '@/app/pages/MultiItems';
 import { singleItemScheme } from './dataScheme';
 
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+
 export default function TimeStamps({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
@@ -44,13 +50,15 @@ export default function TimeStamps({
   } = useContext(TimeStampsContext);
   const collection = 'timeStamps';
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,
@@ -60,20 +68,15 @@ export default function TimeStamps({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
+    },
   };
 
   const handleSetTimeStampInFocus = (timeStamp) => {
@@ -105,12 +108,17 @@ export default function TimeStamps({
     ></Typography>
   );
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -209,6 +217,7 @@ export default function TimeStamps({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

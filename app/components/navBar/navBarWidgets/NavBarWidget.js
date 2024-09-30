@@ -6,6 +6,7 @@ import ScrumManagerPage from '../../../scrumManager/page';
 import UserStory from '../../../widgets/userStories/UserStories';
 import ProductBackLogs from '../../../widgets/productBacklogs/ProductBackLogs';
 import Persons from '../../../widgets/persons/Persons';
+import ScrumTeams from '../../../widgets/scrumTeams/ScrumTeams';
 import TeamMembers from '../../../widgets/teamMembers/TeamMembers';
 import SprintPlannings from '../../../widgets/sprintPlannings/SprintPlannings';
 import Sprint from '../../../widgets/sprints/Sprints';
@@ -20,6 +21,7 @@ const Components = {
   SprintPlannings: SprintPlannings,
   ProductBackLogs: ProductBackLogs,
   Persons: Persons,
+  ScrumTeams: ScrumTeams,
   TeamMembers: TeamMembers,
   Sprint: Sprint,
   Daily: Daily,

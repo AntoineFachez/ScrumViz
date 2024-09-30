@@ -1,11 +1,11 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
+import WidgetMenu from '../../pages/WidgetMenu';
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -17,16 +17,39 @@ import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
+import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+
 export default function Products({
+  widget,
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
+  const {
+    // selectedWidgetContext,
+    // setSelectedWidgetContext,
+    displayProductBackLogs,
+    setDisplayProductBackLogs,
+    selectedProductBackLogs,
+    setSelectedProductBackLogs,
+    productBackLogInFocus,
+    setProductBackLogInFocus,
+    isFiltered,
+    handleResetFiltered,
+    searchTerm,
+    setSearchTerm,
+  } = useContext(BackLogsContext);
   const {
     displayUserStories,
     setSelectedUserStories,
@@ -35,35 +58,33 @@ export default function Products({
   } = useContext(UserStoriesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-
-  const {
-    displayProductBackLogs,
-    setDisplayProductBackLogs,
-    selectedProductBackLogs,
-    setSelectedProductBackLogs,
-    productBackLogInFocus,
-    setProductBackLogInFocus,
-    searchTerm,
-    setSearchTerm,
-  } = useContext(BackLogsContext);
   const collection = 'productBackLogs';
+
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
 
     onClick: () => {
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    setSelectedWidgetContext(context);
+  const menuProps = {
+    states: {
+      showMenu: showBackLogItemMenu,
+      widgetProps: widgetProps,
+    },
+    functions: {
+      handleShowMenu: setShowBackLogItemMenu,
+    },
   };
   const handleSetProductInFocus = (backLog) => {
     setProductBackLogInFocus(backLog);
@@ -87,8 +108,11 @@ export default function Products({
 
   const menu = (
     <>
-      <Menu
+      <WidgetMenu
+        widget={widget}
         widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
         handleSelectWidgetContext={handleSelectWidgetContext}
         handleSearchTermChange={handleSearchTermChange}
         searchTerm={searchTerm}
@@ -161,6 +185,12 @@ export default function Products({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        setActiveSearchTerm={setActiveSearchTerm}
+        customArrayItemInFocus={userStoryInFocus}
+        handleSetItemInFocus={handleSetProductInFocus}
+        handleClickCustomArrayItem={handleClickCustomArrayItem}
+        customElement={null}
+        alertElement={null}
         data={selectedProductBackLogs}
         selectedData={selectedProductBackLogs}
         setSelectedItem={setSelectedProductBackLogs}
@@ -170,12 +200,6 @@ export default function Products({
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={productBackLogInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        customArrayItemInFocus={userStoryInFocus}
-        handleSetItemInFocus={handleSetProductInFocus}
-        handleClickCustomArrayItem={handleClickCustomArrayItem}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -184,14 +208,18 @@ export default function Products({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
+        isFiltered={isFiltered}
+        onResetFiltered={handleResetFiltered}
       />
     </>
   );

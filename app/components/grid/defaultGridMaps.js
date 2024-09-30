@@ -434,7 +434,7 @@ export const teamMembersMap = [
     widget: TeamMembers,
     widgetName: 'TeamMembers',
     id: uuidv4(),
-    collection: 'collection',
+    collection: 'teamMembers',
     active: true,
     uiContext: 'teamMembersSelector',
     startUpWidgetLayout: 'card',
@@ -448,7 +448,7 @@ export const teamMembersMap = [
     widget: TeamMembers,
     widgetName: 'TeamMembers',
     id: uuidv4(),
-    collection: 'collection',
+    collection: 'teamMembers',
     active: true,
     uiContext: 'teamMembersSelector',
     startUpWidgetLayout: 'singleItem',
@@ -586,7 +586,7 @@ export const sprintsMap = [
     y: 0,
   },
 ];
-export const dailyMap = [
+export const dailiesMap = [
   {
     // index: 0,
     widget: TimeStamps,
@@ -644,7 +644,7 @@ export const dailyMap = [
   },
 ];
 
-export const sprintReviewMap = [
+export const sprintReviewsMap = [
   {
     widget: ProductBackLogs,
     widgetName: 'ProductBackLogs',
@@ -652,6 +652,74 @@ export const sprintReviewMap = [
     collection: 'productBackLogs',
     active: true,
     uiContext: 'productBackLogsSelector',
+    startUpWidgetLayout: 'chip',
+    w: 6,
+    h: 10,
+    x: 0,
+    y: 0,
+  },
+
+  {
+    widget: UserStories,
+    widgetName: 'UserStories',
+    id: uuidv4(),
+    collection: 'userStories',
+    active: true,
+    uiContext: 'userStorySelector',
+    startUpWidgetLayout: 'chip',
+    w: 6,
+    h: 22,
+    x: 6,
+    y: 0,
+  },
+  {
+    widget: UserStories,
+    widgetName: 'UserStories',
+    id: uuidv4(),
+    collection: 'userStories',
+    active: true,
+    uiContext: 'userStorySelector',
+    startUpWidgetLayout: 'soloWidget',
+    w: 12,
+    h: 22,
+    x: 12,
+    y: 0,
+  },
+  {
+    widget: SprintPlannings,
+    widgetName: 'SprintPlannings',
+    id: uuidv4(),
+    collection: 'sprintPlannings',
+    active: true,
+    uiContext: 'sprintPlanningsSelector',
+    startUpWidgetLayout: 'chip',
+    w: 12,
+    h: 8,
+    x: 24,
+    y: 0,
+  },
+  {
+    widget: ProductBackLogs,
+    widgetName: 'ProductBackLogs',
+    id: uuidv4(),
+    collection: 'productIncrements',
+    active: true,
+    uiContext: 'productBackLogsSelector',
+    startUpWidgetLayout: 'chip',
+    w: 12,
+    h: 14,
+    x: 24,
+    y: 0,
+  },
+];
+export const sprintRetrospectivesMap = [
+  {
+    widget: SprintRetrospectives,
+    widgetName: 'SprintRetrospectives',
+    id: uuidv4(),
+    collection: 'sprintRetrospectives',
+    active: true,
+    uiContext: 'sprintRetrospectivesSelector',
     startUpWidgetLayout: 'chip',
     w: 6,
     h: 10,

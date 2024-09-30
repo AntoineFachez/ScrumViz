@@ -7,7 +7,7 @@ import { productBackLogs } from './mockProductBackLogs';
 const BackLogsContext = createContext();
 
 export const BackLogsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
+  const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displayProductBackLogs, setDisplayProductBackLogs] =
     useState(productBackLogs);
   const [selectedProductBackLogs, setSelectedProductBackLogs] = useState(
@@ -16,6 +16,18 @@ export const BackLogsProvider = ({ children }) => {
   const [productBackLogInFocus, setProductBackLogInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  // const handleSearchTermChange = (e) => {
+  //   e.preventDefault();
+
+  //   setSearchTerm(e.target.value);
+  //   setActiveSearchTerm(e.target.value);
+  // };
+  const handleResetFiltered = () => {
+    setSelectedUserStories(displayUserStories);
+    setIsFiltered(false);
+  };
   useEffect(() => {
     setSelectedProductBackLogs(
       displayProductBackLogs.filter((product) =>
@@ -25,9 +37,12 @@ export const BackLogsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+
   return (
     <BackLogsContext.Provider
       value={{
+        selectedWidgetContext,
+        setSelectedWidgetContext,
         displayProductBackLogs,
         setDisplayProductBackLogs,
         selectedProductBackLogs,
@@ -36,6 +51,10 @@ export const BackLogsProvider = ({ children }) => {
         setProductBackLogInFocus,
         searchTerm,
         setSearchTerm,
+        isFiltered,
+        setIsFiltered,
+        // handleSearchTermChange,
+        handleResetFiltered,
       }}
     >
       {children}

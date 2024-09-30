@@ -14,6 +14,10 @@ export const AppProvider = ({ children }) => {
 
   // const [userVerified, setUserVerified] = useState(null);
   const [appContext, setAppContext] = useState(startUp);
+
+  const [scrumManagerContext, setScrumManagerContext] =
+    useState('scrumManager');
+
   const [newItemElement, setNewItemElement] = useState(null);
   // console.log("appContext", appContext);
   const [storyContext, setStoryContext] = useState('');
@@ -52,6 +56,8 @@ export const AppProvider = ({ children }) => {
         setShowDev,
         appContext,
         setAppContext,
+        scrumManagerContext,
+        setScrumManagerContext,
         newItemElement,
         setNewItemElement,
         storyContext,

@@ -10,7 +10,6 @@ import { sprintReviews } from './mockSprintReviews';
 const SprintReviewContext = createContext();
 
 export const SprintReviewProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [displaySprintReviews, setDisplaySprintReviews] =
     useState(sprintReviews);

@@ -26,23 +26,24 @@ export default function ImageDrop({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
+
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = '';
   const widgetProps = {
+    appContext: appContext,
     iconButton: <Upload />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

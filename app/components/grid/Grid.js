@@ -1,16 +1,18 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, IconButton } from '@mui/material';
-import RGL, { Responsive, WidthProvider } from 'react-grid-layout';
+import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
+import RGL, { WidthProvider } from 'react-grid-layout';
 
-import UIContext from '@/context/UIContext';
-
-import { props, draggableCancel, resizeHandle } from './gridProps';
+import { props, draggableCancel } from './gridProps';
 import {
   generateDOM,
-  handleLayoutChange,
+  generateLayout,
+  getFromLS,
   handleSetMapOnLayoutChange,
-  onLayoutChange,
-  onResize,
+  handleOnLayoutChange,
+  handleOnResize,
+  handleOnResizeStop,
+  saveToLS,
+  handleOnDragStop,
 } from './helperFunctions';
 
 import './grid-styles.css';
@@ -20,44 +22,53 @@ const ReactGridLayout = WidthProvider(RGL);
 const ScaledLayout = ({
   gridRef,
   userRole,
-  appContext,
-  domGridMap,
+  scrumManagerContext,
+  defaultWidgetMap,
+  gridDOMMap,
+  setGridDOMMap,
+  generateDOM,
+  showDev,
+  showPaneMenu,
+  setShowPaneMenu,
+  styled,
   className = 'gridLayout',
   cols = 36,
-  styled,
 }) => {
-  const { latestGridValues, setLatestGridValues, setGridDOMMap } =
-    useContext(UIContext);
   const [rowHeight, setRowHeight] = useState();
-  const [layout, setLayout] = useState();
-  const [prevAppContext, setPrevAppContext] = useState();
+  const [currentLayout, setCurrentLayout] = useState();
 
-  const [newDomGridMap, setNewDomGridMap] = useState(domGridMap);
   useEffect(() => {
-    handleSetMapOnLayoutChange(
-      appContext,
+    return handleSetMapOnLayoutChange(
+      scrumManagerContext,
       gridRef,
-      setNewDomGridMap,
-      domGridMap,
-      latestGridValues,
-      layout,
-      setLayout,
-      prevAppContext,
-      setPrevAppContext
+      defaultWidgetMap,
+      // getFromLS(scrumManagerContext),
+      setCurrentLayout
     );
-    return handleSetMapOnLayoutChange;
-  }, [domGridMap, userRole, appContext]);
+  }, [defaultWidgetMap, userRole, scrumManagerContext]);
 
   useEffect(() => {
     const handleResize = () => {
       const parentHeight = gridRef?.current?.clientHeight;
-      const desiredRowHeight = parentHeight / 36;
+      const desiredRowHeight = parentHeight / 32;
       setRowHeight(desiredRowHeight);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const delayLayout = (layoutOnLayoutChange) => {
+    const mergedLayout = handleOnLayoutChange(
+      layoutOnLayoutChange,
+      currentLayout,
+      setCurrentLayout,
+      scrumManagerContext,
+      gridRef
+    );
+    return mergedLayout;
+  };
+
   return (
     <Box
       ref={gridRef}
@@ -69,19 +80,28 @@ const ScaledLayout = ({
       <ReactGridLayout
         {...props}
         className={className}
-        layout={layout}
-        // onDrag={(layout) => handleLayoutChange(layout, setGridDOMMap)}
-        // onDrop={onDrop}
-        // onLayoutChange={(layout) => handleLayoutChange(layout, setGridDOMMap)}
-        onLayoutChange={(newLayout) => onLayoutChange(newLayout, layout)}
-        onResize={(layout, oldLayoutItem, layoutItem, placeholder) => {
-          onResize(layout, oldLayoutItem, layoutItem, placeholder);
-        }}
+        layout={currentLayout}
+        onLayoutChange={(layoutOnLayoutChange) =>
+          delayLayout(layoutOnLayoutChange)
+        }
+        onDragStop={(currentLayout) =>
+          handleOnDragStop(currentLayout, scrumManagerContext, defaultWidgetMap)
+        }
+        onResize={(currentLayout, oldLayoutItem, layoutItem, placeholder) =>
+          handleOnResize(currentLayout, oldLayoutItem, layoutItem, placeholder)
+        }
+        onResizeStop={(currentLayout) =>
+          handleOnResizeStop(
+            currentLayout,
+            scrumManagerContext,
+            defaultWidgetMap
+          )
+        }
         draggableCancel={draggableCancel}
         preventCollision={false}
         allowOverlap={false}
         autoSize={true}
-        measureBeforeMount={false} //If `true`, `WidthProvider` will measure the container's width before mounting children.
+        measureBeforeMount={false}
         containerPadding={[10, 10]}
         margin={[10, 10]}
         useCSSTransforms={true}
@@ -89,7 +109,7 @@ const ScaledLayout = ({
         rowHeight={rowHeight}
         cols={cols}
       >
-        {generateDOM(newDomGridMap, styled)}
+        {generateDOM(scrumManagerContext, defaultWidgetMap, styled)}
       </ReactGridLayout>
     </Box>
   );

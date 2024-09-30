@@ -6,7 +6,6 @@ import { Box } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
@@ -16,18 +15,27 @@ import MultiItems from '@/app/pages/MultiItems';
 import { singleItemScheme } from './dataScheme';
 import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
 import SprintReviewContext from './SprintReviewsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintReviews({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
+
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
+    useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprintReviews,
@@ -50,30 +58,30 @@ export default function SprintReviews({
     useState(startUpWidgetLayout);
   const collection = 'sprintReviews';
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <RateReview />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: {
+      showMenu: showSprinReviewtMenu,
+      widgetProps: widgetProps,
+    },
+    functions: {
+      handleShowMenu: setShowSprinReviewtMenu,
+    },
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -89,12 +97,17 @@ export default function SprintReviews({
   };
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -174,6 +187,10 @@ export default function SprintReviews({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        setActiveSearchTerm={setActiveSearchTerm}
+        handleSetItemInFocus={handleSetSprintReviewInFocus}
+        customElement={null}
+        alertElement={null}
         data={selectedSprintReviews}
         selectedData={selectedSprintReviews}
         setSelectedItem={setSelectedSprintReviews}
@@ -183,10 +200,6 @@ export default function SprintReviews({
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={sprintReviewInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintReviewInFocus}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -195,6 +208,7 @@ export default function SprintReviews({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

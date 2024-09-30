@@ -17,6 +17,8 @@ import { SprintPlanningsProvider } from './widgets/sprintPlannings/SprintPlannin
 import { SprintBackLogsProvider } from './widgets/sprintBackLogs/SprintBackLogsContext';
 import { SprintReviewProvider } from './widgets/sprintReviews/SprintReviewsContext';
 import { TeamMembersProvider } from './widgets/teamMembers/TeamMembersContext';
+import { SprintRetrospectivesProvider } from './widgets/sprintRetrospectives/SprintRetrospectivesContext';
+import { ScrumManagerProvider } from './scrumManager/ScrumManagerContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -78,8 +80,12 @@ export default function RootLayout({ children }) {
                               <SprintBackLogsProvider>
                                 <SprintReviewProvider>
                                   <SprintPlanningsProvider>
-                                    <NavBar />
-                                    {children}
+                                    <SprintRetrospectivesProvider>
+                                      <ScrumManagerProvider>
+                                        <NavBar />
+                                        {children}
+                                      </ScrumManagerProvider>
+                                    </SprintRetrospectivesProvider>
                                   </SprintPlanningsProvider>
                                 </SprintReviewProvider>
                               </SprintBackLogsProvider>

@@ -5,28 +5,26 @@ import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { userStories } from './mockUserStories';
+import { persons } from './mockPersons';
 
-const UserStoriesContext = createContext();
+const PersonsContext = createContext();
 
-export const UserStoriesProvider = ({ children }) => {
+export const PersonsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const { displayTeamMembers } = useContext(TeamMembersContext);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
-  const [displayUserStories, setDisplayUserStories] = useState(userStories);
-  const [selectedUserStories, setSelectedUserStories] =
-    useState(displayUserStories);
-  const [userStoryInFocus, setUserStoryInFocus] = useState(null);
+  const [displayPersons, setDisplayPersons] = useState(persons);
+  const [selectedPersons, setSelectedPersons] = useState(displayPersons);
+  const [personInFocus, setPersonInFocus] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
   const handleResetFiltered = () => {
-    setSelectedUserStories(displayUserStories);
+    setSelectedPersons(displayPersons);
     setIsFiltered(false);
   };
-  const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
+  const handleSetPersonInFocus = (person) => {
+    setPersonInFocus(person);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -36,11 +34,9 @@ export const UserStoriesProvider = ({ children }) => {
     setIsFiltered(true);
   };
   useEffect(() => {
-    setSelectedUserStories(
-      displayUserStories.filter((userStory) =>
-        userStory.userStory_name
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+    setSelectedPersons(
+      displayPersons.filter((person) =>
+        person.person_name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
 
@@ -48,16 +44,16 @@ export const UserStoriesProvider = ({ children }) => {
   }, [searchTerm]);
 
   return (
-    <UserStoriesContext.Provider
+    <PersonsContext.Provider
       value={{
         selectedWidgetContext,
         setSelectedWidgetContext,
-        displayUserStories,
-        setDisplayUserStories,
-        selectedUserStories,
-        setSelectedUserStories,
-        userStoryInFocus,
-        setUserStoryInFocus,
+        displayPersons,
+        setDisplayPersons,
+        selectedPersons,
+        setSelectedPersons,
+        personInFocus,
+        setPersonInFocus,
         searchTerm,
         setSearchTerm,
         isFiltered,
@@ -65,15 +61,15 @@ export const UserStoriesProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetUserStoryInFocus,
+        handleSetPersonInFocus,
         // handleSelectWidgetContext,
       }}
     >
       {children}
-    </UserStoriesContext.Provider>
+    </PersonsContext.Provider>
   );
 };
-export default UserStoriesContext;
-export const UserStoriesState = () => {
-  return useContext(UserStoriesContext);
+export default PersonsContext;
+export const PersonsState = () => {
+  return useContext(PersonsContext);
 };

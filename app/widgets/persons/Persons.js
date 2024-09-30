@@ -9,55 +9,54 @@ import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import StandInTable from '@/app/components/table/StandInTable';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
+import SearchContext from '@/context/SearchContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Persons({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
-  };
+
   const collection = 'persons';
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = `/teamMembers`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
+    },
+  };
+  const menuProps = {
+    states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowPersonsMenu,
     },
   };
   const handleSearchTermChange = (e) => {
@@ -69,17 +68,13 @@ export default function Persons({
     setActiveSearchTerm(e.target.value);
   };
   const menu = (
-    <Menu
+    <WidgetMenu
       widgetProps={widgetProps}
+      menuProps={menuProps}
+      setSelectedWidgetContext={setSelectedWidgetContext}
       handleSelectWidgetContext={handleSelectWidgetContext}
-      //   searchString={searchString}
-      // handleSearch={handleSearch}
-      // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
-      // getAllentitiesTypes={getAllentitiesTypes}
-      // handlePaste={handlePaste}
-      // handleSubmit={handleSubmit}
-      //   styled={styled}
+      handleSearchTermChange={handleSearchTermChange}
+      searchTerm={searchTerm}
     />
   );
   const newItem = (
@@ -182,6 +177,7 @@ export default function Persons({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

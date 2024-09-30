@@ -12,20 +12,30 @@ export const generateLayout = (widgetMap, gridRef) => {
       w: widget?.w,
       h: widget?.h,
       i: i.toString(),
+      // // index: i.toString(),
       component: widget?.widgetName,
       id: widget?.id,
       context: widget?.context,
       active: widget?.active,
       uiContext: widget?.uiContext,
       widgetContext: widget?.widgetContext,
+      startUpWidgetLayout: widget?.startUpWidgetLayout,
+      // startUpWidgetLayout: 'singleItem',
     };
   });
 };
 
-export const generateDOM = (gridMap, styled) => {
-  // console.log("gridMap", gridMap);
-  return gridMap?.map((widget, i) => {
+export const generateDOM = (appContext, widgetMap, styled) => {
+  const storedLayout = getFromLS(appContext);
+
+  let mapToRender =
+    storedLayout && Object.keys(storedLayout).length > 0
+      ? mergeLayouts(widgetMap, storedLayout)
+      : widgetMap;
+
+  return mapToRender?.map((widget, i) => {
     const selectedWidget = widget?.widget;
+
     if (selectedWidget !== undefined) {
       return (
         <Box
@@ -45,19 +55,20 @@ export const generateDOM = (gridMap, styled) => {
         >
           <Space
             // uiContext={uiContext}
+            widget={widget}
             uiContext={widget?.uiContext}
             startUpWidgetLayout={widget?.startUpWidgetLayout}
+            // startUpWidgetLayout={'singleItem'}
             widgetContext={widget?.widgetContext}
             generated={true} // contextSpaces={contextSpaces}
             // selectedWidget={selectedWidget}
             // dynamicComponent={dynamicComponent}
             // showPaneMenu={showPaneMenu}
             // menuSpace={menuSpace}
-            viewerGridMap={gridMap}
-            contextSpaces="top-left-top"
+            viewerGridMap={widgetMap}
+            // contextSpaces="top-left-top"
             selectedWidget={selectedWidget}
-            // selectedWidgetName={selectedWidgetName}
-
+            dropWidgetName={widget.collection}
             setPassWidgetContext=""
             dynamicComponent={null}
             styled={styled}
@@ -67,27 +78,85 @@ export const generateDOM = (gridMap, styled) => {
     } else return null;
   });
 };
-// export const onLayoutChange = (
-//   activeGridLayout,
-//   setActiveGridLayout,
-//   setParentHeight,
-//   gridRef,
-// ) => {
-//   // setActiveGridLayout(activeGridLayout);
-//   //TODO ROW_HEIGHT
-//   //* setParentHeight(gridRef?.current?.offsetHeight);
-// };
-// export const handleLayoutChange = (newLayout, setActiveGridLayout) => {
-//   // setActiveGridLayout(generateLayout(newLayout));
-//   // console.log("newLayout", newLayout);
-//   //TODO ROW_HEIGHT
-//   //* setRowHeight(height / 100);
-//   onLayoutChange(newLayout, setActiveGridLayout);
-// };
-export const handleDeleteSpace = () => {};
-// export const resetLayout = (viewerGridMap) => {
-//   // generateLayout(viewerGridMap);
-// };
+
+export const handleOnLayoutChange = (
+  layoutOnLayoutChange,
+  currentLayout,
+  setCurrentLayout,
+  appContext,
+  gridRef
+) => {
+  /*eslint no-console: 0*/
+  // console.log('currentLayout', currentLayout);
+
+  // const tempLayout = mergeLayouts(currentLayout, layoutOnLayoutChange);
+
+  // saveToLS(appContext, currentLayout);
+  setCurrentLayout(currentLayout);
+  return currentLayout;
+};
+export const handleSetMapOnLayoutChange = (
+  appContext,
+  gridRef,
+  defaultWidgetMap,
+  setLayout
+) => {
+  const storedLayout = getFromLS(appContext);
+
+  let layoutToUse =
+    storedLayout && Object.keys(storedLayout).length > 0
+      ? storedLayout
+      : defaultWidgetMap;
+
+  setLayout(generateLayout(layoutToUse, gridRef));
+};
+
+export const handleOnResize = (
+  currentLayout,
+  oldLayoutItem,
+  layoutItem,
+  placeholder,
+  appContext,
+  defaultWidgetMap
+) => {
+  // `oldLayoutItem` contains the state of the item before the resize.
+  // You can modify `layoutItem` to enforce constraints.
+
+  if (layoutItem.h < 2 && layoutItem.w > 2) {
+    layoutItem.w = 3;
+    layoutItem.h = 1;
+    placeholder.w = 3;
+    placeholder.h = 1;
+  }
+
+  if (layoutItem.h >= 1 && layoutItem.w < 2) {
+    layoutItem.w = 3;
+    layoutItem.h = 1;
+    placeholder.w = 3;
+    placeholder.h = 1;
+  }
+};
+export const handleOnResizeStop = (
+  currentLayout,
+  appContext,
+  defaultWidgetMap
+) => {
+  const storedLayout = getFromLS(appContext);
+  const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
+  const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
+  saveToLS(appContext, tempLayout2);
+};
+export const handleOnDragStop = (
+  currentLayout,
+  appContext,
+  defaultWidgetMap
+) => {
+  const storedLayout = getFromLS(appContext);
+  const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
+  const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
+  saveToLS(appContext, tempLayout2);
+};
+
 //TODO:! not in use:
 export const handleCloseSpace = (e, direction, activeSpaces) => {
   e.preventDefault();
@@ -97,12 +166,15 @@ export const handleCloseSpace = (e, direction, activeSpaces) => {
     );
   });
 };
-export function getFromLS(key) {
-  // console.log("domGridMap", key);
+export function getFromLS(uiGridMapContext) {
+  // console.log("defaultWidgetMap", uiGridMapContext);
   let ls = {};
   if (global.localStorage) {
     try {
-      ls = JSON.parse(global.localStorage.getItem(key)) || newDomGridMap;
+      ls =
+        JSON.parse(
+          global.localStorage.getItem('UI Grid ' + uiGridMapContext)
+        ) || newdefaultGridMap;
     } catch (e) {
       /*Ignore*/
     }
@@ -110,149 +182,66 @@ export function getFromLS(key) {
   if (ls) {
     return ls;
   } else {
-    return newDomGridMap;
+    return newdefaultGridMap;
   }
 }
 export function saveToLS(uiGridMapContext, newMapValues) {
-  // console.log('uiGridMapContext', uiGridMapContext);
+  // console.log('uiGridMapContext', uiGridMapContext, newMapValues);
 
   if (global.localStorage) {
     const stringifiedMap = JSON.stringify(newMapValues);
-    global.localStorage.setItem(uiGridMapContext + 'UiContext', stringifiedMap);
+    global.localStorage.setItem('UI Grid ' + uiGridMapContext, stringifiedMap);
   }
 }
-export const onLayoutChange = (
-  newLayout,
-  layout,
-  appContext,
-  gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
-) => {
-  /*eslint no-console: 0*/
+function mergeLayouts(firstSet, secondSet) {
+  const mergedArray = [];
 
-  if (latestGridValues) latestGridValues[prevAppContext + 'UiContext'] = layout;
+  // Iterate through the arrays using their indices
+  for (let i = 0; i < Math.max(firstSet?.length, secondSet?.length); i++) {
+    const firstObj = firstSet[i];
+    const secondObj = secondSet[i];
 
-  function mergeObjectsByI(firstSet, secondSet) {
-    const mergedObjects = {};
-
-    // Iterate through the first set
-    firstSet?.forEach((obj) => {
-      const iValue = obj.i;
-
-      // Find the matching object in the second set
-      const matchingObj = secondSet.find((o) => o.i === iValue);
-
-      if (matchingObj) {
-        // Merge the objects if a match is found
-        mergedObjects[iValue] = { ...obj, ...matchingObj };
-      } else {
-        // Store the original object if no match is found
-        mergedObjects[iValue] = obj;
-      }
-    });
-
-    // Iterate through the second set to add any remaining objects
-    secondSet?.forEach((obj) => {
-      const iValue = obj.i;
-      if (!mergedObjects[iValue]) {
-        mergedObjects[iValue] = obj;
-      }
-    });
-
-    // Convert the dictionary to an array
-    return Object.values(mergedObjects);
-  }
-  const tempLayout = mergeObjectsByI(layout, newLayout);
-  saveToLS('UiContext', tempLayout);
-};
-export const handleSetMapOnLayoutChange = (
-  appContext,
-  gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  layout,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
-) => {
-  if (setNewDomGridMap)
-    setNewDomGridMap(
-      updateLayoutWithNewValues(
-        appContext,
-        gridRef,
-        setNewDomGridMap,
-        domGridMap,
-        latestGridValues,
-        layout,
-        setLayout,
-        prevAppContext,
-        setPrevAppContext
-      )
-    );
-};
-export function updateLayoutWithNewValues(
-  appContext,
-  gridRef,
-  setNewDomGridMap,
-  domGridMap,
-  latestGridValues,
-  layout,
-  setLayout,
-  prevAppContext,
-  setPrevAppContext
-) {
-  if (!latestGridValues) return domGridMap;
-
-  // Map over the original readMap and update values based on latestGridValues
-  const updatedReadMap = domGridMap?.map((item, i) => {
-    const matchingValue = latestGridValues?.[
-      prevAppContext + 'UiContext'
-    ]?.find((value) => {
-      return +value.i === i;
-    }); // Find matching value by ID
-
-    if (matchingValue) {
-      // If a match is found, update the properties
-      return {
-        ...item, // Keep all other properties
-        w: matchingValue.w,
-        h: matchingValue.h,
-        x: matchingValue.x,
-        y: matchingValue.y,
-      };
-    } else {
-      // If no match is found, return the original item unchanged
-      return item;
+    if (firstObj && secondObj) {
+      // Merge the objects if both exist at the same index
+      mergedArray.push({ ...firstObj, ...secondObj });
+    } else if (firstObj) {
+      // Include the first object if the second is missing
+      mergedArray.push(firstObj);
+    } else if (secondObj) {
+      // Include the second object if the first is missing
+      mergedArray.push(secondObj);
     }
-  });
-  setLayout(generateLayout(updatedReadMap, gridRef));
-  setPrevAppContext(appContext);
-  return updatedReadMap; // Return the updated layout
-}
-export const onResize = (
-  domContext,
-  oldLayoutItem,
-  layoutItem,
-  placeholder
-) => {
-  console.log('triggered onResize');
-
-  // `oldLayoutItem` contains the state of the item before the resize.
-  // You can modify `layoutItem` to enforce constraints.
-  // console.log("triggered resize");
-  if (layoutItem.h < 3 && layoutItem.w > 2) {
-    layoutItem.w = 2;
-    placeholder.w = 2;
   }
 
-  if (layoutItem.h >= 3 && layoutItem.w < 2) {
-    layoutItem.w = 2;
-    placeholder.w = 2;
+  return mergedArray;
+}
+export const updateWidgetContext = (widget, widgetProps, context) => {
+  const storedLayout = getFromLS(widgetProps.appContext);
+  // console.log('updateWidgetContext', widget, widgetProps, context);
+  if (Object.keys(storedLayout).length) {
+    console.log(storedLayout);
+
+    const widgetIndex = storedLayout?.findIndex(
+      (storedWidget) => storedWidget?.id === widget?.id
+    );
+    const temp = storedLayout[widgetIndex];
+    const widgetToUpdate = {
+      ...temp,
+      startUpWidgetLayout: context,
+    };
+
+    if (widgetIndex !== -1) {
+      // Replace the widget at the found index
+      const updatedLayout = [
+        ...storedLayout.slice(0, widgetIndex),
+        widgetToUpdate, // Insert the updated widget
+        ...storedLayout.slice(widgetIndex + 1),
+      ];
+
+      // console.log(widget, updatedLayout);
+      saveToLS(widgetProps.appContext, updatedLayout);
+    } else {
+      console.warn('Widget not found in stored layout. Unable to update.');
+    }
   }
 };

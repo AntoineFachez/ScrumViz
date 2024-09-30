@@ -2,34 +2,43 @@
 import { useContext, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, Typography } from '@mui/material';
-
-import UIContext from '@/context/UIContext';
-
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
 import { Replay, Schedule, SportsRugbyOutlined } from '@mui/icons-material';
+
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
-import SprintPlanningsContext from './SprintPlanningsContext';
-import MultiItems from '@/app/pages/MultiItems';
-import SingleItem from '@/app/pages/SingleItem';
-import { singleItemScheme } from './dataScheme';
 import SearchContext from '@/context/SearchContext';
+import UIContext from '@/context/UIContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
+import SprintPlanningsContext from './SprintPlanningsContext';
+
+import { handleSelectWidgetContext } from '../actions';
+
+import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import StandInTable from '@/app/components/table/StandInTable';
+import MultiItems from '@/app/pages/MultiItems';
+import SingleItem from '@/app/pages/SingleItem';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { singleItemScheme } from './dataScheme';
+
+import { themeSettings } from '@/app/theme/ThemeContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintPlannings({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
+    useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const { selectedUserStories, setSelectedUserStories } =
@@ -50,13 +59,15 @@ export default function SprintPlannings({
   } = useContext(SprintPlanningsContext);
   const collection = 'sprintPlannings';
   const widgetProps = {
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Schedule />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,
@@ -66,19 +77,15 @@ export default function SprintPlannings({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: { showMenu: showSprintPlanningMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowSprintPlanningMenu,
+    },
   };
 
   const handleSetSprintPlanningInFocus = (sprintPlanning) => {
@@ -106,12 +113,17 @@ export default function SprintPlannings({
   };
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -210,6 +222,7 @@ export default function SprintPlannings({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}

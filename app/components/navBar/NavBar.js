@@ -14,28 +14,31 @@ import AppContext from '@/context/AppContext';
 // import UIContext from '@/context/UIContext';
 
 import NavBarWidgetList from './navBarWidgets/Index';
-import { widgetListHome } from '../../pages/navBarWidgetList';
+import {
+  widgetListHome,
+  widgetListScrumManager,
+} from '../../pages/navBarWidgetList';
 import Logout from '../../widgets/auth/Index';
 import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
 
 export default function NavBar({ showDev, setShowDev }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const { appContext, setAppContext, scrumManagerContext } =
+    useContext(AppContext);
+
   // const { setShowPaneMenu, userRole } = useContext(UIContext);
   const handleClick = () => {
     setShowDev(!showDev);
   };
   return (
     <Box className="navBar" sx={{ ...styled.navBar, flexFlow: 'row nowrap' }}>
-      {/* <ContextSelector /> */}
-      {/* //* Widget ButtonBar */}
-      {/* <Box sx={navBarButtonList}> */}
       <NavBarWidgetList
         data={
           appContext === 'home'
             ? widgetListHome
-            : // : appContext === 'grid'
-              // ? userRole === 'viewer'
+            : appContext === 'scrumManager'
+            ? widgetListScrumManager
+            : // ? userRole === 'viewer'
               //   ? widgetListPublished
               //   : userRole === 'creator'
               //   ? widgetListCreator
@@ -46,7 +49,7 @@ export default function NavBar({ showDev, setShowDev }) {
         }
         navBarButtonList={styled.navBarButtonList}
       />{' '}
-      {appContext}
+      {scrumManagerContext}
       {/* </Box> */}
       {/* <IconButton
         sx={

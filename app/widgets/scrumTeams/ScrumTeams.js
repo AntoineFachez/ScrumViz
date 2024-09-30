@@ -1,13 +1,12 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Avatar, Box, Typography } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
+import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
@@ -19,17 +18,30 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
+import { handleSelectWidgetContext } from '../actions';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+
 export default function ScrumTeam({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    showTeamMembersMenu,
+    setShowTeamMembersMenu,
+    toggleDrawer,
+  } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -39,6 +51,8 @@ export default function ScrumTeam({
     setSelectedScrumTeams,
     scrumTeamInFocus,
     setScrumTeamInFocus,
+    isFiltered,
+    handleResetFiltered,
     searchTerm,
     setSearchTerm,
   } = useContext(ScrumTeamsContext);
@@ -53,40 +67,32 @@ export default function ScrumTeam({
     setSprintInFocus,
     handleFindSprints,
   } = useContext(SprintsContext);
-  const [isFiltered, setIsFiltered] = useState(false);
+
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'scrumTeams';
   const widgetProps = {
-    iconButton: <Avatar />,
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
+    iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = `/scrumTeam`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowTeamMembersMenu,
+    },
   };
   const handleSetScrumTeamInFocus = (scrumTeam) => {
     setScrumTeamInFocus(scrumTeam);
@@ -109,10 +115,6 @@ export default function ScrumTeam({
     setIsFiltered(true);
   };
 
-  const handleResetFiltered = () => {
-    setSelectedScrumTeams(displayScrumTeams);
-    setIsFiltered(false);
-  };
   const handleClickCustomArrayItem = (e) => {
     const found = displayTeamMembers.filter(
       (teamMember) => teamMember.id === e.id
@@ -129,12 +131,17 @@ export default function ScrumTeam({
   }, [scrumTeamInFocus]);
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -213,6 +220,9 @@ export default function ScrumTeam({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
+        handleClickCustomArrayItem={handleClickCustomArrayItem}
+        customElement={null}
+        alertElement={null}
         data={selectedScrumTeams}
         selectedData={selectedScrumTeams}
         setSelectedItem={setSelectedScrumTeams}
@@ -225,9 +235,6 @@ export default function ScrumTeam({
         setActiveSearchTerm={setActiveSearchTerm}
         customArrayItemInFocus={teamMemberInFocus}
         handleSetItemInFocus={handleSetScrumTeamInFocus}
-        handleClickCustomArrayItem={handleClickCustomArrayItem}
-        customElement={null}
-        alertElement={null}
         styled={styled}
       />
     </Box>
@@ -236,13 +243,14 @@ export default function ScrumTeam({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
         singleItem={singleItem}
-        chip={chip}
+        // chip={chip}
         tree={tree}
         flexList={flexList}
         isFiltered={isFiltered}

@@ -56,12 +56,12 @@ export default function Index({}) {
       {!user ? (
         <Box
           sx={{
-            ...styled.cardStyles,
+            ...styled.card,
           }}
         >
           {showSignUp ? (
             <Button
-              sx={styled.textButtonStyles}
+              sx={styled.textButton}
               size="small"
               onClick={switchToSignUp}
             >
@@ -69,7 +69,7 @@ export default function Index({}) {
             </Button>
           ) : (
             <Button
-              sx={styled.textButtonStyles}
+              sx={styled.textButton}
               size="small"
               onClick={switchToSignUp}
             >

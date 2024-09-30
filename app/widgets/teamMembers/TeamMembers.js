@@ -6,8 +6,11 @@ import { Box, Typography } from '@mui/material';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import Menu from './Menu';
-import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import {
+  Group,
+  GroupAdd,
+  StoreMallDirectoryOutlined,
+} from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
@@ -17,18 +20,25 @@ import MultiItems from '@/app/pages/MultiItems';
 import { singleItemScheme } from './dataScheme';
 import SingleItem from '@/app/pages/SingleItem';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
+import WidgetMenu from '@/app/pages/WidgetMenu';
+
+import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function TeamMembers({
+  widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displayTeamMembers,
@@ -46,13 +56,15 @@ export default function TeamMembers({
     useState(startUpWidgetLayout);
   const collection = 'teamMembers';
   const widgetProps = {
-    iconButton: <Group />,
+    appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
+    iconButton: <GroupAdd />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
-    dropWidgetName: '',
+    dropWidgetName: collection,
     orderedBy: '',
     // menu: menu,
     // soloWidget: soloWidget,
@@ -62,20 +74,17 @@ export default function TeamMembers({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
-  const handleSelectWidgetContext = (context) => {
-    //  if (generated) {
-    //    setPassWidgetContext(context);
-    //  }
-    setSelectedWidgetContext(context);
-    //  if (startUpWidgetLayout !== context) {
-    //    //TODO: if widgetContext of former widget is different to the new one's then dialogue:"wanna keep table view or set to default view of component?
-    //  } else {
-    //  }
+  const menuProps = {
+    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
+    functions: {
+      handleShowMenu: setShowTeamMembersMenu,
+    },
   };
+
   const handleSetTeamMemberInFocus = (teamMember) => {
     setTeamMemberInFocus(teamMember);
   };
@@ -97,12 +106,17 @@ export default function TeamMembers({
   }, [teamMemberInFocus]);
 
   const menu = (
-    <Menu
-      widgetProps={widgetProps}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
+    <>
+      <WidgetMenu
+        widget={widget}
+        widgetProps={widgetProps}
+        menuProps={menuProps}
+        setSelectedWidgetContext={setSelectedWidgetContext}
+        handleSelectWidgetContext={handleSelectWidgetContext}
+        handleSearchTermChange={handleSearchTermChange}
+        searchTerm={searchTerm}
+      />
+    </>
   );
   const newItem = (
     <Box
@@ -200,6 +214,7 @@ export default function TeamMembers({
   return (
     <>
       <WidgetIndexTemplate
+        widget={widget}
         widgetProps={widgetProps}
         menu={menu}
         newItem={newItem}
