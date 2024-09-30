@@ -22,7 +22,8 @@ const GridComponent = ({}) => {
     sprints: Grid,
     dailies: Grid,
     sprint: Grid,
-    sprintReview: Grid,
+    sprintReviews: Grid,
+    sprintRetrospectives: Grid,
     dropZone: Grid,
   };
   const SelectedWidget = componentMap[appContext];

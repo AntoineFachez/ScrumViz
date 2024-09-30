@@ -18,7 +18,7 @@ export const UserStoriesProvider = ({ children }) => {
   const [displayUserStories, setDisplayUserStories] = useState(userStories);
   const [selectedUserStories, setSelectedUserStories] =
     useState(displayUserStories);
-  const [userStoryInFocus, setUserStoryInFocus] = useState(false);
+  const [userStoryInFocus, setUserStoryInFocus] = useState(null);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);

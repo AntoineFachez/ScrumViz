@@ -17,6 +17,7 @@ import { SprintPlanningsProvider } from './widgets/sprintPlannings/SprintPlannin
 import { SprintBackLogsProvider } from './widgets/sprintBackLogs/SprintBackLogsContext';
 import { SprintReviewProvider } from './widgets/sprintReviews/SprintReviewsContext';
 import { TeamMembersProvider } from './widgets/teamMembers/TeamMembersContext';
+import { SprintRetrospectivesProvider } from './widgets/sprintRetrospectives/SprintRetrospectivesContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -78,8 +79,10 @@ export default function RootLayout({ children }) {
                               <SprintBackLogsProvider>
                                 <SprintReviewProvider>
                                   <SprintPlanningsProvider>
-                                    <NavBar />
-                                    {children}
+                                    <SprintRetrospectivesProvider>
+                                      <NavBar />
+                                      {children}
+                                    </SprintRetrospectivesProvider>
                                   </SprintPlanningsProvider>
                                 </SprintReviewProvider>
                               </SprintBackLogsProvider>

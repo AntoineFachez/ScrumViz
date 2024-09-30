@@ -10,10 +10,11 @@ import {
   scrumTeamsMap,
   teamMembersMap,
   productBackLogsMap,
-  dailyMap,
-  sprintsMap,
-  sprintReviewMap,
+  dailiesMap,
   sprintPlanningsMap,
+  sprintsMap,
+  sprintReviewsMap,
+  sprintRetrospectivesMap,
   timeStampsMap,
 } from '@/app/components/grid/defaultGridMaps';
 import { widgetListHome } from '@/app/pages/navBarWidgetList';
@@ -69,11 +70,13 @@ export const UIProvider = ({ children }) => {
           case 'scrumTeams':
             return scrumTeamsMap;
           case 'dailies':
-            return dailyMap;
+            return dailiesMap;
           case 'sprints':
             return sprintsMap;
           case 'sprintReview':
-            return sprintReviewMap;
+            return sprintReviewsMap;
+          case 'sprintRetrospectives':
+            return sprintRetrospectivesMap;
           case 'timeStamps':
             return timeStampsMap;
           default:
