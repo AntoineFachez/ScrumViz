@@ -22,18 +22,21 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 import { singleItemScheme } from './dataScheme';
 
 import { themeSettings } from '@/app/theme/ThemeContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintPlannings({
   widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
     useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
@@ -57,6 +60,7 @@ export default function SprintPlannings({
   const collection = 'sprintPlannings';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Schedule />,
     collection: collection,
     uiContext: uiContext,
@@ -73,8 +77,8 @@ export default function SprintPlannings({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
   const menuProps = {

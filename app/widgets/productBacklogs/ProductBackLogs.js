@@ -18,6 +18,7 @@ import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
 import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Products({
   widget,
@@ -26,7 +27,12 @@ export default function Products({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -56,6 +62,7 @@ export default function Products({
 
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -66,8 +73,7 @@ export default function Products({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

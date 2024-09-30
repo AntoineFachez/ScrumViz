@@ -26,6 +26,7 @@ export default function ImageDrop({
 }) {
   const { palette, styled } = themeSettings('dark');
   const { appContext, setAppContext } = useContext(AppContext);
+
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -42,8 +43,7 @@ export default function ImageDrop({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

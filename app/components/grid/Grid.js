@@ -22,7 +22,7 @@ const ReactGridLayout = WidthProvider(RGL);
 const ScaledLayout = ({
   gridRef,
   userRole,
-  appContext,
+  scrumManagerContext,
   defaultWidgetMap,
   gridDOMMap,
   setGridDOMMap,
@@ -39,13 +39,13 @@ const ScaledLayout = ({
 
   useEffect(() => {
     return handleSetMapOnLayoutChange(
-      appContext,
+      scrumManagerContext,
       gridRef,
       defaultWidgetMap,
-      // getFromLS(appContext),
+      // getFromLS(scrumManagerContext),
       setCurrentLayout
     );
-  }, [defaultWidgetMap, userRole, appContext]);
+  }, [defaultWidgetMap, userRole, scrumManagerContext]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -63,7 +63,7 @@ const ScaledLayout = ({
       layoutOnLayoutChange,
       currentLayout,
       setCurrentLayout,
-      appContext,
+      scrumManagerContext,
       gridRef
     );
     return mergedLayout;
@@ -85,13 +85,17 @@ const ScaledLayout = ({
           delayLayout(layoutOnLayoutChange)
         }
         onDragStop={(currentLayout) =>
-          handleOnDragStop(currentLayout, appContext, defaultWidgetMap)
+          handleOnDragStop(currentLayout, scrumManagerContext, defaultWidgetMap)
         }
         onResize={(currentLayout, oldLayoutItem, layoutItem, placeholder) =>
           handleOnResize(currentLayout, oldLayoutItem, layoutItem, placeholder)
         }
         onResizeStop={(currentLayout) =>
-          handleOnResizeStop(currentLayout, appContext, defaultWidgetMap)
+          handleOnResizeStop(
+            currentLayout,
+            scrumManagerContext,
+            defaultWidgetMap
+          )
         }
         draggableCancel={draggableCancel}
         preventCollision={false}
@@ -105,7 +109,7 @@ const ScaledLayout = ({
         rowHeight={rowHeight}
         cols={cols}
       >
-        {generateDOM(appContext, defaultWidgetMap, styled)}
+        {generateDOM(scrumManagerContext, defaultWidgetMap, styled)}
       </ReactGridLayout>
     </Box>
   );

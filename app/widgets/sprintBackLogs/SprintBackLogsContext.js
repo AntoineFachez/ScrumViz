@@ -7,7 +7,6 @@ import { sprintBackLogs } from './mockSprintBackLogs';
 const SprintBackLogsContext = createContext();
 
 export const SprintBackLogsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displaySprintBackLogs, setDisplaySprintBackLogs] =
     useState(sprintBackLogs);
   const [selectedSprintBackLogs, setSelectedSprintBackLogs] = useState(

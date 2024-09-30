@@ -20,6 +20,7 @@ import SprintBackLogsContext from './SprintBackLogsContext';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintBackLogs({
   widget,
@@ -28,7 +29,12 @@ export default function SprintBackLogs({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const {
     homeUiSelected,
     setHomeUiSelected,
@@ -58,6 +64,7 @@ export default function SprintBackLogs({
   const collection = 'sprintBackLogs';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -68,8 +75,7 @@ export default function SprintBackLogs({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

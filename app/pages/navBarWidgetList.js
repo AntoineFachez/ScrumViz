@@ -8,6 +8,23 @@ export const widgetListHome = {
         widget: 'ScrumManagerPage',
         name: 'ScrumManagerPage',
       },
+
+      {
+        _uid: uuidv4(),
+        widget: 'Persons',
+        name: 'Persons',
+      },
+    ],
+  },
+};
+export const widgetListScrumManager = {
+  content: {
+    body: [
+      {
+        _uid: uuidv4(),
+        widget: 'ScrumManagerPage',
+        name: 'ScrumManagerPage',
+      },
       {
         _uid: uuidv4(),
         widget: 'UserStory',

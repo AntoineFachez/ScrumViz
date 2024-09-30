@@ -7,7 +7,6 @@ import { dailies } from './mockDailes';
 const DailiesContext = createContext();
 
 export const DailiesProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displayDailies, setDisplayDailies] = useState(dailies);
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailiesInFocus, setDailiesInFocus] = useState(false);

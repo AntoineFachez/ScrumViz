@@ -20,6 +20,7 @@ import SprintsContext from '../sprints/SprintsContext';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Dailies({
   widget,
@@ -28,7 +29,12 @@ export default function Dailies({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const {
     homeUiSelected,
     setHomeUiSelected,
@@ -56,6 +62,7 @@ export default function Dailies({
   const collection = 'dailies';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <DateRange />,
     collection: collection,
     uiContext: uiContext,
@@ -66,7 +73,7 @@ export default function Dailies({
     orderedBy: '',
 
     onClick: () => {
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

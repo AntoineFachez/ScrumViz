@@ -17,13 +17,19 @@ import {
   sprintRetrospectivesMap,
   timeStampsMap,
 } from '@/app/components/grid/defaultGridMaps';
-import { widgetListHome } from '@/app/pages/navBarWidgetList';
+import {
+  widgetListHome,
+  widgetListScrumManager,
+} from '@/app/pages/navBarWidgetList';
 import { getFromLS, saveToLS } from '@/app/components/grid/helperFunctions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
+  const { appContext, selectedStory, scrumManagerContext } =
+    useContext(AppContext);
+
   const [intro, setIntro] = useState(false);
   const [userRole, setUserRole] = useState('viewer');
   const [homeUiSelected, setHomeUiSelected] = useState('locations');
@@ -56,7 +62,7 @@ export const UIProvider = ({ children }) => {
     setDefaultWidgetMap();
     setTimeout(() => {
       setDefaultWidgetMap(() => {
-        switch (appContext) {
+        switch (scrumManagerContext) {
           case 'scrumManager':
             return scrumManagerMap;
           case 'userStories':
@@ -83,28 +89,23 @@ export const UIProvider = ({ children }) => {
             return scrumManagerMap;
         }
       });
-
-      setNavBarWidgetList(() => {
-        switch (appContext) {
-          case 'home':
-            return widgetListHome;
-          case 'userStory':
-            return widgetListHome;
-          default:
-            return widgetListHome;
-        }
-      });
     }, 5);
-    // setDefaultWidgetMap(getFromLS(appContext)[0]?.startUpWidgetLayout);
+    return () => {};
+  }, [scrumManagerContext]);
 
+  useEffect(() => {
+    setNavBarWidgetList(() => {
+      switch (appContext) {
+        case 'home':
+          return widgetListHome;
+        case 'scrumManager':
+          return widgetListScrumManager;
+        default:
+          return widgetListScrumManager;
+      }
+    });
     return () => {};
   }, [appContext]);
-
-  // useEffect(() => {
-  //   setDefaultWidgetMap(getFromLS(appContext)[0]?.startUpWidgetLayout);
-
-  //   return () => {};
-  // }, [appContext]);
 
   return (
     <UIContext.Provider

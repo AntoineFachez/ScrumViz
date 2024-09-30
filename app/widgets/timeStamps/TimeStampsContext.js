@@ -7,7 +7,6 @@ import { timeStamps } from './mockTimeStamps';
 const TimeStampsContext = createContext();
 
 export const TimeStampsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displayTimeStamps, setDisplayTimeStamps] = useState(timeStamps);
 
   const [selectedTimeStamps, setSelectedTimeStamps] = useState(false);

@@ -7,7 +7,6 @@ import { productBackLogs } from './mockProductBackLogs';
 const BackLogsContext = createContext();
 
 export const BackLogsProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displayProductBackLogs, setDisplayProductBackLogs] =
     useState(productBackLogs);

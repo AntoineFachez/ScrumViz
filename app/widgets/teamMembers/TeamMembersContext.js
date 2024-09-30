@@ -7,7 +7,6 @@ import { scrumTeamMembers } from './mockScrumTeamMembers';
 const TeamMembersContext = createContext();
 
 export const TeamMembersProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [displayTeamMembers, setDisplayTeamMembers] =
     useState(scrumTeamMembers);
   const [selectedTeamMembers, setSelectedTeamMembers] =

@@ -7,7 +7,6 @@ import AppContext from '../../../context/AppContext';
 const SprintRetrospectivesContext = createContext();
 
 export const SprintRetrospectivesProvider = ({ children }) => {
-  const { appContext, selectedStory } = useContext(AppContext);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displaySprintRetrospectives, setDisplaySprintRetrospectives] =
     useState(null);

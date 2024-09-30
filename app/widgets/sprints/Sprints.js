@@ -21,6 +21,7 @@ import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 import { handleSelectWidgetContext } from '../actions';
 import WidgetMenu from '@/app/pages/WidgetMenu';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Sprints({
   widget,
@@ -29,7 +30,12 @@ export default function Sprints({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
@@ -52,6 +58,7 @@ export default function Sprints({
   const collection = 'sprints';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     collection: collection,
     uiContext: uiContext,
@@ -62,7 +69,8 @@ export default function Sprints({
     orderedBy: '',
 
     onClick: () => {
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
   const menuProps = {

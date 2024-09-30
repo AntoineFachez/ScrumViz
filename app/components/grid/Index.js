@@ -7,7 +7,9 @@ import { generateDOM } from './helperFunctions';
 import { themeSettings } from '@/app/theme/ThemeContext';
 export default function Index({}) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const { appContext, setAppContext, scrumManagerContext } =
+    useContext(AppContext);
+
   const {
     showDev,
     showPaneMenu,
@@ -26,7 +28,7 @@ export default function Index({}) {
       <Grid
         gridRef={gridRef}
         userRole={userRole}
-        appContext={appContext}
+        scrumManagerContext={scrumManagerContext}
         defaultWidgetMap={defaultWidgetMap}
         gridDOMMap={gridDOMMap}
         setGridDOMMap={setGridDOMMap}

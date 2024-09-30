@@ -23,6 +23,7 @@ import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function TeamMembers({
   widget,
@@ -31,7 +32,12 @@ export default function TeamMembers({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
@@ -51,6 +57,7 @@ export default function TeamMembers({
   const collection = 'teamMembers';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <GroupAdd />,
     collection: collection,
     uiContext: uiContext,
@@ -67,8 +74,8 @@ export default function TeamMembers({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
   const menuProps = {

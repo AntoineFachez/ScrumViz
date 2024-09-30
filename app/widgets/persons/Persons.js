@@ -13,19 +13,23 @@ import StandInTable from '@/app/components/table/StandInTable';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import SearchContext from '@/context/SearchContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Persons({
   widget,
   uiContext,
   startUpWidgetLayout,
-  url,
-  setUrl,
-  targetUrl,
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
+  const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -34,6 +38,7 @@ export default function Persons({
   const collection = 'persons';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
@@ -42,16 +47,9 @@ export default function Persons({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
+
     onClick: () => {
-      // window.location.href = `/teamMembers`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

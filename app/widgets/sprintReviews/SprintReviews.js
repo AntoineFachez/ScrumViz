@@ -18,6 +18,7 @@ import SprintReviewContext from './SprintReviewsContext';
 import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintReviews({
   widget,
@@ -27,7 +28,12 @@ export default function SprintReviews({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
@@ -53,6 +59,7 @@ export default function SprintReviews({
   const collection = 'sprintReviews';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <RateReview />,
     collection: collection,
     uiContext: uiContext,
@@ -63,8 +70,7 @@ export default function SprintReviews({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

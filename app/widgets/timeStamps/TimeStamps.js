@@ -18,6 +18,7 @@ import { singleItemScheme } from './dataScheme';
 
 import { handleSelectWidgetContext } from '../actions';
 import WidgetMenu from '@/app/pages/WidgetMenu';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function TimeStamps({
   widget,
@@ -26,7 +27,12 @@ export default function TimeStamps({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,6 +51,7 @@ export default function TimeStamps({
   const collection = 'timeStamps';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -61,8 +68,8 @@ export default function TimeStamps({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      // window.location.href = '/sprint';
-      setAppContext(collection);
+      setScrumManagerContext(collection);
+      return;
     },
   };
   const menuProps = {

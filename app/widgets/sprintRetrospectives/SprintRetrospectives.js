@@ -23,6 +23,7 @@ import SprintRetrospectivesContext from './SprintRetrospectivesContext';
 import SingleItem from '@/app/pages/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import MultiItems from '@/app/pages/MultiItems';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintRetrospectives({
   widget,
@@ -31,7 +32,12 @@ export default function SprintRetrospectives({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
@@ -52,6 +58,7 @@ export default function SprintRetrospectives({
   const collection = 'sprintRetrospectives';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <History />,
     collection: collection,
     uiContext: uiContext,
@@ -62,8 +69,7 @@ export default function SprintRetrospectives({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/sprintRetrospectiveInFocus
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

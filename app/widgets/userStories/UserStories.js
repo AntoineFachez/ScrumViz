@@ -22,6 +22,7 @@ import WidgetMenu from '@/app/pages/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
 import { widgetProps, menuProps } from '../actions';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function UserStory({
   widget,
@@ -30,7 +31,12 @@ export default function UserStory({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
+  const {
+    appContext,
+    setAppContext,
+    scrumManagerContext,
+    setScrumManagerContext,
+  } = useContext(AppContext);
   const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -51,6 +57,7 @@ export default function UserStory({
   const collection = 'userStories';
   const widgetProps = {
     appContext: appContext,
+    scrumManagerContext: scrumManagerContext,
     iconButton: <Assignment />,
     collection: collection,
     uiContext: uiContext,
@@ -61,8 +68,7 @@ export default function UserStory({
     orderedBy: '',
 
     onClick: () => {
-      // window.location.href = `/userStory`;
-      setAppContext(collection);
+      setScrumManagerContext(collection);
       return;
     },
   };

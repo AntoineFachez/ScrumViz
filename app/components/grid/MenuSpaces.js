@@ -1,7 +1,8 @@
-import { Box, Button } from '@mui/material';
 import React from 'react';
+import { Box, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { ArrowBack, ArrowForward, PreviewOutlined } from '@mui/icons-material';
+
 export default function MenuSpaces({
   direction,
   showPaneMenu,
