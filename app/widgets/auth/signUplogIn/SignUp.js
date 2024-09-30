@@ -19,7 +19,7 @@ const Signup = ({
   return (
     <>
       <TextField
-        sx={styled.textFieldStyles}
+        sx={styled.textField}
         placeholder="email"
         type="email"
         label="email"
@@ -29,7 +29,7 @@ const Signup = ({
         required
       />
       <TextField
-        sx={styled.textFieldStyles}
+        sx={styled.textField}
         size={'small'}
         placeholder="password"
         type="password"
@@ -39,7 +39,7 @@ const Signup = ({
         required
       />
       <TextField
-        sx={styled.textFieldStyles}
+        sx={styled.textField}
         size={'small'}
         placeholder="password confirmation"
         type="password"

@@ -117,7 +117,7 @@ const Login = ({
   return (
     <>
       <TextField
-        sx={styled.textFieldStyles}
+        sx={styled.textField}
         placeholder="email"
         type="email"
         label="email"
@@ -127,7 +127,7 @@ const Login = ({
         required
       />
       <TextField
-        sx={styled.textFieldStyles}
+        sx={styled.textField}
         placeholder="password"
         type="password"
         label="password"
