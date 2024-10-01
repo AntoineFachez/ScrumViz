@@ -8,16 +8,16 @@ import UIContext from '@/context/UIContext';
 import SearchContext from '@/context/SearchContext';
 import DailiesContext from './DailiesContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { themeSettings } from '@/app/theme/ThemeContext';
-import MultiItems from '@/app/pages/MultiItems';
-import SingleItem from '@/app/pages/SingleItem';
+import MultiItems from '@/app/uiItems/MultiItems';
+import SingleItem from '@/app/uiItems/SingleItem';
 
 import { singleItemScheme } from './dataScheme';
 
 import StandInTable from '@/app/components/table/StandInTable';
 import SprintsContext from '../sprints/SprintsContext';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
@@ -29,12 +29,8 @@ export default function Dailies({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const {
     homeUiSelected,
     setHomeUiSelected,
@@ -62,7 +58,7 @@ export default function Dailies({
   const collection = 'dailies';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <DateRange />,
     collection: collection,
     uiContext: uiContext,
@@ -73,7 +69,7 @@ export default function Dailies({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

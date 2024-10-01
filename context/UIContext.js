@@ -5,8 +5,9 @@ import AppContext from './AppContext';
 // import useIntersectionObserver from '../hooks/useIntersectionObserver';
 // import { styled } from "../themes/styled";
 import {
-  userStoriesMap,
+  agileCodingMap,
   scrumManagerMap,
+  userStoriesMap,
   scrumTeamsMap,
   teamMembersMap,
   productBackLogsMap,
@@ -20,19 +21,17 @@ import {
 import {
   widgetListHome,
   widgetListScrumManager,
-} from '@/app/pages/navBarWidgetList';
+} from '@/app/uiItems/navBarWidgetList';
 import { getFromLS, saveToLS } from '@/app/components/grid/helperFunctions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
-  const { appContext, selectedStory, scrumManagerContext } =
-    useContext(AppContext);
+  const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const [intro, setIntro] = useState(false);
   const [userRole, setUserRole] = useState('viewer');
-  const [homeUiSelected, setHomeUiSelected] = useState('locations');
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
   const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
@@ -59,10 +58,26 @@ export const UIProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    setNavBarWidgetList(() => {
+      switch (appContext) {
+        case 'home':
+          return widgetListHome;
+        case 'scrumManager':
+          return widgetListScrumManager;
+        default:
+          return widgetListHome;
+      }
+    });
+    return () => {};
+  }, [appContext]);
+
+  useEffect(() => {
     setDefaultWidgetMap();
     setTimeout(() => {
       setDefaultWidgetMap(() => {
-        switch (scrumManagerContext) {
+        switch (uiGridMapContext) {
+          case 'agileCoding':
+            return agileCodingMap;
           case 'scrumManager':
             return scrumManagerMap;
           case 'userStories':
@@ -91,27 +106,13 @@ export const UIProvider = ({ children }) => {
       });
     }, 5);
     return () => {};
-  }, [scrumManagerContext]);
-
-  useEffect(() => {
-    setNavBarWidgetList(() => {
-      switch (appContext) {
-        case 'home':
-          return widgetListHome;
-        case 'scrumManager':
-          return widgetListScrumManager;
-        default:
-          return widgetListScrumManager;
-      }
-    });
-    return () => {};
-  }, [appContext]);
+  }, [appContext, uiGridMapContext]);
 
   return (
     <UIContext.Provider
       value={{
-        homeUiSelected,
-        setHomeUiSelected,
+        navBarWidgetList,
+        setNavBarWidgetList,
         showUserStoryMenu,
         setShowUserStoryMenu,
         showSprintPlanningMenu,

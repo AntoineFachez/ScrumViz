@@ -7,35 +7,20 @@ import { generateDOM } from './helperFunctions';
 import { themeSettings } from '@/app/theme/ThemeContext';
 export default function Index({}) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext, scrumManagerContext } =
+  const { appContext, setAppContext, uiGridMapContext } =
     useContext(AppContext);
 
-  const {
-    showDev,
-    showPaneMenu,
-    setShowPaneMenu,
-    userRole,
-    defaultWidgetMap,
-    gridDOMMap,
-    setGridDOMMap,
-    setDefaultWidgetMap,
-  } = useContext(UIContext);
+  const { defaultWidgetMap } = useContext(UIContext);
   const gridRef = useRef();
   const [resetGrid, setResetGrid] = useState();
 
   useEffect(() => {
     setResetGrid(
       <Grid
+        appContext={appContext}
         gridRef={gridRef}
-        userRole={userRole}
-        scrumManagerContext={scrumManagerContext}
+        uiGridMapContext={uiGridMapContext}
         defaultWidgetMap={defaultWidgetMap}
-        gridDOMMap={gridDOMMap}
-        setGridDOMMap={setGridDOMMap}
-        generateDOM={generateDOM}
-        showDev={showDev}
-        showPaneMenu={showPaneMenu}
-        setShowPaneMenu={setShowPaneMenu}
         styled={styled}
       />
     );

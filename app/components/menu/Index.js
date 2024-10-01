@@ -21,7 +21,6 @@ const Index = ({
 }) => {
   const { palette, styled } = themeSettings('dark');
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(sliderValue);
   return (
     <>
       <Menu

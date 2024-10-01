@@ -13,11 +13,11 @@ import SprintPlanningsContext from './SprintPlanningsContext';
 
 import { handleSelectWidgetContext } from '../actions';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/pages/MultiItems';
-import SingleItem from '@/app/pages/SingleItem';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import MultiItems from '@/app/uiItems/MultiItems';
+import SingleItem from '@/app/uiItems/SingleItem';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { singleItemScheme } from './dataScheme';
 
@@ -31,12 +31,8 @@ export default function SprintPlannings({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
     useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
@@ -60,7 +56,7 @@ export default function SprintPlannings({
   const collection = 'sprintPlannings';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <Schedule />,
     collection: collection,
     uiContext: uiContext,
@@ -77,7 +73,7 @@ export default function SprintPlannings({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

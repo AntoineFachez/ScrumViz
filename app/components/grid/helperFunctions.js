@@ -25,13 +25,13 @@ export const generateLayout = (widgetMap, gridRef) => {
   });
 };
 
-export const generateDOM = (appContext, widgetMap, styled) => {
-  const storedLayout = getFromLS(appContext);
+export const generateDOM = (uiGridMapContext, defaultWidgetMap, styled) => {
+  const storedLayout = getFromLS(uiGridMapContext);
 
   let mapToRender =
     storedLayout && Object.keys(storedLayout).length > 0
-      ? mergeLayouts(widgetMap, storedLayout)
-      : widgetMap;
+      ? mergeLayouts(defaultWidgetMap, storedLayout)
+      : defaultWidgetMap;
 
   return mapToRender?.map((widget, i) => {
     const selectedWidget = widget?.widget;
@@ -65,7 +65,7 @@ export const generateDOM = (appContext, widgetMap, styled) => {
             // dynamicComponent={dynamicComponent}
             // showPaneMenu={showPaneMenu}
             // menuSpace={menuSpace}
-            viewerGridMap={widgetMap}
+            viewerGridMap={defaultWidgetMap}
             // contextSpaces="top-left-top"
             selectedWidget={selectedWidget}
             dropWidgetName={widget.collection}
@@ -83,32 +83,33 @@ export const handleOnLayoutChange = (
   layoutOnLayoutChange,
   currentLayout,
   setCurrentLayout,
-  appContext,
-  gridRef
+  uiGridMapContext,
+  gridRef,
+  defaultWidgetMap
 ) => {
   /*eslint no-console: 0*/
   // console.log('currentLayout', currentLayout);
 
   // const tempLayout = mergeLayouts(currentLayout, layoutOnLayoutChange);
 
-  // saveToLS(appContext, currentLayout);
+  // saveToLS(uiGridMapContext, currentLayout);
   setCurrentLayout(currentLayout);
   return currentLayout;
 };
 export const handleSetMapOnLayoutChange = (
-  appContext,
+  uiGridMapContext,
   gridRef,
   defaultWidgetMap,
-  setLayout
+  setCurrentLayout
 ) => {
-  const storedLayout = getFromLS(appContext);
+  const storedLayout = getFromLS(uiGridMapContext);
 
-  let layoutToUse =
+  let mapToRender =
     storedLayout && Object.keys(storedLayout).length > 0
-      ? storedLayout
+      ? mergeLayouts(defaultWidgetMap, storedLayout)
       : defaultWidgetMap;
 
-  setLayout(generateLayout(layoutToUse, gridRef));
+  setCurrentLayout(generateLayout(mapToRender, gridRef));
 };
 
 export const handleOnResize = (
@@ -116,7 +117,7 @@ export const handleOnResize = (
   oldLayoutItem,
   layoutItem,
   placeholder,
-  appContext,
+  uiGridMapContext,
   defaultWidgetMap
 ) => {
   // `oldLayoutItem` contains the state of the item before the resize.
@@ -138,23 +139,23 @@ export const handleOnResize = (
 };
 export const handleOnResizeStop = (
   currentLayout,
-  appContext,
+  uiGridMapContext,
   defaultWidgetMap
 ) => {
-  const storedLayout = getFromLS(appContext);
+  const storedLayout = getFromLS(uiGridMapContext);
   const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
   const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
-  saveToLS(appContext, tempLayout2);
+  saveToLS(uiGridMapContext, tempLayout2);
 };
 export const handleOnDragStop = (
   currentLayout,
-  appContext,
+  uiGridMapContext,
   defaultWidgetMap
 ) => {
-  const storedLayout = getFromLS(appContext);
+  const storedLayout = getFromLS(uiGridMapContext);
   const tempLayout1 = mergeLayouts(storedLayout, currentLayout);
   const tempLayout2 = mergeLayouts(defaultWidgetMap, tempLayout1);
-  saveToLS(appContext, tempLayout2);
+  saveToLS(uiGridMapContext, tempLayout2);
 };
 
 //TODO:! not in use:
@@ -167,14 +168,14 @@ export const handleCloseSpace = (e, direction, activeSpaces) => {
   });
 };
 export function getFromLS(uiGridMapContext) {
-  // console.log("defaultWidgetMap", uiGridMapContext);
   let ls = {};
   if (global.localStorage) {
     try {
       ls =
         JSON.parse(
           global.localStorage.getItem('UI Grid ' + uiGridMapContext)
-        ) || newdefaultGridMap;
+        ) || null;
+      console.log('uiGridMapContext', ls);
     } catch (e) {
       /*Ignore*/
     }
@@ -182,7 +183,7 @@ export function getFromLS(uiGridMapContext) {
   if (ls) {
     return ls;
   } else {
-    return newdefaultGridMap;
+    return null;
   }
 }
 export function saveToLS(uiGridMapContext, newMapValues) {
@@ -216,7 +217,7 @@ function mergeLayouts(firstSet, secondSet) {
   return mergedArray;
 }
 export const updateWidgetContext = (widget, widgetProps, context) => {
-  const storedLayout = getFromLS(widgetProps.appContext);
+  const storedLayout = getFromLS(widgetProps.uiGridMapContext);
   // console.log('updateWidgetContext', widget, widgetProps, context);
   if (Object.keys(storedLayout).length) {
     console.log(storedLayout);
@@ -239,7 +240,7 @@ export const updateWidgetContext = (widget, widgetProps, context) => {
       ];
 
       // console.log(widget, updatedLayout);
-      saveToLS(widgetProps.appContext, updatedLayout);
+      saveToLS(widgetProps.uiGridMapContext, updatedLayout);
     } else {
       console.warn('Widget not found in stored layout. Unable to update.');
     }

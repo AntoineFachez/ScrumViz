@@ -5,15 +5,36 @@ export const widgetListHome = {
     body: [
       {
         _uid: uuidv4(),
+        widget: 'AgileCodingPage',
+        name: 'AgileCodingPage',
+      },
+      {
+        _uid: uuidv4(),
         widget: 'ScrumManagerPage',
         name: 'ScrumManagerPage',
       },
-
       {
         _uid: uuidv4(),
         widget: 'Persons',
         name: 'Persons',
       },
+    ],
+  },
+};
+export const widgetListAgileCoding = {
+  content: {
+    body: [
+      {
+        _uid: uuidv4(),
+        widget: 'AgileCodingPage',
+        name: 'AgileCodingPage',
+      },
+
+      // {
+      //   _uid: uuidv4(),
+      //   widget: 'Persons',
+      //   name: 'Persons',
+      // },
     ],
   },
 };

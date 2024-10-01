@@ -1,12 +1,15 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../pages/WidgetIndexTemplate';
-import { upLoadFilesToFireStore } from '@/firebase/helperFunctions';
+import WidgetIndexTemplate from '../uiItems/WidgetIndexTemplate';
+import {
+  listAllBuckets,
+  upLoadFilesToFireStore,
+} from '@/firebase/helperFunctions';
 import ImageDropzone from '../widgets/imageDropZone/Index';
 import UserStory from '../widgets/userStories/UserStories';
 import Sprint from '../widgets/sprints/Sprints';
@@ -15,7 +18,7 @@ import { themeSettings } from '../theme/ThemeContext';
 import GridComponent from './GridComponent';
 import AppContext from '@/context/AppContext';
 import Image from 'next/image';
-import { DeveloperBoard } from '@mui/icons-material';
+import { Code, DeveloperBoard } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function AgileCodingPage({
@@ -23,18 +26,19 @@ export default function AgileCodingPage({
   startUpWidgetLayout,
   contextToolBar,
 }) {
+  const containerRef = useRef(null);
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext } = useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
+  const { homeUiSelected, setHomeUiSelected, defaultWidgetMap } =
+    useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const image =
-    'https://firebasestorage.googleapis.com/v0/b/scrum-viz.appspot.com/o/images%2FScrum__MainView.png?alt=media&token=91f8b1c7-d38c-4e28-b0f2-eae4ee163841';
 
   const collection = 'agileCoding';
   const widgetProps = {
     appContext: appContext,
-    iconButton: <DeveloperBoard />,
+    iconButton: <Code />,
     collection: collection,
     uiContext: uiContext,
     contextToolBar: contextToolBar,
@@ -45,16 +49,31 @@ export default function AgileCodingPage({
     // soloWidget: soloWidget,
     // chip:chip,
     // widgetRight:flexList,
-    onClick: () => setAppContext(collection),
+    onClick: () => {
+      setAppContext(collection);
+      // window.location.href = '/scrumManager';
+      setUiGridMapContext(collection);
+      return;
+    },
   };
   const handleSetWidget = (e) => {
     // e.preventDefault();
     // window.location.href = '/scrumManager';
     setAppContext(collection);
   };
+  const [imageUrlArr, setImageUrlArr] = useState([]);
+  const spliceIn = () => {
+    listAllBuckets(setImageUrlArr);
+  };
+  const param = {};
+  useEffect(() => {
+    spliceIn();
+    return () => {};
+  }, []);
 
   const soloWidget = (
     <Box
+      ref={containerRef}
       sx={{
         // ...styled.centerFullAvailableSpace,
         position: 'relative',

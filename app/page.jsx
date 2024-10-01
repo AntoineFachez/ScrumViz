@@ -1,32 +1,41 @@
 'use client';
 import { useContext } from 'react';
+import { Box } from '@mui/material';
+
+import AppContext from '@/context/AppContext';
+import AuthContext from './widgets/auth/AuthContext';
 
 import SignupLogin from './widgets/auth/Index';
+import ScrumManagerPage from './scrumManager/page';
+
 import styles from './page.module.css';
-import DigitalProducts from './widgets/productBacklogs/ProductBackLogs';
-import AuthContext from './widgets/auth/AuthContext';
+import AgileCodingPage from './agileCoding/page';
 
 export default function Home({}) {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  const { appContext } = useContext(AppContext);
+  // console.log(user);
+
+  const uiElements = () => {
+    switch (appContext) {
+      case 'agileCoding':
+        return <AgileCodingPage />;
+      case 'scrumManager':
+        return <ScrumManagerPage />;
+      default:
+        return <SignupLogin />;
+    }
+  };
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        {user ? (
-          <DigitalProducts
-            widgetName={'ProductBackLogs'}
-            // id={ uuidv4()}
-            collection={'productBackLogs'}
-            active={true}
-            uiContext={'productBackLogsSelector'}
-            startUpWidgetLayout={'card'}
-          />
-        ) : (
+    <>
+      {user ? (
+        uiElements()
+      ) : (
+        <Box>
           <SignupLogin />
-        )}
-      </main>
-      <footer className={styles.footer}></footer>
-    </div>
+        </Box>
+      )}
+    </>
   );
 }

@@ -12,12 +12,19 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { writeBatch } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  listAll,
+  uploadBytesResumable,
+} from 'firebase/storage';
 import { db, storage } from './firebase';
 import { getAuth } from 'firebase/auth';
 
 import { v4 as uuidv4 } from 'uuid';
 
+const storageRef = ref(storage);
 export const submitToFirestore = async ({ dataPack }) => {
   const { firestoreContext, data, setItemInFocus, arrayToPushOnTo } = dataPack;
 
@@ -263,3 +270,43 @@ export const getVisitedItems = async (
     })
   );
 };
+export const listAllBuckets = async (setSetter) => {
+  try {
+    const result = await listAll(storageRef);
+
+    const downloadURLs = await Promise.all(
+      result.items.map((itemRef) => getDownloadURL(itemRef))
+    );
+
+    // setSetter(downloadURLs);
+
+    // Handle nested folders recursively
+    for (const folderRef of result.prefixes) {
+      const urlsInFolder = await listAllItemsRecursively(folderRef, setSetter);
+
+      // console.log(urlsInFolder);
+      setSetter((prevUrls) => [...prevUrls, ...urlsInFolder]);
+    }
+
+    return downloadURLs;
+  } catch (error) {
+    console.error('Error listing items:', error);
+    throw error; // Re-throw the error to allow handling it further up the call stack if needed
+  }
+};
+
+async function listAllItemsRecursively(folderRef, setSetter) {
+  try {
+    const result = await listAll(folderRef);
+
+    // Process files in the current folder
+    const urlsInFolder = await Promise.all(
+      result.items.map((itemRef) => getDownloadURL(itemRef))
+    );
+
+    return urlsInFolder;
+  } catch (error) {
+    console.error('Error listing items:', error);
+    throw error;
+  }
+}

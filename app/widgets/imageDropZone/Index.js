@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import Menu from './Menu';
 import { PinDropOutlined, Upload } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';

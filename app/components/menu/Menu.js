@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 // import SearchContext from "../../context/SearchContext";
 // import AutoCompleteTextField from '../auto-complete/Index';
 import { Settings } from '@mui/icons-material';
@@ -72,13 +72,13 @@ export default function Menu({
               // onMouseLeave={() => setTimeout(() => setIsOpen(false), 0)}
             >
               {verticalArray?.map((button, i) => (
-                <Box
-                  className="widgetMenuButton"
+                <Tooltip
                   key={i}
-                  // sx={styled?.widgetMenuButton}
+                  title={button?.props?.tooltip}
+                  placement="right"
                 >
                   {button}
-                </Box>
+                </Tooltip>
               ))}
             </Box>{' '}
           </Box>

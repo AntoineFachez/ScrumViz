@@ -6,20 +6,20 @@ import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import ScrumTeamsContext from './ScrumTeamsContext';
 import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/pages/SingleItem';
-import MultiItems from '@/app/pages/MultiItems';
+import SingleItem from '@/app/uiItems/SingleItem';
+import MultiItems from '@/app/uiItems/MultiItems';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
 import { handleSelectWidgetContext } from '../actions';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function ScrumTeam({
@@ -29,12 +29,8 @@ export default function ScrumTeam({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const {
     homeUiSelected,
     setHomeUiSelected,
@@ -73,7 +69,7 @@ export default function ScrumTeam({
   const collection = 'scrumTeams';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <Group />,
     collection: collection,
     uiContext: uiContext,
@@ -84,7 +80,7 @@ export default function ScrumTeam({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

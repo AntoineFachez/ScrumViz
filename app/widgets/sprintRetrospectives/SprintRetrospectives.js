@@ -14,15 +14,15 @@ import { themeSettings } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
 import SearchContext from '@/context/SearchContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { handleSelectWidgetContext } from '../actions';
 import SprintRetrospectivesContext from './SprintRetrospectivesContext';
-import SingleItem from '@/app/pages/SingleItem';
+import SingleItem from '@/app/uiItems/SingleItem';
 import { singleItemScheme } from './dataScheme';
-import MultiItems from '@/app/pages/MultiItems';
+import MultiItems from '@/app/uiItems/MultiItems';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintRetrospectives({
@@ -32,12 +32,8 @@ export default function SprintRetrospectives({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
@@ -58,7 +54,7 @@ export default function SprintRetrospectives({
   const collection = 'sprintRetrospectives';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <History />,
     collection: collection,
     uiContext: uiContext,
@@ -69,7 +65,7 @@ export default function SprintRetrospectives({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

@@ -12,7 +12,129 @@ import Sprints from '@/app/widgets/sprints/Sprints';
 import Daily from '@/app/widgets/dailies/Dailies';
 import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
+import AgileItem from '@/app/widgets/agileItem/AgileItem';
 
+export const agileCodingMap = [
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 8,
+    h: 8,
+    x: 0,
+    y: 0,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 6,
+    h: 12,
+    x: 0,
+    y: 0,
+  },
+
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 10,
+    h: 12,
+    x: 6,
+    y: 8,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 4,
+    h: 14,
+    x: 16,
+    y: 0,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 20,
+    h: 8,
+    x: 8,
+    y: 0,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 8,
+    h: 14,
+    x: 20,
+    y: 8,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 8,
+    h: 8,
+    x: 33,
+    y: 0,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+
+    w: 8,
+    h: 4,
+    x: 33,
+    y: 9,
+  },
+  {
+    widget: AgileItem,
+    widgetName: 'AgileItem',
+    id: uuidv4(),
+    collection: '',
+    active: true,
+    uiContext: '',
+    startUpWidgetLayout: 'soloWidget',
+    w: 8,
+    h: 10,
+    x: 33,
+    y: 13,
+  },
+];
 export const scrumManagerMap = [
   {
     widget: ProductBackLogs,
@@ -297,7 +419,6 @@ export const productBackLogsMap = [
     y: 3,
   },
 ];
-
 export const scrumTeamsMap = [
   {
     widget: ScrumTeams,
@@ -643,7 +764,6 @@ export const dailiesMap = [
     y: 0,
   },
 ];
-
 export const sprintReviewsMap = [
   {
     widget: ProductBackLogs,
