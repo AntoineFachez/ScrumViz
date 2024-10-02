@@ -24,6 +24,7 @@ const GridComponent = ({}) => {
     sprint: Grid,
     sprintReviews: Grid,
     sprintRetrospectives: Grid,
+    prompts: Grid,
     dropZone: Grid,
   };
   const SelectedWidget = componentMap[uiGridMapContext];

@@ -2,8 +2,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from './AppContext';
-// import useIntersectionObserver from '../hooks/useIntersectionObserver';
-// import { styled } from "../themes/styled";
 import {
   agileCodingMap,
   scrumManagerMap,
@@ -17,21 +15,16 @@ import {
   sprintReviewsMap,
   sprintRetrospectivesMap,
   timeStampsMap,
+  chatsMap,
 } from '@/app/components/grid/defaultGridMaps';
 import {
   widgetListHome,
   widgetListScrumManager,
 } from '@/app/uiItems/navBarWidgetList';
-import { getFromLS, saveToLS } from '@/app/components/grid/helperFunctions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
   const { appContext, uiGridMapContext } = useContext(AppContext);
-
-  const [intro, setIntro] = useState(false);
-  const [userRole, setUserRole] = useState('viewer');
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
   const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
@@ -43,6 +36,7 @@ export const UIProvider = ({ children }) => {
   const [showTeamMembersMenu, setShowTeamMembersMenu] = useState(false);
   const [showDailyMenu, setShowDailyMenu] = useState(false);
   const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
+  const [showChatsMenu, setShowChatsMenu] = useState(false);
 
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
@@ -100,6 +94,8 @@ export const UIProvider = ({ children }) => {
             return sprintRetrospectivesMap;
           case 'timeStamps':
             return timeStampsMap;
+          case 'prompts':
+            return chatsMap;
           default:
             return scrumManagerMap;
         }
@@ -131,6 +127,8 @@ export const UIProvider = ({ children }) => {
         setShowDailyMenu,
         showSprinReviewtMenu,
         setShowSprinReviewtMenu,
+        showChatsMenu,
+        setShowChatsMenu,
         defaultWidgetMap,
         setDefaultWidgetMap,
         gridDOMMap,

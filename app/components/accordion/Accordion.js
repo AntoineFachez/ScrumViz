@@ -7,22 +7,22 @@ import {
   Collapse,
   IconButton,
   Typography,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, { useEffect, useState } from "react";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import "./accordion.scss";
-import { ExpandLess } from "@mui/icons-material";
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useEffect, useState } from 'react';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import './accordion.scss';
+import { ExpandLess } from '@mui/icons-material';
 
 export default function AccordionComponent({
   accordionData,
   fields,
   setItemInFocus,
-  styledComponent,
+  styled,
 }) {
   const [activePanel, setActivePanel] = useState(null);
-  const listHeight = "3rem";
-  const fieldShortCut = "eventName";
+  const listHeight = '3rem';
+  const fieldShortCut = 'eventName';
   // console.log(
   //   "accordionData",
   //   `${accordionData[0]?.[fields?.dataClass]?.[fieldShortCut]}`,
@@ -32,7 +32,7 @@ export default function AccordionComponent({
     e.preventDefault();
     // console.log("accordion", i);
     // accordion?.addEventListener("click", (e) => {
-    const activatePanel = e.target.closest(".accordion-panel");
+    const activatePanel = e.target.closest('.accordion-panel');
     // console.log("clicked");
     if (!activatePanel) return;
     // setItemInFocus(`${item?.[fields?.dataClass]?.[fields?.id]}`);
@@ -42,24 +42,24 @@ export default function AccordionComponent({
     // });
   };
   const togglePanel = (i, chosenPanel) => {
-    const accordion = document.querySelector(".accordion");
-    const panels = accordion.querySelectorAll(".accordion-panel");
+    const accordion = document.querySelector('.accordion');
+    const panels = accordion.querySelectorAll('.accordion-panel');
 
     // console.log("accordion", panels);
 
     const expandedPanel = accordion.getElementsByClassName(
-      "accordion-panel-expanded",
+      'accordion-panel-expanded'
     )[i];
     // console.log(expandedPanel);
 
     // console.log("panels", panels);
     panels.forEach((panel) => {
-      panel?.classList.remove("accordion-panel-expanded");
-      panel?.classList.add("accordion-panel-collapsed");
+      panel?.classList.remove('accordion-panel-expanded');
+      panel?.classList.add('accordion-panel-collapsed');
     });
     if (chosenPanel !== expandedPanel) {
-      chosenPanel?.classList.add("accordion-panel-expanded");
-      chosenPanel?.classList.remove("accordion-panel-collapsed");
+      chosenPanel?.classList.add('accordion-panel-expanded');
+      chosenPanel?.classList.remove('accordion-panel-collapsed');
     }
   };
   useEffect(() => {
@@ -69,16 +69,16 @@ export default function AccordionComponent({
   return (
     <Box
       sx={{
-        width: "fit-content",
+        width: 'fit-content',
         // height: `calc(${100 - parseInt(listHeight)})%`,
         height: `calc(${100 - parseInt(listHeight)}%)`,
-        display: "flex",
-        flexFlow: "row wrap",
+        display: 'flex',
+        flexFlow: 'row wrap',
         flexShrink: 2,
         flexGrow: 2,
-        justifyContent: "space-between",
+        justifyContent: 'space-between',
         // alignContent: "stretch",
-        overflowY: "auto",
+        overflowY: 'auto',
         gap: 1,
       }}
     >
@@ -93,24 +93,24 @@ export default function AccordionComponent({
                 e,
                 i,
                 item,
-                `${item?.[fields?.dataClass]?.[fields?.id]}`,
+                `${item?.[fields?.dataClass]?.[fields?.id]}`
               );
             }}
             sx={{
               zIndex: 15,
-              position: "relative",
+              position: 'relative',
               // maxWidth: "40ch",
               // width: "fit-content",
               flexShrink: 2,
               flexGrow: 2,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              padding: "0.5rem",
-              backgroundColor: "rgba(25,25,25,0.5)",
-              borderRadius: "10px",
-              border: "1px solid #555",
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              padding: '0.5rem',
+              backgroundColor: 'rgba(25,25,25,0.5)',
+              borderRadius: '10px',
+              border: '1px solid #555',
             }}
             // className={`accordion-panel-collapsed accordion-panel`}
 
@@ -120,10 +120,10 @@ export default function AccordionComponent({
             <AccordionSummary
               sx={{
                 // zIndex: 15,
-                position: "relative",
-                width: "fit-content",
+                position: 'relative',
+                width: 'fit-content',
                 // width: "30%",
-                height: "100%",
+                height: '100%',
 
                 // display: "flex",
                 // flexShrink: 2,
@@ -132,7 +132,7 @@ export default function AccordionComponent({
                 // justifyContent: "flex-start",
                 // alignItems: "flex-start",
                 // padding: "0.5rem",
-                backgroundColor: "rgba(80,80,80,0.5)",
+                backgroundColor: 'rgba(80,80,80,0.5)',
                 // borderRadius: "10px",
                 // border: "1px solid #555",
               }}
@@ -141,13 +141,13 @@ export default function AccordionComponent({
               {item?.[fields?.dataClass]?.[fields?.imageUrl] && (
                 <img
                   style={{
-                    zIndex: "0",
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
+                    zIndex: '0',
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
                     top: 0,
                     left: 0,
-                    objectFit: "cover",
+                    objectFit: 'cover',
                     border: 0,
                   }}
                   src={`${item?.[fields?.dataClass]?.[fields?.imageUrl]}`}
@@ -164,10 +164,10 @@ export default function AccordionComponent({
                 // id={`panel${i}-title`}
                 // className={`panel-title`}
                 sx={{
-                  width: "100%",
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "flex-start",
+                  width: '100%',
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'flex-start',
                   // border: "none",
                 }}
               >
@@ -175,10 +175,10 @@ export default function AccordionComponent({
                   variant="p"
                   id={`panel${i}-heading`}
                   sx={{
-                    width: "fit-content",
-                    display: "flex",
-                    alignItems: "flex-start",
-                    border: "none",
+                    width: 'fit-content',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    border: 'none',
                   }}
                 >
                   {`${item?.[fields?.dataClass]?.[fields?.heading]}`}
@@ -198,7 +198,7 @@ export default function AccordionComponent({
                   // alt={`${
                   //   item?.[fields?.dataClass]?.[fields?.imageDescription]
                   // }`}
-                  // style={styledComponent?.imageAbsoluteFullSpace}
+                  // style={styled?.imageAbsoluteFullSpace}
                 />{" "} */}
               </Box>
             </AccordionSummary>
@@ -215,10 +215,10 @@ export default function AccordionComponent({
                 variant="p"
                 style={{
                   //   zIndex: 20,
-                  width: "100%",
-                  height: "fit-content",
-                  textAlign: "left",
-                  color: "white",
+                  width: '100%',
+                  height: 'fit-content',
+                  textAlign: 'left',
+                  color: 'white',
                   // border: "none",
                   // backgroundColor: "pink",
                 }}
@@ -227,7 +227,7 @@ export default function AccordionComponent({
                   {/* {`${item?.[fields?.dataClass]?.[fields?.subHeading]}`}
                   <br /> */}
                   {`${item?.[fields?.dataClass]?.[fields?.content]}`}
-                </p>{" "}
+                </p>{' '}
               </Typography>
               {/* <Box className="accordion-image">
                 <img
@@ -237,7 +237,7 @@ export default function AccordionComponent({
                   // alt={`${
                   //   item?.[fields?.dataClass]?.[fields?.imageDescription]
                   // }`}
-                  // style={styledComponent?.imageAbsoluteFullSpace}
+                  // style={styled?.imageAbsoluteFullSpace}
                 />{" "}
               </Box> */}
             </AccordionDetails>

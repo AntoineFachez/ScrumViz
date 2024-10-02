@@ -27,6 +27,7 @@ import { v4 as uuidv4 } from 'uuid';
 const storageRef = ref(storage);
 export const submitToFirestore = async ({ dataPack }) => {
   const { firestoreContext, data, setItemInFocus, arrayToPushOnTo } = dataPack;
+  console.log(firestoreContext, data, setItemInFocus, arrayToPushOnTo);
 
   try {
     const docRef = await addDoc(collection(db, firestoreContext), data);

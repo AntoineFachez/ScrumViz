@@ -13,6 +13,7 @@ import Daily from '@/app/widgets/dailies/Dailies';
 import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 import AgileItem from '@/app/widgets/agileItem/AgileItem';
+import Chats from '@/app/widgets/chats/Index';
 
 export const agileCodingMap = [
   {
@@ -899,4 +900,87 @@ export const sprintRetrospectivesMap = [
     x: 24,
     y: 0,
   },
+];
+export const chatsMap = [
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'chatsSelector',
+    startUpWidgetLayout: 'vertical',
+    w: 6,
+    h: 24,
+    x: 6,
+    y: 4,
+  },
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'chatsSelector',
+    startUpWidgetLayout: 'flexList',
+    w: 6,
+    h: 24,
+    x: 0,
+    y: 4,
+  },
+
+  // {
+  //   widget: Chats,
+  //   widgetName: 'Chats',
+  //   id: uuidv4(),
+  //   collection: 'chats',
+  //   active: true,
+  //   uiContext: 'vertical',
+  //   startUpWidgetLayout: 'vertical',
+  //   w: 36,
+  //   h: 10,
+  //   x: 0,
+  //   y: 30,
+  // },
+
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'singleItem',
+    startUpWidgetLayout: 'singleItem',
+    w: 16,
+    h: 28,
+    x: 6,
+    y: 0,
+  },
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'singleItem',
+    startUpWidgetLayout: 'soloWidget',
+    w: 14,
+    h: 28,
+    x: 22,
+    y: 0,
+  },
+  // {
+  //
+  //   widget: Chats,
+  //   widgetName: 'Chats',
+  //   id: uuidv4(),
+  //   collection: 'chats',
+  //   active: true,
+  //   uiContext: 'inputField',
+  //   startUpWidgetLayout: 'inputField',
+  //   w: 6,
+  //   h: 3,
+  //   x: 18,
+  //   y: 12,
+  // },
 ];
