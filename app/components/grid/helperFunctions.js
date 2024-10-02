@@ -175,7 +175,6 @@ export function getFromLS(uiGridMapContext) {
         JSON.parse(
           global.localStorage.getItem('UI Grid ' + uiGridMapContext)
         ) || null;
-      console.log('uiGridMapContext', ls);
     } catch (e) {
       /*Ignore*/
     }
@@ -219,7 +218,7 @@ function mergeLayouts(firstSet, secondSet) {
 export const updateWidgetContext = (widget, widgetProps, context) => {
   const storedLayout = getFromLS(widgetProps.uiGridMapContext);
   // console.log('updateWidgetContext', widget, widgetProps, context);
-  if (Object.keys(storedLayout).length) {
+  if (storedLayout && Object?.keys(storedLayout).length) {
     console.log(storedLayout);
 
     const widgetIndex = storedLayout?.findIndex(

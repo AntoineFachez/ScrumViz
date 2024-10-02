@@ -106,7 +106,7 @@ export default function WidgetMenu({
         onChange={handleSearchTermChange}
       />
       <IconButton
-        toolTip={'search'}
+        tooltip={'search'}
         onClick={handleSearch}
         // sx={styled.widgetSettingButton?.inactive}
       >

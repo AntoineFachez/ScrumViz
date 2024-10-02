@@ -7,7 +7,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const startUp = 'scrumManager';
   const [appContext, setAppContext] = useState(startUp);
-  const [uiGridMapContext, setUiGridMapContext] = useState('scrumManager');
+  const [uiGridMapContext, setUiGridMapContext] = useState('prompts');
   const [newItemElement, setNewItemElement] = useState(null);
 
   return (

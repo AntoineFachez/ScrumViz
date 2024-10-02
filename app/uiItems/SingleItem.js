@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material';
-import React from 'react';
+import AppContext from '@/context/AppContext';
+import { Box, Button, Typography } from '@mui/material';
+import React, { useContext } from 'react';
 
 const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
+  const { setUiGridMapContext } = useContext(AppContext);
   return (
     <Box className="widget" sx={styled?.widget}>
       {!itemInFocus ? (
@@ -13,19 +15,22 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
         </Typography>
       ) : (
         <>
-          {/* Optional: Keep this for debugging if needed */}
-          {/* {JSON.stringify(itemInFocus)} */}
-
           <Box sx={styled?.article}>
+            <Button onClick={() => setUiGridMapContext('prompts')}>
+              <Typography
+                sx={{ color: 'primary.main', fontWeight: 'bold' }}
+                variant="button"
+              >
+                Gemini
+              </Typography>
+            </Button>
             <Box className="singleItem header" sx={styled?.articleHeader}>
-              {/* ... other content in the header */}
               <Box>
                 <Typography
                   sx={styled.widgetTitle}
                   variant={styled.widgetTitle.variant}
                 >
                   {itemInFocus[singleItemScheme.title] || 'N/A'}{' '}
-                  {/* Handle missing subTitle */}
                 </Typography>
                 {itemInFocus[singleItemScheme.subTitle] && (
                   <Box>
@@ -34,7 +39,6 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
                       variant={styled.widgetSubTitle.variant}
                     >
                       {itemInFocus[singleItemScheme.subTitle] || 'N/A'}{' '}
-                      {/* Handle missing subTitle */}
                     </Typography>
                   </Box>
                 )}

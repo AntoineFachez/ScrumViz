@@ -23,6 +23,8 @@ const WidgetIndexTemplate = ({
   chip,
   tree,
   flexList,
+  vertical,
+  horizontal,
   isFiltered,
   onResetFiltered,
 }) => {
@@ -46,8 +48,6 @@ const WidgetIndexTemplate = ({
     // chip,
     // tree,
     // flexList,
-    horizontal,
-    vertical,
     selector,
     drawer,
     card,
