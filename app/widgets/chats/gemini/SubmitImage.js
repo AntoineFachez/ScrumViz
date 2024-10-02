@@ -6,7 +6,7 @@ import { fetchDataFromGeminiProVisionAPI } from '../functions';
 
 function SubmitImage({ setShowGeminiCard, styled }) {
   const [error, setError] = useState(null);
-  const API_KEY = process.env.REACT_APP_GOOGLE_GEN_AI_KEY;
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEN_AI_KEY;
   const [data, setData] = useState(undefined);
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);

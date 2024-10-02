@@ -4,8 +4,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 import { vertexAI, model } from '@/firebase/firebase';
 // import CodeBlock from '../../components/codeBlock/Index';
-const API_KEY = process.env.REACT_APP_GOOGLE_GEN_AI_KEY;
 
+const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEN_AI_KEY;
 export const runChat = async (
   maxOutputTokens,
   chatInFocus,
