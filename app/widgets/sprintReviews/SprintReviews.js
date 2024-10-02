@@ -5,17 +5,17 @@ import { Box } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
-import MultiItems from '@/app/pages/MultiItems';
+import MultiItems from '@/app/uiItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
 import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
 import SprintReviewContext from './SprintReviewsContext';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
@@ -28,12 +28,8 @@ export default function SprintReviews({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
@@ -59,7 +55,7 @@ export default function SprintReviews({
   const collection = 'sprintReviews';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <RateReview />,
     collection: collection,
     uiContext: uiContext,
@@ -70,7 +66,7 @@ export default function SprintReviews({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

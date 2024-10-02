@@ -10,9 +10,9 @@ import DailiesContext from '../dailies/DailiesContext';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from './SprintsContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import MultiItems from '@/app/pages/MultiItems';
-import SingleItem from '@/app/pages/SingleItem';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import MultiItems from '@/app/uiItems/MultiItems';
+import SingleItem from '@/app/uiItems/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
@@ -20,7 +20,7 @@ import { themeSettings } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 import { handleSelectWidgetContext } from '../actions';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function Sprints({
@@ -30,12 +30,8 @@ export default function Sprints({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
@@ -58,7 +54,7 @@ export default function Sprints({
   const collection = 'sprints';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     collection: collection,
     uiContext: uiContext,
@@ -69,7 +65,7 @@ export default function Sprints({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

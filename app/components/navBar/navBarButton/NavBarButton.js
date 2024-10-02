@@ -2,8 +2,8 @@ import { IconButton } from '@mui/material';
 import React from 'react';
 
 export default function NavBarButton({
-  appContext,
-  widgetContext,
+  scrumManagerContext,
+  dropWidgetName,
   onClick,
   iconButton,
   styled,
@@ -12,7 +12,7 @@ export default function NavBarButton({
     <IconButton
       onClick={onClick}
       sx={{
-        color: appContext === widgetContext ? 'white' : 'grey',
+        color: scrumManagerContext === dropWidgetName ? 'white' : 'grey',
         // backgroundColor: appContext === widgetContext ? "green" : "transparent",
       }}
     >

@@ -1,5 +1,5 @@
 import React, { memo, useContext, useEffect } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
 import AppContext from '@/context/AppContext';
@@ -23,6 +23,8 @@ const WidgetIndexTemplate = ({
   chip,
   tree,
   flexList,
+  vertical,
+  horizontal,
   isFiltered,
   onResetFiltered,
 }) => {
@@ -32,6 +34,7 @@ const WidgetIndexTemplate = ({
   // const { navBarHeight, showNewItem, mainPaneHeight, setMainPaneHeight } =
   //   useContext(UIContext);
   const {
+    uiGridMapContext,
     collection,
     itemContext,
     dropWidgetName,
@@ -45,8 +48,6 @@ const WidgetIndexTemplate = ({
     // chip,
     // tree,
     // flexList,
-    horizontal,
-    vertical,
     selector,
     drawer,
     card,
@@ -63,24 +64,26 @@ const WidgetIndexTemplate = ({
     <>
       {contextToolBar === 'navBar' ? (
         <>
-          <Draggable
-            keyToPass={uuidv4()}
-            // item={uiContext}
-            item={widgetProps?.dropWidgetName}
-            context="draggable"
-            htmlItem={
-              <NavBarButton
-                appContext={appContext}
-                // dataContext={dataContext}
-                widgetProps={widgetProps}
-                widgetContext={widgetContext}
-                onClick={onClick}
-                iconButton={iconButton}
-                styled={styled}
-              />
-            }
-            styled={styled}
-          />{' '}
+          <Tooltip title={collection}>
+            <Draggable
+              keyToPass={uuidv4()}
+              // item={uiContext}
+              item={widgetProps?.dropWidgetName}
+              context="draggable"
+              htmlItem={
+                <NavBarButton
+                  uiGridMapContext={uiGridMapContext}
+                  // dataContext={dataContext}
+                  widgetProps={widgetProps}
+                  dropWidgetName={dropWidgetName}
+                  onClick={onClick}
+                  iconButton={iconButton}
+                  styled={styled}
+                />
+              }
+              styled={styled}
+            />{' '}
+          </Tooltip>{' '}
         </>
       ) : (
         <>

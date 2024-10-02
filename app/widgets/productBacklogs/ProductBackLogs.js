@@ -4,15 +4,15 @@ import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
-import WidgetMenu from '../../pages/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetMenu from '../../uiItems/WidgetMenu';
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import BackLogsContext from './ProductBackLogsContext';
-import SingleItem from '@/app/pages/SingleItem';
-import MultiItems from '@/app/pages/MultiItems';
+import SingleItem from '@/app/uiItems/SingleItem';
+import MultiItems from '@/app/uiItems/MultiItems';
 import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
@@ -27,12 +27,8 @@ export default function Products({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -62,7 +58,7 @@ export default function Products({
 
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <AddToQueue />,
     collection: collection,
     uiContext: uiContext,
@@ -73,7 +69,7 @@ export default function Products({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };
