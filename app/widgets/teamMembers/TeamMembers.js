@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import {
   Group,
   GroupAdd,
@@ -16,11 +16,11 @@ import { themeSettings } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from './TeamMembersContext';
-import MultiItems from '@/app/pages/MultiItems';
+import MultiItems from '@/app/uiItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/pages/SingleItem';
+import SingleItem from '@/app/uiItems/SingleItem';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
@@ -32,12 +32,8 @@ export default function TeamMembers({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
@@ -57,7 +53,7 @@ export default function TeamMembers({
   const collection = 'teamMembers';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <GroupAdd />,
     collection: collection,
     uiContext: uiContext,
@@ -74,7 +70,7 @@ export default function TeamMembers({
     // tree: tree,
     // flexList: flexList,
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

@@ -5,20 +5,20 @@ import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../pages/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { themeSettings } from '@/app/theme/ThemeContext';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/pages/MultiItems';
+import MultiItems from '@/app/uiItems/MultiItems';
 import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
 import SearchContext from '@/context/SearchContext';
-import SingleItem from '@/app/pages/SingleItem';
+import SingleItem from '@/app/uiItems/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
-import WidgetMenu from '@/app/pages/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
 import { widgetProps, menuProps } from '../actions';
@@ -31,12 +31,8 @@ export default function UserStory({
   contextToolBar,
 }) {
   const { palette, styled } = themeSettings('dark');
-  const {
-    appContext,
-    setAppContext,
-    scrumManagerContext,
-    setScrumManagerContext,
-  } = useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -57,7 +53,7 @@ export default function UserStory({
   const collection = 'userStories';
   const widgetProps = {
     appContext: appContext,
-    scrumManagerContext: scrumManagerContext,
+    uiGridMapContext: uiGridMapContext,
     iconButton: <Assignment />,
     collection: collection,
     uiContext: uiContext,
@@ -68,7 +64,7 @@ export default function UserStory({
     orderedBy: '',
 
     onClick: () => {
-      setScrumManagerContext(collection);
+      setUiGridMapContext(collection);
       return;
     },
   };

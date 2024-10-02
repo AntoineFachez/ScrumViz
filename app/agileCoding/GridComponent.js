@@ -8,25 +8,13 @@ import { themeSettings } from '../theme/ThemeContext';
 
 const GridComponent = ({}) => {
   const { styled } = themeSettings('dark');
-  const { appContext, scrumManagerContext } = useContext(AppContext);
+  const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const componentMap = {
-    create: Grid,
-    read: Grid,
-    scrumManager: Grid,
-    productBackLogs: Grid,
-    sprintPlannings: Grid,
-    scrumTeams: Grid,
-    teamMembers: Grid,
-    userStories: Grid,
-    sprints: Grid,
-    dailies: Grid,
-    sprint: Grid,
-    sprintReviews: Grid,
-    sprintRetrospectives: Grid,
+    agileCoding: Grid,
     dropZone: Grid,
   };
-  const SelectedWidget = componentMap[scrumManagerContext];
+  const SelectedWidget = componentMap[uiGridMapContext];
 
   return (
     <Box

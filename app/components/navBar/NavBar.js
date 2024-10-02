@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Box, Grid, IconButton } from '@mui/material';
+import { Box, Grid, IconButton, Typography } from '@mui/material';
 import {
   Grid4x4,
   Add,
@@ -9,6 +9,7 @@ import {
   Menu,
   DeveloperBoardOff,
   RotateLeft,
+  Home,
 } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 // import UIContext from '@/context/UIContext';
@@ -17,39 +18,41 @@ import NavBarWidgetList from './navBarWidgets/Index';
 import {
   widgetListHome,
   widgetListScrumManager,
-} from '../../pages/navBarWidgetList';
+} from '../../uiItems/navBarWidgetList';
 import Logout from '../../widgets/auth/Index';
 import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
+import UIContext from '@/context/UIContext';
 
 export default function NavBar({ showDev, setShowDev }) {
   const { palette, styled } = themeSettings('dark');
-  const { appContext, setAppContext, scrumManagerContext } =
+  const { appContext, setAppContext, uiGridMapContext } =
     useContext(AppContext);
 
-  // const { setShowPaneMenu, userRole } = useContext(UIContext);
+  const { setShowPaneMenu, userRole, navBarWidgetList } = useContext(UIContext);
   const handleClick = () => {
     setShowDev(!showDev);
   };
   return (
     <Box className="navBar" sx={{ ...styled.navBar, flexFlow: 'row nowrap' }}>
+      <IconButton
+        onClick={() => {
+          setAppContext('home');
+          // window.location.href = '/';
+        }}
+        sx={{
+          color: appContext === 'home' ? 'white' : 'grey',
+          // backgroundColor: appContext === widgetContext ? "green" : "transparent",
+        }}
+      >
+        <Home />
+      </IconButton>{' '}
       <NavBarWidgetList
-        data={
-          appContext === 'home'
-            ? widgetListHome
-            : appContext === 'scrumManager'
-            ? widgetListScrumManager
-            : // ? userRole === 'viewer'
-              //   ? widgetListPublished
-              //   : userRole === 'creator'
-              //   ? widgetListCreator
-              //   : userRole === 'researcher'
-              //   ? widgetListResearcher
-              widgetListHome
-          // : null
-        }
+        data={navBarWidgetList}
         navBarButtonList={styled.navBarButtonList}
-      />{' '}
-      {scrumManagerContext}
+      />
+      <Typography>appContext: {appContext}</Typography>
+      <br />
+      <Typography>uiGridMapContext: {uiGridMapContext}</Typography>
       {/* </Box> */}
       {/* <IconButton
         sx={
