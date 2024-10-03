@@ -5,7 +5,6 @@ import './globals.css';
 import { AppProvider } from '@/context/AppContext';
 import { AuthProvider } from './widgets/auth/AuthContext';
 import { UIProvider } from '@/context/UIContext';
-import { ThemeProvider, themeSettings } from './theme/ThemeContext';
 import { SearchProvider } from '@/context/SearchContext';
 import { UserStoriesProvider } from './widgets/userStories/UserStoriesContext';
 import { SprintsProvider } from './widgets/sprints/SprintsContext';
@@ -86,7 +85,6 @@ export default function RootLayout({ children }) {
                                       <SprintRetrospectivesProvider>
                                         <ScrumManagerProvider>
                                           <ChatsProvider>
-                                            <NavBar />
                                             {children}
                                           </ChatsProvider>
                                         </ScrumManagerProvider>

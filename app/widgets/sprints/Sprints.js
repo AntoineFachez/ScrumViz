@@ -16,7 +16,7 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 import { handleSelectWidgetContext } from '../actions';
@@ -29,7 +29,7 @@ export default function Sprints({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);

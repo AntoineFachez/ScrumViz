@@ -8,7 +8,7 @@ import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import ScrumTeamsContext from './ScrumTeamsContext';
 import { singleItemScheme } from './dataScheme';
@@ -28,7 +28,7 @@ export default function ScrumTeam({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const {

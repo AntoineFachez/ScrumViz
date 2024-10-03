@@ -15,14 +15,13 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import AIModelSelector from './gemini/AIModelSelector';
-import Chats from './ChatsSelector';
 import ChatInFocus from './ChatInFocus';
-import Message from './ChatMessage';
+import ChatMessage from './ChatMessage';
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 
 import { handleSelectWidgetContext } from '../actions';
 // import prompts from "../../assets/data/mockData/chats.json";
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import './ChatInFocus.scss';
 import {
   getDocIdSByValueSearch,
@@ -40,7 +39,7 @@ export default function ChatsWidget({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showChatsMenu, setShowChatsMenu } = useContext(UIContext);
@@ -99,7 +98,6 @@ export default function ChatsWidget({
       return;
     },
   };
-  console.log('widgetProps', widgetProps.widgetContext);
   const menuProps = {
     states: { showMenu: showChatsMenu, widgetProps: widgetProps },
     functions: {
@@ -112,22 +110,30 @@ export default function ChatsWidget({
   };
   const handleNewChat = async () => {
     const data = {
-      chatId: uuidv4(),
-      title: 'latest  chat',
+      chat_id: uuidv4(),
+      title: 'next chat',
       createdAt: new Date(),
-      summery: '',
+      summary: '',
       history: [
         {
           role: 'user',
           parts: [
             {
-              text: 'In the next prompt you will recieve instructions. The aim for you is to return a response that contains only the json. You will be provided furthermore with data.',
+              text: 'I am in development of an AI integration.',
             },
           ],
         },
         {
           role: 'model',
-          parts: [{ text: 'hi.' }],
+          parts: [{ text: 'hi. Tell me more about that.' }],
+        },
+        {
+          role: 'user',
+          parts: [
+            {
+              text: 'I am in development of an AI integration. Please return what ever comes to your mind. By now I only need to receive some kind of response and am wondering what you come up with.',
+            },
+          ],
         },
       ],
     };
@@ -141,6 +147,9 @@ export default function ChatsWidget({
         // setDisplayChats,
         // uploadFileUrl: data.uploadFileUrl || "",
       },
+    }).then((tempArray) => {
+      setDisplayChats(tempArray);
+      console.log('displayChats', displayChats);
     });
   };
   const handleStoreChat = async (data) => {
@@ -148,8 +157,8 @@ export default function ChatsWidget({
     let queryField;
 
     let searchString;
-    searchString = data?.chatId;
-    queryField = 'chatId';
+    searchString = data?.chat_id;
+    queryField = 'chat_id';
 
     const parentDoc = await getDocIdSByValueSearch(
       parentCollectionName,
@@ -162,16 +171,21 @@ export default function ChatsWidget({
       submitToFirestore({
         //firestoreContext, data, setItemInFocus, setter, setSetter
         dataPack: {
-          firestoreContext,
-          data,
-          setChatInFocus,
-          chats,
-          setChats,
-          // uploadFileUrl: data.uploadFileUrl || "",
+          firestoreContext: widgetProps.collection,
+          data: data,
+          setItemInFocus: setChatInFocus,
+          arrayToPushOnTo: displayChats,
         },
+      }).then((tempArray) => {
+        setDisplayChats(tempArray);
+        console.log('displayChats', displayChats);
       });
     }
   };
+  const handleSetChatInFocus = (chat) => {
+    setChatInFocus(chat);
+  };
+
   const menu = (
     <>
       <WidgetMenu
@@ -196,20 +210,17 @@ export default function ChatsWidget({
       UserStory New Item
     </Box>
   );
-  // const flexList = (
-  //   <>
-  //     <Chats
-  //       button={''}
-  //       data={selectedChats}
-  //       chatInFocus={chatInFocus}
-  //       setChatInFocus={setChatInFocus}
-  //       styled={styled}
-  //     />
-  //   </>
-  // );
-  const handleSetChatInFocus = (chat) => {
-    setChatInFocus(chat);
-  };
+
+  const selector = (
+    <>
+      <AIModelSelector
+        showGeminiCard={showGeminiCard}
+        setShowGeminiCard={setShowGeminiCard}
+        direction="row"
+      />
+    </>
+  );
+
   const flexList = (
     <Box
       className="widget"
@@ -252,7 +263,16 @@ export default function ChatsWidget({
       />
     </>
   );
-  console.log('triggered_run_Chat', chatInFocus?.history);
+  const response = (
+    <Box className="widget" sx={styled?.widget}>
+      <ChatMessage
+        data={messageInFocus}
+        messageInFocus={messageInFocus}
+        styled={styled}
+      />
+    </Box>
+  );
+
   const promtWithChat = (
     <>
       <Box
@@ -289,40 +309,13 @@ export default function ChatsWidget({
           <Add />
         </IconButton>
       </Box>
-      {chatInFocus ? (
-        <ChatInFocus
-          maxOutputTokens={maxOutputTokens}
-          chatInFocus={chatInFocus}
-          data={displayChats}
-          setData={setDisplayChats}
-          streamedResponse={streamedResponse}
-          setStreamedResponse={setStreamedResponse}
-          fullResponse={fullResponse}
-          setFullResponse={setFullResponse}
-          promptInputText={promptInputText}
-          setPromptInputText={setPromptInputText}
-          loading={loading}
-          setLoading={setLoading}
-          promptTokenConsumed={promptTokenConsumed}
-          setPromptTokenConsumed={setPromptTokenConsumed}
-          messageInFocus={messageInFocus}
-          setMessageInFocus={setMessageInFocus}
-          handleStoreChat={handleStoreChat}
-          setError={setError}
-          styled={styled}
-        />
-      ) : (
-        flexList
-      )}
-    </>
-  );
-
-  const response = (
-    <Box className="widget" sx={styled?.widget}>
-      <Message
-        data=""
-        setData={setDisplayChats}
-        streamedResponse=""
+      {/* {chatInFocus ? ( */}
+      <ChatInFocus
+        maxOutputTokens={maxOutputTokens}
+        chatInFocus={chatInFocus}
+        data={selectedChats}
+        setData={setSelectedChats}
+        streamedResponse={streamedResponse}
         setStreamedResponse={setStreamedResponse}
         fullResponse={fullResponse}
         setFullResponse={setFullResponse}
@@ -330,21 +323,17 @@ export default function ChatsWidget({
         setPromptInputText={setPromptInputText}
         loading={loading}
         setLoading={setLoading}
+        promptTokenConsumed={promptTokenConsumed}
+        setPromptTokenConsumed={setPromptTokenConsumed}
         messageInFocus={messageInFocus}
         setMessageInFocus={setMessageInFocus}
+        handleStoreChat={handleStoreChat}
         setError={setError}
         styled={styled}
       />
-    </Box>
-  );
-
-  const selector = (
-    <>
-      <AIModelSelector
-        showGeminiCard={showGeminiCard}
-        setShowGeminiCard={setShowGeminiCard}
-        direction="row"
-      />
+      {/* ) : (
+        flexList
+      )} */}
     </>
   );
 

@@ -9,6 +9,7 @@ import { useTheme } from '@emotion/react';
 // import { colorTokens } from "../../../Theme";
 import { Box } from '@mui/system';
 import AppContext from '@/context/AppContext';
+import { useMode } from '@/app/theme/ThemeContext';
 // import PaintRuns from "../../../PaintRuns";
 
 // import './sidebar.scss';
@@ -16,10 +17,9 @@ import AppContext from '@/context/AppContext';
 export default function Index({
   data,
   color,
-  navBarButtonList,
+  styled,
   // blurDashboard
 }) {
-  // console.log(data);
   const { themeMode } = useContext(AppContext);
 
   // useEffect(() => {
@@ -41,18 +41,12 @@ export default function Index({
       >
         <PaintRuns />
       </Box> */}
-      {themeMode === 'tutorial' ? (
-        <Box className="navBar" sx={{ backgroundColor: color }}></Box>
-      ) : (
-        <>
-          <List className="navBar" sx={navBarButtonList}>
-            <NavBarWidgetCompiler
-              data={data}
-              // styled={styled}
-            />
-          </List>
-        </>
-      )}
+
+      <>
+        <List className="navBar" sx={styled.navBarButtonList}>
+          <NavBarWidgetCompiler data={data} styled={styled} />
+        </List>
+      </>
     </>
   );
 }

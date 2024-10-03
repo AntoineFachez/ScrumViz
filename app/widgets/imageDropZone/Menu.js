@@ -19,7 +19,7 @@ import {
 // import googleBardIcon from '../../assets/icons/Google_Bard_logo.png';
 import UIContext from '../../../context/UIContext';
 import Menu from '../../components/menu/Index';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function MenuImageDrop({
   widgetProps,
@@ -41,7 +41,7 @@ export default function MenuImageDrop({
   handlePaste,
   handleSubmit,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { showImageDropMenu, setShowImageDropMenu, toggleDrawer } =
     useContext(UIContext);
   const menuProps = {

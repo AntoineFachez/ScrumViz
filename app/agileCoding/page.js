@@ -14,7 +14,7 @@ import ImageDropzone from '../widgets/imageDropZone/Index';
 import UserStory from '../widgets/userStories/UserStories';
 import Sprint from '../widgets/sprints/Sprints';
 import BackLogItem from '../widgets/productBacklogs/ProductBackLogs';
-import { themeSettings } from '../theme/ThemeContext';
+import { useMode } from '../theme/ThemeContext';
 import GridComponent from './GridComponent';
 import AppContext from '@/context/AppContext';
 import Image from 'next/image';
@@ -27,7 +27,8 @@ export default function AgileCodingPage({
   contextToolBar,
 }) {
   const containerRef = useRef(null);
-  const { palette, styled } = themeSettings('dark');
+
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { homeUiSelected, setHomeUiSelected, defaultWidgetMap } =

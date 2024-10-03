@@ -7,10 +7,10 @@ import {
   getDownloadURL,
 } from 'firebase/storage';
 import { app } from '@/firebase/firebase';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 
 function ImageDropzone({}) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const [selectedImages, setSelectedImages] = useState([]);
   const [uploadProgress, setUploadProgress] = useState({}); // Track progress for each file
   const storage = getStorage(app);

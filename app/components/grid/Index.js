@@ -4,9 +4,9 @@ import { Box } from '@mui/material';
 import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 import { generateDOM } from './helperFunctions';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 export default function Index({}) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext } =
     useContext(AppContext);
 

@@ -1,9 +1,8 @@
-.chatGPT-container {
-  background-color: rgb(30, 30, 30);
-}
+// .chatGPT-container {
+//   background-color: rgb(30, 30, 30);
+// }
 .cs-main-container {
   position: relative;
-
   background-color: #222;
   height: 100%;
   border: none;
@@ -35,7 +34,8 @@
       .scrollbar-container {
         width: 100%;
         height: 100%;
-        padding: 0rem 2rem 4rem 2rem;
+        margin: 0;
+        padding: 0;
         .cs-message--outgoing {
           color: white;
           // background-color: #5c5c5f;
@@ -141,4 +141,29 @@
 }
 .cs-message-input__content-editor[data-placeholder]:empty::before {
   color: white;
+}
+.cs-message--outgoing {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  .cs-message__content {
+    color: white;
+    background-color: #3e3e50;
+    // border-radius: 0;
+    border-radius: 0px;
+    // width: 100%;
+  }
+}
+
+.cs-message--incoming {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  .cs-message__content {
+    color: white;
+    background-color: #333;
+    // border-radius: 0;
+    border-radius: 0px;
+  }
+  /* width: 100%; */
 }
