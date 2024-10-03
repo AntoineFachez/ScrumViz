@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
-import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 // import SearchContext from "../../context/SearchContext";
 // import AutoCompleteTextField from '../auto-complete/Index';
 import { Settings } from '@mui/icons-material';
@@ -16,7 +23,7 @@ export default function Menu({
 }) {
   return (
     <>
-      <Box
+      <Paper
         sx={{
           position: 'absolute',
           width: '100%',
@@ -35,14 +42,19 @@ export default function Menu({
         >
           {menuProps?.states?.widgetProps?.collection}
         </Typography>
-      </Box>
+      </Paper>
 
       {menuProps.states.showMenu && isOpen ? (
         <>
           {' '}
-          <Box className="widgetMenuExpand" sx={styled?.widgetMenuExpand}>
+          <Paper className="widgetMenuExpand" sx={styled?.widgetMenuExpand}>
             <IconButton
-              sx={styled?.widgetSettingButton?.active}
+              sx={{
+                ...styled?.navBarButton?.active,
+                width: '2rem',
+                height: '2rem',
+                backgroundColor: 'transparent',
+              }}
               onMouseEnter={() => {
                 setIsOpen(true);
                 return menuProps.functions.handleShowMenu(true);
@@ -54,9 +66,13 @@ export default function Menu({
             >
               <Settings />
             </IconButton>{' '}
-            <Box
+            <Paper
               className="widgetMenuButtonArray"
-              sx={styled?.widgetMenuButtonArray?.vert}
+              sx={{
+                ...styled?.navBarButtonList,
+                flexFlow: 'column nowrap',
+                // backgroundColor: 'transparent',
+              }}
               onMouseEnter={() => {
                 setIsOpen(true);
                 menuProps.functions.handleShowMenu(true);
@@ -80,25 +96,16 @@ export default function Menu({
                   {button}
                 </Tooltip>
               ))}
-            </Box>{' '}
-          </Box>
-          <Box
+            </Paper>{' '}
+          </Paper>
+          <Paper
             className="widgetMenuButtonArray hor"
-            sx={styled?.widgetMenuButtonArray?.hor}
-            // sx={{
-            //   position: 'absolute',
-            //   top: 0,
-            //   width: '100%',
-            //   height: '2rem',
-            //   display: 'flex',
-            //   flexDirection: 'row',
-            //   padding: '0 0rem 0 2rem',
-            // }}
-            // noValidate
-            // autoComplete="off"
+            sx={{
+              ...styled?.widgetMenuButtonArray.hor,
+            }}
           >
             {horizontalArray?.map((item, i) => (
-              <Box
+              <Paper
                 // sx={styled?.widgetMenuButtonArrayElement}
                 sx={{
                   width: '100%',
@@ -129,15 +136,19 @@ export default function Menu({
                 key={i}
               >
                 {item}
-              </Box>
+              </Paper>
             ))}
-          </Box>
+          </Paper>
         </>
       ) : (
         <>
           <Box className="widgetMenuCollapse" sx={styled?.widgetMenuCollapse}>
             <IconButton
-              sx={styled?.widgetSettingButton?.inactive}
+              sx={{
+                ...styled?.navBarButton?.inactive,
+                width: '2rem',
+                height: '2rem',
+              }}
               onMouseEnter={() => {
                 setIsOpen(true);
                 return menuProps.functions.handleShowMenu(true);

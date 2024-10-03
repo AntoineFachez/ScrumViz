@@ -9,7 +9,7 @@ import SearchContext from '@/context/SearchContext';
 import DailiesContext from './DailiesContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 import SingleItem from '@/app/uiItems/SingleItem';
 
@@ -28,7 +28,7 @@ export default function Dailies({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const {

@@ -10,7 +10,7 @@ import {
 } from '@mui/icons-material';
 
 import UIContext from '@/context/UIContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
 import SearchContext from '@/context/SearchContext';
 
@@ -31,7 +31,7 @@ export default function SprintRetrospectives({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);

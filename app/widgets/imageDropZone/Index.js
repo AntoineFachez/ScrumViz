@@ -12,7 +12,7 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import Menu from './Menu';
 import { PinDropOutlined, Upload } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 
 export default function ImageDrop({
@@ -24,7 +24,7 @@ export default function ImageDrop({
   contextToolBar,
   onImageUpload,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext } = useContext(AppContext);
 
   const { homeUiSelected, setHomeUiSelected } = useContext(UIContext);

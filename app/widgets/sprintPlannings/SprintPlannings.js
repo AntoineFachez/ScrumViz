@@ -21,7 +21,7 @@ import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { singleItemScheme } from './dataScheme';
 
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintPlannings({
@@ -30,7 +30,7 @@ export default function SprintPlannings({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
