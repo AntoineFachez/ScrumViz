@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import Menu from './Menu';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 
 const Index = ({
   menuProps,
@@ -19,7 +19,7 @@ const Index = ({
   sliderValue,
   setSliderValue,
 }) => {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const [isOpen, setIsOpen] = useState(false);
   return (
     <>

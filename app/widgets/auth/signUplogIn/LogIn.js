@@ -14,7 +14,7 @@ import {
   handleAddDocToSubCollection,
   getDocIdSByValueSearch,
 } from '@/firebase/helperFunctions';
-import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
+import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 
 const Login = ({
   users,
@@ -30,7 +30,7 @@ const Login = ({
   switchToSignUp,
   // styled,
 }) => {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { alert, setAlert } = AppState();
   const [error, setError] = useState();
   const { log, setLog } = useContext(AppContext);

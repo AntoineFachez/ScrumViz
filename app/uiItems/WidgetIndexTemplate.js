@@ -8,7 +8,7 @@ import AppContext from '@/context/AppContext';
 
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
-import { themeSettings } from '../theme/ThemeContext';
+import { useMode } from '../theme/ThemeContext';
 
 // import { styled } from "../themes/styled";
 
@@ -28,7 +28,7 @@ const WidgetIndexTemplate = ({
   isFiltered,
   onResetFiltered,
 }) => {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext } = useContext(AppContext);
   // const { dataContext } = useContext(DataContext);
   // const { navBarHeight, showNewItem, mainPaneHeight, setMainPaneHeight } =

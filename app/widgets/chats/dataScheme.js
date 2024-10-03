@@ -1,4 +1,26 @@
+import { v4 as uuidv4 } from 'uuid';
 export const context = 'university';
+
+export const ChatScheme = {
+  chatId: uuidv4(),
+  title: 'latest  chat',
+  createdAt: new Date(),
+  summary: '',
+  history: [
+    {
+      role: 'user',
+      parts: [
+        {
+          text: '',
+        },
+      ],
+    },
+    {
+      role: 'model',
+      parts: [{ text: '' }],
+    },
+  ],
+};
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',

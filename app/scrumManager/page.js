@@ -9,14 +9,14 @@ import UIContext from '@/context/UIContext';
 import WidgetIndexTemplate from '../uiItems/WidgetIndexTemplate';
 import GridComponent from './GridComponent';
 
-import { themeSettings } from '../theme/ThemeContext';
+import { useMode } from '../theme/ThemeContext';
 
 export default function ScrumManagerPage({
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =

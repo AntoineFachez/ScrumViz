@@ -8,7 +8,7 @@ import UIContext from '@/context/UIContext';
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
 import MultiItems from '@/app/uiItems/MultiItems';
@@ -27,7 +27,7 @@ export default function SprintReviews({
 
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
