@@ -14,7 +14,7 @@ const Signup = ({
   setAlert,
   onSubmit,
 }) => {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const [error, setError] = useState();
   return (
     <>

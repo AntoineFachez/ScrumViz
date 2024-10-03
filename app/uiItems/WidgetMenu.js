@@ -10,7 +10,7 @@ import {
   Summarize,
 } from '@mui/icons-material';
 import Menu from '../components/menu/Index';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import { Fragment } from 'react';
 import { buttonData } from './widgetMenuButtonData';
 
@@ -26,7 +26,7 @@ export default function WidgetMenu({
   handleSearch,
   // buttonData,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
 
   const renderedButtons = (buttonDataToRender) => {
     return buttonDataToRender.map((buttonData, index) => {

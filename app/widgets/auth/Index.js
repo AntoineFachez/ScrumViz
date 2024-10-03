@@ -12,12 +12,12 @@ import LogOut from './signUplogIn/LogOut';
 import SignUp from './signUplogIn/SignUp';
 
 import { handleCreateNewUser } from './helper';
-import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
+import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 
 // import './log-in.css';
 
 export default function Index({}) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { users, user, setUser, userInFocus, setUserInFocus } =
     useContext(AuthContext);
   // const { coordsInFocus } = useContext(InFocusContext);
@@ -125,6 +125,7 @@ export default function Index({}) {
             userInFocus={userInFocus}
             setUserInFocus={setUserInFocus}
             setAlert={setAlert}
+            styled={styled}
           />
         </>
       )}

@@ -1,9 +1,10 @@
-import { Avatar, Box, Button, Chip, Typography } from '@mui/material';
+import { Avatar, Box, Button, Chip, Paper, Typography } from '@mui/material';
 import Draggable from '../components/dragDrop/Index';
 import CardItem from '../components/card/Index';
 import { stringAvatar } from '@/utils/colorHelpers';
 import AccordionComponent from '../components/accordion/Accordion';
 import { useEffect, useRef } from 'react';
+import { useMode } from '../theme/ThemeContext';
 
 export default function MultiItems({
   selectedWidgetContext,
@@ -19,8 +20,10 @@ export default function MultiItems({
   handleSetItemInFocus,
   handleClickCustomArrayItem,
   alertElement,
-  styled,
+  // styled,
 }) {
+  const [theme, colorMode, palette, styled] = useMode();
+
   let array = [];
   const flexListRef = useRef();
   const scrollToPiece = (listItemRef) => {
@@ -50,7 +53,7 @@ export default function MultiItems({
   }
   return (
     <>
-      <Box className="flexList" sx={styled?.flexList} ref={flexListRef}>
+      <Paper className="flexList" sx={styled?.flexList} ref={flexListRef}>
         {array.length < 1 ? (
           <>select an entity section or create new {`${itemContext}`}</>
         ) : (
@@ -60,7 +63,7 @@ export default function MultiItems({
                 <Box
                   component="ul"
                   sx={{
-                    ...styled.widgetMenuButtonArray.vert,
+                    ...styled?.widgetMenuButtonArray?.vert,
                     alignItems: 'center',
                     gap: '1rem',
                   }}
@@ -71,22 +74,22 @@ export default function MultiItems({
                     }
                     return (
                       <Button
-                        // sx={styled.menuButtonText.action}
+                        // sx={styled?.menuButtonText.action}
                         sx={
                           customArrayItemInFocus?.[
                             singleItemScheme.itemInFocusIdKey
                           ] ===
                           customItem?.[singleItemScheme.filterArrayByIdKey]
-                            ? styled.menuButtonText.selected
-                            : styled.menuButtonText.action
+                            ? styled?.menuButtonText?.selected
+                            : styled?.menuButtonText?.action
                         }
                         key={i}
                         onClick={() => handleClickCustomArrayItem(customItem)}
                       >
-                        {/* <Typography sx={styled.textBody}> */}
+                        {/* <Typography sx={styled?.textBody}> */}
                         {customItem[singleItemScheme.customArrayKey]}
                         {/* </Typography> */}
-                        {/* <Typography sx={styled.textBody}> */}
+                        {/* <Typography sx={styled?.textBody}> */}
                         {customItem[singleItemScheme.customArrayKey_2]}
                         {/* </Typography> */}
                       </Button>
@@ -153,7 +156,7 @@ export default function MultiItems({
             })}
           </>
         )}
-      </Box>
+      </Paper>
     </>
   );
 }

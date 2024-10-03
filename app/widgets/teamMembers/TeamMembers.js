@@ -12,7 +12,7 @@ import {
   StoreMallDirectoryOutlined,
 } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from './TeamMembersContext';
@@ -31,7 +31,7 @@ export default function TeamMembers({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);

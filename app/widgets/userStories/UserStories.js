@@ -8,7 +8,7 @@ import UIContext from '@/context/UIContext';
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/uiItems/MultiItems';
@@ -30,7 +30,7 @@ export default function UserStory({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);

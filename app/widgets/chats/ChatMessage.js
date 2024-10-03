@@ -9,56 +9,63 @@ import {
 } from '@mui/material';
 import './ResponseStyles.css'; // Import the CSS styles
 import { handleFormatResponse } from './functions';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco, vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { Message } from '@chatscope/chat-ui-kit-react';
 
-const ChatMessage = ({
-  data,
-  setData,
-  streamedResponse,
-  setStreamedResponse,
-  fullResponse,
-  setFullResponse,
-  promptInputText,
-  setPromppromptInputText,
-  loading,
-  setLoading,
-  messageInFocus,
-  setMessageInFocus,
-  setError,
-  styled,
-}) => {
-  const [formattedText, setFormattedText] = useState(streamedResponse);
-  console.log('streamedResponse', streamedResponse);
-
-  useEffect(() => {
-    // Split the response into code blocks and regular text
-    if (!streamedResponse?.length) {
-      return;
-    } else {
-      // handleFormatResponse(formattedText, setFormattedText, Typography, Box);
-    }
-
-    return () => {};
-  }, [streamedResponse]);
-
+const ChatMessage = ({ data, styled, messageInFocus }) => {
   return (
     <>
-      {messageInFocus ? (
-        <Box
-          className="chat-response widget"
-          sx={{ width: '100%', height: '100%' }}
+      {data ? (
+        <Paper
+          // className="chat-response widget"
+          sx={{ ...styled.widget, width: '100%', height: '100%' }}
+          // variant="outlined"
+          square={false}
         >
-          {/* {formattedText} */}
-
-          {messageInFocus?.parts?.map((part, i) => (
-            <Paper key={i}>
-              <Typography sx={styled?.textBody}>
-                {handleFormatResponse(part?.text, Typography, Box, styled)}
-              </Typography>
-            </Paper>
-          ))}
-        </Box>
+          {data?.parts?.map((part, i) => {
+            console.log('streamedResponse', part.type);
+            return (
+              <Message
+                model={{
+                  message: part?.content,
+                  sentTime: 'just now',
+                  sender: data?.role,
+                  direction: data?.role === 'model' ? 'incoming' : 'outgoing',
+                }}
+                key={i}
+                // style={{
+                //   backgroundColor: data === messageInFocus ? 'green' : '',
+                // }}
+              >
+                <Message.CustomContent>
+                  {part.type === 'code' ? (
+                    <SyntaxHighlighter
+                      language={part.language}
+                      // style={{
+                      //   ...vs2015,
+                      //   width: '100%',
+                      //   backgroundColor: 'black',
+                      // }}
+                      style={vs2015}
+                      wrapLongLines={true}
+                    >
+                      {part.content}
+                    </SyntaxHighlighter>
+                  ) : (
+                    <>
+                      <Typography sx={styled.textBody}>
+                        {part.content}
+                      </Typography>
+                    </>
+                  )}
+                </Message.CustomContent>
+              </Message>
+            );
+          })}
+        </Paper>
       ) : (
-        'please selecet a chat in the chat list'
+        `selecet a message of the chat`
       )}
     </>
   );

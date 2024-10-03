@@ -4,7 +4,7 @@ import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import { Box } from '@mui/material';
 
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 
@@ -22,7 +22,7 @@ export default function Persons({
   startUpWidgetLayout,
   contextToolBar,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);

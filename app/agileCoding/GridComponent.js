@@ -4,10 +4,10 @@ import { Box } from '@mui/material';
 import AppContext from '@/context/AppContext';
 
 import Grid from '../components/grid/Index';
-import { themeSettings } from '../theme/ThemeContext';
+import { useMode } from '../theme/ThemeContext';
 
 const GridComponent = ({}) => {
-  const { styled } = themeSettings('dark');
+  const { styled } = useMode();
   const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const componentMap = {

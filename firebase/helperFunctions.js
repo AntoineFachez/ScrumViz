@@ -27,11 +27,10 @@ import { v4 as uuidv4 } from 'uuid';
 const storageRef = ref(storage);
 export const submitToFirestore = async ({ dataPack }) => {
   const { firestoreContext, data, setItemInFocus, arrayToPushOnTo } = dataPack;
-  console.log(firestoreContext, data, setItemInFocus, arrayToPushOnTo);
 
   try {
     const docRef = await addDoc(collection(db, firestoreContext), data);
-    //    console.log("Document written with ID: ", firestoreContext, docRef.id);
+    console.log('Document written with ID: ', firestoreContext, docRef.id);
 
     const docSnap = await getDoc(doc(db, firestoreContext, docRef.id));
 
@@ -39,12 +38,13 @@ export const submitToFirestore = async ({ dataPack }) => {
       const docData = docSnap.data();
       // console.log(docData);
       if (setItemInFocus) {
-        setItemInFocus(docData, docRef.id);
+        setItemInFocus(docData);
         arrayToPushOnTo.push(docData);
       }
     } else {
       //    console.log("No such document!");
     }
+    return arrayToPushOnTo;
   } catch (error) {
     console.error('Error writing document: ', error);
     // Handle error as needed

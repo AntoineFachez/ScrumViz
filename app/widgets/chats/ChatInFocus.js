@@ -10,9 +10,10 @@ import {
   AttachmentButton,
   SendButton,
 } from '@chatscope/chat-ui-kit-react';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Typography } from '@mui/material';
 import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { Backup, Cloud, Save, Send, Store, Upload } from '@mui/icons-material';
+import './ChatInFocus.scss';
 import {
   fetchDataFromGeminiProVisionAPI,
   handleFormatResponse,
@@ -61,7 +62,7 @@ export default function ChatInFocus({
     // setTextMessage(textContent);
   };
   return (
-    <Box
+    <Paper
       sx={{
         width: '100%',
         height: '100%',
@@ -86,6 +87,16 @@ export default function ChatInFocus({
           // border: "none",
           // overflow: "scroll",
         },
+        '& .cs-button--attachment': {
+          color: styled.iconButton.action,
+          width: '100%',
+          height: '100%',
+        },
+        '& .cs-button--send': {
+          color: styled.iconButton.action,
+          width: '100%',
+          height: '100%',
+        },
       }}
       className="widget"
     >
@@ -97,6 +108,8 @@ export default function ChatInFocus({
               chatInFocus={chatInFocus}
               handleSelectMessage={handleSelectMessage}
               handleFormatResponse={handleFormatResponse}
+              messageInFocus={messageInFocus}
+              setMessageInFocus={setMessageInFocus}
               styled={styled}
             />
           </MessageList>
@@ -127,6 +140,6 @@ export default function ChatInFocus({
           />
         </ChatContainer>
       </MainContainer>
-    </Box>
+    </Paper>
   );
 }

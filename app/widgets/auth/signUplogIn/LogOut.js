@@ -17,7 +17,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { Box, Button, IconButton } from '@mui/material';
-import { themeSettings } from '@/app/theme/ThemeContext';
+import { useMode } from '@/app/theme/ThemeContext';
 // import { AiOutlineConsoleSql } from "react-icons/ai";
 
 export default function LogOut({
@@ -26,9 +26,9 @@ export default function LogOut({
   userInFocus,
   setUserInFocus,
   setAlert,
-  // styled,
+  styled,
 }) {
-  const { palette, styled } = themeSettings('dark');
+  // const [theme, colorMode, palette, styled] = useMode();
   // const { setWelcome, logId, setLogId } = useContext(AppContext);
   // const { user, userInFocus, setUserInFocus } = AppState();
   const [loggedOut, setLoggedOut] = useState(false);
@@ -126,12 +126,12 @@ export default function LogOut({
       {user && (
         <IconButton
           sx={{
-            ...styled?.iconButton,
+            ...styled?.navBarButton.inactive,
 
-            width: '2.5rem',
-            height: '2.5rem',
-            color: '#eebc1d',
-            backgroundColor: '#333433',
+            // width: '2.5rem',
+            // height: '2.5rem',
+            // color: '#eebc1d',
+            // backgroundColor: '#333433',
             '&:hover': { color: 'white', backgroundColor: '#eebc1d' },
           }}
           onClick={logOut}
