@@ -18,8 +18,10 @@ import ChatMessage from './ChatMessage';
 import { handleSelectWidgetContext } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
-import { singleItemSchemeChat } from './dataScheme';
-import './ChatInFocus.scss';
+
+import { singleItemSchemeChat, singleItemSchemePrompt } from './dataScheme';
+import ChatInputText from './ChatInputText';import './ChatInFocus.scss';
+
 
 export default function ChatsWidget({
   widget,
@@ -270,58 +272,53 @@ export default function ChatsWidget({
     </>
   );
 
-  // const inputBox = (
-  //   <Box className="widget" sx={styled?.widget}>
-  //     <Box
-  //       // className="widget"
-  //       sx={{
-  //         width: '100%',
-  //         height: '100%',
-  //         backgroundColor: '#444',
-  //         color: '#fff',
-  //         '& .cs-message-input': {
-  //           height: '100%',
-  //           maxHeight: 'none',
-  //         },
-  //         '& .cs-message-input__content-editor-container': {
-  //           height: '100%',
-  //           maxHeight: 'none',
-  //         },
-  //         '& .cs-button--attachment': {
-  //           color: styled?.iconButton?.action?.color,
-  //         },
-  //         '& .cs-button--send': {
-  //           color: styled?.iconButton?.action?.color,
-  //         },
-  //       }}
-  //     >
-  //       <MessageInput
-  //         ref={messageInputRef}
-  //         placeholder="Type message here..."
-  //         onChange={handleInputChange}
-  //         value={promptInputText}
-  //         sendDisabled={loading}
-  //         onSend={(textContent) =>
-  //           runChat(
-  //             maxOutputTokens,
-  //             chatInFocus,
-  //             textContent,
-  //             setLoading,
-  //             data,
-  //             setData,
-  //             streamedResponse,
-  //             setStreamedResponse,
-  //             fullResponse,
-  //             setFullResponse,
-  //             promptTokenConsumed,
-  //             setPromptTokenConsumed,
-  //             setError
-  //           )
-  //         }
-  //       />
-  //     </Box>
-  //   </Box>
-  // );
+  const inputField = (
+    <Box className="widget" sx={styled?.widget}>
+      <Box
+        // className="widget"
+        sx={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#444',
+          color: '#fff',
+          '& .cs-message-input': {
+            height: '100%',
+            maxHeight: 'none',
+          },
+          '& .cs-message-input__content-editor-container': {
+            height: '100%',
+            maxHeight: 'none',
+          },
+          '& .cs-button--attachment': {
+            color: styled?.iconButton?.action?.color,
+          },
+          '& .cs-button--send': {
+            color: styled?.iconButton?.action?.color,
+          },
+        }}
+      >
+        <ChatInputText
+          messageInputRef={messageInputRef}
+          handleInputChange={handleInputChange}
+          promptInputText={promptInputText}
+          loading={loading}
+          // textContent={textContent}
+          maxOutputTokens={maxOutputTokens}
+          chatInFocus={chatInFocus}
+          setLoading={setLoading}
+          data={selectedChats}
+          setData={setSelectedChats}
+          streamedResponse={streamedResponse}
+          setStreamedResponse={setStreamedResponse}
+          fullResponse={fullResponse}
+          setFullResponse={setFullResponse}
+          promptTokenConsumed={promptTokenConsumed}
+          setPromptTokenConsumed={setPromptTokenConsumed}
+          setError={setError}
+        />
+      </Box>
+    </Box>
+  );
 
   return (
     <>
@@ -338,7 +335,7 @@ export default function ChatsWidget({
         menu={menu}
         // horizontal={horizontal}
         vertical={vertical}
-        // inputField={inputBox}
+        inputField={inputField}
         selector={selector}
         soloWidget={response}
         flexList={flexList}
