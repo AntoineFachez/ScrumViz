@@ -1,5 +1,7 @@
+import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import React from 'react';
-
+import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+// import './ChatInFocus.scss';
 export default function ChatInputText({
   messageInputRef,
   handleInputChange,

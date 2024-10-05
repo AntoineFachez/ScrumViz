@@ -25,9 +25,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              'In the next prompt you will receive instructions. The aim for you is to return a response that contains only the json. You will be provided furthermore with data.',
+            text: 'In the next prompt you will receive instructions. The aim for you is to return a response that contains only the json. You will be provided furthermore with data.',
           },
         ],
       },
@@ -35,8 +33,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content: 'hi.',
+            text: 'hi.',
           },
         ],
       },
@@ -53,9 +50,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              'Hey, can you help me come up with some creative ideas for a short story?',
+            text: 'Hey, can you help me come up with some creative ideas for a short story?',
           },
         ],
       },
@@ -63,9 +58,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content:
-              'Sure, I can definitely help with that! What kind of themes or genres are you interested in exploring?',
+            text: 'Sure, I can definitely help with that! What kind of themes or genres are you interested in exploring?',
           },
         ],
       },
@@ -73,9 +66,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              'Hmm, maybe something with a bit of mystery and a touch of sci-fi?',
+            text: 'Hmm, maybe something with a bit of mystery and a touch of sci-fi?',
           },
         ],
       },
@@ -83,9 +74,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content:
-              'Okay, how about this: A detective in a futuristic city investigates a series of strange disappearances that seem to be linked to a new virtual reality technology...',
+            text: 'Okay, how about this: A detective in a futuristic city investigates a series of strange disappearances that seem to be linked to a new virtual reality technology...',
           },
         ],
       },
@@ -101,9 +90,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              "I'm planning a trip to Japan next spring. Can you give me some recommendations for places to visit?",
+            text: "I'm planning a trip to Japan next spring. Can you give me some recommendations for places to visit?",
           },
         ],
       },
@@ -111,9 +98,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content:
-              'Of course! Japan is a beautiful country with so much to offer. What are your interests? Do you prefer bustling cities, tranquil nature, or a mix of both?',
+            text: 'Of course! Japan is a beautiful country with so much to offer. What are your interests? Do you prefer bustling cities, tranquil nature, or a mix of both?',
           },
         ],
       },
@@ -121,9 +106,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              "I'd love to see a bit of both. Definitely want to experience the cherry blossoms in Kyoto!",
+            text: "I'd love to see a bit of both. Definitely want to experience the cherry blossoms in Kyoto!",
           },
         ],
       },
@@ -131,9 +114,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content:
-              'Excellent choice! Kyoto in spring is magical. You could also consider visiting Nara with its friendly deer, hiking in the Japanese Alps, or exploring the vibrant city of Osaka...',
+            text: 'Excellent choice! Kyoto in spring is magical. You could also consider visiting Nara with its friendly deer, hiking in the Japanese Alps, or exploring the vibrant city of Osaka...',
           },
         ],
       },
@@ -149,9 +130,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content:
-              "I'm trying to learn JavaScript, but I'm having trouble understanding loops. Can you explain them in a simple way?",
+            text: "I'm trying to learn JavaScript, but I'm having trouble understanding loops. Can you explain them in a simple way?",
           },
         ],
       },
@@ -159,9 +138,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content:
-              "Sure, loops are a fundamental concept in programming. Imagine them as a set of instructions that you want to repeat multiple times. There are different types of loops, like 'for' loops and 'while' loops...",
+            text: "Sure, loops are a fundamental concept in programming. Imagine them as a set of instructions that you want to repeat multiple times. There are different types of loops, like 'for' loops and 'while' loops...",
           },
         ],
       },
@@ -169,8 +146,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            type: 'text',
-            content: "Can you give me an example of a 'for' loop?",
+            text: "Can you give me an example of a 'for' loop?",
           },
         ],
       },
@@ -178,13 +154,10 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            type: 'text',
-            content: 'This loop will print the numbers from 0 to 4.',
+            text: 'This loop will print the numbers from 0 to 4.',
           },
           {
-            type: 'code',
-            language: 'javascript',
-            content: ' for (let i = 0; i <= 4; i++) {  console.log(i);}',
+            text: '```javascript\nfor (let i = 0; i <= 4; i++) {  console.log(i);}\n```',
           },
         ],
       },

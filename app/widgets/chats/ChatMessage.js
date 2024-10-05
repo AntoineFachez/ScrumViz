@@ -69,7 +69,7 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
                 //   padding: '0.5rem',
                 // }}
                 >
-                  {part.type === 'code' ? (
+                  {/* {part.type === 'code' ? (
                     <>
                       <SyntaxHighlighter
                         language={part.language}
@@ -113,7 +113,13 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
                         {part.content}
                       </Typography>
                     </>
-                  )}
+                  )} */}{' '}
+                  <CodeBlock
+                    key={i}
+                    part={part}
+                    handleCopyToClipBoard={handleCopyToClipBoard}
+                    styled={styled}
+                  />
                 </Message.CustomContent>
               </Message>
             );
@@ -126,3 +132,44 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
   );
 };
 export default ChatMessage;
+function CodeBlock({ part, styled, handleCopyToClipBoard }) {
+  const codeFenceRegex = /```(\w+)\n([\s\S]*?)```/;
+  const match = part?.text.match(codeFenceRegex);
+
+  if (match) {
+    const language = match[1];
+    const code = match[2];
+    return (
+      <>
+        <SyntaxHighlighter
+          language={language}
+          style={{
+            ...a11yDark,
+            '& pre, & code': { backgroundColor: '#f8f8f8' },
+          }}
+          wrapLongLines={true}
+        >
+          {code}
+        </SyntaxHighlighter>
+        <Box
+          sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
+        >
+          <Tooltip title="copy code">
+            <IconButton
+              onClick={() => handleCopyToClipBoard(code)}
+              sx={{ color: 'white' }}
+            >
+              <ContentCopy />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </>
+    );
+  }
+
+  return (
+    <Typography sx={{ ...styled.textBody, width: '100%' }}>
+      {part.text}
+    </Typography>
+  );
+}

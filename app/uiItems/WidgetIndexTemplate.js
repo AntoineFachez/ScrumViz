@@ -24,6 +24,7 @@ const WidgetIndexTemplate = ({
   tree,
   flexList,
   vertical,
+  inputField,
   horizontal,
   isFiltered,
   onResetFiltered,
@@ -52,7 +53,7 @@ const WidgetIndexTemplate = ({
     drawer,
     card,
     media,
-    inputField,
+
     contextToolBar,
     iconButton,
     onClick,
