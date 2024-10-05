@@ -21,12 +21,23 @@ export const runChat = async (
       return;
     }
     setLoading(true);
+    chatInFocus?.history?.push(
+      {
+        role: 'user',
+        parts: [{ text: inputText }],
+      }
+      //   {
+      //     role: 'model',
+      //     parts: [{ type: 'text', content: response }],
+      //   }
+    );
     const chat = model.startChat({
       history: chatInFocus?.history,
       generationConfig: {
         maxOutputTokens: maxOutputTokens,
       },
     });
+    console.log('triggered_run_Chat chat:', chat);
     // console.log('triggered_run_Chat', chat);
     const { totalTokens, totalBillableCharacters } = await model.countTokens(
       inputText
@@ -53,22 +64,16 @@ export const runChat = async (
 
     setLoading(false);
 
-    chatInFocus?.history?.push(
-      {
-        role: 'user',
-        parts: [{ type: 'text', content: inputText }],
-      },
-      {
-        role: 'model',
-        parts: [{ type: 'text', content: response }],
-      }
-    );
-    setStreamedResponse();
+    chatInFocus?.history?.push({
+      role: 'model',
+      parts: [{ text: response }],
+    });
+    // setStreamedResponse();
     // getTextGemini(prompt, 0.5);
   } catch (error) {
     setLoading(false);
     // setError(error);
-    console.error('fetchDataFromGeminiAPI error: ', error);
+    console.error('runChat error: ', error);
   }
   setLoading(false);
 };
@@ -256,7 +261,7 @@ export const fetchDataFromGeminiProAPI = async (
   } catch (error) {
     setLoading(false);
     setError(error);
-    console.error('fetchDataFromGeminiAPI error: ', error);
+    console.error('fetchData from GeminiText API error: ', error);
   }
 };
 export const fetchDataFromGeminiProVisionAPI = async (
@@ -287,7 +292,7 @@ export const fetchDataFromGeminiProVisionAPI = async (
   } catch (error) {
     setLoading(false);
     setError(error);
-    console.error('fetchDataFromGeminiAPI error: ', error);
+    console.error('fetchData from GeminiPro Vision API error: ', error);
   }
 };
 export const fileToGenerativePart = async (file) => {

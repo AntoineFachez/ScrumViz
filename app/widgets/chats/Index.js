@@ -1,5 +1,5 @@
 import React, { memo, useContext, useEffect, useRef, useState } from 'react';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Paper, Tooltip, Typography } from '@mui/material';
 import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
@@ -20,8 +20,11 @@ import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 
 import { singleItemSchemeChat, singleItemSchemePrompt } from './dataScheme';
-import ChatInputText from './ChatInputText';import './ChatInFocus.scss';
+import ChatInputText from './ChatInputText';
+import { MessageInput } from '@chatscope/chat-ui-kit-react';
 
+import './ChatInFocus.scss';
+import { runChat } from './functions';
 
 export default function ChatsWidget({
   widget,
@@ -62,6 +65,7 @@ export default function ChatsWidget({
     setPromptTokenConsumed,
   } = useContext(ChatsContext);
   const { maxOutputTokens } = useContext(UserContext);
+  const messageInputRef = useRef();
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const [showGeminiCard, setShowGeminiCard] = useState('text');
@@ -123,7 +127,7 @@ export default function ChatsWidget({
     </Box>
   );
 
-  const selector = (
+  const modelSelector = (
     <>
       <AIModelSelector
         showGeminiCard={showGeminiCard}
@@ -132,7 +136,7 @@ export default function ChatsWidget({
       />
     </>
   );
-  const flexList = (
+  const chatSelector = (
     <Box
       className="widget"
       sx={{
@@ -163,7 +167,7 @@ export default function ChatsWidget({
     </Box>
   );
 
-  const vertical = (
+  const defaultPromptSelector = (
     <>
       <Box className="widget" sx={styled?.widget}>
         <MultiItems
@@ -179,8 +183,8 @@ export default function ChatsWidget({
           selectedData={defaultPrompts}
           // setSelectedItem={setDefaultPrompts}
           selector={{
-            selector: 'chatsSelector',
-            selected: 'selectedChats',
+            selector: 'defaultPromptsSelector',
+            selected: 'selectedPrompts',
           }}
           itemContext={widgetProps?.itemContext}
           itemInFocus={promptTextInFocus}
@@ -189,7 +193,7 @@ export default function ChatsWidget({
       </Box>
     </>
   );
-  const response = (
+  const messageInFocusWidget = (
     <Box
       className="widget"
       sx={{
@@ -206,7 +210,7 @@ export default function ChatsWidget({
     </Box>
   );
 
-  const promtWithChat = (
+  const chatWithPromptField = (
     <>
       <Box
         // className="widget"
@@ -272,52 +276,91 @@ export default function ChatsWidget({
     </>
   );
 
-  const inputField = (
-    <Box className="widget" sx={styled?.widget}>
-      <Box
-        // className="widget"
-        sx={{
+  const promptField = (
+    <Paper
+      className="widget"
+      sx={{
+        ...styled?.widget,
+        width: '100%',
+        height: '100%',
+        // position: 'relative !important',
+        // overflow: 'scroll',
+
+        '& .cs-chat-container .cs-message-input': {
           width: '100%',
           height: '100%',
-          backgroundColor: '#444',
-          color: '#fff',
-          '& .cs-message-input': {
-            height: '100%',
-            maxHeight: 'none',
-          },
-          '& .cs-message-input__content-editor-container': {
-            height: '100%',
-            maxHeight: 'none',
-          },
-          '& .cs-button--attachment': {
-            color: styled?.iconButton?.action?.color,
-          },
-          '& .cs-button--send': {
-            color: styled?.iconButton?.action?.color,
-          },
-        }}
-      >
-        <ChatInputText
-          messageInputRef={messageInputRef}
-          handleInputChange={handleInputChange}
-          promptInputText={promptInputText}
-          loading={loading}
-          // textContent={textContent}
-          maxOutputTokens={maxOutputTokens}
-          chatInFocus={chatInFocus}
-          setLoading={setLoading}
-          data={selectedChats}
-          setData={setSelectedChats}
-          streamedResponse={streamedResponse}
-          setStreamedResponse={setStreamedResponse}
-          fullResponse={fullResponse}
-          setFullResponse={setFullResponse}
-          promptTokenConsumed={promptTokenConsumed}
-          setPromptTokenConsumed={setPromptTokenConsumed}
-          setError={setError}
-        />
-      </Box>
-    </Box>
+          backgroundColor: 'transparent',
+          border: 'none',
+          margin: 0,
+          padding: 0,
+        },
+        '& .cs-message-input': {
+          display: 'flex',
+          alignItems: 'flex-end',
+          // width: '100%',
+          height: '100%',
+          backgroundColor: 'transparent',
+          // backgroundColor: 'white',
+          borderRadius: '0px',
+        },
+        '& .cs-message-input >*': {
+          // width: '100%',
+          height: '100%',
+          // backgroundColor: 'transparent',
+          borderRadius: '0px',
+        },
+        '& .cs-message-input__content-editor-wrapper': {
+          height: '100%',
+          // height: 'fit-content',
+          // maxHeight: '100%',
+          margin: 0,
+          marginBottom: '1rem',
+          borderRadius: '5px',
+          backgroundColor: 'white',
+        },
+        '& .cs-message-input__content-editor-container': {
+          // width: '100%',
+          // height: '100%',
+          padding: '0.5rem 1rem 1rem 1rem',
+          backgroundColor: 'transparent',
+
+          maxHeight: '100%',
+        },
+        '& .cs-message-input__content-editor': {
+          display: 'flex',
+          alignItems: 'flex-end',
+          textAlign: 'start',
+          backgroundColor: 'transparent',
+          // backgroundColor: 'white',
+          overflow: 'visible',
+        },
+      }}
+    >
+      <MessageInput
+        ref={messageInputRef}
+        placeholder="Type message here..."
+        onChange={handleInputChange}
+        value={promptTextInFocus.prompt_text}
+        sendDisabled={loading}
+        onSend={(textContent) =>
+          runChat(
+            maxOutputTokens,
+            chatInFocus,
+            textContent,
+            setLoading,
+            selectedChats,
+            setSelectedChats,
+            streamedResponse,
+            setStreamedResponse,
+            fullResponse,
+            setFullResponse,
+            promptTokenConsumed,
+            setPromptTokenConsumed,
+            setError
+          )
+        }
+      />
+    </Paper>
   );
 
   return (
@@ -334,14 +377,12 @@ export default function ChatsWidget({
         // onClick={handleSetAppContext}
         menu={menu}
         // horizontal={horizontal}
-        vertical={vertical}
-        inputField={inputField}
-        selector={selector}
-        soloWidget={response}
-        flexList={flexList}
-        // table={table}
-        // chip={chip}
-        singleItem={promtWithChat}
+        flexList={chatSelector}
+        vertical={defaultPromptSelector}
+        selector={modelSelector}
+        inputField={promptField}
+        singleItem={chatWithPromptField}
+        soloWidget={messageInFocusWidget}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

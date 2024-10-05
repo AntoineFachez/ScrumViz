@@ -9,11 +9,7 @@ export const ChatScheme = {
   history: [
     {
       role: 'user',
-      parts: [
-        {
-          text: '',
-        },
-      ],
+      parts: [{ text: '' }],
     },
     {
       role: 'model',
