@@ -5,56 +5,111 @@ import {
   IconButton,
   Paper,
   TextField,
+  Tooltip,
   Typography,
 } from '@mui/material';
-import './ResponseStyles.css'; // Import the CSS styles
-import { handleFormatResponse } from './functions';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco, vs2015 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import {
+  docco,
+  vs2015,
+  a11yDark,
+} from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Message } from '@chatscope/chat-ui-kit-react';
+import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { ContentCopy } from '@mui/icons-material';
+import { ToastContainer, toast } from 'react-toastify';
+import { notify } from '@/utils/utils';
 
 const ChatMessage = ({ data, styled, messageInFocus }) => {
+  const handleCopyToClipBoard = (textToCopy) => {
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        notify('Copied to clipboard!', 'success');
+      })
+      .catch((err) => {
+        notify('Copy not successfull!', 'error');
+      });
+  };
+
   return (
     <>
       {data ? (
-        <Paper
+        <Box
           // className="chat-response widget"
-          sx={{ ...styled.widget, width: '100%', height: '100%' }}
+          sx={{ backgroundColor: data === messageInFocus ? 'green' : '' }}
           // variant="outlined"
           square={false}
         >
+          {' '}
           {data?.parts?.map((part, i) => {
-            console.log('streamedResponse', part.type);
             return (
               <Message
+                key={i}
                 model={{
                   message: part?.content,
                   sentTime: 'just now',
                   sender: data?.role,
                   direction: data?.role === 'model' ? 'incoming' : 'outgoing',
                 }}
-                key={i}
-                // style={{
-                //   backgroundColor: data === messageInFocus ? 'green' : '',
-                // }}
+                style={
+                  {
+                    // marginTop: 0,
+                    // marginBottom: 0,
+                    // padding: 0,
+                  }
+                }
               >
-                <Message.CustomContent>
+                <Message.CustomContent
+                // style={{
+                //   width: '100%',
+                //   marginTop: 0,
+                //   marginBottom: 0,
+                //   padding: 0,
+                //   padding: '0.5rem',
+                // }}
+                >
                   {part.type === 'code' ? (
-                    <SyntaxHighlighter
-                      language={part.language}
-                      // style={{
-                      //   ...vs2015,
-                      //   width: '100%',
-                      //   backgroundColor: 'black',
-                      // }}
-                      style={vs2015}
-                      wrapLongLines={true}
-                    >
-                      {part.content}
-                    </SyntaxHighlighter>
+                    <>
+                      <SyntaxHighlighter
+                        language={part.language}
+                        style={{
+                          ...a11yDark,
+
+                          // backgroundColor: 'black',
+                          '& pre': {
+                            // Target the 'code' element within the 'pre'
+                            backgroundColor: '#f8f8f8',
+                          },
+                          '& code': {
+                            // Target the 'code' element within the 'pre'
+                            backgroundColor: '#f8f8f8',
+                          },
+                        }}
+                        wrapLongLines={true}
+                      >
+                        {part.content}
+                      </SyntaxHighlighter>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Tooltip title="copy code">
+                          <IconButton
+                            onClick={() => handleCopyToClipBoard(part.content)}
+                            sx={{ color: 'white' }}
+                          >
+                            <ContentCopy />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    </>
                   ) : (
                     <>
-                      <Typography sx={styled.textBody}>
+                      <Typography sx={{ ...styled.textBody, width: '100%' }}>
                         {part.content}
                       </Typography>
                     </>
@@ -63,7 +118,7 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
               </Message>
             );
           })}
-        </Paper>
+        </Box>
       ) : (
         `selecet a message of the chat`
       )}

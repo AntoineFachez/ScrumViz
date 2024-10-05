@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import { DeveloperBoard } from '@mui/icons-material';
 
@@ -9,12 +9,13 @@ import UIContext from '@/context/UIContext';
 import WidgetIndexTemplate from '../uiItems/WidgetIndexTemplate';
 import GridComponent from './GridComponent';
 
-import { useMode } from '../theme/ThemeContext';
-
+import { useMode } from '@/app/theme/ThemeContext';
+import { ToastContainer } from 'react-toastify';
 export default function ScrumManagerPage({
   uiContext,
   startUpWidgetLayout,
   contextToolBar,
+  gridRef,
 }) {
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
@@ -47,14 +48,14 @@ export default function ScrumManagerPage({
   const soloWidget = (
     <Box
       sx={{
-        // ...styled.centerFullAvailableSpace,
+        // ...styled.widget,
         position: 'relative',
         width: '100%',
         height: '100%',
-        marginTop: '3rem',
-        overflow: 'hidden',
+
+        // overflow: 'hidden',
         // gap: '1rem',
-        position: 'relative',
+        // position: 'relative',
         // background: appContext === 'scrumManager' && `url(${image})`,
         // backgroundRepeat: appContext === 'scrumManager' && 'no-repeat',
         // backgroundPosition: appContext === 'scrumManager' && 'center',
@@ -62,7 +63,7 @@ export default function ScrumManagerPage({
       }}
     >
       {' '}
-      <GridComponent styled={styled} />
+      <GridComponent gridRef={gridRef} /> <ToastContainer />
     </Box>
   );
 

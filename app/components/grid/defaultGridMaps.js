@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import NavBar from '@/app/components/navBar/Index';
 import Persons from '@/app/widgets/persons/Persons';
 import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
 import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
@@ -16,6 +17,19 @@ import AgileItem from '@/app/widgets/agileItem/AgileItem';
 import Chats from '@/app/widgets/chats/Index';
 
 export const agileCodingMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: AgileItem,
     widgetName: 'AgileItem',
@@ -137,6 +151,19 @@ export const agileCodingMap = [
   },
 ];
 export const scrumManagerMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: ProductBackLogs,
     widgetName: 'ProductBackLogs',
@@ -294,6 +321,19 @@ export const userStoriesMap = [
   //   x: 0,
   //   y: 0,
   // },
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: UserStories,
     widgetName: 'UserStories',
@@ -378,6 +418,19 @@ export const userStoriesMap = [
   },
 ];
 export const productBackLogsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: ProductBackLogs,
     widgetName: 'ProductBackLogs',
@@ -421,6 +474,19 @@ export const productBackLogsMap = [
   },
 ];
 export const scrumTeamsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: ScrumTeams,
     widgetName: 'ScrumTeams',
@@ -466,6 +532,19 @@ export const scrumTeamsMap = [
   },
 ];
 export const sprintPlanningsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     // index: 0,
     widget: ProductBackLogs,
@@ -551,6 +630,19 @@ export const sprintPlanningsMap = [
   },
 ];
 export const teamMembersMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     // index: 0,
     widget: TeamMembers,
@@ -622,6 +714,19 @@ export const teamMembersMap = [
   },
 ];
 export const timeStampsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     // index: 0,
     widget: TimeStamps,
@@ -638,6 +743,19 @@ export const timeStampsMap = [
   },
 ];
 export const sprintsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     // index: 0,
     widget: TimeStamps,
@@ -709,6 +827,19 @@ export const sprintsMap = [
   },
 ];
 export const dailiesMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     // index: 0,
     widget: TimeStamps,
@@ -766,6 +897,19 @@ export const dailiesMap = [
   },
 ];
 export const sprintReviewsMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: ProductBackLogs,
     widgetName: 'ProductBackLogs',
@@ -834,6 +978,19 @@ export const sprintReviewsMap = [
   },
 ];
 export const sprintRetrospectivesMap = [
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: SprintRetrospectives,
     widgetName: 'SprintRetrospectives',
@@ -902,19 +1059,19 @@ export const sprintRetrospectivesMap = [
   },
 ];
 export const chatsMap = [
-  {
-    widget: Chats,
-    widgetName: 'Chats',
-    id: uuidv4(),
-    collection: 'chats',
-    active: true,
-    uiContext: 'chatsSelector',
-    startUpWidgetLayout: 'vertical',
-    w: 6,
-    h: 10,
-    x: 6,
-    y: 4,
-  },
+  // {
+  //   widget: NavBar,
+  //   widgetName: 'NavBar',
+  //   id: uuidv4(),
+  //   collection: '',
+  //   active: true,
+  //   uiContext: '',
+  //   startUpWidgetLayout: 'soloWidget',
+  //   w: 36,
+  //   h: 1,
+  //   x: 0,
+  //   y: 0,
+  // },
   {
     widget: Chats,
     widgetName: 'Chats',
@@ -924,7 +1081,20 @@ export const chatsMap = [
     uiContext: 'chatsSelector',
     startUpWidgetLayout: 'flexList',
     w: 6,
-    h: 10,
+    h: 8,
+    x: 0,
+    y: 4,
+  },
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'chatsSelector',
+    startUpWidgetLayout: 'vertical',
+    w: 6,
+    h: 8,
     x: 0,
     y: 4,
   },
@@ -952,7 +1122,7 @@ export const chatsMap = [
     uiContext: 'singleItem',
     startUpWidgetLayout: 'singleItem',
     w: 16,
-    h: 12,
+    h: 16,
     x: 6,
     y: 0,
   },
@@ -965,7 +1135,7 @@ export const chatsMap = [
     uiContext: 'singleItem',
     startUpWidgetLayout: 'soloWidget',
     w: 14,
-    h: 12,
+    h: 16,
     x: 22,
     y: 0,
   },

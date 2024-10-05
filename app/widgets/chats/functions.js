@@ -56,19 +56,11 @@ export const runChat = async (
     chatInFocus?.history?.push(
       {
         role: 'user',
-        parts: [
-          {
-            text: inputText,
-          },
-        ],
+        parts: [{ type: 'text', content: inputText }],
       },
       {
         role: 'model',
-        parts: [
-          {
-            text: response,
-          },
-        ],
+        parts: [{ type: 'text', content: response }],
       }
     );
     setStreamedResponse();
