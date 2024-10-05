@@ -16,11 +16,10 @@ import chatsData from '../../../assets/data/mockData/chats.json';
 import ChatInFocus from './ChatInFocus';
 import { runChat, fetchDataFromGeminiProAPI } from '../functions';
 import FirebaseContext from '../../../context/FirebaseContext';
+import ChatsContext from '../ChatsContext';
 
 export default function Console({ inputField, setInputField, styled }) {
-  const { chatInFocus, setChatInFocus } = useContext(InFocusContext);
-  const { prompts } = useContext(FirebaseContext);
-  console.log('chatInFocus', chatInFocus?.history);
+  const { chatInFocus, setChatInFocus } = useContext(ChatsContext);
   const {
     promptContext,
     streamedResponse,
@@ -31,57 +30,12 @@ export default function Console({ inputField, setInputField, styled }) {
   const [showGeminiCard, setShowGeminiCard] = useState('text');
   const [promptTokenConsumed, setPromptTokenConsumed] = useState({});
   const [data, setData] = useState([undefined]);
-  // console.log("chatInFocus", data);
-  const functionRegion = [
-    { region: 'europe-west1' },
-    { region: 'localhost:3001' },
-  ];
-  const project = 'anue-8e4c9';
   const [error, setError] = useState(null);
   const [promptInputText, setPromppromptInputText] = useState(
     'send me a receipt to cook pasta carbonara'
   );
   const [loading, setLoading] = useState(false);
-  const handleSubmit = (callable, i) => {
-    // const functionToCall = listOfActions[i];
-    // console.log(functionRegion, functionToCall, i);
-    const functions = getFunctions(app, functionRegion[0]?.region);
-    const getSyntax = httpsCallable(functions, 'submitText');
-    // const getEntities = httpsCallable(functions, "extractEntities");
-    const data = {
-      prompt: 'send me carbonara receipts'?.toString('utf-8'),
-      temperature: 0.5,
-      name: 'Alice',
-      // message: reqTextAnalyzis,
-      location: functionRegion[0]?.region,
-      project: project,
-    };
-    //TODO localStorage of the response and clear on "new text/ doc"
-    getSyntax(data).then((res) => {
-      /** @type {any} */
-      const returnedData = res.data;
-      // setResAnalyzingSyntax(returnedData);
-
-      // console.log(returnedData);
-    });
-  };
-  const header = 'Gemini';
   const sideMenuWidth = '12rem';
-  useEffect(() => {
-    // console.log("streamedResponse", streamedResponse);
-    return () => {};
-  }, [streamedResponse]);
-
-  console.log('chatInFocus', chatInFocus);
-  useEffect(() => {
-    // initiateChat();
-    // console.log("chatsData", chatsData);
-    setChatInFocus(chatsData?.chats[0]);
-    return () => {};
-  }, [chatsData]);
-  // setInputField(
-
-  // );
   return (
     <>
       <Box
@@ -192,21 +146,6 @@ export default function Console({ inputField, setInputField, styled }) {
                         setLoading={setLoading}
                         styled={styled}
                       />
-                      {/* {data && (
-                        <Message
-                          data={data}
-                          setData={setData}
-                          streamedResponse={streamedResponse}
-                          setStreamedResponse={setStreamedResponse}
-                          fullResponse={fullResponse}
-                          setFullResponse={setFullResponse}
-                          promptInputText={promptInputText}
-                          setPromppromptInputText={setPromppromptInputText}
-                          loading={loading}
-                          setLoading={setLoading}
-                          styled={styled}
-                        />
-                      )} */}
                       <Box
                         sx={{
                           // position: "absolute",

@@ -8,7 +8,7 @@ import AppContext from '@/context/AppContext';
 
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
-import { useMode } from '../theme/ThemeContext';
+import { themeSettings, useMode } from '../theme/ThemeContext';
 
 // import { styled } from "../themes/styled";
 

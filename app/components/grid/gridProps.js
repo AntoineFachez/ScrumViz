@@ -10,7 +10,7 @@ export const props = {
   // ...styled?.space,
 };
 export const draggableCancel =
-  '.widget,.table,.flexList,.widgetMenuExpand,.widgetMenuButtonArray.vert,.widgetMenuButtonArray.hor,.widgetMenuButton,.globeResizeContainer,.globe,.googleResizeContainer,.resizeBars.horizontal,.resizeBars.vertical,.resizeBars,.histogram,.yearCalendar,.MuiMenu-paper,.googleMaps';
+  '.widget,.table,.flexList,.widgetMenuExpand,.widgetMenuButtonArray.vert,.widgetMenuButtonArray.hor,.widgetMenuButton,.globeResizeContainer,.globe,.googleResizeContainer,.resizeBars.horizontal,.resizeBars.vertical,.resizeBars,.histogram,.yearCalendar,.MuiMenu-paper,.googleMaps,.navBarButton';
 export const resizeHandle = (
   <span class="react-resizable-handle react-resizable-handle-n"></span>
 );
