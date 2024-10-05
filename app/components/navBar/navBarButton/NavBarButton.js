@@ -9,10 +9,11 @@ export default function NavBarButton({
   iconButton,
   styled,
 }) {
-  console.log('uiGridMapContext', styled.navBarButton.active);
+  // console.log('uiGridMapContext', styled.navBarButton.active);
 
   return (
     <IconButton
+      className="navBarButton"
       onClick={onClick}
       sx={
         uiGridMapContext === dropWidgetName
