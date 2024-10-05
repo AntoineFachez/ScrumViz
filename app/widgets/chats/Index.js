@@ -1,6 +1,5 @@
 import React, { memo, useContext, useEffect, useRef, useState } from 'react';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
 import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
@@ -9,30 +8,20 @@ import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 import UserContext from '@/context/UserContext';
 
-import { fetchDataFromGeminiProVisionAPI, runChat } from './functions';
-
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import AIModelSelector from './gemini/AIModelSelector';
 import ChatInFocus from './ChatInFocus';
 import ChatMessage from './ChatMessage';
-import { MessageInput } from '@chatscope/chat-ui-kit-react';
 
 import { handleSelectWidgetContext } from '../actions';
-// import prompts from "../../assets/data/mockData/chats.json";
 import { useMode } from '@/app/theme/ThemeContext';
-import './ChatInFocus.scss';
-import {
-  getDocIdSByValueSearch,
-  handleUpdateDoc,
-  submitToFirestore,
-} from '@/firebase/helperFunctions';
-import DefaultPromptSelector from './DefaultPromptSelector';
-import { defaultPrompts } from '../defaultPrompts';
 import MultiItems from '@/app/uiItems/MultiItems';
+
 import { singleItemSchemeChat, singleItemSchemePrompt } from './dataScheme';
-import ChatInputText from './ChatInputText';
+import ChatInputText from './ChatInputText';import './ChatInFocus.scss';
+
 
 export default function ChatsWidget({
   widget,
@@ -47,25 +36,24 @@ export default function ChatsWidget({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
-    // selectedWidgetContext,
-    // setSelectedWidgetContext,
-    displayChats,
-    setDisplayChats,
     selectedChats,
     setSelectedChats,
     chatInFocus,
-    setChatInFocus,
+    defaultPrompts,
     messageInFocus,
     setMessageInFocus,
+    promptTextInFocus,
+    setPromptTextInFocus,
     searchTerm,
-    setSearchTerm,
     isFiltered,
-    setIsFiltered,
     handleResetFiltered,
     handleSearchTermChange,
-    promptInputText,
-    setPromptInputText,
-    chatContext,
+    handleNewChat,
+    handleStoreChat,
+    handleSetChatInFocus,
+    handleSetDefaultPromptInFocus,
+    handleSelectMessage,
+    handleInputChange,
     streamedResponse,
     setStreamedResponse,
     fullResponse,
@@ -74,11 +62,9 @@ export default function ChatsWidget({
     setPromptTokenConsumed,
   } = useContext(ChatsContext);
   const { maxOutputTokens } = useContext(UserContext);
-  const messageInputRef = useRef();
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const [showGeminiCard, setShowGeminiCard] = useState('text');
-  const [defaultPromptInFocus, setDefaultPromptInFocus] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const collection = 'chats';
@@ -105,88 +91,13 @@ export default function ChatsWidget({
       handleShowMenu: setShowChatsMenu,
     },
   };
-  const handleInputChange = (textContent) => {
-    // Use the textContent here to update your component's state or perform other actions
-    setPromptInputText(textContent);
-  };
-  const handleNewChat = async () => {
-    const data = {
-      chat_id: uuidv4(),
-      title: 'next chat',
-      createdAt: new Date(),
-      summary: '',
-      history: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: 'I am in development of an AI integration.',
-            },
-          ],
-        },
-        {
-          role: 'model',
-          parts: [{ text: 'hi. Tell me more about that.' }],
-        },
-        {
-          role: 'user',
-          parts: [
-            {
-              text: 'I am in development of an AI integration. Please return what ever comes to your mind. By now I only need to receive some kind of response and am wondering what you come up with.',
-            },
-          ],
-        },
-      ],
-    };
-    submitToFirestore({
-      //firestoreContext, data, setItemInFocus, setter, setSetter
-      dataPack: {
-        firestoreContext: widgetProps.collection,
-        data: data,
-        setItemInFocus: setChatInFocus,
-        arrayToPushOnTo: displayChats,
-        // setDisplayChats,
-        // uploadFileUrl: data.uploadFileUrl || "",
-      },
-    }).then((tempArray) => {
-      setDisplayChats(tempArray);
-      console.log('displayChats', displayChats);
-    });
-  };
-  const handleStoreChat = async (data) => {
-    const parentCollectionName = collection;
-    let queryField;
-
-    let searchString;
-    searchString = data?.chat_id;
-    queryField = 'chat_id';
-
-    const parentDoc = await getDocIdSByValueSearch(
-      parentCollectionName,
-      queryField,
-      searchString
-    );
-    if (parentDoc?.parentId) {
-      handleUpdateDoc(parentCollectionName, parentDoc?.parentId, data);
-    } else {
-      submitToFirestore({
-        //firestoreContext, data, setItemInFocus, setter, setSetter
-        dataPack: {
-          firestoreContext: widgetProps.collection,
-          data: data,
-          setItemInFocus: setChatInFocus,
-          arrayToPushOnTo: displayChats,
-        },
-      }).then((tempArray) => {
-        setDisplayChats(tempArray);
-        console.log('displayChats', displayChats);
-      });
-    }
-  };
-  const handleSetChatInFocus = (chat) => {
-    setChatInFocus(chat);
-  };
-
+  useEffect(() => {
+    if (!loading) setPromptTextInFocus('');
+    return () => {};
+  }, []);
+  useEffect(() => {
+    return () => {};
+  }, [streamedResponse]);
   const menu = (
     <>
       <WidgetMenu
@@ -221,7 +132,6 @@ export default function ChatsWidget({
       />
     </>
   );
-
   const flexList = (
     <Box
       className="widget"
@@ -255,17 +165,39 @@ export default function ChatsWidget({
 
   const vertical = (
     <>
-      <DefaultPromptSelector
-        button={''}
-        data={defaultPrompts}
-        defaultPromptInFocus={defaultPromptInFocus}
-        setDefaultPromptInFocus={setDefaultPromptInFocus}
-        styled={styled}
-      />
+      <Box className="widget" sx={styled?.widget}>
+        <MultiItems
+          widget={widget}
+          uiContext={uiContext}
+          singleItemScheme={singleItemSchemeChat}
+          selectedWidgetContext={selectedWidgetContext}
+          setActiveSearchTerm={setActiveSearchTerm}
+          handleSetItemInFocus={handleSetDefaultPromptInFocus}
+          customElement={null}
+          alertElement={null}
+          data={defaultPrompts}
+          selectedData={defaultPrompts}
+          // setSelectedItem={setDefaultPrompts}
+          selector={{
+            selector: 'chatsSelector',
+            selected: 'selectedChats',
+          }}
+          itemContext={widgetProps?.itemContext}
+          itemInFocus={promptTextInFocus}
+          styled={styled}
+        />
+      </Box>
     </>
   );
   const response = (
-    <Box className="widget" sx={styled?.widget}>
+    <Box
+      className="widget"
+      sx={{
+        ...styled?.widget,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+      }}
+    >
       <ChatMessage
         data={messageInFocus}
         messageInFocus={messageInFocus}
@@ -320,8 +252,8 @@ export default function ChatsWidget({
         setStreamedResponse={setStreamedResponse}
         fullResponse={fullResponse}
         setFullResponse={setFullResponse}
-        promptInputText={promptInputText}
-        setPromptInputText={setPromptInputText}
+        promptTextInFocus={promptTextInFocus}
+        setPromptTextInFocus={setPromptTextInFocus}
         loading={loading}
         setLoading={setLoading}
         promptTokenConsumed={promptTokenConsumed}
@@ -329,6 +261,8 @@ export default function ChatsWidget({
         messageInFocus={messageInFocus}
         setMessageInFocus={setMessageInFocus}
         handleStoreChat={handleStoreChat}
+        handleSelectMessage={handleSelectMessage}
+        handleInputChange={handleInputChange}
         setError={setError}
         styled={styled}
       />

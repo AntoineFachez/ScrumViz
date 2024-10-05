@@ -1730,11 +1730,11 @@ export const useMode = () => {
     [mode]
   );
   useEffect(() => {
-    console.log(
-      'colorMode',
-      colorMode?.mode,
-      createTheme(themeSettings(colorMode))
-    );
+    // console.log(
+    //   'colorMode',
+    //   colorMode?.mode,
+    //   createTheme(themeSettings(colorMode))
+    // );
     createTheme(themeSettings(colorMode));
     return () => {};
   }, [colorMode]);

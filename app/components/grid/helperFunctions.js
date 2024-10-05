@@ -123,7 +123,7 @@ export const handleOnResize = (
   // `oldLayoutItem` contains the state of the item before the resize.
   // You can modify `layoutItem` to enforce constraints.
 
-  if (layoutItem.h < 2 && layoutItem.w > 2) {
+  if (layoutItem.h < 1 && layoutItem.w > 1) {
     layoutItem.w = 3;
     layoutItem.h = 1;
     placeholder.w = 3;
