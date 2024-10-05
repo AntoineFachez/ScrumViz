@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import RGL, { WidthProvider } from 'react-grid-layout';
+import { debounce } from 'lodash'; // Or use your preferred debounce implementation
 
 import { props, draggableCancel } from './gridProps';
 import {
@@ -18,14 +19,15 @@ const ReactGridLayout = WidthProvider(RGL);
 
 const ScaledLayout = ({
   appContext,
-  gridRef,
+  // gridRef,
   uiGridMapContext,
   defaultWidgetMap,
   className = 'gridLayout',
   cols = 36,
   styled,
 }) => {
-  const [rowHeight, setRowHeight] = useState();
+  const gridRef = useRef(null);
+  const [rowHeight, setRowHeight] = useState(50);
   const [currentLayout, setCurrentLayout] = useState();
 
   useEffect(() => {
@@ -37,16 +39,16 @@ const ScaledLayout = ({
     );
   }, [appContext, defaultWidgetMap, gridRef, uiGridMapContext]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const parentHeight = gridRef?.current?.clientHeight;
-      const desiredRowHeight = parentHeight / 32;
-      setRowHeight(desiredRowHeight);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // useEffect(() => {
+  //   const handleResize = debounce(() => {
+  //     const parentHeight = gridRef?.current?.clientHeight;
+  //     const desiredRowHeight = parentHeight / 32;
+  //     setRowHeight(desiredRowHeight);
+  //   }, 100); // Adjust the delay (100ms here) as needed
+
+  //   window.addEventListener('resize', handleResize);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
   const delayLayout = (layoutOnLayoutChange) => {
     const mergedLayout = handleOnLayoutChange(
@@ -66,6 +68,11 @@ const ScaledLayout = ({
       style={{
         width: '100%',
         height: '100%',
+        maxHeight: '100vh',
+        // overflow: "visible",
+        // display: "flex",
+        // justifyContent: "space-between",
+        // margin: '0 0.4rem 0 0.4rem',
       }}
     >
       <ReactGridLayout
@@ -89,8 +96,8 @@ const ScaledLayout = ({
         allowOverlap={false}
         autoSize={true}
         measureBeforeMount={false}
-        containerPadding={[10, 10]}
-        margin={[10, 10]}
+        containerPadding={[5, 5]}
+        margin={[5, 5]}
         useCSSTransforms={true}
         resizeHandles={['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']}
         rowHeight={rowHeight}

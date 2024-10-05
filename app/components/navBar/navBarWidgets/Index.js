@@ -43,7 +43,10 @@ export default function Index({
       </Box> */}
 
       <>
-        <List className="navBar" sx={styled.navBarButtonList}>
+        <List
+          className="navBar"
+          sx={{ ...styled.navBarButtonList, flexFlow: 'row nowrap' }}
+        >
           <NavBarWidgetCompiler data={data} styled={styled} />
         </List>
       </>

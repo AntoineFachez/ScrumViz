@@ -12,10 +12,15 @@ export default function ChatMessageList({
   styled,
 }) {
   return (
-    <Paper
+    <Box
       sx={{
-        ...styled.widget,
+        // ...styled.widget,
         display: 'flex',
+        justifyContent: 'flex-start',
+        height: '100%',
+        overflowY: 'auto',
+        // padding: '0.5rem 0.5rem 0 0.5rem',
+        // alignItems: 'flex-end',
         flexFlow: 'column nowrap',
         gap: 1,
       }}
@@ -29,6 +34,6 @@ export default function ChatMessageList({
           />
         </Box>
       ))}
-    </Paper>
+    </Box>
   );
 }
