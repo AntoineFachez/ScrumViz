@@ -7,6 +7,7 @@ import NavBarWidgetList from './navBarWidgets/Index';
 import Logout from '../../widgets/auth/Index';
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import UIContext from '@/context/UIContext';
+import InFocusOverView from '@/app/uiItems/InFocusOverView';
 
 export default function NavBar({ showDev, setShowDev }) {
   const [theme, colorMode, palette, styled] = useMode();
@@ -20,7 +21,7 @@ export default function NavBar({ showDev, setShowDev }) {
 
   return (
     <Box
-      className="navBar"
+      className="navBar widget"
       sx={{
         ...styled?.navBar,
         flexFlow: 'row nowrap',
@@ -37,16 +38,12 @@ export default function NavBar({ showDev, setShowDev }) {
         <Home />
       </IconButton>{' '}
       <NavBarWidgetList data={navBarWidgetList} styled={styled} />
-      <Typography sx={styled.textBody}>app: {appContext}</Typography>
-      <br />
-      <Typography sx={styled.textBody}>grid: {uiGridMapContext}</Typography>
       {appContext !== 'home' ? (
         <>
-          <Box>{/* <SelectUserRole /> */}</Box>
-          {/* <InFocusOverView
-            contextToolBar="navBar"
-            styled={styled}
-          /> */}
+          {/* <Box>
+            <SelectUserRole />
+          </Box> */}
+          <InFocusOverView contextToolBar="navBar" styled={styled} />
 
           {/* <IconButton
             sx={{

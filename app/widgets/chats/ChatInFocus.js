@@ -3,26 +3,13 @@ import {
   MainContainer,
   ChatContainer,
   MessageList,
-  Message,
   MessageInput,
-  Avatar,
-  InputToolbox,
-  AttachmentButton,
-  SendButton,
 } from '@chatscope/chat-ui-kit-react';
 import { Box, IconButton, Paper, Typography } from '@mui/material';
-import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import { Backup, Cloud, Save, Send, Store, Upload } from '@mui/icons-material';
 import './ChatInFocus.scss';
-import {
-  fetchDataFromGeminiProVisionAPI,
-  handleFormatResponse,
-  runChat,
-} from './functions';
+import { handleFormatResponse, runChat } from './functions';
 import ChatMessageList from './ChatMessageList';
 
-// import geminiIcon from "../../assets/icons/GeminiIcon.png";
-// import CodeBlock from '../../components/codeBlock/Index';
 export default function ChatInFocus({
   maxOutputTokens,
   chatInFocus,
@@ -32,8 +19,8 @@ export default function ChatInFocus({
   setStreamedResponse,
   fullResponse,
   setFullResponse,
-  promptInputText,
-  setPromptInputText,
+  promptTextInFocus,
+  setPromptTextInFocus,
   loading,
   setLoading,
   promptTokenConsumed,
@@ -41,26 +28,18 @@ export default function ChatInFocus({
   messageInFocus,
   setMessageInFocus,
   handleStoreChat,
+  handleSelectMessage,
+  handleInputChange,
   setError,
   styled,
 }) {
   const messageInputRef = useRef();
-  const [formattedText, setFormattedText] = useState(streamedResponse);
-
   useEffect(() => {
-    // handleFormatResponse(formattedText, setFormattedText, Typography, Box);
-    return () => {};
-  }, [streamedResponse]);
-  const handleSelectMessage = (message) => {
-    setMessageInFocus(message);
-  };
-  const handleInputChange = (textContent) => {
-    // Use the textContent here to update your component's state or perform other actions
-    setPromptInputText(textContent);
+    console.log(promptTextInFocus);
 
-    // Example: Update a state variable with the text content
-    // setTextMessage(textContent);
-  };
+    return () => {};
+  }, [promptTextInFocus]);
+
   return (
     <Paper
       sx={{
@@ -118,7 +97,7 @@ export default function ChatInFocus({
             ref={messageInputRef}
             placeholder="Type message here..."
             onChange={handleInputChange}
-            value={promptInputText}
+            value={promptTextInFocus.prompt_text}
             sendDisabled={loading}
             onSend={(textContent) =>
               runChat(

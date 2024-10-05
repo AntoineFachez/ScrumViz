@@ -20,6 +20,7 @@ import { SprintRetrospectivesProvider } from './widgets/sprintRetrospectives/Spr
 import { ScrumManagerProvider } from './scrumManager/ScrumManagerContext';
 import { ChatsProvider } from './widgets/chats/ChatsContext';
 import { UserProvider } from '@/context/UserContext';
+import { NavBarProvider } from './widgets/navBar/NavBarContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -59,8 +60,8 @@ export default function RootLayout({ children }) {
           position: 'relative',
           width: '100vw',
           height: '100vh',
-          maxHeight: '100vh',
-          maxWidth: '100vw',
+          // maxHeight: '100vh',
+          // maxWidth: '100vw',
           display: 'flex',
           flexDirection: 'column',
           // justifyContent: 'space-between',
@@ -72,33 +73,35 @@ export default function RootLayout({ children }) {
             <UserProvider>
               <UIProvider>
                 <SearchProvider>
-                  <TeamMembersProvider>
-                    <UserStoriesProvider>
-                      <SprintsProvider>
-                        <TimeStampsProvider>
-                          <ScrumTeamsProvider>
-                            <BackLogsProvider>
-                              <DailiesProvider>
-                                <SprintBackLogsProvider>
-                                  <SprintReviewProvider>
-                                    <SprintPlanningsProvider>
-                                      <SprintRetrospectivesProvider>
-                                        <ScrumManagerProvider>
-                                          <ChatsProvider>
-                                            {children}
-                                          </ChatsProvider>
-                                        </ScrumManagerProvider>
-                                      </SprintRetrospectivesProvider>
-                                    </SprintPlanningsProvider>
-                                  </SprintReviewProvider>
-                                </SprintBackLogsProvider>
-                              </DailiesProvider>
-                            </BackLogsProvider>
-                          </ScrumTeamsProvider>
-                        </TimeStampsProvider>
-                      </SprintsProvider>
-                    </UserStoriesProvider>
-                  </TeamMembersProvider>
+                  <NavBarProvider>
+                    <TeamMembersProvider>
+                      <UserStoriesProvider>
+                        <SprintsProvider>
+                          <TimeStampsProvider>
+                            <ScrumTeamsProvider>
+                              <BackLogsProvider>
+                                <DailiesProvider>
+                                  <SprintBackLogsProvider>
+                                    <SprintReviewProvider>
+                                      <SprintPlanningsProvider>
+                                        <SprintRetrospectivesProvider>
+                                          <ScrumManagerProvider>
+                                            <ChatsProvider>
+                                              {children}
+                                            </ChatsProvider>
+                                          </ScrumManagerProvider>
+                                        </SprintRetrospectivesProvider>
+                                      </SprintPlanningsProvider>
+                                    </SprintReviewProvider>
+                                  </SprintBackLogsProvider>
+                                </DailiesProvider>
+                              </BackLogsProvider>
+                            </ScrumTeamsProvider>
+                          </TimeStampsProvider>
+                        </SprintsProvider>
+                      </UserStoriesProvider>
+                    </TeamMembersProvider>
+                  </NavBarProvider>
                 </SearchProvider>
               </UIProvider>
             </UserProvider>

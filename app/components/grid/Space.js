@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-import Draggable from '../../components/dragDrop/Index';
-import DropZone from '../../components/dragDrop/Index';
+import Draggable from '../dragDrop/Index';
+import DropZone from '../dragDrop/Index';
 
 // import { handleDropWidgetIntoSpace } from "./helperFunctions";
 

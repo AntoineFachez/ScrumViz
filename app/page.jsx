@@ -1,5 +1,5 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { Box, Paper } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -12,8 +12,8 @@ import AgileCodingPage from './agileCoding/page';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMode } from './theme/ThemeContext';
-import { useEffect } from 'react';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Home({}) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
@@ -29,18 +29,43 @@ export default function Home({}) {
         return <SignupLogin />;
     }
   };
-
   return (
     <>
       {' '}
       <ThemeProvider theme={theme}>
         {user ? (
           <>
-            <NavBar />
-            {uiElements()}
+            <Box
+              sx={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: styled?.navBar.height,
+              }}
+            >
+              <Box
+                sx={
+                  {
+                    // width: '100vw',
+                    // height: '100vh',
+                    // display: 'flex',
+                    // justifyContent: 'center',
+                    // alignItems: 'center',
+                  }
+                }
+              >
+                <NavBar />
+              </Box>
+              {uiElements()}
+              <ToastContainer />{' '}
+            </Box>
           </>
         ) : (
           <Paper>
+            {' '}
+            {/* <NavBar /> */}
             <SignupLogin />
           </Paper>
         )}
