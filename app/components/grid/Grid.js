@@ -29,7 +29,7 @@ const ScaledLayout = ({
 }) => {
   const { showWidgetMenus, setShowWidgetMenus } = useContext(UIContext);
   const gridRef = useRef(null);
-  const [rowHeight, setRowHeight] = useState(50);
+  const [rowHeight, setRowHeight] = useState(36);
   const [currentLayout, setCurrentLayout] = useState();
 
   useEffect(() => {

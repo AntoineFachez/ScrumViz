@@ -42,7 +42,8 @@ export default function ChatsWidget({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showChatsMenu, setShowChatsMenu, sliderSize } = useContext(UIContext);
+  const { showChatsMenu, setShowChatsMenu, showSliderExtendData, sliderSize } =
+    useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -166,10 +167,12 @@ export default function ChatsWidget({
         handleNewChat={handleNewChat}
         availablePromptTokensAmount={availablePromptTokensAmount}
         size={sliderSize}
+        showExtendData={showSliderExtendData}
+        orientation="horizontal"
         value={availablePromptTokensAmount}
         setValue={setAvailablePromptTokensAmount}
         aria={sliderSize}
-        valueLabelDisplay="auto"
+        valueLabelDisplay="no"
         defaultValue={availablePromptTokensAmount}
         step={500}
         marks={[
@@ -178,11 +181,11 @@ export default function ChatsWidget({
             label: 'Basic',
           },
           {
-            value: 3000,
+            value: minPromptTokens * 4 + maxPromptTokens / 4,
             label: 'Extend',
           },
           {
-            value: 30000,
+            value: (maxPromptTokens / 3) * 2,
             label: 'Pro',
           },
           {

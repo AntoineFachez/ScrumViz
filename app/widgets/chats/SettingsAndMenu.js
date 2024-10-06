@@ -1,6 +1,6 @@
 import SliderComponent from '@/app/components/slider/Slider';
 import { Add, Backup } from '@mui/icons-material';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import React from 'react';
 
 export default function SettingsAndMenu({
@@ -8,7 +8,9 @@ export default function SettingsAndMenu({
   handleStoreChat,
   handleNewChat,
   availablePromptTokensAmount,
+  showExtendData,
   size,
+  orientation,
   value,
   setValue,
   aria,
@@ -33,11 +35,46 @@ export default function SettingsAndMenu({
           display: 'flex',
           flexFlow: 'column',
           alignItems: 'center',
-          padding: '0 2rem',
+          padding: '0.5rem 2rem 0 2rem ',
         }}
       >
+        {' '}
+        {/* <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexFlow: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography
+            sx={{
+              width: '100%',
+              height: '100%',
+              color: 'white',
+              textWrap: 'nowrap',
+              verticalAlign: 'middle',
+            }}
+          >
+            maxToken:
+          </Typography>
+          <Typography
+            sx={{
+              width: '100%',
+              height: '100%',
+              color: 'white',
+              textWrap: 'nowrap',
+              verticalAlign: 'middle',
+            }}
+          >
+            {availablePromptTokensAmount}
+          </Typography>
+        </Box> */}
         <SliderComponent
+          showExtendData={showExtendData}
           size={size}
+          orientation={orientation}
           value={value}
           setValue={setValue}
           aria={aria}
@@ -52,19 +89,19 @@ export default function SettingsAndMenu({
           styled={styled}
         />
       </Box>
-      <Box>
-        <Typography
-          sx={{
-            height: '100%',
-            color: 'white',
-            textWrap: 'nowrap',
-            verticalAlign: 'middle',
-          }}
-        >
-          maxToken: {availablePromptTokensAmount}
-        </Typography>
+      <Box
+        sx={{
+          width: 'fit-content',
+          height: '100%',
+          display: 'flex',
+          flexFlow: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 10%',
+        }}
+      >
         {chatInFocus && (
-          <Tooltip title="Store Chat">
+          <Tooltip title="Store Chat" placement="top" arrow>
             <IconButton
               sx={styled?.iconButton?.action}
               onClick={() => handleStoreChat(chatInFocus)}
@@ -73,7 +110,7 @@ export default function SettingsAndMenu({
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip title="Create new Chat">
+        <Tooltip title="Create new Chat" placement="top" arrow>
           <IconButton
             sx={styled?.iconButton?.action}
             onClick={() => handleNewChat()}

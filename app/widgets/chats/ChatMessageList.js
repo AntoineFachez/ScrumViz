@@ -22,12 +22,13 @@ export default function ChatMessageList({
         // padding: '0.5rem 0.5rem 0 0.5rem',
         // alignItems: 'flex-end',
         flexFlow: 'column nowrap',
-        // gap: 1,
+        padding: '1rem 0.5rem 0.5rem',
+        gap: 1,
       }}
     >
       {chatInFocus?.history?.map((message, i) => (
         <Box
-          // sx={{ margin: 0, padding: 0 }}
+          sx={{ marginBottom: '0rem', padding: 0 }}
           key={i}
           onClick={() => setMessageInFocus(message)}
         >

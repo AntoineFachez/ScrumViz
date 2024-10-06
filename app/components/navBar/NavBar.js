@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
-import { Box, Grid, IconButton, Paper, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { Home, DarkMode, LightMode, Settings } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 
@@ -34,15 +41,18 @@ export default function NavBar({ showDev, setShowDev }) {
       }}
       square={true}
     >
-      <IconButton
-        onClick={() => {
-          setAppContext('home');
-          // window.location.href = '/';
-        }}
-        sx={styled.navBarButton.inactive}
-      >
-        <Home />
-      </IconButton>{' '}
+      {' '}
+      <Tooltip title={'home'} placement="bottom" arrow={true}>
+        <IconButton
+          onClick={() => {
+            setAppContext('home');
+            // window.location.href = '/';
+          }}
+          sx={styled.navBarButton.inactive}
+        >
+          <Home />
+        </IconButton>{' '}
+      </Tooltip>
       <NavBarWidgetList data={navBarWidgetList} styled={styled} />
       {appContext !== 'home' ? (
         <>
@@ -67,20 +77,26 @@ export default function NavBar({ showDev, setShowDev }) {
           </IconButton> */}
         </>
       ) : null}{' '}
-      <IconButton
-        onClick={() => setShowWidgetMenus((prev) => !prev)}
-        sx={
-          showWidgetMenus ? { ...styled.iconButton.action } : { color: 'grey' }
-        }
-      >
-        <Settings />
-      </IconButton>
-      <IconButton
-        onClick={colorMode?.toggleColorMode}
-        sx={styled.navBarButton.inactive}
-      >
-        {colorMode.mode === 'dark' ? <LightMode /> : <DarkMode />}
-      </IconButton>
+      <Tooltip title={'show menues'} placement="bottom" arrow={true}>
+        <IconButton
+          onClick={() => setShowWidgetMenus((prev) => !prev)}
+          sx={
+            showWidgetMenus
+              ? { ...styled.navBarButton.active }
+              : { ...styled.navBarButton.inactive }
+          }
+        >
+          <Settings />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title={'dark mode'} placement="bottom" arrow={true}>
+        <IconButton
+          onClick={colorMode?.toggleColorMode}
+          sx={styled.navBarButton.inactive}
+        >
+          {colorMode.mode === 'dark' ? <LightMode /> : <DarkMode />}
+        </IconButton>
+      </Tooltip>
       <Logout />
     </Box>
   );
