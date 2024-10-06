@@ -21,8 +21,6 @@ import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { handleSelectWidgetContext } from '../actions';
-import { widgetProps, menuProps } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function UserStory({
   widget,

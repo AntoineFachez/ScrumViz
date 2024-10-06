@@ -27,6 +27,8 @@ export const UIProvider = ({ children }) => {
   const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
+  const [showWidgetMenus, setShowWidgetMenus] = useState(false);
+
   const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
   const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
   const [showSprintMenu, setShowSprintMenu] = useState(false);
@@ -41,6 +43,8 @@ export const UIProvider = ({ children }) => {
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
   const [latestGridValues, setLatestGridValues] = useState({});
+  const [sliderSize, setSliderSize] = useState('small');
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -109,6 +113,8 @@ export const UIProvider = ({ children }) => {
       value={{
         navBarWidgetList,
         setNavBarWidgetList,
+        showWidgetMenus,
+        setShowWidgetMenus,
         showUserStoryMenu,
         setShowUserStoryMenu,
         showSprintPlanningMenu,
@@ -135,6 +141,8 @@ export const UIProvider = ({ children }) => {
         setGridDOMMap,
         latestGridValues,
         setLatestGridValues,
+        sliderSize,
+        setSliderSize,
       }}
     >
       {children}

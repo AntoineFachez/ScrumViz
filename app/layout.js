@@ -21,6 +21,7 @@ import { ScrumManagerProvider } from './scrumManager/ScrumManagerContext';
 import { ChatsProvider } from './widgets/chats/ChatsContext';
 import { UserProvider } from '@/context/UserContext';
 import { NavBarProvider } from './widgets/navBar/NavBarContext';
+import { DefaultValuesProvider } from '@/context/DefaultValuesContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -68,45 +69,47 @@ export default function RootLayout({ children }) {
           alignItems: 'center',
         }}
       >
-        <AppProvider>
-          <AuthProvider>
-            <UserProvider>
-              <UIProvider>
-                <SearchProvider>
-                  <NavBarProvider>
-                    <TeamMembersProvider>
-                      <UserStoriesProvider>
-                        <SprintsProvider>
-                          <TimeStampsProvider>
-                            <ScrumTeamsProvider>
-                              <BackLogsProvider>
-                                <DailiesProvider>
-                                  <SprintBackLogsProvider>
-                                    <SprintReviewProvider>
-                                      <SprintPlanningsProvider>
-                                        <SprintRetrospectivesProvider>
-                                          <ScrumManagerProvider>
-                                            <ChatsProvider>
-                                              {children}
-                                            </ChatsProvider>
-                                          </ScrumManagerProvider>
-                                        </SprintRetrospectivesProvider>
-                                      </SprintPlanningsProvider>
-                                    </SprintReviewProvider>
-                                  </SprintBackLogsProvider>
-                                </DailiesProvider>
-                              </BackLogsProvider>
-                            </ScrumTeamsProvider>
-                          </TimeStampsProvider>
-                        </SprintsProvider>
-                      </UserStoriesProvider>
-                    </TeamMembersProvider>
-                  </NavBarProvider>
-                </SearchProvider>
-              </UIProvider>
-            </UserProvider>
-          </AuthProvider>
-        </AppProvider>
+        <DefaultValuesProvider>
+          <AppProvider>
+            <AuthProvider>
+              <UserProvider>
+                <UIProvider>
+                  <SearchProvider>
+                    <NavBarProvider>
+                      <TeamMembersProvider>
+                        <UserStoriesProvider>
+                          <SprintsProvider>
+                            <TimeStampsProvider>
+                              <ScrumTeamsProvider>
+                                <BackLogsProvider>
+                                  <DailiesProvider>
+                                    <SprintBackLogsProvider>
+                                      <SprintReviewProvider>
+                                        <SprintPlanningsProvider>
+                                          <SprintRetrospectivesProvider>
+                                            <ScrumManagerProvider>
+                                              <ChatsProvider>
+                                                {children}
+                                              </ChatsProvider>
+                                            </ScrumManagerProvider>
+                                          </SprintRetrospectivesProvider>
+                                        </SprintPlanningsProvider>
+                                      </SprintReviewProvider>
+                                    </SprintBackLogsProvider>
+                                  </DailiesProvider>
+                                </BackLogsProvider>
+                              </ScrumTeamsProvider>
+                            </TimeStampsProvider>
+                          </SprintsProvider>
+                        </UserStoriesProvider>
+                      </TeamMembersProvider>
+                    </NavBarProvider>
+                  </SearchProvider>
+                </UIProvider>
+              </UserProvider>
+            </AuthProvider>
+          </AppProvider>
+        </DefaultValuesProvider>
       </body>
     </html>
   );

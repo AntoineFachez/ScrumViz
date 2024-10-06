@@ -109,11 +109,12 @@ const WidgetIndexTemplate = ({
             <>
               <>
                 <Box className="widgetContainer" sx={styled.widgetContainer}>
-                  {menu && (
+                  {menu && menu}
+                  {/* {menu && (
                     <Box className="widgetMenu" sx={styled?.widgetMenu}>
                       {menu}
                     </Box>
-                  )}{' '}
+                  )}{' '} */}
                   {isFiltered && (
                     <Button
                       className="widgetMenuButton"

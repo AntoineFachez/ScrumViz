@@ -132,7 +132,7 @@ const extractInformationFallBack = functions
 
         const parameter = {
           temperature: 0.2,
-          maxOutputTokens: 256,
+          maxPromptTokens: 256,
           topP: 0,
           topK: 1,
         };

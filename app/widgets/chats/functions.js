@@ -7,7 +7,7 @@ import { vertexAI, model } from '@/firebase/firebase';
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEN_AI_KEY;
 export const runChat = async (
-  maxOutputTokens,
+  availablePromptTokensAmount,
   chatInFocus,
   inputText,
   setLoading,
@@ -16,6 +16,8 @@ export const runChat = async (
   setError
 ) => {
   try {
+    console.log(availablePromptTokensAmount);
+
     if (!inputText) {
       alert('Please enter text!');
       return;
@@ -26,19 +28,18 @@ export const runChat = async (
         role: 'user',
         parts: [{ text: inputText }],
       }
-      //   {
-      //     role: 'model',
-      //     parts: [{ type: 'text', content: response }],
-      //   }
+      //   //   {
+      //   //     role: 'model',
+      //   //     parts: [{ type: 'text', content: response }],
+      //   //   }
     );
     const chat = model.startChat({
       history: chatInFocus?.history,
       generationConfig: {
-        maxOutputTokens: maxOutputTokens,
+        max_output_tokens: availablePromptTokensAmount,
       },
     });
-    console.log('triggered_run_Chat chat:', chat);
-    // console.log('triggered_run_Chat', chat);
+
     const { totalTokens, totalBillableCharacters } = await model.countTokens(
       inputText
     );
@@ -53,21 +54,26 @@ export const runChat = async (
     let response = '';
     const result = await chat.sendMessageStream(inputText);
     for await (const chunk of result.stream) {
-      console.log('triggered_run_Chat chunk:', chunk);
       const chunkText = chunk.candidates[0].content.parts[0].text;
-      console.log('triggered_run_Chat chunkText:', chunkText);
       response += chunkText;
 
-      console.log('triggered_run_Chat chunkText:', response);
       // setStreamedResponse(response);
     }
 
     setLoading(false);
 
-    chatInFocus?.history?.push({
-      role: 'model',
-      parts: [{ text: response }],
-    });
+    chatInFocus?.history?.push(
+      // {
+      //   role: 'user',
+      //   parts: [{ text: inputText }],
+      // },
+      {
+        role: 'model',
+        parts: [{ text: response }],
+      }
+    );
+    console.log('chatInFocus', chatInFocus.history);
+
     // setStreamedResponse();
     // getTextGemini(prompt, 0.5);
   } catch (error) {

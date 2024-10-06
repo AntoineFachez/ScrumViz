@@ -34,7 +34,7 @@ const standIn3 = functions
         temperature: 0.9,
         top_p: 1,
         top_k: 32,
-        maxOutputTokens: 100, // limit output
+        maxPromptTokens: 100, // limit output
       };
       const model = genAI.getGenerativeModel({
         model: "gemini-pro", // or 'gemini-pro-vision'

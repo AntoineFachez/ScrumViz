@@ -6,7 +6,7 @@ import AppContext from '@/context/AppContext';
 import ChatsContext from './ChatsContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
-import UserContext from '@/context/UserContext';
+// import UserContext from '@/context/UserContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
@@ -19,12 +19,19 @@ import { handleSelectWidgetContext } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 
-import { singleItemSchemeChat, singleItemSchemePrompt } from './dataScheme';
-import ChatInputText from './ChatInputText';
+import {
+  singleItemSchemeChat,
+  singleItemSchemePrompt,
+  sliderMarksToken,
+} from './dataScheme';
+// import ChatInputText from './ChatInputText';
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 
 import './ChatInFocus.scss';
 import { runChat } from './functions';
+import ChatInputField from './ChatInputField';
+import SliderComponent from '@/app/components/slider/Slider';
+import SettingsAndMenu from './SettingsAndMenu';
 
 export default function ChatsWidget({
   widget,
@@ -35,28 +42,46 @@ export default function ChatsWidget({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showChatsMenu, setShowChatsMenu } = useContext(UIContext);
+  const { showChatsMenu, setShowChatsMenu, sliderSize } = useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    // selectedWidgetContext,
+    // setSelectedWidgetContext,
+    availablePromptTokensAmount,
+    setAvailablePromptTokensAmount,
+    minPromptTokens,
+    setMinPrompTokens,
+    maxPromptTokens,
+    setMaxPrompTokens,
+    // displayChats,
+    // setDisplayChats,
     selectedChats,
     setSelectedChats,
     chatInFocus,
+    // setChatInFocus,
     defaultPrompts,
     messageInFocus,
     setMessageInFocus,
     promptTextInFocus,
     setPromptTextInFocus,
     searchTerm,
+    // setSearchTerm,
     isFiltered,
+    // setIsFiltered,
     handleResetFiltered,
     handleSearchTermChange,
+    // handleResetFiltered,
+    handleSetChatInFocus,
+    // handleSelectWidgetContext,
     handleNewChat,
     handleStoreChat,
-    handleSetChatInFocus,
     handleSetDefaultPromptInFocus,
     handleSelectMessage,
     handleInputChange,
+    handleChangeTokenAmount,
+    // chatContext,
+    // setChatContext,
     streamedResponse,
     setStreamedResponse,
     fullResponse,
@@ -64,7 +89,7 @@ export default function ChatsWidget({
     promptTokenConsumed,
     setPromptTokenConsumed,
   } = useContext(ChatsContext);
-  const { maxOutputTokens } = useContext(UserContext);
+
   const messageInputRef = useRef();
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -102,6 +127,7 @@ export default function ChatsWidget({
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
+
   const menu = (
     <>
       <WidgetMenu
@@ -126,7 +152,52 @@ export default function ChatsWidget({
       UserStory New Item
     </Box>
   );
-
+  const settingsAndMenu = (
+    <Box
+      className="widget"
+      sx={{
+        ...styled.widget,
+        flexFlow: 'row',
+      }}
+    >
+      <SettingsAndMenu
+        chatInFocus={chatInFocus}
+        handleStoreChat={handleStoreChat}
+        handleNewChat={handleNewChat}
+        availablePromptTokensAmount={availablePromptTokensAmount}
+        size={sliderSize}
+        value={availablePromptTokensAmount}
+        setValue={setAvailablePromptTokensAmount}
+        aria={sliderSize}
+        valueLabelDisplay="auto"
+        defaultValue={availablePromptTokensAmount}
+        step={500}
+        marks={[
+          {
+            value: minPromptTokens,
+            label: 'Basic',
+          },
+          {
+            value: 3000,
+            label: 'Extend',
+          },
+          {
+            value: 30000,
+            label: 'Pro',
+          },
+          {
+            value: maxPromptTokens,
+            label: 'Enterprise',
+          },
+        ]}
+        min={minPromptTokens}
+        max={maxPromptTokens}
+        disabled={false}
+        handleChange={handleChangeTokenAmount}
+        styled={styled}
+      />
+    </Box>
+  );
   const modelSelector = (
     <>
       <AIModelSelector
@@ -198,8 +269,8 @@ export default function ChatsWidget({
       className="widget"
       sx={{
         ...styled?.widget,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-end',
+        // justifyContent: 'flex-start',
+        // alignItems: 'flex-end',
       }}
     >
       <ChatMessage
@@ -210,45 +281,10 @@ export default function ChatsWidget({
     </Box>
   );
 
-  const chatWithPromptField = (
+  const chatInFocusWidget = (
     <>
-      <Box
-        // className="widget"
-        sx={{
-          zIndex: 1000,
-          position: 'absolute',
-          top: '0rem',
-          right: '0.5rem',
-          width: 'fit-content',
-          height: 'fit-content',
-          display: 'flex',
-          justifyContent: 'flex-end',
-        }}
-      >
-        <Typography sx={{ color: 'white' }}>
-          maxToken: {maxOutputTokens}
-        </Typography>
-        {chatInFocus && (
-          <Tooltip title="Store Chat">
-            <IconButton
-              sx={styled?.iconButton?.action}
-              onClick={() => handleStoreChat(chatInFocus)}
-            >
-              <Backup />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        <IconButton
-          sx={styled?.iconButton?.action}
-          onClick={() => handleNewChat()}
-        >
-          <Add />
-        </IconButton>
-      </Box>
-      {/* {chatInFocus ? ( */}
       <ChatInFocus
-        maxOutputTokens={maxOutputTokens}
+        maxPromptTokens={maxPromptTokens}
         chatInFocus={chatInFocus}
         data={selectedChats}
         setData={setSelectedChats}
@@ -277,90 +313,25 @@ export default function ChatsWidget({
   );
 
   const promptField = (
-    <Paper
-      className="widget"
-      sx={{
-        ...styled?.widget,
-        width: '100%',
-        height: '100%',
-        // position: 'relative !important',
-        // overflow: 'scroll',
-
-        '& .cs-chat-container .cs-message-input': {
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'transparent',
-          border: 'none',
-          margin: 0,
-          padding: 0,
-        },
-        '& .cs-message-input': {
-          display: 'flex',
-          alignItems: 'flex-end',
-          // width: '100%',
-          height: '100%',
-          backgroundColor: 'transparent',
-          // backgroundColor: 'white',
-          borderRadius: '0px',
-        },
-        '& .cs-message-input >*': {
-          // width: '100%',
-          height: '100%',
-          // backgroundColor: 'transparent',
-          borderRadius: '0px',
-        },
-        '& .cs-message-input__content-editor-wrapper': {
-          height: '100%',
-          // height: 'fit-content',
-          // maxHeight: '100%',
-          margin: 0,
-          marginBottom: '1rem',
-          borderRadius: '5px',
-          backgroundColor: 'white',
-        },
-        '& .cs-message-input__content-editor-container': {
-          // width: '100%',
-          // height: '100%',
-          padding: '0.5rem 1rem 1rem 1rem',
-          backgroundColor: 'transparent',
-
-          maxHeight: '100%',
-        },
-        '& .cs-message-input__content-editor': {
-          display: 'flex',
-          alignItems: 'flex-end',
-          textAlign: 'start',
-          backgroundColor: 'transparent',
-          // backgroundColor: 'white',
-          overflow: 'visible',
-        },
-      }}
-    >
-      <MessageInput
-        ref={messageInputRef}
-        placeholder="Type message here..."
-        onChange={handleInputChange}
-        value={promptTextInFocus.prompt_text}
-        sendDisabled={loading}
-        onSend={(textContent) =>
-          runChat(
-            maxOutputTokens,
-            chatInFocus,
-            textContent,
-            setLoading,
-            selectedChats,
-            setSelectedChats,
-            streamedResponse,
-            setStreamedResponse,
-            fullResponse,
-            setFullResponse,
-            promptTokenConsumed,
-            setPromptTokenConsumed,
-            setError
-          )
-        }
-      />
-    </Paper>
+    <ChatInputField
+      ref={messageInputRef}
+      placeholder="Type message here..."
+      onChange={handleInputChange}
+      value={promptTextInFocus.prompt_text}
+      sendDisabled={loading}
+      onSend={(inputText) =>
+        runChat(
+          availablePromptTokensAmount,
+          chatInFocus,
+          inputText,
+          setLoading,
+          setStreamedResponse,
+          setPromptTokenConsumed,
+          setError
+        )
+      }
+      styled={styled}
+    />
   );
 
   return (
@@ -376,12 +347,12 @@ export default function ChatsWidget({
         // iconButton={<Chat />}
         // onClick={handleSetAppContext}
         menu={menu}
-        // horizontal={horizontal}
+        horizontal={settingsAndMenu}
         flexList={chatSelector}
         vertical={defaultPromptSelector}
         selector={modelSelector}
         inputField={promptField}
-        singleItem={chatWithPromptField}
+        singleItem={chatInFocusWidget}
         soloWidget={messageInFocusWidget}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}

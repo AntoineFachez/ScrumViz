@@ -44,7 +44,7 @@ const submitText = functions
               },
             ],
             generation_config: {
-              maxOutputTokens: 2048,
+              maxPromptTokens: 2048,
               temperature: req.body.data.temperature || 0.5,
               topP: 0.8,
             },

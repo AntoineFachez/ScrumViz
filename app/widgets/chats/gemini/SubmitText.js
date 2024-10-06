@@ -53,16 +53,11 @@ function SubmitText({
               disabled={loading}
               onClick={() =>
                 runChat(
+                  availablePromptTokensAmount,
                   chatInFocus,
                   inputText,
                   setLoading,
-                  data,
-                  setData,
-                  streamedResponse,
                   setStreamedResponse,
-                  fullResponse,
-                  setFullResponse,
-                  promptTokenConsumed,
                   setPromptTokenConsumed,
                   setError
                 )
