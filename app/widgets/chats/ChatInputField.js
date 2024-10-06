@@ -9,6 +9,8 @@ export default function ChatInputField({
   value,
   sendDisabled,
   onSend,
+  fancyScroll,
+  onAttachClick,
   styled,
 }) {
   return (
@@ -24,20 +26,20 @@ export default function ChatInputField({
         paddingBottom: '0.5rem',
         '& .cs-chat-container .cs-message-input': {
           width: '100%',
-          // height: '100%',
-          height: 'fit-content',
+          height: '100%',
+          // height: 'fit-content',
           backgroundColor: 'transparent',
           border: 'none',
           margin: 0,
           padding: 0,
         },
         '& .cs-message-input': {
+          width: '100%',
+          height: '100%',
           marginTop: '1rem',
           paddingTop: '0rem',
           display: 'flex',
           alignItems: 'flex-end',
-          width: '100%',
-          height: '100%',
           // height: 'fit-content',
           backgroundColor: 'transparent',
           // backgroundColor: 'white',
@@ -62,14 +64,16 @@ export default function ChatInputField({
           margin: 0,
           marginBottom: '0.5rem',
           borderRadius: '5px',
+          overflow: 'visible',
           // backgroundColor: '#3e3e50',
         },
         '& .cs-message-input__content-editor-container': {
           width: '100%',
-          // height: '100%',
-          height: 'fit-content',
+          height: '100%',
+          // height: 'fit-content',
           backgroundColor: 'transparent',
           maxHeight: '100%',
+          // overflow: 'visible',
         },
         '& .cs-message-input__content-editor': {
           height: '100%',
@@ -80,7 +84,7 @@ export default function ChatInputField({
           backgroundColor: 'transparent',
           backgroundColor: '#eee',
           color: '#000',
-          overflow: 'visible',
+          overflow: 'auto',
         },
         // '& .cs-message-input__content-editor >*': {
         //   whiteSpace: 'pre-wrap',
@@ -118,6 +122,8 @@ export default function ChatInputField({
         value={value}
         sendDisabled={sendDisabled}
         onSend={onSend}
+        fancyScroll={fancyScroll}
+        // onAttachClick={onAttachClick}
       />
     </Paper>
   );
