@@ -320,7 +320,7 @@ export default function ChatsWidget({
       ref={messageInputRef}
       placeholder="Type message here..."
       onChange={handleInputChange}
-      value={promptTextInFocus.prompt_text}
+      value={promptTextInFocus?.prompt_text}
       sendDisabled={loading}
       onSend={(inputText) =>
         runChat(
@@ -333,6 +333,8 @@ export default function ChatsWidget({
           setError
         )
       }
+      fancyScroll={true}
+      onAttachClick={null}
       styled={styled}
     />
   );

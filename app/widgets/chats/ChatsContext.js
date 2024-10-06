@@ -41,13 +41,6 @@ export const ChatsProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
 
-  useEffect(() => {
-    // const filteredprompts = prompts?.filter(
-    //   (chats) => chats.chatId === chatInFocus.chatId,
-    // );
-    // console.log("filteredprompts", filteredprompts);
-    return () => {};
-  }, [fullResponse]);
   const handleResetFiltered = () => {
     setSelectedChats(displayChats);
     setIsFiltered(false);
@@ -63,14 +56,22 @@ export const ChatsProvider = ({ children }) => {
     setIsFiltered(true);
   };
   const handleSetDefaultPromptInFocus = (defaultPrompt) => {
-    setPromptTextInFocus(defaultPrompt);
+    const plainText = textContent.replace(/<[^>]+>/g, '');
+
+    setPromptTextInFocus(plainText);
   };
   const handleSelectMessage = (message) => {
     setMessageInFocus(message);
   };
   const handleInputChange = (textContent) => {
-    setPromptTextInFocus(textContent);
+    console.log(textContent);
+    const plainText = textContent.replace(/<[^>]+>/g, '');
+
+    setPromptTextInFocus(plainText);
   };
+  useEffect(() => {
+    return () => {};
+  }, [promptTextInFocus]);
 
   const handleChangeTokenAmount = (e, newValue) => {
     setAvailablePromptTokensAmount(newValue);
@@ -157,7 +158,13 @@ export const ChatsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
-
+  useEffect(() => {
+    // const filteredprompts = prompts?.filter(
+    //   (chats) => chats.chatId === chatInFocus.chatId,
+    // );
+    // console.log("filteredprompts", filteredprompts);
+    return () => {};
+  }, [fullResponse]);
   return (
     <ChatsContext.Provider
       value={{
