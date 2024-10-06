@@ -306,7 +306,7 @@ const styled = (colorMode) => ({
       // backgroundColor: "white",
       backgroundColor: () => themeSettings(colorMode).neutral.main,
       '&:hover': {
-        backgroundColor: () => themeSettings(colorMode).transparent,
+        backgroundColor: () => themeSettings(colorMode).white,
       },
     },
     inactive: {
@@ -361,7 +361,6 @@ const styled = (colorMode) => ({
     overflow: 'scroll',
     backgroundColor: () => themeSettings(colorMode).transparent,
     // margin: 0,
-    // padding: 0,
   },
   spacesMenu: {
     zIndex: '50',
@@ -489,9 +488,8 @@ const styled = (colorMode) => ({
     width: '100%',
     border: '1px dashed #333',
     borderRadius: '5px',
-    // padding: '20px',
-    textAlign: 'center',
-
+    // margin: '20px',
+    // textAlign: 'center',
     backgroundColor: () => themeSettings(colorMode).transparent,
     '&:hover': {
       border: `1px dashed ${themeSettings(colorMode).neutral.main}`,
@@ -516,6 +514,7 @@ const styled = (colorMode) => ({
     flexFlow: 'column wrap',
     justifyContent: 'center',
     alignItems: 'center',
+    // padding: '2rem',
     overflow: 'hidden',
     // paddingTop: "1rem",
     borderRadius: '0 0 5px 5px',
@@ -1213,7 +1212,7 @@ const styled = (colorMode) => ({
     // userSelect: "none",
     textAlign: 'justify',
     overflow: 'scroll',
-    padding: '0 1.5rem',
+    // padding: '0 1.5rem',
     noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
     alignStart: { textAlign: 'start' },
     // color: () => themeSettings(colorMode).neutral.light,
@@ -1225,7 +1224,7 @@ const styled = (colorMode) => ({
       // userSelect: "none",
       textAlign: 'justify',
       overflow: 'scroll',
-      padding: '0 1.5rem',
+      // padding: '0 1.5rem',
       noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
       alignStart: { textAlign: 'start' },
       color: () => themeSettings(colorMode).white,
@@ -1477,16 +1476,42 @@ const styled = (colorMode) => ({
     // paddingBottom: "0.05em",
   },
   slider: {
-    zIndex: 300,
-    position: 'absolute',
-    top: 0,
     width: '100%',
-    minWidth: '12ch',
-    color: () => themeSettings(colorMode).action,
     size: 'small',
     backgroundColor: () => themeSettings(colorMode).neutral.alpha2,
-    // backgroundColor:  () => themeSettings(colorMode).neutral.light,
     '&:hover': { color: () => themeSettings(colorMode).neutral.light },
+
+    '& .MuiSlider-rail': {
+      color: () => themeSettings(colorMode).white,
+    },
+    '& .MuiSlider-track': {
+      color: () => themeSettings(colorMode).white,
+    },
+    '& .MuiSlider-thumb': {
+      color: () => themeSettings(colorMode).action,
+    },
+    '& .MuiSlider-mark': {
+      backgroundColor: () => themeSettings(colorMode).white, // Change the color
+      width: '2px', // Adjust the width
+      height: '10px', // Adjust the height
+      borderRadius: '1px', // Add rounded corners
+    },
+    '& .MuiSlider-markLabel': {
+      // Style the mark labels
+      color: 'white',
+      fontSize: '12px',
+    },
+    '& .MuiSlider-valueLabel': {
+      // transform: 'translate(0, 0px)' /* Adjust these values */,
+    },
+
+    // '& .MuiSlider-valueLabel >*': {
+    //   zIndex: 1000,
+    //   position: 'absolute',
+    //   backgroundColor: '#007bff' /* Example: change background color */,
+    //   color: 'white',
+    //   fontSize: '14px',
+    // },
   },
   section: {
     backgroundColor: () => themeSettings(colorMode).paper,

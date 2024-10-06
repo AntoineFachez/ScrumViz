@@ -43,6 +43,8 @@ export const UIProvider = ({ children }) => {
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
   const [latestGridValues, setLatestGridValues] = useState({});
+
+  const [showSliderExtendData, setShowSliderExtendData] = useState(false);
   const [sliderSize, setSliderSize] = useState('small');
 
   const toggleDrawer = (anchor, open) => (event) => {
@@ -141,6 +143,8 @@ export const UIProvider = ({ children }) => {
         setGridDOMMap,
         latestGridValues,
         setLatestGridValues,
+        showSliderExtendData,
+        setShowSliderExtendData,
         sliderSize,
         setSliderSize,
       }}

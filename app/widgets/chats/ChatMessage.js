@@ -49,7 +49,7 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
             src={
               data?.role === 'model'
                 ? 'https://play-lh.googleusercontent.com/Pkwn0AbykyjSuCdSYCbq0dvOqHP-YXcbBLTZ8AOUZhvnRuhUnZ2aJrw_YCf6kVMcZ4PM=w240-h480'
-                : 'https://lh3.googleusercontent.com/a/ACg8ocKRaYWG3WkdMdzKGUHVruNwPGE9LWCL1K5NdaQVs2rNXsPNTLFx=s64-c'
+                : 'https://lh3.googleusercontent.com/a/ACg8ocKRaYWG3WkdMdzKGUHVruNwPGE9LWCL1K5NdaQVs2rNXsPNTLFx=s288-c-no'
             }
             sx={{ margin: '0.5rem', width: 30, height: 30, opacity: 0.8 }}
           />
@@ -111,7 +111,9 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
     const language = match[1];
     const code = match[2];
     return (
-      <Box sx={{ position: 'relative', borderRadius: '5px' }}>
+      <Box
+        sx={{ position: 'relative', paddingLeft: '1rem', borderRadius: '5px' }}
+      >
         <SyntaxHighlighter
           language={language}
           style={{
@@ -119,7 +121,6 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
             '& pre, & code': {
               fontSize: '1rem',
               backgroundColor: '#f8f8f8',
-              //
             },
           }}
           wrapLongLines={true}
@@ -152,7 +153,7 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
   }
 
   return (
-    <Typography sx={{ ...styled.textBody, width: '100%' }}>
+    <Typography sx={{ ...styled.textBody, width: '100%', paddingLeft: '1rem' }}>
       {part.text}
     </Typography>
   );

@@ -9,6 +9,7 @@ import AppContext from '@/context/AppContext';
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
 import { themeSettings, useMode } from '../theme/ThemeContext';
+import ToolTipComponent from '../components/tooltip/ToolTipComponent';
 
 // import { styled } from "../themes/styled";
 
@@ -65,7 +66,8 @@ const WidgetIndexTemplate = ({
     <>
       {contextToolBar === 'navBar' ? (
         <>
-          <Tooltip title={collection}>
+          <Tooltip title={collection} placement="bottom" arrow={true}>
+            {' '}
             <Draggable
               keyToPass={uuidv4()}
               // item={uiContext}

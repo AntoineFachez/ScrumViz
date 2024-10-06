@@ -2,10 +2,12 @@ import { Slider } from '@mui/material';
 import React, { useState } from 'react';
 
 export default function SliderComponent({
+  showExtendData,
   size,
   value,
   setValue,
-  //   defaultValue,
+  orientation,
+  defaultValue,
   aria,
   valueLabelDisplay,
   step,
@@ -16,41 +18,29 @@ export default function SliderComponent({
   handleChange,
   styled,
 }) {
-  //   const [value, setValue] = useState(defaultValue);
+  // const [value, setValue] = useState(defaultValue);
 
-  //   const handleChange = (event, newValue) => {
-  //     setValue(newValue);
-  //   };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
   function valuetext(value) {
-    return `${value}°C`;
+    return `max token/ prompt: ${value}`;
   }
   return (
     <>
-      {/* {value} */}
+      {showExtendData ? valuetext(value) : null}
       <Slider
-        sx={{
-          width: '100%',
-          '& .MuiSlider-mark': {
-            backgroundColor: 'white', // Change the color
-            width: '4px', // Adjust the width
-            height: '10px', // Adjust the height
-            borderRadius: '1px', // Add rounded corners
-          },
-          '& .MuiSlider-markLabel': {
-            // Style the mark labels
-            color: 'white',
-            fontSize: '12px',
-          },
-        }}
+        sx={styled.slider}
         value={value}
+        orientation={orientation}
         onChange={handleChange}
         size={size}
         // defaultValue={defaultValue}
         aria-label={size}
-        valueLabelDisplay="auto" //"on"
-        getAriaValueText={valuetext}
+        valueLabelDisplay={valueLabelDisplay}
+        getAriaValueText={showExtendData ? valuetext : null}
         step={step}
-        marks={marks}
+        marks={showExtendData ? marks : null}
         min={min}
         max={max}
         disabled={disabled} //boolean
