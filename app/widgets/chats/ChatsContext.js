@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
+import DefaultValuesContext from '@/context/DefaultValuesContext';
 
 import { chats, defaultPrompts } from './mockChats';
 
@@ -10,20 +11,36 @@ const ChatsContext = createContext();
 
 export const ChatsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const {
+    defaultAmountPromptToken,
+    setDefaultAmountPromptToken,
+    defaultMinPromptToken,
+    setDefaultMinPromptToken,
+    defaultMaxPromptToken,
+    setDefaultMaxPromptToken,
+  } = useContext(DefaultValuesContext);
+
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
+  const [chatContext, setChatContext] = useState('hello world');
   const [displayChats, setDisplayChats] = useState(chats);
   const [selectedChats, setSelectedChats] = useState(displayChats);
   const [chatInFocus, setChatInFocus] = useState(null);
 
   const [messageInFocus, setMessageInFocus] = useState(null);
   const [promptTextInFocus, setPromptTextInFocus] = useState(defaultPrompts[0]);
-  const [chatContext, setChatContext] = useState('hello world');
+
+  const [availablePromptTokensAmount, setAvailablePromptTokensAmount] =
+    useState(defaultAmountPromptToken);
+  const [minPromptTokens, setMinPrompTokens] = useState(defaultMinPromptToken);
+  const [maxPromptTokens, setMaxPrompTokens] = useState(defaultMaxPromptToken);
   const [streamedResponse, setStreamedResponse] = useState([]);
   const [fullResponse, setFullResponse] = useState('');
   const [promptTokenConsumed, setPromptTokenConsumed] = useState({});
+
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+
   useEffect(() => {
     // const filteredprompts = prompts?.filter(
     //   (chats) => chats.chatId === chatInFocus.chatId,
@@ -44,6 +61,19 @@ export const ChatsProvider = ({ children }) => {
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
+  };
+  const handleSetDefaultPromptInFocus = (defaultPrompt) => {
+    setPromptTextInFocus(defaultPrompt);
+  };
+  const handleSelectMessage = (message) => {
+    setMessageInFocus(message);
+  };
+  const handleInputChange = (textContent) => {
+    setPromptTextInFocus(textContent);
+  };
+
+  const handleChangeTokenAmount = (e, newValue) => {
+    setAvailablePromptTokensAmount(newValue);
   };
   const handleNewChat = async () => {
     const data = {
@@ -86,7 +116,6 @@ export const ChatsProvider = ({ children }) => {
       },
     }).then((tempArray) => {
       setDisplayChats(tempArray);
-      console.log('displayChats', displayChats);
     });
   };
   const handleStoreChat = async (data) => {
@@ -115,23 +144,10 @@ export const ChatsProvider = ({ children }) => {
         },
       }).then((tempArray) => {
         setDisplayChats(tempArray);
-        console.log('displayChats', displayChats);
       });
     }
   };
 
-  const handleSetDefaultPromptInFocus = (defaultPrompt) => {
-    setPromptTextInFocus(defaultPrompt);
-    // console.log('defaultPromptInFocus', chat);
-  };
-  const handleSelectMessage = (message) => {
-    setMessageInFocus(message);
-  };
-  const handleInputChange = (textContent) => {
-    console.log(textContent);
-
-    setPromptTextInFocus(textContent);
-  };
   useEffect(() => {
     setSelectedChats(
       displayChats?.filter((chat) =>
@@ -147,6 +163,14 @@ export const ChatsProvider = ({ children }) => {
       value={{
         selectedWidgetContext,
         setSelectedWidgetContext,
+
+        availablePromptTokensAmount,
+        setAvailablePromptTokensAmount,
+        minPromptTokens,
+        setMinPrompTokens,
+        maxPromptTokens,
+        setMaxPrompTokens,
+
         displayChats,
         setDisplayChats,
         selectedChats,
@@ -172,6 +196,7 @@ export const ChatsProvider = ({ children }) => {
         handleSetDefaultPromptInFocus,
         handleSelectMessage,
         handleInputChange,
+        handleChangeTokenAmount,
         chatContext,
         setChatContext,
         streamedResponse,

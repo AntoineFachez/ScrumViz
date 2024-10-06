@@ -11,7 +11,7 @@ export const productBackLogs = [
         estimatedEffort: 5,
         description:
           'Allow users to create accounts and store their information.',
-        userStory_id:
+        userStory:
           'As a user, I want to user registration so that I can achieve my goals.',
         userStory_id: '8a09830f-8e46-438c-b4cc-7432aa8de12b',
         writtenByTeamMember_id: 'ab8ac605-7ac5-49fd-a0d9-4b8ce11f7da5',
@@ -22,7 +22,7 @@ export const productBackLogs = [
         priority: 'High',
         estimatedEffort: 8,
         description: 'Display products with details, images, and prices.',
-        userStory_id:
+        userStory:
           "As a customer, I want to product catalog so that I can find what I'm looking for.",
         userStory_id: '873a5f7a-cd47-4102-ad73-84f51ef934ed',
         writtenByTeamMember_id: 'ab8ac605-7ac5-49fd-a0d9-4b8ce11f7da5',
@@ -34,7 +34,7 @@ export const productBackLogs = [
         estimatedEffort: 3,
         description:
           'Enable users to add products to a cart for later purchase.',
-        userStory_id:
+        userStory:
           'As a customer, I want to shopping cart so that I can manage my purchases.',
         userStory_id: 'bd37e325-52f9-48f4-ae61-5d6c107e161e',
         writtenByTeamMember_id: 'b7c9a99a-a2a8-44dd-b986-d04f69b06efd',
@@ -45,7 +45,7 @@ export const productBackLogs = [
         priority: 'High',
         estimatedEffort: 10,
         description: 'Implement a secure and user-friendly checkout flow.',
-        userStory_id:
+        userStory:
           'As a customer, I want to payment gateway integration so that I can purchase products easily.',
         userStory_id: '9b950fa9-27a1-4f26-b338-a817abf3e3b3',
         writtenByTeamMember_id: '36f1b9b4-85fe-4193-9d7c-3fe7bdbc1194',
@@ -56,7 +56,7 @@ export const productBackLogs = [
         priority: 'Medium',
         estimatedEffort: 4,
         description: 'Allow users to track the status of their orders.',
-        userStory_id:
+        userStory:
           'As a customer, I want to order tracking so that I can manage my purchases.',
         userStory_id: 'ccd29397-8de7-4a5a-beba-54e5fc6dabba',
         writtenByTeamMember_id: '12b66790-3975-4888-853c-d7f3f8da79a4',
