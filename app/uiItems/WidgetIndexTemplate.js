@@ -4,12 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import AppContext from '@/context/AppContext';
 // import DataContext from '../context/DataContext';
-// import UIContext from '@/context/UIContext';
+import UIContext from '@/context/UIContext';
 
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
 import { themeSettings, useMode } from '../theme/ThemeContext';
 import ToolTipComponent from '../components/tooltip/ToolTipComponent';
+import SimpleDialog from '../components/dialog/Dialog';
 
 // import { styled } from "../themes/styled";
 
@@ -33,8 +34,9 @@ const WidgetIndexTemplate = ({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext } = useContext(AppContext);
   // const { dataContext } = useContext(DataContext);
-  // const { navBarHeight, showNewItem, mainPaneHeight, setMainPaneHeight } =
-  //   useContext(UIContext);
+
+  const { showDialog, setShowDialog, handleCloseDialog } =
+    useContext(UIContext);
   const {
     uiGridMapContext,
     collection,
@@ -60,6 +62,7 @@ const WidgetIndexTemplate = ({
     onClick,
     uiContext,
     widgetContext,
+    dialogTitle,
     // styled,
   } = widgetProps;
   return (

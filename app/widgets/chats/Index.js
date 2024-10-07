@@ -32,6 +32,7 @@ import { runChat } from './functions';
 import ChatInputField from './ChatInputField';
 import SliderComponent from '@/app/components/slider/Slider';
 import SettingsAndMenu from './SettingsAndMenu';
+import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
 
 export default function ChatsWidget({
   widget,
@@ -64,8 +65,6 @@ export default function ChatsWidget({
     defaultPrompts,
     messageInFocus,
     setMessageInFocus,
-    promptTextInFocus,
-    setPromptTextInFocus,
     searchTerm,
     // setSearchTerm,
     isFiltered,
@@ -76,6 +75,7 @@ export default function ChatsWidget({
     handleSetChatInFocus,
     // handleSelectWidgetContext,
     handleNewChat,
+    handleNewDefaultPrompt,
     handleStoreChat,
     handleSetDefaultPromptInFocus,
     handleSelectMessage,
@@ -90,7 +90,9 @@ export default function ChatsWidget({
     promptTokenConsumed,
     setPromptTokenConsumed,
   } = useContext(ChatsContext);
-
+  const { promptTextInFocus, setPromptTextInFocus } = useContext(
+    DefaultPromptsContext
+  );
   const messageInputRef = useRef();
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -121,10 +123,7 @@ export default function ChatsWidget({
       handleShowMenu: setShowChatsMenu,
     },
   };
-  useEffect(() => {
-    if (!loading) setPromptTextInFocus('');
-    return () => {};
-  }, []);
+
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
@@ -147,10 +146,14 @@ export default function ChatsWidget({
       className="widget"
       sx={{
         ...styled.widget,
-        // backgroundColor: '#555',
       }}
     >
-      UserStory New Item
+      {/* <SimpleDialog
+        data={data}
+        onClose={handleClose}
+        selectedValue={selectedValue}
+        open={showDialog}
+      /> */}
     </Box>
   );
   const settingsAndMenu = (
@@ -172,7 +175,7 @@ export default function ChatsWidget({
         value={availablePromptTokensAmount}
         setValue={setAvailablePromptTokensAmount}
         aria={sliderSize}
-        valueLabelDisplay="no"
+        valueLabelDisplay="off"
         defaultValue={availablePromptTokensAmount}
         step={500}
         marks={[
@@ -216,8 +219,19 @@ export default function ChatsWidget({
       sx={{
         ...styled.widget,
         // backgroundColor: '#555',
+        flexFlow: 'column',
       }}
     >
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+        <Tooltip title="Create new Chat" placement="top" arrow>
+          <IconButton
+            sx={styled?.iconButton?.action}
+            onClick={() => handleNewChat()}
+          >
+            <Add />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <MultiItems
         widget={widget}
         uiContext={uiContext}
@@ -241,32 +255,6 @@ export default function ChatsWidget({
     </Box>
   );
 
-  const defaultPromptSelector = (
-    <>
-      <Box className="widget" sx={styled?.widget}>
-        <MultiItems
-          widget={widget}
-          uiContext={uiContext}
-          singleItemScheme={singleItemSchemeChat}
-          selectedWidgetContext={selectedWidgetContext}
-          setActiveSearchTerm={setActiveSearchTerm}
-          handleSetItemInFocus={handleSetDefaultPromptInFocus}
-          customElement={null}
-          alertElement={null}
-          data={defaultPrompts}
-          selectedData={defaultPrompts}
-          // setSelectedItem={setDefaultPrompts}
-          selector={{
-            selector: 'defaultPromptsSelector',
-            selected: 'selectedPrompts',
-          }}
-          itemContext={widgetProps?.itemContext}
-          itemInFocus={promptTextInFocus}
-          styled={styled}
-        />
-      </Box>
-    </>
-  );
   const messageInFocusWidget = (
     <Box
       className="widget"
@@ -320,7 +308,7 @@ export default function ChatsWidget({
       ref={messageInputRef}
       placeholder="Type message here..."
       onChange={handleInputChange}
-      value={promptTextInFocus?.prompt_text}
+      value={promptTextInFocus?.description}
       sendDisabled={loading}
       onSend={(inputText) =>
         runChat(
@@ -354,7 +342,7 @@ export default function ChatsWidget({
         menu={menu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
-        vertical={defaultPromptSelector}
+        // vertical={defaultPromptSelector}
         selector={modelSelector}
         inputField={promptField}
         singleItem={chatInFocusWidget}

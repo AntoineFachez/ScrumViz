@@ -5,10 +5,12 @@ import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 
 import Draggable from '@/app/components/dragDrop/Index';
+import ChatsContext from '../widgets/chats/ChatsContext';
 export default function InFocusOverView({ contextToolBar, styled }) {
   const { appContext, uiGridMapContext, alert } = useContext(AppContext);
 
   const { userRole, setUserRole, intro, setIntro } = useContext(UIContext);
+  const { availablePromptTokensAmount } = useContext(ChatsContext);
 
   return (
     <>
@@ -65,7 +67,39 @@ export default function InFocusOverView({ contextToolBar, styled }) {
               {alert?.error_code === 9000
                 ? 'wait a minute'
                 : rateLimitRemaining}
-            </Typography> */}
+            </Typography> */}{' '}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexFlow: 'row',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Typography
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  color: 'white',
+                  textWrap: 'nowrap',
+                  verticalAlign: 'middle',
+                }}
+              >
+                maxToken:
+              </Typography>
+              <Typography
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  color: 'white',
+                  textWrap: 'nowrap',
+                  verticalAlign: 'middle',
+                }}
+              >
+                {availablePromptTokensAmount}
+              </Typography>
+            </Box>
           </Box>{' '}
         </Box>
       ) : (
