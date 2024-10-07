@@ -5,6 +5,7 @@ import {
   Button,
   IconButton,
   Paper,
+  Skeleton,
   TextField,
   Tooltip,
   Typography,
@@ -19,7 +20,7 @@ import { Message } from '@chatscope/chat-ui-kit-react';
 import { ContentCopy } from '@mui/icons-material';
 import { notify } from '@/utils/utils';
 
-const ChatMessage = ({ data, styled, messageInFocus }) => {
+const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
   const handleCopyToClipBoard = (textToCopy) => {
     navigator.clipboard
       .writeText(textToCopy)
@@ -53,54 +54,58 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
             }
             sx={{ margin: '0.5rem', width: 30, height: 30, opacity: 0.8 }}
           />
-          <Box
-            sx={{
-              // backgroundColor: data === messageInFocus ? 'green' : '',
-              // padding: '1rem',
-              // display: 'flex',
-              width: '100%',
-              height: '100%',
-              flexFlow: 'column',
-              borderRadius: '5px',
-              textAlign: 'start',
+          {isLoading ? (
+            <Skeleton animation="wave" />
+          ) : (
+            <Box
+              sx={{
+                // backgroundColor: data === messageInFocus ? 'green' : '',
+                // padding: '1rem',
+                // display: 'flex',
+                width: '100%',
+                height: '100%',
+                flexFlow: 'column',
+                borderRadius: '5px',
+                textAlign: 'start',
 
-              // backgroundColor: '#111',
-              // '&  >*': {
-              //   width: '100%',
-              // },
-            }}
-            elevation={10}
-            // variant="elevation"
-          >
-            {data?.parts?.map((part, i) => {
-              return (
-                <Message
-                  key={i}
-                  model={{
-                    message: part?.content,
-                    sentTime: 'just now',
-                    sender: data?.role,
-                    // direction: data?.role === 'model' ? 'incoming' : 'outgoing',
-                  }}
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    width: '100%',
-                    // height: '100%',
-                  }}
-                >
-                  <Message.CustomContent>
-                    <CodeBlock
-                      key={i}
-                      part={part}
-                      handleCopyToClipBoard={handleCopyToClipBoard}
-                      styled={styled}
-                    />
-                  </Message.CustomContent>
-                </Message>
-              );
-            })}
-          </Box>
+                // backgroundColor: '#111',
+                // '&  >*': {
+                //   width: '100%',
+                // },
+              }}
+              elevation={10}
+              // variant="elevation"
+            >
+              {data?.parts?.map((part, i) => {
+                return (
+                  <Message
+                    key={i}
+                    model={{
+                      message: part?.content,
+                      sentTime: 'just now',
+                      sender: data?.role,
+                      // direction: data?.role === 'model' ? 'incoming' : 'outgoing',
+                    }}
+                    style={{
+                      position: 'relative',
+                      display: 'inline-block',
+                      width: '100%',
+                      // height: '100%',
+                    }}
+                  >
+                    <Message.CustomContent>
+                      <CodeBlock
+                        key={i}
+                        part={part}
+                        handleCopyToClipBoard={handleCopyToClipBoard}
+                        styled={styled}
+                      />
+                    </Message.CustomContent>
+                  </Message>
+                );
+              })}
+            </Box>
+          )}
         </Box>
       ) : (
         `selecet a message of the chat`

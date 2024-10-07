@@ -64,7 +64,7 @@ export default function ImageDrop({
       //   searchString={searchString}
       // handleSearch={handleSearch}
       // handleFilterEntities={handleFilterEntities}
-      // loading={loading}
+      // isLoading={isLoading}
       // getAllentitiesTypes={getAllentitiesTypes}
       // handlePaste={handlePaste}
       // handleSubmit={handleSubmit}

@@ -26,6 +26,7 @@ export const ChatsProvider = ({ children }) => {
   const { promptTextInFocus, setPromptTextInFocus } = useContext(
     DefaultPromptsContext
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
@@ -176,8 +177,10 @@ export const ChatsProvider = ({ children }) => {
   return (
     <ChatsContext.Provider
       value={{
-        selectedWidgetContext,
-        setSelectedWidgetContext,
+        isLoading,
+        setIsLoading,
+        // selectedWidgetContext,
+        // setSelectedWidgetContext,
 
         availablePromptTokensAmount,
         setAvailablePromptTokensAmount,

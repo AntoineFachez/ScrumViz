@@ -62,7 +62,7 @@ export default function DefaultPromptWidget({
 
   // const [selectedWidgetContext, setSelectedWidgetContext] =
   //   useState(startUpWidgetLayout);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const collection = 'defaultPrompts';
   const widgetProps = {
@@ -91,7 +91,7 @@ export default function DefaultPromptWidget({
   };
   useEffect(() => {
     setSelectedWidgetContext(startUpWidgetLayout);
-    if (!loading) setPromptTextInFocus('');
+    if (!isLoading) setPromptTextInFocus('');
     return () => {};
   }, []);
 

@@ -9,6 +9,7 @@ export default function ChatMessageList({
   handleFormatResponse,
   messageInFocus,
   setMessageInFocus,
+  isLoading,
   styled,
 }) {
   return (
@@ -35,6 +36,7 @@ export default function ChatMessageList({
         >
           <ChatMessage
             data={message}
+            isLoading={isLoading}
             messageInFocus={messageInFocus}
             styled={styled}
           />

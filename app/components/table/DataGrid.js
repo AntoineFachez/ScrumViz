@@ -25,7 +25,7 @@ import FormContext from '../../context/FormContext';
 import { useMode } from '../../themes/Theme';
 
 const DataGridDemo = ({
-  loading,
+  isLoading,
   rows,
   columns,
   parentItemInFocus,
@@ -365,7 +365,7 @@ const DataGridDemo = ({
       }}
     >
       <DataGrid
-        loading={loading}
+        isLoading={isLoading}
         filterModel={filterModel}
         onFilterModelChange={(newFilterModel) => {
           setFilterModel(newFilterModel);

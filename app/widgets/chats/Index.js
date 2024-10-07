@@ -4,6 +4,7 @@ import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import ChatsContext from './ChatsContext';
+import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 // import UserContext from '@/context/UserContext';
@@ -18,21 +19,16 @@ import ChatMessage from './ChatMessage';
 import { handleSelectWidgetContext } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
+// import SliderComponent from '@/app/components/slider/Slider';
 
-import {
-  singleItemSchemeChat,
-  singleItemSchemePrompt,
-  sliderMarksToken,
-} from './dataScheme';
-// import ChatInputText from './ChatInputText';
-import { MessageInput } from '@chatscope/chat-ui-kit-react';
+import { singleItemSchemeChat } from './dataScheme';
+import ChatInputField from './ChatInputField';
+import SettingsAndMenu from './SettingsAndMenu';
+
+import { runChat } from './functions/apiFunctions';
+import { handleNewChat, handleStoreChat } from './functions/dbFunctions';
 
 import './ChatInFocus.scss';
-import { runChat } from './functions';
-import ChatInputField from './ChatInputField';
-import SliderComponent from '@/app/components/slider/Slider';
-import SettingsAndMenu from './SettingsAndMenu';
-import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
 
 export default function ChatsWidget({
   widget,
@@ -48,41 +44,32 @@ export default function ChatsWidget({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    isLoading,
+    setIsLoading,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
+
     availablePromptTokensAmount,
     setAvailablePromptTokensAmount,
     minPromptTokens,
-    setMinPrompTokens,
     maxPromptTokens,
-    setMaxPrompTokens,
-    // displayChats,
-    // setDisplayChats,
     selectedChats,
     setSelectedChats,
     chatInFocus,
-    // setChatInFocus,
-    defaultPrompts,
+    setChatInFocus,
+
     messageInFocus,
     setMessageInFocus,
     searchTerm,
-    // setSearchTerm,
+    setSearchTerm,
     isFiltered,
-    // setIsFiltered,
+    setIsFiltered,
     handleResetFiltered,
     handleSearchTermChange,
-    // handleResetFiltered,
     handleSetChatInFocus,
-    // handleSelectWidgetContext,
-    handleNewChat,
-    handleNewDefaultPrompt,
-    handleStoreChat,
-    handleSetDefaultPromptInFocus,
     handleSelectMessage,
     handleInputChange,
     handleChangeTokenAmount,
-    // chatContext,
-    // setChatContext,
     streamedResponse,
     setStreamedResponse,
     fullResponse,
@@ -94,10 +81,15 @@ export default function ChatsWidget({
     DefaultPromptsContext
   );
   const messageInputRef = useRef();
+
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  useEffect(() => {
+    setSelectedWidgetContext(startUpWidgetLayout);
+    return () => {};
+  }, []);
   const [showGeminiCard, setShowGeminiCard] = useState('text');
-  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(null);
   const collection = 'chats';
   const widgetProps = {
@@ -285,8 +277,6 @@ export default function ChatsWidget({
         setFullResponse={setFullResponse}
         promptTextInFocus={promptTextInFocus}
         setPromptTextInFocus={setPromptTextInFocus}
-        loading={loading}
-        setLoading={setLoading}
         promptTokenConsumed={promptTokenConsumed}
         setPromptTokenConsumed={setPromptTokenConsumed}
         messageInFocus={messageInFocus}
@@ -294,6 +284,8 @@ export default function ChatsWidget({
         handleStoreChat={handleStoreChat}
         handleSelectMessage={handleSelectMessage}
         handleInputChange={handleInputChange}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
         setError={setError}
         styled={styled}
       />
@@ -309,13 +301,13 @@ export default function ChatsWidget({
       placeholder="Type message here..."
       onChange={handleInputChange}
       value={promptTextInFocus?.description}
-      sendDisabled={loading}
+      sendDisabled={isLoading}
       onSend={(inputText) =>
         runChat(
           availablePromptTokensAmount,
           chatInFocus,
           inputText,
-          setLoading,
+          setIsLoading,
           setStreamedResponse,
           setPromptTokenConsumed,
           setError
