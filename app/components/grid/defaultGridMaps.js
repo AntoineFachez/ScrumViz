@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import NavBar from '@/app/components/navBar/Index';
-import Persons from '@/app/widgets/persons/Persons';
+// import NavBar from '@/app/components/navBar/Index';
+// import Persons from '@/app/widgets/persons/Persons';
 import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
 import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
 import UserStories from '@/app/widgets/userStories/UserStories';

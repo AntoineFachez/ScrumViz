@@ -29,7 +29,7 @@ const Index = ({
   const { activeSections, activeKeys, filterModel, setFilterModel } =
     useContext(FormContext);
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedColumn, setSelectedColumn] = useState(
     headerCells?.[0]?.gridHeader?.id
   );
@@ -102,10 +102,10 @@ const Index = ({
   };
 
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
     setFilteredRows('');
     buildRows(data);
-    setLoading(false);
+    setIsLoading(false);
     // console.log(
     //   "parentItemInFocus",
 
@@ -133,11 +133,11 @@ const Index = ({
     return () => {};
   }, [activeSearchTerm, selectedColumn]);
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
     setFilteredRows('');
     buildRows(data);
     // setTimeout(() => {
-    setLoading(false);
+    setIsLoading(false);
     // }, 1000);
     return () => {};
   }, []);
@@ -146,13 +146,13 @@ const Index = ({
   return (
     <>
       {alertElement}
-      {loading ? (
-        <div>Loading...</div> // Show loading indicator
+      {isLoading ? (
+        <div>Loading...</div> // Show isLoading indicator
       ) : (
         <>
           {' '}
           <DataGridDemo
-            loading={loading}
+            isLoading={isLoading}
             rows={filteredRows ? filteredRows : rows}
             // rows={rows}
             columns={headerCells}

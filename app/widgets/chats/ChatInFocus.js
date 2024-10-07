@@ -6,7 +6,7 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import { Paper } from '@mui/material';
 
-import { handleFormatResponse } from './functions';
+import { handleFormatResponse } from './functions/apiFunctions';
 import ChatMessageList from './ChatMessageList';
 
 export default function ChatInFocus({
@@ -14,6 +14,7 @@ export default function ChatInFocus({
   messageInFocus,
   setMessageInFocus,
   handleSelectMessage,
+  isLoading,
   styled,
 }) {
   return (
@@ -35,6 +36,7 @@ export default function ChatInFocus({
               handleFormatResponse={handleFormatResponse}
               messageInFocus={messageInFocus}
               setMessageInFocus={setMessageInFocus}
+              isLoading={isLoading}
               styled={styled}
             />
           </MessageList>

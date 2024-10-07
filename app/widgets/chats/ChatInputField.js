@@ -1,6 +1,6 @@
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import { Paper } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function ChatInputField({
   ref,
