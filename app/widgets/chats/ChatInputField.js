@@ -1,6 +1,6 @@
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
 import { Paper } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function ChatInputField({
   ref,
@@ -13,6 +13,29 @@ export default function ChatInputField({
   onAttachClick,
   styled,
 }) {
+  const [inputContent, setInputContent] = useState({
+    html: value,
+    plainText: value,
+  });
+
+  const handleInputChange = (htmlContent) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = htmlContent;
+    const plainText = tempElement.textContent;
+
+    setInputContent({ html: htmlContent, plainText: plainText });
+    const cleanedText = inputContent?.plainText?.trim();
+    onChange(cleanedText);
+  };
+  useEffect(() => {
+    setInputContent({
+      html: value,
+      plainText: value,
+    });
+
+    return () => {};
+  }, [value]);
+
   return (
     <Paper
       className="widget"
@@ -118,8 +141,8 @@ export default function ChatInputField({
       <MessageInput
         ref={ref}
         placeholder={placeholder}
-        onChange={onChange}
-        value={value}
+        value={inputContent.html}
+        onChange={handleInputChange}
         sendDisabled={sendDisabled}
         onSend={onSend}
         fancyScroll={fancyScroll}
