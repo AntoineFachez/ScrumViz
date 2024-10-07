@@ -5,12 +5,16 @@ import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
 import DefaultValuesContext from '@/context/DefaultValuesContext';
 
-import { chats, defaultPrompts } from './mockChats';
+import { chats } from './mockChats';
+import UIContext from '@/context/UIContext';
+import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
 
 const ChatsContext = createContext();
 
 export const ChatsProvider = ({ children }) => {
+  const { appContext, setAppContext } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const { showDialog, setShowDialog } = useContext(UIContext);
   const {
     defaultAmountPromptToken,
     setDefaultAmountPromptToken,
@@ -19,6 +23,9 @@ export const ChatsProvider = ({ children }) => {
     defaultMaxPromptToken,
     setDefaultMaxPromptToken,
   } = useContext(DefaultValuesContext);
+  const { promptTextInFocus, setPromptTextInFocus } = useContext(
+    DefaultPromptsContext
+  );
 
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
@@ -28,7 +35,6 @@ export const ChatsProvider = ({ children }) => {
   const [chatInFocus, setChatInFocus] = useState(null);
 
   const [messageInFocus, setMessageInFocus] = useState(null);
-  const [promptTextInFocus, setPromptTextInFocus] = useState(defaultPrompts[0]);
 
   const [availablePromptTokensAmount, setAvailablePromptTokensAmount] =
     useState(defaultAmountPromptToken);
@@ -55,11 +61,9 @@ export const ChatsProvider = ({ children }) => {
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
   };
-  const handleSetDefaultPromptInFocus = (defaultPrompt) => {
-    const plainText = textContent.replace(/<[^>]+>/g, '');
-
-    setPromptTextInFocus(plainText);
-  };
+  // const handleSetDefaultPromptInFocus = (item) => {
+  //   setPromptTextInFocus(item);
+  // };
   const handleSelectMessage = (message) => {
     setMessageInFocus(message);
   };
@@ -99,7 +103,7 @@ export const ChatsProvider = ({ children }) => {
           role: 'user',
           parts: [
             {
-              text: 'I am in development of an AI integration. Please return what ever comes to your mind. By now I only need to receive some kind of response and am wondering what you come up with.',
+              text: 'Please return what ever comes to your mind. By now I only need to receive some kind of response and am wondering what you come up with.',
             },
           ],
         },
@@ -119,6 +123,10 @@ export const ChatsProvider = ({ children }) => {
       setDisplayChats(tempArray);
     });
   };
+  // const handleNewDefaultPrompt = async () => {
+  //   console.log('handleNewDefaultPrompt');
+  //   setShowDialog(true);
+  // };
   const handleStoreChat = async (data) => {
     const parentCollectionName = collection;
     let queryField;
@@ -184,11 +192,11 @@ export const ChatsProvider = ({ children }) => {
         setSelectedChats,
         chatInFocus,
         setChatInFocus,
-        defaultPrompts,
+
         messageInFocus,
         setMessageInFocus,
-        promptTextInFocus,
-        setPromptTextInFocus,
+        // promptTextInFocus,
+        // setPromptTextInFocus,
         searchTerm,
         setSearchTerm,
         isFiltered,
@@ -199,8 +207,9 @@ export const ChatsProvider = ({ children }) => {
         handleSetChatInFocus,
         // handleSelectWidgetContext,
         handleNewChat,
+        // handleNewDefaultPrompt,
         handleStoreChat,
-        handleSetDefaultPromptInFocus,
+        // handleSetDefaultPromptInFocus,
         handleSelectMessage,
         handleInputChange,
         handleChangeTokenAmount,

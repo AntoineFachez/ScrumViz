@@ -39,38 +39,6 @@ export default function SettingsAndMenu({
         }}
       >
         {' '}
-        {/* <Box
-          sx={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            flexFlow: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <Typography
-            sx={{
-              width: '100%',
-              height: '100%',
-              color: 'white',
-              textWrap: 'nowrap',
-              verticalAlign: 'middle',
-            }}
-          >
-            maxToken:
-          </Typography>
-          <Typography
-            sx={{
-              width: '100%',
-              height: '100%',
-              color: 'white',
-              textWrap: 'nowrap',
-              verticalAlign: 'middle',
-            }}
-          >
-            {availablePromptTokensAmount}
-          </Typography>
-        </Box> */}
         <SliderComponent
           showExtendData={showExtendData}
           size={size}
@@ -110,14 +78,14 @@ export default function SettingsAndMenu({
             </IconButton>
           </Tooltip>
         )}
-        <Tooltip title="Create new Chat" placement="top" arrow>
+        {/* <Tooltip title="Create new Chat" placement="top" arrow>
           <IconButton
             sx={styled?.iconButton?.action}
             onClick={() => handleNewChat()}
           >
             <Add />
           </IconButton>
-        </Tooltip>
+        </Tooltip> */}
       </Box>
     </>
   );

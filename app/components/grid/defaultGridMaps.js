@@ -15,6 +15,7 @@ import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 import AgileItem from '@/app/widgets/agileItem/AgileItem';
 import Chats from '@/app/widgets/chats/Index';
+import DefaultPrompts from '@/app/widgets/defaultPrompts/DefaultPrompts';
 
 export const agileCodingMap = [
   // {
@@ -1099,13 +1100,13 @@ export const chatsMap = [
     y: 4,
   },
   {
-    widget: Chats,
-    widgetName: 'Chats',
+    widget: DefaultPrompts,
+    widgetName: 'DefaultPrompts',
     id: uuidv4(),
-    collection: 'chats',
+    collection: 'defaultPrompts',
     active: true,
     uiContext: 'defaultPromptsSelector',
-    startUpWidgetLayout: 'vertical',
+    startUpWidgetLayout: 'flexList',
     w: 6,
     h: 8,
     x: 0,

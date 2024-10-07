@@ -59,13 +59,18 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
               // padding: '1rem',
               // display: 'flex',
               width: '100%',
+              height: '100%',
               flexFlow: 'column',
               borderRadius: '5px',
               textAlign: 'start',
+
+              // backgroundColor: '#111',
               // '&  >*': {
               //   width: '100%',
               // },
             }}
+            elevation={10}
+            // variant="elevation"
           >
             {data?.parts?.map((part, i) => {
               return (
@@ -81,6 +86,7 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
                     position: 'relative',
                     display: 'inline-block',
                     width: '100%',
+                    // height: '100%',
                   }}
                 >
                   <Message.CustomContent>
@@ -119,6 +125,7 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
           style={{
             ...a11yDark,
             '& pre, & code': {
+              // height: '100%',
               fontSize: '1rem',
               backgroundColor: '#f8f8f8',
             },
@@ -153,7 +160,14 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
   }
 
   return (
-    <Typography sx={{ ...styled.textBody, width: '100%', paddingLeft: '1rem' }}>
+    <Typography
+      sx={{
+        ...styled.textBody,
+        width: '100%',
+        height: '100%',
+        paddingLeft: '1rem',
+      }}
+    >
       {part.text}
     </Typography>
   );
