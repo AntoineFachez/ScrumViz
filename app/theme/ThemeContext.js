@@ -306,7 +306,7 @@ const styled = (colorMode) => ({
       // backgroundColor: "white",
       backgroundColor: () => themeSettings(colorMode).neutral.main,
       '&:hover': {
-        backgroundColor: () => themeSettings(colorMode).transparent,
+        backgroundColor: () => themeSettings(colorMode).white,
       },
     },
     inactive: {
@@ -361,7 +361,6 @@ const styled = (colorMode) => ({
     overflow: 'scroll',
     backgroundColor: () => themeSettings(colorMode).transparent,
     // margin: 0,
-    // padding: 0,
   },
   spacesMenu: {
     zIndex: '50',
@@ -489,9 +488,8 @@ const styled = (colorMode) => ({
     width: '100%',
     border: '1px dashed #333',
     borderRadius: '5px',
-    // padding: '20px',
-    textAlign: 'center',
-
+    // margin: '20px',
+    // textAlign: 'center',
     backgroundColor: () => themeSettings(colorMode).transparent,
     '&:hover': {
       border: `1px dashed ${themeSettings(colorMode).neutral.main}`,
@@ -516,6 +514,7 @@ const styled = (colorMode) => ({
     flexFlow: 'column wrap',
     justifyContent: 'center',
     alignItems: 'center',
+    // padding: '2rem',
     overflow: 'hidden',
     // paddingTop: "1rem",
     borderRadius: '0 0 5px 5px',
@@ -1115,74 +1114,41 @@ const styled = (colorMode) => ({
     // top: 0,
     // left: 0,    scale: 10,
     // scale: 1,
+    position: 'absolute',
     zIndex: 0,
-    width: '1.5rem',
-    height: '1.5rem',
+    width: '1.3rem',
+    height: '1.3rem',
     // backgroundColor:() => themeSettings('dark').transparent,
     borderRadius: '50%',
-    transition: 'background-color 800ms, borderRadius 2000ms, border 800ms',
+    border: `1px #222 solid`,
+    transition: 'background-color 400ms, borderRadius 2000ms, border 400ms',
     '&:hover': {
       // width: "2rem",
       // height: "2rem",
       zIndex: 200,
       position: 'absolute',
-      scale: 2,
-      backgroundColor: () => themeSettings(colorMode).neutral.main,
+      scale: 1.8,
+      backgroundColor: '#22222280',
       border: `1px ${() => themeSettings('dark').neutral.dark} solid`,
       borderRadius: '50%',
     },
     '&:active': {
       // width: "2rem",
       // height: "2rem",
-      scale: 1.5,
+      scale: 1.3,
       backgroundColor: '#444',
-      transition: 'background-color 800ms, borderRadius 2000ms,',
-      border: `1px ${() => themeSettings('dark').neutral.light} solid`,
+      transition: 'background-color 400ms, borderRadius 2000ms,',
+      border: `1px ${() => themeSettings(colorMode).neutral.light} solid`,
       borderRadius: '0%',
     },
     '& .react-resizable-handle': {
       // width: "2rem",
       // height: "2rem",
-      scale: 1.5,
+      zIndex: 0,
+      scale: 1.3,
       backgroundColor: 'red',
-      transition: 'background-color 800ms',
+      transition: 'background-color 400ms',
     },
-    // handleW: {
-    //   width: "0.5rem",
-    //   height: "0.5rem",
-
-    //   backgroundColor:  mode==="dark"?"":"",
-    //   // transition: "background-color 800ms",
-    //   "&:hover": {
-    //     width: "2rem",
-    //     height: "2rem",
-    //     zIndex: 200,
-    //     position: "absolute",
-    //     // scale: 4,
-    //     backgroundColor:  mode==="dark"?"":"",
-    //     border: "1px #444 solid",
-    //     borderRadius: "50%",
-    //   },
-    // },
-    // handleE: {
-    //   width: "0.5rem",
-    //   height: "0.5rem",
-
-    //   backgroundColor:  mode==="dark"?"":"",
-    //   // transition: "background-color 800ms",
-    // },
-    // "& .react-resizable-handle:hover:after": {
-    //   scale: 3,
-    //   backgroundColor: "red",
-    //   transition: "background-color 800ms",
-    // },
-    // "& .react-resizable-handle:active:after": {
-    //   scale: 3,
-    //   backgroundColor: "red",
-    //   border: "1px white solid",
-    //   transition: "background-color 800ms",
-    //   "&:hover": {},
-    // },
   },
   article: {
     // position: "relative",
@@ -1246,7 +1212,7 @@ const styled = (colorMode) => ({
     // userSelect: "none",
     textAlign: 'justify',
     overflow: 'scroll',
-    padding: '0 1.5rem',
+    // padding: '0 1.5rem',
     noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
     alignStart: { textAlign: 'start' },
     // color: () => themeSettings(colorMode).neutral.light,
@@ -1258,7 +1224,7 @@ const styled = (colorMode) => ({
       // userSelect: "none",
       textAlign: 'justify',
       overflow: 'scroll',
-      padding: '0 1.5rem',
+      // padding: '0 1.5rem',
       noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
       alignStart: { textAlign: 'start' },
       color: () => themeSettings(colorMode).white,
@@ -1510,16 +1476,42 @@ const styled = (colorMode) => ({
     // paddingBottom: "0.05em",
   },
   slider: {
-    zIndex: 300,
-    position: 'absolute',
-    top: 0,
     width: '100%',
-    minWidth: '12ch',
-    color: () => themeSettings(colorMode).action,
     size: 'small',
     backgroundColor: () => themeSettings(colorMode).neutral.alpha2,
-    // backgroundColor:  () => themeSettings(colorMode).neutral.light,
     '&:hover': { color: () => themeSettings(colorMode).neutral.light },
+
+    '& .MuiSlider-rail': {
+      color: () => themeSettings(colorMode).white,
+    },
+    '& .MuiSlider-track': {
+      color: () => themeSettings(colorMode).white,
+    },
+    '& .MuiSlider-thumb': {
+      color: () => themeSettings(colorMode).action,
+    },
+    '& .MuiSlider-mark': {
+      backgroundColor: () => themeSettings(colorMode).white, // Change the color
+      width: '2px', // Adjust the width
+      height: '10px', // Adjust the height
+      borderRadius: '1px', // Add rounded corners
+    },
+    '& .MuiSlider-markLabel': {
+      // Style the mark labels
+      color: 'white',
+      fontSize: '12px',
+    },
+    '& .MuiSlider-valueLabel': {
+      // transform: 'translate(0, 0px)' /* Adjust these values */,
+    },
+
+    // '& .MuiSlider-valueLabel >*': {
+    //   zIndex: 1000,
+    //   position: 'absolute',
+    //   backgroundColor: '#007bff' /* Example: change background color */,
+    //   color: 'white',
+    //   fontSize: '14px',
+    // },
   },
   section: {
     backgroundColor: () => themeSettings(colorMode).paper,
@@ -1609,7 +1601,7 @@ const styled = (colorMode) => ({
     flexDirection: 'column',
     width: '100%',
     // height: mainHeight,
-    border: `5px solid ${() => themeSettings('dark').pink}`,
+    border: `5px solid ${() => themeSettings(colorMode).pink}`,
   },
   devInactive: {
     position: 'relative',

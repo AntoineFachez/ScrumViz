@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import RGL, { WidthProvider } from 'react-grid-layout';
 import { debounce } from 'lodash'; // Or use your preferred debounce implementation
@@ -14,6 +14,7 @@ import {
 } from './helperFunctions';
 
 import './grid-styles.css';
+import UIContext from '@/context/UIContext';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -26,8 +27,9 @@ const ScaledLayout = ({
   cols = 36,
   styled,
 }) => {
+  const { showWidgetMenus, setShowWidgetMenus } = useContext(UIContext);
   const gridRef = useRef(null);
-  const [rowHeight, setRowHeight] = useState(50);
+  const [rowHeight, setRowHeight] = useState(36);
   const [currentLayout, setCurrentLayout] = useState();
 
   useEffect(() => {
@@ -100,6 +102,11 @@ const ScaledLayout = ({
         margin={[5, 5]}
         useCSSTransforms={true}
         resizeHandles={['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']}
+        // resizeHandles={
+        //   showWidgetMenus
+        //     ? [('s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne')]
+        //     : [('s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne')]
+        // }
         rowHeight={rowHeight}
         cols={cols}
       >

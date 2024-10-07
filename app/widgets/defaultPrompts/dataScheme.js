@@ -1,21 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
 export const context = 'university';
 
-export const ChatScheme = {
-  chatId: uuidv4(),
-  title: 'latest  chat',
+export const defaultPromptScheme = {
+  id: uuidv4(),
   createdAt: new Date(),
-  summary: '',
-  history: [
-    {
-      role: 'user',
-      parts: [{ text: '' }],
-    },
-    {
-      role: 'model',
-      parts: [{ text: '' }],
-    },
-  ],
+  title: '',
+  description: '',
 };
 export const fieldsAccordion = {
   heading: 'name',
@@ -27,22 +17,11 @@ export const fieldsAccordion = {
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
-export const singleItemSchemeChat = {
-  id: 'id',
-  title: 'title',
-  subTitle: 'summary',
-  description: 'summary',
-  customArray: 'history',
-  customArrayKey: 'role',
-  itemInFocusIdKey: 'id',
-  filterArrayByIdKey: 'parts',
-};
-
 export const singleItemSchemePrompt = {
   id: 'id',
   title: 'title',
   subTitle: 'text',
-  description: 'text',
+  description: 'prompt_text',
 };
 
 export const sliderMarksToken = [

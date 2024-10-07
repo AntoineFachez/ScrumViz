@@ -36,7 +36,7 @@ export default function MenuImageDrop({
   handleSearchTermChange,
   handleSearch,
   handleFilterEntities,
-  loading,
+  isLoading,
   getAllentitiesTypes,
   handlePaste,
   handleSubmit,

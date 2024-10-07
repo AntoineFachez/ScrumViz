@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Close, HourglassBottom, Send, TextSnippet } from '@mui/icons-material';
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
-import { fetchDataFromGeminiProAPI, runChat } from '../functions';
+import { fetchDataFromGeminiProAPI, runChat } from '../functions/apiFunctions';
 
 function SubmitText({
   chatInFocus,
@@ -17,8 +17,8 @@ function SubmitText({
   setPromptTokenConsumed,
   error,
   setError,
-  loading,
-  setLoading,
+  isLoading,
+  setIsLoading,
   setShowGeminiCard,
   styled,
 }) {
@@ -50,25 +50,20 @@ function SubmitText({
             />{' '}
             <IconButton
               sx={styled?.iconButton?.active}
-              disabled={loading}
+              disabled={isLoading}
               onClick={() =>
                 runChat(
+                  availablePromptTokensAmount,
                   chatInFocus,
                   inputText,
-                  setLoading,
-                  data,
-                  setData,
-                  streamedResponse,
+                  setIsLoading,
                   setStreamedResponse,
-                  fullResponse,
-                  setFullResponse,
-                  promptTokenConsumed,
                   setPromptTokenConsumed,
                   setError
                 )
               }
             >
-              {loading ? <HourglassBottom /> : <Send />}
+              {isLoading ? <HourglassBottom /> : <Send />}
             </IconButton>
           </Box>
         </Box>

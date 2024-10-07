@@ -14,7 +14,7 @@ import AIModelSelector from './AIModelSelector';
 import Chats from '../ChatsSelector';
 import chatsData from '../../../assets/data/mockData/chats.json';
 import ChatInFocus from './ChatInFocus';
-import { runChat, fetchDataFromGeminiProAPI } from '../functions';
+import { runChat, fetchDataFromGeminiProAPI } from '../functions/apiFunctions';
 import FirebaseContext from '../../../context/FirebaseContext';
 import ChatsContext from '../ChatsContext';
 
@@ -34,7 +34,7 @@ export default function Console({ inputField, setInputField, styled }) {
   const [promptInputText, setPromppromptInputText] = useState(
     'send me a receipt to cook pasta carbonara'
   );
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const sideMenuWidth = '12rem';
   return (
     <>
@@ -142,8 +142,8 @@ export default function Console({ inputField, setInputField, styled }) {
                         setFullResponse={setFullResponse}
                         promptInputText={promptInputText}
                         setPromppromptInputText={setPromppromptInputText}
-                        loading={loading}
-                        setLoading={setLoading}
+                        isLoading={isLoading}
+                        setIsLoading={setIsLoading}
                         styled={styled}
                       />
                       <Box
@@ -187,7 +187,7 @@ export default function Console({ inputField, setInputField, styled }) {
                             fetchDataFromGeminiProAPI(
                               chatInFocus,
                               promptInputText,
-                              setLoading,
+                              setIsLoading,
                               data,
                               setData,
                               streamedResponse,
@@ -216,8 +216,8 @@ export default function Console({ inputField, setInputField, styled }) {
                           setPromptTokenConsumed={setPromptTokenConsumed}
                           error={error}
                           setError={setError}
-                          loading={loading}
-                          setLoading={setLoading}
+                          isLoading={isLoading}
+                          setIsLoading={setIsLoading}
                           setShowGeminiCard={setShowGeminiCard}
                           styled={styled}
                         />

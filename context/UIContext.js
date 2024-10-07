@@ -27,6 +27,9 @@ export const UIProvider = ({ children }) => {
   const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
+  const [showWidgetMenus, setShowWidgetMenus] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+
   const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
   const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
   const [showSprintMenu, setShowSprintMenu] = useState(false);
@@ -37,10 +40,16 @@ export const UIProvider = ({ children }) => {
   const [showDailyMenu, setShowDailyMenu] = useState(false);
   const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
   const [showChatsMenu, setShowChatsMenu] = useState(false);
+  const [showDefaultPromptsMenu, setShowDefaultPromptsMenu] = useState(false);
 
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
   const [latestGridValues, setLatestGridValues] = useState({});
+
+  const [showSliderExtendData, setShowSliderExtendData] =
+    useState(showWidgetMenus);
+  const [sliderSize, setSliderSize] = useState('small');
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === 'keydown' &&
@@ -50,7 +59,10 @@ export const UIProvider = ({ children }) => {
     }
     setOrientationDrawer({ ...orientationDrawer, [anchor]: open });
   };
-
+  const handleCloseDialog = (value) => {
+    setShowDialog(false);
+    //  setSelectedValue(value);
+  };
   useEffect(() => {
     setNavBarWidgetList(() => {
       switch (appContext) {
@@ -109,6 +121,10 @@ export const UIProvider = ({ children }) => {
       value={{
         navBarWidgetList,
         setNavBarWidgetList,
+        showWidgetMenus,
+        setShowWidgetMenus,
+        showDialog,
+        setShowDialog,
         showUserStoryMenu,
         setShowUserStoryMenu,
         showSprintPlanningMenu,
@@ -129,12 +145,19 @@ export const UIProvider = ({ children }) => {
         setShowSprinReviewtMenu,
         showChatsMenu,
         setShowChatsMenu,
+        showDefaultPromptsMenu,
+        setShowDefaultPromptsMenu,
         defaultWidgetMap,
         setDefaultWidgetMap,
         gridDOMMap,
         setGridDOMMap,
         latestGridValues,
         setLatestGridValues,
+        showSliderExtendData,
+        setShowSliderExtendData,
+        sliderSize,
+        setSliderSize,
+        handleCloseDialog,
       }}
     >
       {children}

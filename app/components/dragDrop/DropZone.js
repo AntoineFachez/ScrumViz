@@ -9,14 +9,6 @@ export default function DropZone({
   droppedItemsArray,
   styled,
 }) {
-  // console.log(
-  //   "droppedItemName",
-  //   dataTransfer,
-  //   // setDataTransfer,
-  //   handleDrop,
-  //   droppedItemsArray,
-  //   // styled,
-  // );
   const { getRootProps, getInputProps } = useDropzone({
     // onDrop,
     accept: 'image/*',
@@ -26,17 +18,13 @@ export default function DropZone({
     <Box
       className="dropZone"
       {...getRootProps()}
-      // sx={dropzoneStyles}
       sx={styled?.dropZone}
       onDragEnter={(e) => {
         e.preventDefault();
-        //    console.log("dropped", e.dataTransfer.getData("text/plain"));
       }}
       onDrop={(e) => {
         e.preventDefault();
-        // console.log('dataTransfer', e.dataTransfer.getData('text/plain'));
         const droppedData = e.dataTransfer.getData('text/plain');
-        //    console.log("dropped", JSON.parse(droppedData));
         // handleDrop(JSON.parse(droppedData));
         handleDrop(droppedData);
         // handleDrop(dataTransfer);

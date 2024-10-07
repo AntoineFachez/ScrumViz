@@ -9,7 +9,7 @@ import AuthContext from './AuthContext';
 
 import LogIn from './signUplogIn/LogIn';
 import LogOut from './signUplogIn/LogOut';
-import SignUp from './signUplogIn/SignUp';
+import SignUpWithEmailPawword from './signUplogIn/SignUpWithEmailPawword';
 
 import { handleCreateNewUser } from './helper';
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
@@ -86,7 +86,7 @@ export default function Index({}) {
           >
             {showSignUp ? (
               <>
-                <SignUp
+                <SignUpWithEmailPawword
                   email={email}
                   setEmail={setEmail}
                   password={password}

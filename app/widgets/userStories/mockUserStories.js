@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 export const userStories = [
   {
     id: '9a138bf7-0cdb-4e7d-92fe-f14c3897140b',
@@ -5,6 +6,7 @@ export const userStories = [
     userStory_name: 'Task Management',
     user_story:
       'As a user, I want to manage my tasks so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
     writtenByTeamMember_id: '858d8477-4b06-4cf2-b335-d66bbb37a559',
     wireFrame_uri:
       'https://www.justinmind.com/wp-content/webp-express/webp-images/uploads/2020/04/mood-board-example-digital.png.webp',
@@ -14,7 +16,9 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'User Registration',
     user_story:
-      'As a user, I want to user registration so that I can achieve my goals.',
+      'As a user, I want a user registration so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '602e1fd1-5e89-45c0-a799-a701e9352c5c',
     wireFrame_uri:
       'https://miro.medium.com/v2/resize:fit:4800/format:webp/1*n0IqHn_5XYR6MhLflrYtSg.jpeg',
@@ -24,7 +28,9 @@ export const userStories = [
     productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Social Media Integration',
     user_story:
-      'As a user, I want to social media integration so that I can achieve my goals.',
+      'As a user, I want a social media integration so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: 'cb1f431d-a83e-45b9-b6ae-b66b7ecbf4e7',
     wireFrame_uri:
       'https://img.uxcel.com/practices/social-media-app-wireframing-1627992483228/a-1627992483228-2x.jpg',
@@ -34,7 +40,9 @@ export const userStories = [
     productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Kanban Board',
     user_story:
-      'As a user, I want to Kanban Board so that I can achieve my goals.',
+      'As a user, I want a Kanban Board so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '858d8477-4b06-4cf2-b335-d66bbb37a559',
     wireFrame_uri:
       'https://cdn.web.clickup.com/templates/images/6aaee1b6-cb02-432f-aa34-4d16b0bf3926/mood-board-1200.webp',
@@ -44,7 +52,9 @@ export const userStories = [
     productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Gantt Chart',
     user_story:
-      'As a user, I want to Gantt Chart so that I can achieve my goals.',
+      'As a user, I want a Gantt Chart so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '858d8477-4b06-4cf2-b335-d66bbb37a559',
     wireFrame_uri:
       'https://media.licdn.com/dms/image/v2/D4E12AQH1rYhLK7tfjg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1705098821124?e=2147483647&v=beta&t=BI9AknkB9S_NsVjpZ2vqcbFjDmb2ce-34K1P4VlqkYY',
@@ -54,7 +64,9 @@ export const userStories = [
     productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Time Tracking',
     user_story:
-      'As a user, I want to Time Tracking so that I can achieve my goals.',
+      'As a user, I want a Time Tracking so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: 'N/A',
     wireFrame_uri:
       'https://cdn.dribbble.com/userupload/9548087/file/original-055c029022a087f0aa95c6aac25ebae0.png?resize=1024x768',
@@ -64,7 +76,9 @@ export const userStories = [
     productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Reporting and Analytics',
     user_story:
-      'As a user, I want to Reporting and Analytics so that I can achieve my goals.',
+      'As a user, I want Reporting and Analytics so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '858d8477-4b06-4cf2-b335-d66bbb37a559',
     wireFrame_uri:
       'https://cdn.dribbble.com/userupload/13591663/file/original-faa2b6361b895a9d5b294ec635305d96.png?resize=1600x1200',
@@ -74,7 +88,34 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Payment Gateway Integration',
     user_story:
-      'As a customer, I want to payment gateway integration so that I can purchase products easily.',
+      'As a customer, I want a payment gateway integration so that I can purchase products easily.',
+    acceptanceCriteria: [
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The checkout process should be straightforward and user-friendly.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Users should be able to choose from multiple payment methods (credit card, debit card, PayPal, etc.).',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The checkout page should be secure and protect sensitive information.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Users should be able to review their order details before completing the purchase.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The checkout process should confirm the purchase and provide a receipt.',
+      },
+    ],
     writtenByTeamMember_id: '479fb554-4526-4ac0-8831-fbea5201f52e',
     wireFrame_uri:
       'https://cdn.dribbble.com/userupload/4062648/file/original-4b57f9cf2afdc08efb63a94d22d1dba4.png?resize=1024x768',
@@ -84,7 +125,34 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Shopping Cart',
     user_story:
-      'As a customer, I want to shopping cart so that I can manage my purchases.',
+      'As a customer, I want a shopping cart so that I can manage my purchases.',
+    acceptanceCriteria: [
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The cart should be easily accessible and allow adding/removing products.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The cart should display the total cost of all items in the cart.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Users should be able to update the quantity of items in the cart.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The cart should clearly display the price of each item and any applicable discounts or taxes.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Users should be able to clear their cart or remove specific items.',
+      },
+    ],
     writtenByTeamMember_id: 'cb1f431d-a83e-45b9-b6ae-b66b7ecbf4e7',
     wireFrame_uri:
       'https://stacydesmond.com/wp-content/uploads/2020/04/bendsoap-cart-wireframes-flow.001smb.jpg',
@@ -94,7 +162,9 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'User Profiles',
     userStory:
-      'As a user, I want to user registration so that I can achieve my goals.',
+      'As a user, I want a user registration so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '602e1fd1-5e89-45c0-a799-a701e9352c5c',
     wireFrame_uri:
       'https://as2.ftcdn.net/v2/jpg/02/30/99/61/1000_F_230996188_qIzbM15iz5BRtJCpl1Ax9ZF5yaSWOGu5.jpg',
@@ -104,7 +174,34 @@ export const userStories = [
     productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Search Functionality',
     user_story:
-      "As a customer, I want to search functionality so that I can find what I'm looking for.",
+      "As a customer, I want a search functionality so that I can find what I'm looking for.",
+    acceptanceCriteria: [
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The search bar should be prominently displayed and easily accessible.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Search results should be relevant to the entered keywords.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Users should be able to filter results by category, price range, brand, etc.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'Search suggestions should be provided as the user types.',
+      },
+      {
+        id: uuidv4(),
+        acceptanceCriteria_description:
+          'The search functionality should be responsive and provide quick results.',
+      },
+    ],
     writtenByTeamMember_id: 'cb1f431d-a83e-45b9-b6ae-b66b7ecbf4e7',
     wireFrame_uri:
       'https://www.researchgate.net/profile/Jesus-Sanchez-Cuadrado/publication/283526120/figure/fig12/AS:307259440680968@1450267767530/Figure-A29-Wireframe-for-the-search-screen.png',
@@ -114,7 +211,9 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Order Tracking',
     user_story:
-      'As a customer, I want to order tracking so that I can manage my purchases.',
+      'As a customer, I want an order tracking so that I can manage my purchases.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: 'cb98255d-5e19-45bc-bcec-f5e4d2d8e9a8',
     wireFrame_uri:
       'https://cdn.dribbble.com/users/1518948/screenshots/9012011/media/e292d5e7d80f07b15e2a26fcf2968245.jpg?resize=1200x900&vertical=center',
@@ -124,7 +223,9 @@ export const userStories = [
     productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'New Website Design',
     user_story:
-      'As a user, I want to new website design so that I can achieve my goals.',
+      'As a user, I want a new website design so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '997ea4ea-de46-4a46-9fc8-9f74ef5a4b75',
     wireFrame_uri:
       'https://techindustan.com/wp-content/uploads/2018/05/10241-1.jpg',
@@ -134,7 +235,9 @@ export const userStories = [
     productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Login Functionality',
     user_story:
-      'As a user, I want to login functionality so that I can achieve my goals.',
+      'As a user, I want a login functionality so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '9c5544be-d622-451f-8b2b-578f0436d36c',
     wireFrame_uri:
       'https://selftaughtcoders.com/wp-content/uploads/2014/10/login-wireframe.jpg',
@@ -144,7 +247,9 @@ export const userStories = [
     productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'User Feedback Collection',
     user_story:
-      'As a user, I want to user feedback collection so that I can achieve my goals.',
+      'As a user, I want a user feedback collection so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '602e1fd1-5e89-45c0-a799-a701e9352c5c',
     wireFrame_uri:
       'https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/194684641/original/8c775bb90189273a524829937d9cdee614c0d2db/create-a-user-flow-diagram-and-wireframes.png',
@@ -154,7 +259,9 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Admin Dashboard',
     user_story:
-      'As a administrator, I want to admin dashboard so that I can achieve my goals.',
+      'As a administrator, I want a admin dashboard so that I can achieve my goals.',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: 'd8caa9c9-5981-4f57-98a0-f548928ee314',
     wireFrame_uri:
       'https://wrapbootstrap.com/assets/items/full/8465aec9998fda3ceb5621b69f10ae5d9cdba792528dd142645996d96c2a4474.webp?v=1710580878',
@@ -164,7 +271,9 @@ export const userStories = [
     productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Product Catalog',
     user_story:
-      "As a customer, I want to product catalog so that I can find what I'm looking for.",
+      "As a customer, I want a product catalog so that I can find what I'm looking for.",
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     writtenByTeamMember_id: '602e1fd1-5e89-45c0-a799-a701e9352c5c',
     wireFrame_uri:
       'https://www.newmanix.com/mike/sccc.premiumdw.com/home-to-procuct-800x469.png',
@@ -175,6 +284,8 @@ export const userStories = [
     userStory_name: 'User Profiles',
     user_story: 'Allow users to create profiles and share information.',
     writtenByTeamMember_id: 'ab8ac605-7ac5-49fd-a0d9-4b8ce11f7da5',
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     wireFrame_uri: null,
   },
   {
@@ -183,6 +294,8 @@ export const userStories = [
     userStory_name: 'News Feed',
     user_story: 'Display posts from friends and followed accounts.',
     writtenByTeamMember_id: null,
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     wireFrame_uri: null,
   },
   {
@@ -191,6 +304,8 @@ export const userStories = [
     userStory_name: 'Messaging',
     user_story: 'Enable users to send private messages to each other.',
     writtenByTeamMember_id: null,
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     wireFrame_uri: null,
   },
   {
@@ -199,6 +314,8 @@ export const userStories = [
     userStory_name: 'Groups and Communities',
     user_story: 'Allow users to create and join groups based on interests.',
     writtenByTeamMember_id: null,
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     wireFrame_uri: null,
   },
   {
@@ -207,6 +324,8 @@ export const userStories = [
     userStory_name: 'Live Streaming',
     user_story: 'Implement live video streaming functionality.',
     writtenByTeamMember_id: null,
+    acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
+
     wireFrame_uri: null,
   },
 ];

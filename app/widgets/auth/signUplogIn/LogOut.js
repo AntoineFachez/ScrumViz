@@ -16,7 +16,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, Tooltip } from '@mui/material';
 import { useMode } from '@/app/theme/ThemeContext';
 // import { AiOutlineConsoleSql } from "react-icons/ai";
 
@@ -124,20 +124,22 @@ export default function LogOut({
   return (
     <>
       {user && (
-        <IconButton
-          sx={{
-            ...styled?.navBarButton.inactive,
+        <Tooltip title={'log out'} placement="bottom" arrow={true}>
+          <IconButton
+            sx={{
+              ...styled?.navBarButton.inactive,
 
-            // width: '2.5rem',
-            // height: '2.5rem',
-            // color: '#eebc1d',
-            // backgroundColor: '#333433',
-            '&:hover': { color: 'white', backgroundColor: '#eebc1d' },
-          }}
-          onClick={logOut}
-        >
-          <LogoutIcon />
-        </IconButton>
+              // width: '2.5rem',
+              // height: '2.5rem',
+              // color: '#eebc1d',
+              // backgroundColor: '#333433',
+              '&:hover': { color: 'white', backgroundColor: '#eebc1d' },
+            }}
+            onClick={logOut}
+          >
+            <LogoutIcon />
+          </IconButton>
+        </Tooltip>
       )}
     </>
   );

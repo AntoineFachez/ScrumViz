@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import NavBar from '@/app/components/navBar/Index';
-import Persons from '@/app/widgets/persons/Persons';
+// import NavBar from '@/app/components/navBar/Index';
+// import Persons from '@/app/widgets/persons/Persons';
 import ScrumTeams from '@/app/widgets/scrumTeams/ScrumTeams';
 import TeamMembers from '@/app/widgets/teamMembers/TeamMembers';
 import UserStories from '@/app/widgets/userStories/UserStories';
@@ -15,6 +15,7 @@ import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 import AgileItem from '@/app/widgets/agileItem/AgileItem';
 import Chats from '@/app/widgets/chats/Index';
+import DefaultPrompts from '@/app/widgets/defaultPrompts/DefaultPrompts';
 
 export const agileCodingMap = [
   // {
@@ -1078,12 +1079,12 @@ export const chatsMap = [
     id: uuidv4(),
     collection: 'chats',
     active: true,
-    uiContext: 'chatsSelector',
-    startUpWidgetLayout: 'flexList',
-    w: 6,
-    h: 8,
+    uiContext: 'chatsMenu',
+    startUpWidgetLayout: 'horizontal',
+    w: 36,
+    h: 1,
     x: 0,
-    y: 4,
+    y: 0,
   },
   {
     widget: Chats,
@@ -1092,7 +1093,20 @@ export const chatsMap = [
     collection: 'chats',
     active: true,
     uiContext: 'chatsSelector',
-    startUpWidgetLayout: 'vertical',
+    startUpWidgetLayout: 'flexList',
+    w: 6,
+    h: 8,
+    x: 0,
+    y: 4,
+  },
+  {
+    widget: DefaultPrompts,
+    widgetName: 'DefaultPrompts',
+    id: uuidv4(),
+    collection: 'defaultPrompts',
+    active: true,
+    uiContext: 'defaultPromptsSelector',
+    startUpWidgetLayout: 'flexList',
     w: 6,
     h: 8,
     x: 0,
@@ -1122,7 +1136,20 @@ export const chatsMap = [
     uiContext: 'singleItem',
     startUpWidgetLayout: 'singleItem',
     w: 16,
-    h: 16,
+    h: 6,
+    x: 6,
+    y: 0,
+  },
+  {
+    widget: Chats,
+    widgetName: 'Chats',
+    id: uuidv4(),
+    collection: 'chats',
+    active: true,
+    uiContext: 'inputField',
+    startUpWidgetLayout: 'inputField',
+    w: 16,
+    h: 3,
     x: 6,
     y: 0,
   },
@@ -1138,18 +1165,5 @@ export const chatsMap = [
     h: 16,
     x: 22,
     y: 0,
-  },
-  {
-    widget: Chats,
-    widgetName: 'Chats',
-    id: uuidv4(),
-    collection: 'chats',
-    active: true,
-    uiContext: 'inputField',
-    startUpWidgetLayout: 'inputField',
-    w: 6,
-    h: 3,
-    x: 18,
-    y: 12,
   },
 ];

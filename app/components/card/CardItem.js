@@ -98,8 +98,10 @@ export default function CardItem({
           sx={{
             width: '100%',
             display: 'flex',
-            // flexFlow: 'column nowrap',
+            flexFlow: 'column nowrap',
             justifyContent: 'center',
+            alignItems: 'center',
+            // padding: '0 2rem',
           }}
         >
           {item[singleItemScheme.description] && (

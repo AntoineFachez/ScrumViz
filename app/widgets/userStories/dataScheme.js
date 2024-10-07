@@ -16,6 +16,10 @@ export const singleItemScheme = {
   description: 'user_story',
   customField: 'teamMemberName',
   img_uri: 'wireFrame_uri',
+  customArray: 'acceptanceCriteria',
+  customArrayKey: 'acceptanceCriteria_description',
+  // itemInFocusIdKey: 'id',
+  // filterArrayByIdKey: 'userStory_id',
 };
 
 export const headCellsTable = [
