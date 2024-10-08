@@ -40,9 +40,9 @@ export const DefaultPromptsProvider = ({ children }) => {
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
   };
-  const handleSetDefaultPromptInFocus = (item) => {
-    setPromptTextInFocus(item);
-  };
+  // const handleSetDefaultPromptInFocus = (item) => {
+  //   setPromptTextInFocus(item);
+  // };
 
   const handleNewDefaultPrompt = async () => {
     console.log('handleNewDefaultPrompt');
@@ -85,7 +85,7 @@ export const DefaultPromptsProvider = ({ children }) => {
 
         handleNewDefaultPrompt,
 
-        handleSetDefaultPromptInFocus,
+        // handleSetDefaultPromptInFocus,
       }}
     >
       {children}

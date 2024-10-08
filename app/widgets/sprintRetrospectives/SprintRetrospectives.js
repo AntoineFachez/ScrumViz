@@ -18,12 +18,13 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import SprintRetrospectivesContext from './SprintRetrospectivesContext';
 import SingleItem from '@/app/uiItems/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import MultiItems from '@/app/uiItems/MultiItems';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function SprintRetrospectives({
   widget,
@@ -34,6 +35,7 @@ export default function SprintRetrospectives({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
@@ -46,7 +48,7 @@ export default function SprintRetrospectives({
     setSprintRetrospectiveInFocus,
     searchTerm,
     handleResetFiltered,
-    handleSetSprintRetrospectiveInFocus,
+    // handleSetSprintRetrospectiveInFocus,
     handleSearchTermChange,
   } = useContext(SprintRetrospectivesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -75,7 +77,13 @@ export default function SprintRetrospectives({
       handleShowMenu: setShowSprinReviewtMenu,
     },
   };
-
+  const handleSetSprintRetrospectiveInFocus = (item) => {
+    handleSetItemInFocus(
+      setSprintRetrospectiveInFocus,
+      item,
+      setLatestItemInFocus
+    );
+  };
   // const handleSearchTermChange = (e) => {
   //   e.preventDefault();
   //   // setResetData();

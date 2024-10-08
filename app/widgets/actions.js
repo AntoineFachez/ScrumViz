@@ -10,3 +10,11 @@ export const handleSelectWidgetContext = (
   updateWidgetContext(widget, widgetProps, context);
   return;
 };
+export const handleSetItemInFocus = (
+  inFocusSetter,
+  item,
+  setLatestItemInFocus
+) => {
+  inFocusSetter(item);
+  setLatestItemInFocus(item);
+};

@@ -26,9 +26,9 @@ export const UserStoriesProvider = ({ children }) => {
     setSelectedUserStories(displayUserStories);
     setIsFiltered(false);
   };
-  const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
-  };
+  // const handleSetUserStoryInFocus = (userStory) => {
+  //   setUserStoryInFocus(userStory);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -71,7 +71,7 @@ export const UserStoriesProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetUserStoryInFocus,
+        // handleSetUserStoryInFocus,
         // handleSelectWidgetContext,
       }}
     >

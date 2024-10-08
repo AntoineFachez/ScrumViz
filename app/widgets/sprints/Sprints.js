@@ -19,9 +19,10 @@ import { singleItemScheme } from './dataScheme';
 import { useMode } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Sprints({
   widget,
@@ -33,6 +34,7 @@ export default function Sprints({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprints,
@@ -76,10 +78,11 @@ export default function Sprints({
     },
   };
 
-  const handleSetSprintInFocus = (sprint) => {
-    setSprintInFocus(sprint);
+  const handleSetSprintInFocus = (item) => {
+    handleSetItemInFocus(setSprintInFocus, item, setLatestItemInFocus);
+
     const found = displayDailies.filter((daily) => {
-      return daily.sprint_id === sprint.id;
+      return daily.sprint_id === item.id;
     });
     setSelectedDailies(found);
   };

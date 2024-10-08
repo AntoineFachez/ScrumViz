@@ -16,7 +16,7 @@ import AIModelSelector from './gemini/AIModelSelector';
 import ChatInFocus from './ChatInFocus';
 import ChatMessage from './ChatMessage';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 // import SliderComponent from '@/app/components/slider/Slider';
@@ -29,6 +29,7 @@ import { runChat } from './functions/apiFunctions';
 import { handleNewChat, handleStoreChat } from './functions/dbFunctions';
 
 import './ChatInFocus.scss';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function ChatsWidget({
   widget,
@@ -41,6 +42,7 @@ export default function ChatsWidget({
     useContext(AppContext);
   const { showChatsMenu, setShowChatsMenu, showSliderExtendData, sliderSize } =
     useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -74,7 +76,7 @@ export default function ChatsWidget({
     handleResetFiltered,
     handleSearchTermChange,
     // handleResetFiltered,
-    handleSetChatInFocus,
+    // handleSetChatInFocus,
     // handleSelectWidgetContext,
     // handleNewChat,
     // handleNewDefaultPrompt,
@@ -130,7 +132,9 @@ export default function ChatsWidget({
       handleShowMenu: setShowChatsMenu,
     },
   };
-
+  const handleSetChatInFocus = (item) => {
+    handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
+  };
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
@@ -312,7 +316,7 @@ export default function ChatsWidget({
 
   const promptField = (
     <ChatInputField
-      ref={messageInputRef}
+      messageInputRef={messageInputRef}
       placeholder="Type message here..."
       onChange={handleInputChange}
       value={promptTextInFocus?.description}

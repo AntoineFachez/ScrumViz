@@ -24,9 +24,10 @@ import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import { scheme, singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import NewItem from '@/app/uiItems/NewItem';
 import { handleNewUserStory } from './functions/dbFunctions';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function UserStory({
   widget,
@@ -38,6 +39,7 @@ export default function UserStory({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -56,7 +58,7 @@ export default function UserStory({
     handleResetFiltered,
     handleSearchTermChange,
     // handleResetFiltered,
-    handleSetUserStoryInFocus,
+    // handleSetUserStoryInFocus,
     // handleSelectWidgetContext,
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
@@ -87,7 +89,9 @@ export default function UserStory({
       handleShowMenu: setShowUserStoryMenu,
     },
   };
-
+  const handleSetUserStoryInFocus = (item) => {
+    handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
+  };
   useEffect(() => {
     if (userStoryInFocus) {
       handleFindSprintPlannings(userStoryInFocus);
@@ -194,7 +198,7 @@ export default function UserStory({
         selectedData={selectedUserStories}
         setSelectedItem={setSelectedUserStories}
         selector={{
-          selector: 'userStorySelector',
+          selector: 'userStoriesSelector',
           selected: 'selectedUserStories',
         }}
         itemInFocus={userStoryInFocus}

@@ -18,6 +18,7 @@ import MultiItems from '@/app/uiItems/MultiItems';
 import { scheme, singleItemSchemePrompt } from './dataScheme';
 import SimpleDialog from '@/app/components/dialog/Dialog';
 import NewItem from '@/app/uiItems/NewItem';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function DefaultPromptWidget({
   widget,
@@ -35,6 +36,7 @@ export default function DefaultPromptWidget({
     setShowDialog,
     handleCloseDialog,
   } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -57,7 +59,7 @@ export default function DefaultPromptWidget({
 
     handleNewDefaultPrompt,
 
-    handleSetDefaultPromptInFocus,
+    // handleSetDefaultPromptInFocus,
   } = useContext(DefaultPromptsContext);
 
   // const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -88,6 +90,9 @@ export default function DefaultPromptWidget({
     functions: {
       handleShowMenu: setShowDefaultPromptsMenu,
     },
+  };
+  const handleSetDefaultPromptInFocus = (item) => {
+    handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
   };
   useEffect(() => {
     setSelectedWidgetContext(startUpWidgetLayout);

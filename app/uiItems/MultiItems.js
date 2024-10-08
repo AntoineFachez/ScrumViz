@@ -126,7 +126,7 @@ export default function MultiItems({
                             <Chip
                               data-slug={item.id}
                               onClick={() => handleSetItemInFocus(item)}
-                              multilines
+                              multilines="true"
                               avatar={
                                 <Avatar
                                   onClick={() => handleClick(item)}

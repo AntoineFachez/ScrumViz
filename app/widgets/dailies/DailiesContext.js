@@ -17,9 +17,9 @@ export const DailiesProvider = ({ children }) => {
     setSelectedDailies(displayDailies);
     setIsFiltered(false);
   };
-  const handleSetDailiesInFocus = (dailies) => {
-    setDailiesInFocus(dailies);
-  };
+  // const handleSetDailiesInFocus = (dailies) => {
+  //   setDailiesInFocus(dailies);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
@@ -53,7 +53,7 @@ export const DailiesProvider = ({ children }) => {
         isFiltered,
         setIsFiltered,
         handleResetFiltered,
-        handleSetDailiesInFocus,
+        // handleSetDailiesInFocus,
         handleSearchTermChange,
       }}
     >

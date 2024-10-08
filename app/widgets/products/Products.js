@@ -17,9 +17,10 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 
 import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
 
 export default function Products({
   widget,
@@ -49,12 +50,12 @@ export default function Products({
     // handleSearchTermChange,
     handleResetFiltered,
   } = useContext(ProductsContext);
-  // const {
-  //   displayProducts,
-  //   setSelectedUserStories,
-  //   userStoryInFocus,
-  //   setUserStoryInFocus,
-  // } = useContext(UserStoriesContext);
+  const {
+    // displayProducts,
+    setSelectedUserStories,
+    userStoryInFocus,
+    setUserStoryInFocus,
+  } = useContext(UserStoriesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'products';
@@ -67,7 +68,7 @@ export default function Products({
     uiContext: uiContext,
     contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
-    itemContext: '',
+    itemContext: 'a Product',
     dropWidgetName: collection,
     orderedBy: '',
 
@@ -85,12 +86,15 @@ export default function Products({
       handleShowMenu: setShowProductsItemMenu,
     },
   };
-  const handleSetProductInFocus = (product) => {
-    setProductInFocus(product);
-    const found = displayProducts.filter(
-      (product) => product.id === backLog.id
-    );
-    setSelectedUserStories(found);
+  const handleSetProductInFocus = (item) => {
+    console.log('handleSetProductInFocus', item);
+
+    handleSetItemInFocus(setProductInFocus, item, setLatestItemInFocus);
+
+    // const found = displayUserStories.filter(
+    //   (userStory) => userStory.id === backLog.id
+    // );
+    // setSelectedUserStories(found);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
