@@ -20,9 +20,9 @@ export const SprintRetrospectivesProvider = ({ children }) => {
     setSprintRetrospectiveInFocus(sprintRetrospectiveInFocus);
     setIsFiltered(false);
   };
-  const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
-    setSprintRetrospectiveInFocus(sprintRetrospective);
-  };
+  // const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
+  //   setSprintRetrospectiveInFocus(sprintRetrospective);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -64,7 +64,7 @@ export const SprintRetrospectivesProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetSprintRetrospectiveInFocus,
+        // handleSetSprintRetrospectiveInFocus,
         // handleSelectWidgetContext,
       }}
     >

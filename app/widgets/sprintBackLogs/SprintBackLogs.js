@@ -19,8 +19,9 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import SprintBackLogsContext from './SprintBackLogsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function SprintBackLogs({
   widget,
@@ -37,6 +38,7 @@ export default function SprintBackLogs({
     showBackLogItemMenu,
     setShowBackLogItemMenu,
   } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprintBackLogs,
@@ -85,10 +87,11 @@ export default function SprintBackLogs({
     },
   };
 
-  const handleSetBackLogInFocus = (sprintBackLog) => {
-    setSprintBackLogInFocus(sprintBackLog);
+  const handleSetBackLogInFocus = (item) => {
+    handleSetItemInFocus(setSprintBackLogInFocus, item, setLatestItemInFocus);
+
     const foundUserStories = displayUserStories.filter(
-      (story) => story.id === sprintBackLog.product_backlog_item_id
+      (story) => story.id === item.product_backlog_item_id
     )[0];
     setUserStoryInFocus(foundUserStories);
 

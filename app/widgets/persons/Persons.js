@@ -15,6 +15,7 @@ import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import { handleSelectWidgetContext } from '../actions';
 import SearchContext from '@/context/SearchContext';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Persons({
   widget,
@@ -26,6 +27,7 @@ export default function Persons({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -54,6 +56,9 @@ export default function Persons({
     functions: {
       handleShowMenu: setShowPersonsMenu,
     },
+  };
+  const handleSetPersonInFocus = (item) => {
+    handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();

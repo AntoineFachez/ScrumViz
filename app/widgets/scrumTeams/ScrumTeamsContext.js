@@ -12,6 +12,7 @@ export const ScrumTeamsProvider = ({ children }) => {
   const [scrumTeamInFocus, setScrumTeamInFocus] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+
   const handleFindScrumTeam = (item, sprint_IdKey) => {
     const foundTeam = displayScrumTeams.filter((team) => {
       return team.id === item[sprint_IdKey];

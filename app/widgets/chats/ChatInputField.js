@@ -3,7 +3,7 @@ import { Paper } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 export default function ChatInputField({
-  ref,
+  messageInputRef,
   placeholder,
   onChange,
   value,
@@ -139,7 +139,7 @@ export default function ChatInputField({
       }}
     >
       <MessageInput
-        ref={ref}
+        ref={messageInputRef}
         placeholder={placeholder}
         value={inputContent.html}
         onChange={handleInputChange}

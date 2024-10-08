@@ -33,19 +33,19 @@ export const SprintReviewProvider = ({ children }) => {
     setIsFiltered(false);
   };
 
-  const handleSetSprintReviewInFocus = (sprintReview) => {
-    setSprintReviewInFocus(sprintReview);
-    // const foundPlannings = displaySprintPlannings.filter((planning) =>
-    //   planning.sprint_backlog.some(
-    //     (task) => task.product_backlog_item_id === sprintReview.id
-    //   )
-    // );
-    // setSelectedSprintPlannings(foundPlannings);
-    // const foundSprintLogs = displaySprintBackLogs.filter(
-    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
-    // );
-    // setSelectedSprintBackLogs(foundSprintLogs);
-  };
+  // const handleSetSprintReviewInFocus = (sprintReview) => {
+  //   setSprintReviewInFocus(sprintReview);
+  //   // const foundPlannings = displaySprintPlannings.filter((planning) =>
+  //   //   planning.sprint_backlog.some(
+  //   //     (task) => task.product_backlog_item_id === sprintReview.id
+  //   //   )
+  //   // );
+  //   // setSelectedSprintPlannings(foundPlannings);
+  //   // const foundSprintLogs = displaySprintBackLogs.filter(
+  //   //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
+  //   // );
+  //   // setSelectedSprintBackLogs(foundSprintLogs);
+  // };
   const handleSelectWidgetContext = (context) => {
     //  if (generated) {
     //    setPassWidgetContext(context);
@@ -87,7 +87,7 @@ export const SprintReviewProvider = ({ children }) => {
         setIsFiltered,
         handleSearchTermChange,
         handleResetFiltered,
-        handleSetSprintReviewInFocus,
+        // handleSetSprintReviewInFocus,
         handleSelectWidgetContext,
       }}
     >

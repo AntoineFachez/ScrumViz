@@ -18,9 +18,10 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function ScrumTeam({
   widget,
@@ -38,6 +39,7 @@ export default function ScrumTeam({
     setShowTeamMembersMenu,
     toggleDrawer,
   } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -90,11 +92,12 @@ export default function ScrumTeam({
       handleShowMenu: setShowTeamMembersMenu,
     },
   };
-  const handleSetScrumTeamInFocus = (scrumTeam) => {
-    setScrumTeamInFocus(scrumTeam);
+  const handleSetScrumTeamInFocus = (item) => {
+    handleSetItemInFocus(setScrumTeamInFocus, item, setLatestItemInFocus);
+
     const found = displaySprints.filter((sprint) => {
-      console.log(sprint.scrum_id, scrumTeam.id);
-      return sprint.team_id === scrumTeam.id;
+      console.log(sprint.scrum_id, item.id);
+      return sprint.team_id === item.id;
     });
     setSelectedSprints(found);
     // setActiveSearchTerm(userStory?.universityName);

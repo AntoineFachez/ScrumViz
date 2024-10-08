@@ -35,7 +35,7 @@ export const ProductsProvider = ({ children }) => {
     return () => {};
   }, [searchTerm]);
   useEffect(() => {
-    setSelectedProductProducts(displayProducts);
+    setSelectedProducts(displayProducts);
 
     return () => {};
   }, [displayProducts]);

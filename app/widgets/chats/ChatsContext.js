@@ -52,9 +52,9 @@ export const ChatsProvider = ({ children }) => {
     setSelectedChats(displayChats);
     setIsFiltered(false);
   };
-  const handleSetChatInFocus = (chat) => {
-    setChatInFocus(chat);
-  };
+  // const handleSetChatInFocus = (chat) => {
+  //   setChatInFocus(chat);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -212,7 +212,7 @@ export const ChatsProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetChatInFocus,
+        // handleSetChatInFocus,
         // handleSelectWidgetContext,
         // handleNewChat,
         // handleNewDefaultPrompt,

@@ -17,8 +17,10 @@ import SearchContext from '@/context/SearchContext';
 import { singleItemScheme } from './dataScheme';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
+import ProductsContext from '../products/ProductsContext';
 
 export default function Products({
   widget,
@@ -30,6 +32,7 @@ export default function Products({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -46,6 +49,7 @@ export default function Products({
     searchTerm,
     setSearchTerm,
   } = useContext(BackLogsContext);
+  const { displayProducts, setProductInFocus } = useContext(ProductsContext);
   const {
     displayUserStories,
     setSelectedUserStories,
@@ -82,12 +86,17 @@ export default function Products({
       handleShowMenu: setShowBackLogItemMenu,
     },
   };
-  const handleSetProductInFocus = (backLog) => {
-    setProductBackLogInFocus(backLog);
-    const found = displayUserStories.filter(
-      (story) => story.productBacklog_id === backLog.id
+  const handleSetProductBackLogInFocus = (item) => {
+    handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
+
+    const foundUserStory = displayUserStories.filter(
+      (story) => story.productBacklog_id === item.id
     );
-    setSelectedUserStories(found);
+    setSelectedUserStories(foundUserStory);
+    const foundProducts = displayProducts.filter(
+      (story) => story.id === item.product_id
+    );
+    setProductInFocus(foundProducts[0]);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -183,7 +192,7 @@ export default function Products({
         selectedWidgetContext={selectedWidgetContext}
         setActiveSearchTerm={setActiveSearchTerm}
         customArrayItemInFocus={userStoryInFocus}
-        handleSetItemInFocus={handleSetProductInFocus}
+        handleSetItemInFocus={handleSetProductBackLogInFocus}
         handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
         alertElement={null}

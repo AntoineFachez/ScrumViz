@@ -7,12 +7,26 @@ const SingleItem = ({ itemContext, itemInFocus, styled, singleItemScheme }) => {
   return (
     <Box className="widget" sx={styled?.widget}>
       {!itemInFocus ? (
-        <Typography
-          sx={{ ...styled.textBody, height: 'fit-content' }}
-          variant={{ ...styled.textBody, height: 'fit-content' }.variant}
+        <Box
+          sx={{
+            // ...styled?.centerFullAvailableSpace,
+            backgroundColor: 'transparent',
+          }}
         >
-          select {itemContext}
-        </Typography>
+          <Typography
+            sx={{
+              // ...styled.textBody,
+              width: '100%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: 'green',
+            }}
+            // variant={{ ...styled.textBody, height: 'fit-content' }.variant}
+          >
+            select {itemContext}
+          </Typography>
+        </Box>
       ) : (
         <>
           <Box sx={styled?.article}>

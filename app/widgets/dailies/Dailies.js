@@ -19,8 +19,9 @@ import StandInTable from '@/app/components/table/StandInTable';
 import SprintsContext from '../sprints/SprintsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Dailies({
   widget,
@@ -38,6 +39,7 @@ export default function Dailies({
     setShowDailyMenu,
     toggleDrawer,
   } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     selectedDailies,
@@ -49,7 +51,7 @@ export default function Dailies({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSetDailiesInFocus,
+    // handleSetDailiesInFocus,
     handleSearchTermChange,
   } = useContext(DailiesContext);
   const { handleFindSprints } = useContext(SprintsContext);
@@ -80,6 +82,9 @@ export default function Dailies({
     },
   };
 
+  const handleSetDailiesInFocus = (item) => {
+    handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
+  };
   useEffect(() => {
     if (dailiesInFocus) handleFindSprints('id', dailiesInFocus, 'sprint_id');
 

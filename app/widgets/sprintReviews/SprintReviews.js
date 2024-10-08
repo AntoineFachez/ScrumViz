@@ -17,8 +17,9 @@ import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
 import SprintReviewContext from './SprintReviewsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function SprintReviews({
   widget,
@@ -32,6 +33,7 @@ export default function SprintReviews({
     useContext(AppContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displaySprintReviews,
@@ -46,7 +48,7 @@ export default function SprintReviews({
     setIsFiltered,
     // handleSearchTermChange,
     // handleResetFiltered,
-    handleSetSprintReviewInFocus,
+    // handleSetSprintReviewInFocus,
     // handleSelectWidgetContext,
   } = useContext(SprintReviewContext);
 
@@ -79,6 +81,22 @@ export default function SprintReviews({
       handleShowMenu: setShowSprinReviewtMenu,
     },
   };
+
+  const handleSetSprintReviewInFocus = (item) => {
+    handleSetItemInFocus(setSprintReviewInFocus, item, setLatestItemInFocus);
+
+    // const foundPlannings = displaySprintPlannings.filter((planning) =>
+    //   planning.sprint_backlog.some(
+    //     (task) => task.product_backlog_item_id === sprintReview.id
+    //   )
+    // );
+    // setSelectedSprintPlannings(foundPlannings);
+    // const foundSprintLogs = displaySprintBackLogs.filter(
+    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
+    // );
+    // setSelectedSprintBackLogs(foundSprintLogs);
+  };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
