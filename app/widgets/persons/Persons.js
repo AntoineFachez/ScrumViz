@@ -155,7 +155,7 @@ export default function Persons({
         selectedData={selectedUserStories}
         setSelectedItem={setSelectedUserStories}
         selector={{
-          selector: 'userStorySelector',
+          selector: 'userStoriesSelector',
           selected: 'selectedUserStories',
         }}
         itemContext={widgetProps?.itemContext}

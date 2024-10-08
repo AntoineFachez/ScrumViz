@@ -7,6 +7,7 @@ const DefaultValuesContext = createContext();
 export const DefaultValuesProvider = ({ children }) => {
   const startUpAppContext = 'scrumManager';
   const startUpCollectionContext = 'products';
+  const startUpUiGridMapContext = 'products';
   const [defaultAmountPromptToken, setDefaultAmountPromptToken] =
     useState(7000);
   const [defaultMinPromptToken, setDefaultMinPromptToken] = useState(1000);
@@ -17,6 +18,7 @@ export const DefaultValuesProvider = ({ children }) => {
       value={{
         startUpAppContext,
         startUpCollectionContext,
+        startUpUiGridMapContext,
         defaultAmountPromptToken,
         setDefaultAmountPromptToken,
         defaultMinPromptToken,
