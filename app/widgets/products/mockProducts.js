@@ -1,4 +1,4 @@
-export const productBackLogs = [
+export const products = [
   {
     id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     product_name: 'E-commerce Platform',

@@ -5,6 +5,7 @@ import AppContext from './AppContext';
 import {
   agileCodingMap,
   scrumManagerMap,
+  productsMap,
   userStoriesMap,
   scrumTeamsMap,
   teamMembersMap,
@@ -87,6 +88,8 @@ export const UIProvider = ({ children }) => {
             return agileCodingMap;
           case 'scrumManager':
             return scrumManagerMap;
+          case 'products':
+            return productsMap;
           case 'userStories':
             return userStoriesMap;
           case 'productBackLogs':

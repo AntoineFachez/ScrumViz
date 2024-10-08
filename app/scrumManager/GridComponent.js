@@ -15,6 +15,7 @@ const GridComponent = ({}) => {
     create: Grid,
     read: Grid,
     scrumManager: Grid,
+    products: Grid,
     productBackLogs: Grid,
     sprintPlannings: Grid,
     scrumTeams: Grid,

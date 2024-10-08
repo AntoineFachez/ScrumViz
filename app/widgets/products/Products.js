@@ -20,6 +20,7 @@ import { singleItemScheme } from './dataScheme';
 import { handleSelectWidgetContext } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
 
 export default function Products({
   widget,
@@ -49,12 +50,12 @@ export default function Products({
     // handleSearchTermChange,
     handleResetFiltered,
   } = useContext(ProductsContext);
-  // const {
-  //   displayProducts,
-  //   setSelectedUserStories,
-  //   userStoryInFocus,
-  //   setUserStoryInFocus,
-  // } = useContext(UserStoriesContext);
+  const {
+    displayUserStories,
+    setSelectedUserStories,
+    userStoryInFocus,
+    setUserStoryInFocus,
+  } = useContext(UserStoriesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'products';
@@ -99,7 +100,7 @@ export default function Products({
     setActiveSearchTerm(e.target.value);
   };
   const handleClickCustomArrayItem = (e) => {
-    const found = displayProducts.filter(
+    const found = displayUserStories.filter(
       (story) => story.id === e.userStory_id
     )[0];
     setUserStoryInFocus(found);
@@ -185,7 +186,7 @@ export default function Products({
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
         setActiveSearchTerm={setActiveSearchTerm}
-        customArrayItemInFocus={userStoryInFocus}
+        customArrayItemInFocus={productInFocus}
         handleSetItemInFocus={handleSetProductInFocus}
         handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
@@ -194,8 +195,8 @@ export default function Products({
         selectedData={selectedProducts}
         setSelectedItem={setSelectedProducts}
         selector={{
-          selector: 'productBackLogsSelector',
-          selected: 'selectedProductBackLog',
+          selector: 'productsSelector',
+          selected: 'selectedProduct',
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={productInFocus}
