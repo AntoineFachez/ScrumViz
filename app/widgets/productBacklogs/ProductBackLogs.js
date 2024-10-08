@@ -92,7 +92,7 @@ export default function Products({
       (story) => story.productBacklog_id === backLog.id
     );
     setProductBackLogInFocus(backLog);
-    setProductInFocus(foundProducts);
+    setProductInFocus(foundProducts[0]);
     setSelectedUserStories(foundUserStories);
   };
   const handleSearchTermChange = (e) => {
