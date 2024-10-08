@@ -23,6 +23,7 @@ import { UserProvider } from '@/context/UserContext';
 import { NavBarProvider } from './widgets/navBar/NavBarContext';
 import { DefaultValuesProvider } from '@/context/DefaultValuesContext';
 import { DefaultPromptsProvider } from './widgets/defaultPrompts/DefaultPromptsContext';
+import { ProductsProvider } from './widgets/products/ProductsContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -78,33 +79,35 @@ export default function RootLayout({ children }) {
                   <SearchProvider>
                     <NavBarProvider>
                       <TeamMembersProvider>
-                        <UserStoriesProvider>
-                          <SprintsProvider>
-                            <TimeStampsProvider>
-                              <ScrumTeamsProvider>
-                                <BackLogsProvider>
-                                  <DailiesProvider>
-                                    <SprintBackLogsProvider>
-                                      <SprintReviewProvider>
-                                        <SprintPlanningsProvider>
-                                          <SprintRetrospectivesProvider>
-                                            <ScrumManagerProvider>
-                                              <DefaultPromptsProvider>
-                                                <ChatsProvider>
-                                                  {children}
-                                                </ChatsProvider>
-                                              </DefaultPromptsProvider>
-                                            </ScrumManagerProvider>
-                                          </SprintRetrospectivesProvider>
-                                        </SprintPlanningsProvider>
-                                      </SprintReviewProvider>
-                                    </SprintBackLogsProvider>
-                                  </DailiesProvider>
-                                </BackLogsProvider>
-                              </ScrumTeamsProvider>
-                            </TimeStampsProvider>
-                          </SprintsProvider>
-                        </UserStoriesProvider>
+                        <ProductsProvider>
+                          <UserStoriesProvider>
+                            <SprintsProvider>
+                              <TimeStampsProvider>
+                                <ScrumTeamsProvider>
+                                  <BackLogsProvider>
+                                    <DailiesProvider>
+                                      <SprintBackLogsProvider>
+                                        <SprintReviewProvider>
+                                          <SprintPlanningsProvider>
+                                            <SprintRetrospectivesProvider>
+                                              <ScrumManagerProvider>
+                                                <DefaultPromptsProvider>
+                                                  <ChatsProvider>
+                                                    {children}
+                                                  </ChatsProvider>
+                                                </DefaultPromptsProvider>
+                                              </ScrumManagerProvider>
+                                            </SprintRetrospectivesProvider>
+                                          </SprintPlanningsProvider>
+                                        </SprintReviewProvider>
+                                      </SprintBackLogsProvider>
+                                    </DailiesProvider>
+                                  </BackLogsProvider>
+                                </ScrumTeamsProvider>
+                              </TimeStampsProvider>
+                            </SprintsProvider>
+                          </UserStoriesProvider>
+                        </ProductsProvider>
                       </TeamMembersProvider>
                     </NavBarProvider>
                   </SearchProvider>

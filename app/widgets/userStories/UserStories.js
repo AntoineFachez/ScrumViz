@@ -194,7 +194,7 @@ export default function UserStory({
         selectedData={selectedUserStories}
         setSelectedItem={setSelectedUserStories}
         selector={{
-          selector: 'userStorySelector',
+          selector: 'userStoriesSelector',
           selected: 'selectedUserStories',
         }}
         itemInFocus={userStoryInFocus}

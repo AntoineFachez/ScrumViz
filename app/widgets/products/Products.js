@@ -9,6 +9,8 @@ import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 import ProductsContext from '../products/ProductsContext';
+import ProductBackLogsContext from '../productBacklogs/ProductBackLogsContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '../../uiItems/WidgetMenu';
@@ -49,12 +51,13 @@ export default function Products({
     // handleSearchTermChange,
     handleResetFiltered,
   } = useContext(ProductsContext);
-  // const {
-  //   displayProducts,
-  //   setSelectedUserStories,
-  //   userStoryInFocus,
-  //   setUserStoryInFocus,
-  // } = useContext(UserStoriesContext);
+  const {
+    displayUserStories,
+    setSelectedUserStories,
+    userStoryInFocus,
+    setUserStoryInFocus,
+  } = useContext(UserStoriesContext);
+  const { setProductBackLogInFocus } = useContext(ProductBackLogsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'products';
@@ -85,10 +88,30 @@ export default function Products({
       handleShowMenu: setShowProductsItemMenu,
     },
   };
+
+  // const handleSetProductInFocus = (product) => {
+  //   setProductInFocus(product);
+  //   const found = displayProducts.filter(
+  //     (product) => product.id === backLog.id
+  //   );
+  //   setSelectedUserStories(found);
+  // };
+  // const handleSearchTermChange = (e) => {
+  //   e.preventDefault();
+
+  //   setSearchTerm(e.target.value);
+  //   setActiveSearchTerm(e.target.value);
+  // };
+  // const handleClickCustomArrayItem = (e) => {
+  //   const found = displayUserStories.filter(
+  //     (story) => story.id === e.userStory_id
+  //   )[0];
+  //   setUserStoryInFocus(found);
+  // };
   const handleSetProductInFocus = (product) => {
     setProductInFocus(product);
-    const found = displayProducts.filter(
-      (product) => product.id === backLog.id
+    const found = displayUserStories.filter(
+      (story) => story.productBacklog_id === product.id
     );
     setSelectedUserStories(found);
   };
@@ -99,12 +122,11 @@ export default function Products({
     setActiveSearchTerm(e.target.value);
   };
   const handleClickCustomArrayItem = (e) => {
-    const found = displayProducts.filter(
+    const found = displayUserStories.filter(
       (story) => story.id === e.userStory_id
     )[0];
     setUserStoryInFocus(found);
   };
-
   const menu = (
     <>
       <WidgetMenu
@@ -185,7 +207,7 @@ export default function Products({
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
         setActiveSearchTerm={setActiveSearchTerm}
-        customArrayItemInFocus={userStoryInFocus}
+        customArrayItemInFocus={productInFocus}
         handleSetItemInFocus={handleSetProductInFocus}
         handleClickCustomArrayItem={handleClickCustomArrayItem}
         customElement={null}
@@ -194,8 +216,8 @@ export default function Products({
         selectedData={selectedProducts}
         setSelectedItem={setSelectedProducts}
         selector={{
-          selector: 'productBackLogsSelector',
-          selected: 'selectedProductBackLog',
+          selector: 'productsSelector',
+          selected: 'selectedProduct',
         }}
         itemContext={widgetProps?.itemContext}
         itemInFocus={productInFocus}
