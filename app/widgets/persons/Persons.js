@@ -12,9 +12,10 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import SearchContext from '@/context/SearchContext';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Persons({
   widget,
@@ -26,6 +27,7 @@ export default function Persons({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -62,6 +64,9 @@ export default function Persons({
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+  };
+  const handleSetPersonInFocus = (person) => {
+    handleSetItemInFocus(setPersonInFocus, person, setLatestSelectedItem);
   };
   const menu = (
     <WidgetMenu

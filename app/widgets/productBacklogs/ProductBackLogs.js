@@ -20,6 +20,7 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import { handleSelectWidgetContext } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import ProductsContext from '../products/ProductsContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Products({
   widget,
@@ -31,6 +32,7 @@ export default function Products({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -85,14 +87,14 @@ export default function Products({
     },
   };
   const handleSetProductInFocus = (backLog) => {
-    const foundProducts = displayProducts.filter(
+    const foundProduct = displayProducts.filter(
       (product) => product.id === backLog.id
     );
     const foundUserStories = displayUserStories.filter(
       (story) => story.productBacklog_id === backLog.id
     );
     setProductBackLogInFocus(backLog);
-    setProductInFocus(foundProducts);
+    setProductInFocus(foundProduct[0]);
     setSelectedUserStories(foundUserStories);
   };
   const handleSearchTermChange = (e) => {

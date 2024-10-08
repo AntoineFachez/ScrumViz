@@ -23,9 +23,9 @@ export const PersonsProvider = ({ children }) => {
     setSelectedPersons(displayPersons);
     setIsFiltered(false);
   };
-  const handleSetPersonInFocus = (person) => {
-    setPersonInFocus(person);
-  };
+  // const handleSetPersonInFocus = (person) => {
+  //   setPersonInFocus(person);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -65,7 +65,7 @@ export const PersonsProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetPersonInFocus,
+        // handleSetPersonInFocus,
         // handleSelectWidgetContext,
       }}
     >

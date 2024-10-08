@@ -10,7 +10,7 @@ export const fieldsAccordion = {
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {
-  id: 'product_id',
+  id: 'id',
   title: 'product_name',
   subTitle: 'status',
   description: 'description',

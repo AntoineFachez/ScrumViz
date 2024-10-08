@@ -3,15 +3,22 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { sprints } from './mockSprints';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 
 const SprintsContext = createContext();
 
 export const SprintsProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const [displaySprints, setDisplaySprints] = useState(sprints);
   const [selectedSprints, setSelectedSprints] = useState(displaySprints);
   const [sprintInFocus, setSprintInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  // const handleSetSprintInFocus = (sprint) => {
+  //   handleSetItemInFocus(setSprintInFocus, sprint, setLatestSelectedItem);
+  // };
 
   const handleFindSprints = (sprintIdKey, item, item_key) => {
     const foundSprint = displaySprints.filter(
@@ -44,6 +51,7 @@ export const SprintsProvider = ({ children }) => {
         setSprintInFocus,
         searchTerm,
         setSearchTerm,
+        // handleSetSprintInFocus,
         handleFindSprints,
       }}
     >

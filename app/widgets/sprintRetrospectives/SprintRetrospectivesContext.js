@@ -2,11 +2,14 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 // import { sprintPlannings } from './mockSpringPlanning';
 
 const SprintRetrospectivesContext = createContext();
 
 export const SprintRetrospectivesProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displaySprintRetrospectives, setDisplaySprintRetrospectives] =
     useState(null);
@@ -20,9 +23,14 @@ export const SprintRetrospectivesProvider = ({ children }) => {
     setSprintRetrospectiveInFocus(sprintRetrospectiveInFocus);
     setIsFiltered(false);
   };
-  const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
-    setSprintRetrospectiveInFocus(sprintRetrospective);
-  };
+  // const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
+  //   handleSetItemInFocus(
+  //     setSprintRetrospectiveInFocus,
+  //     sprintRetrospective,
+  //     setLatestSelectedItem
+  //   );
+  // };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -64,7 +72,7 @@ export const SprintRetrospectivesProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetSprintRetrospectiveInFocus,
+        // handleSetSprintRetrospectiveInFocus,
         // handleSelectWidgetContext,
       }}
     >

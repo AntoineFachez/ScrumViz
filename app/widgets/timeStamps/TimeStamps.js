@@ -16,9 +16,10 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function TimeStamps({
   widget,
@@ -30,6 +31,7 @@ export default function TimeStamps({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
@@ -76,14 +78,9 @@ export default function TimeStamps({
   };
 
   const handleSetTimeStampInFocus = (timeStamp) => {
-    setTimeStampInFocus(timeStamp);
-
-    // setActiveSearchTerm(userStory?.universityName);
-    // setLastInFocusItem({
-    //   context: widgetProps?.itemContext,
-    //   item: universityInFocus,
-    // });
+    handleSetItemInFocus(setTimeStampInFocus, timeStamp, setLatestSelectedItem);
   };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 

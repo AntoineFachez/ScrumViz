@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useRef, useState } from 'react';
-import { Box, Paper } from '@mui/material';
+import { Box, Breadcrumbs, Link, Paper, Typography } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
 import AuthContext from './widgets/auth/AuthContext';
@@ -59,24 +59,20 @@ export default function Home({}) {
                 marginTop: styled?.navBar.height,
               }}
             >
-              <Box
-                sx={
-                  {
-                    // width: '100vw',
-                    // height: '100vh',
-                    // display: 'flex',
-                    // justifyContent: 'center',
-                    // alignItems: 'center',
-                  }
-                }
-              >
-                <NavBar />
-              </Box>
+              {/* <Box
+                sx={{
+                  width: '100%',
+                  height: 'fit-content',
+                  display: 'flex',
+                  flexFlow: 'column nowrap',
+                }}
+              > */}
+              <NavBar /> {/* </Box> */}
               {uiElements()} <ToastContainer />{' '}
             </Box>
           </>
         ) : (
-          <Paper>
+          <Paper sx={{ ...styled.centerFullAvailableSpace, height: '25rem' }}>
             {' '}
             {/* <NavBar /> */}
             <SignupLogin />
