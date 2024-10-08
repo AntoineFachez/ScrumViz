@@ -1,10 +1,24 @@
-export const context = 'university';
+import { v4 as uuidv4 } from 'uuid';
+
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',
   content: 'description',
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
+};
+
+export const scheme = {
+  id: uuidv4(),
+  createdAt: new Date(),
+  title: '',
+  description: '',
+  subTitle: '',
+  description: '',
+  customField: '',
+  img_uri: '',
+  customArray: '',
+  customArrayKey: '',
 };
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
@@ -16,6 +30,10 @@ export const singleItemScheme = {
   description: 'user_story',
   customField: 'teamMemberName',
   img_uri: 'wireFrame_uri',
+  customArray: 'acceptanceCriteria',
+  customArrayKey: 'acceptanceCriteria_description',
+  // itemInFocusIdKey: 'id',
+  // filterArrayByIdKey: 'userStory_id',
 };
 
 export const headCellsTable = [

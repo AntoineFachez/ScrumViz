@@ -2,14 +2,14 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Close, HourglassBottom, Image, Send } from '@mui/icons-material';
 import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
-import { fetchDataFromGeminiProVisionAPI } from '../functions';
+import { fetchDataFromGeminiProVisionAPI } from '../functions/apiFunctions';
 
 function SubmitImage({ setShowGeminiCard, styled }) {
   const [error, setError] = useState(null);
   const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEN_AI_KEY;
   const [data, setData] = useState(undefined);
   const [inputText, setInputText] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <>
@@ -45,17 +45,17 @@ function SubmitImage({ setShowGeminiCard, styled }) {
               />{' '}
               <IconButton
                 sx={styled?.menuButtonText?.active}
-                disabled={loading}
+                disabled={isLoading}
                 onClick={() =>
                   fetchDataFromGeminiProVisionAPI(
                     inputText,
-                    setLoading,
+                    setIsLoading,
                     setData,
                     setError
                   )
                 }
               >
-                {loading ? <HourglassBottom /> : <Send />}
+                {isLoading ? <HourglassBottom /> : <Send />}
               </IconButton>
             </Box>
           </Box>

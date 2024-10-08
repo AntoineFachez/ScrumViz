@@ -19,6 +19,7 @@ import Tooltip from '@mui/material/Tooltip';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import ToolTipComponent from '../tooltip/ToolTipComponent';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -167,17 +168,29 @@ function EnhancedTableToolbar(props) {
             </Typography>
           )}
           {numSelected > 0 ? (
-            <Tooltip title="Delete">
-              <IconButton>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+            <ToolTipComponent
+              i={i}
+              title="Delete"
+              placement="right"
+              arrow={true}
+              content={
+                <IconButton>
+                  <DeleteIcon />
+                </IconButton>
+              }
+            />
           ) : (
-            <Tooltip title="Filter list">
-              <IconButton>
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
+            <ToolTipComponent
+              i={i}
+              title="Filter list"
+              placement="right"
+              arrow={true}
+              content={
+                <IconButton>
+                  <FilterListIcon />
+                </IconButton>
+              }
+            />
           )}
         </>
       )}

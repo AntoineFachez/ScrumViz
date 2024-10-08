@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { Box, Paper } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -14,9 +14,13 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useMode } from './theme/ThemeContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SimpleDialogDemo from './components/dialog/Dialog';
+import SimpleDialog from './components/dialog/Dialog';
+import UIContext from '@/context/UIContext';
 export default function Home({}) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
+  const { showDialog, setShowDialog } = useContext(UIContext);
   const [theme, colorMode, palette, styled] = useMode();
 
   const uiElements = () => {
@@ -25,10 +29,19 @@ export default function Home({}) {
         return <AgileCodingPage />;
       case 'scrumManager':
         return <ScrumManagerPage />;
+
       default:
         return <SignupLogin />;
     }
   };
+  const data = ['username@gmail.com', 'user02@gmail.com'];
+
+  const [selectedValue, setSelectedValue] = useState(data[1]);
+
+  const handleClickOpen = () => {
+    setShowDialog(true);
+  };
+
   return (
     <>
       {' '}
@@ -58,8 +71,7 @@ export default function Home({}) {
               >
                 <NavBar />
               </Box>
-              {uiElements()}
-              <ToastContainer />{' '}
+              {uiElements()} <ToastContainer />{' '}
             </Box>
           </>
         ) : (

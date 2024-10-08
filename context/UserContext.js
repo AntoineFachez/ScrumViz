@@ -34,12 +34,6 @@ export const UserProvider = ({ children }) => {
   //   lng: longitude,
   // });
   const [storiesHistory, setStoriesHistory] = useState([]);
-  const [maxOutputTokens, setMaxOutputTokens] = useState(1000);
-
-  const [geminiUniversityObjectChatId, setGeminiUniversityObjectChatId] =
-    useState('0bff2ee6192e11a64');
-  // "e5586647ccbe3034";
-  // console.log("parentCollectionName", user, userInFocus);
 
   const handleSetHistories = async (data) => {
     const firestoreContext = 'users';
@@ -136,10 +130,6 @@ export const UserProvider = ({ children }) => {
         // setUserLocation,
         storiesHistory,
         setStoriesHistory,
-        maxOutputTokens,
-        setMaxOutputTokens,
-        geminiUniversityObjectChatId,
-        setGeminiUniversityObjectChatId,
       }}
     >
       {children}

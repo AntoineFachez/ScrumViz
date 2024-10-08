@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Button, TextField, Box, Typography } from '@mui/material';
 import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
 
-const Signup = ({
+const SignUpWithEmailPawword = ({
   email,
   setEmail,
   password,
@@ -59,4 +59,4 @@ const Signup = ({
     </>
   );
 };
-export default Signup;
+export default SignUpWithEmailPawword;

@@ -39,11 +39,13 @@ export const submitToFirestore = async ({ dataPack }) => {
       // console.log(docData);
       if (setItemInFocus) {
         setItemInFocus(docData);
-        arrayToPushOnTo.push(docData);
+        arrayToPushOnTo?.push(docData);
       }
     } else {
       //    console.log("No such document!");
     }
+    console.log(arrayToPushOnTo);
+
     return arrayToPushOnTo;
   } catch (error) {
     console.error('Error writing document: ', error);
