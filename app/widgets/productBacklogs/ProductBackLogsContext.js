@@ -37,7 +37,11 @@ export const BackLogsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedProductBackLogs(displayProductBackLogs);
 
+    return () => {};
+  }, [displayProductBackLogs]);
   return (
     <BackLogsContext.Provider
       value={{
