@@ -41,6 +41,11 @@ export const SprintRetrospectivesProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedSprintRetrospectives(displaySprintRetrospectives);
+
+    return () => {};
+  }, [displaySprintRetrospectives]);
   return (
     <SprintRetrospectivesContext.Provider
       value={{

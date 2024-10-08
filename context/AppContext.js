@@ -6,8 +6,8 @@ import DefaultValuesContext from './DefaultValuesContext';
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const { startUp } = useContext(DefaultValuesContext);
-  const [appContext, setAppContext] = useState(startUp);
+  const { startUpAppContext } = useContext(DefaultValuesContext);
+  const [appContext, setAppContext] = useState(startUpAppContext);
   const [uiGridMapContext, setUiGridMapContext] = useState('prompts');
   const [newItemElement, setNewItemElement] = useState(null);
 

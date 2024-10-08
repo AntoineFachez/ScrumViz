@@ -112,7 +112,7 @@ export default function CardItem({
                       ...styled?.textBody?.selected,
                       textAlign: 'justify',
                     }
-                  : styled?.textBody
+                  : styled?.textBody.contrast
               }
               variant={styled?.textBody?.variant}
             >

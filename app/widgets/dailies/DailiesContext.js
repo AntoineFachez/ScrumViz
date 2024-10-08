@@ -34,7 +34,11 @@ export const DailiesProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedDailies(displayDailies);
 
+    return () => {};
+  }, [displayDailies]);
   return (
     <DailiesContext.Provider
       value={{

@@ -28,7 +28,11 @@ export const SprintsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedSprints(displaySprints);
 
+    return () => {};
+  }, [displaySprints]);
   return (
     <SprintsContext.Provider
       value={{

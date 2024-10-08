@@ -21,6 +21,7 @@ export const UserStoriesProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+
   const handleResetFiltered = () => {
     setSelectedUserStories(displayUserStories);
     setIsFiltered(false);
@@ -46,6 +47,11 @@ export const UserStoriesProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedUserStories(displayUserStories);
+
+    return () => {};
+  }, [displayUserStories]);
 
   return (
     <UserStoriesContext.Provider

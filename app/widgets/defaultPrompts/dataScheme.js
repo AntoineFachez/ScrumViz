@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-export const context = 'university';
 
-export const defaultPromptScheme = {
+export const scheme = {
   id: uuidv4(),
   createdAt: new Date(),
   title: '',

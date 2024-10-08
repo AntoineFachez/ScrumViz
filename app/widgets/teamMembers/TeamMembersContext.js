@@ -24,7 +24,11 @@ export const TeamMembersProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedTeamMembers(displayTeamMembers);
 
+    return () => {};
+  }, [displayTeamMembers]);
   return (
     <TeamMembersContext.Provider
       value={{

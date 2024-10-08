@@ -5,7 +5,8 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const DefaultValuesContext = createContext();
 
 export const DefaultValuesProvider = ({ children }) => {
-  const startUp = 'scrumManager';
+  const startUpAppContext = 'scrumManager';
+  const startUpCollectionContext = 'products';
   const [defaultAmountPromptToken, setDefaultAmountPromptToken] =
     useState(7000);
   const [defaultMinPromptToken, setDefaultMinPromptToken] = useState(1000);
@@ -14,7 +15,8 @@ export const DefaultValuesProvider = ({ children }) => {
   return (
     <DefaultValuesContext.Provider
       value={{
-        startUp,
+        startUpAppContext,
+        startUpCollectionContext,
         defaultAmountPromptToken,
         setDefaultAmountPromptToken,
         defaultMinPromptToken,

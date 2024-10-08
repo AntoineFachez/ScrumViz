@@ -42,7 +42,11 @@ export const PersonsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedPersons(displayPersons);
 
+    return () => {};
+  }, [displayPersons]);
   return (
     <PersonsContext.Provider
       value={{
