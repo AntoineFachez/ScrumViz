@@ -3,10 +3,13 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { timeStamps } from './mockTimeStamps';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 
 const TimeStampsContext = createContext();
 
 export const TimeStampsProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const [displayTimeStamps, setDisplayTimeStamps] = useState(timeStamps);
 
   const [selectedTimeStamps, setSelectedTimeStamps] = useState(false);
@@ -14,6 +17,10 @@ export const TimeStampsProvider = ({ children }) => {
 
   const [searchStart, setSearchStart] = useState('');
   const [searchEnd, setSearchEnd] = useState('');
+
+  // const handleSetTimeStampInFocus = (timeStamp) => {
+  //   handleSetItemInFocus(setTimeStampInFocus, timeStamp, setLatestSelectedItem);
+  // };
 
   useEffect(() => {
     // setSelectedTimeStamps(
@@ -39,6 +46,7 @@ export const TimeStampsProvider = ({ children }) => {
         timeStampInFocus,
         setTimeStampInFocus,
         searchStart,
+        // handleSetTimeStampInFocus,
       }}
     >
       {children}

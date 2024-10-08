@@ -6,10 +6,13 @@ import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
 import { userStories } from './mockUserStories';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 
 const UserStoriesContext = createContext();
 
 export const UserStoriesProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { displayTeamMembers } = useContext(TeamMembersContext);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
@@ -27,8 +30,9 @@ export const UserStoriesProvider = ({ children }) => {
     setIsFiltered(false);
   };
   const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
+    handleSetItemInFocus(setUserStoryInFocus, userStory, setLatestSelectedItem);
   };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 

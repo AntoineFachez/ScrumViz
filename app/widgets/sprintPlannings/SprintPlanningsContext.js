@@ -3,16 +3,27 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { sprintPlannings } from './mockSpringPlanning';
+import { handleSetItemInFocus } from '../actions';
+import InFocusContext from '@/context/InFocusContext';
 
 const SprintPlanningsContext = createContext();
 
 export const SprintPlanningsProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const [displaySprintPlannings, setDisplaySprintPlannings] =
     useState(sprintPlannings);
   const [selectedSprintPlannings, setSelectedSprintPlannings] = useState(
     displaySprintPlannings
   );
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
+
+  // const handleSetSprintPlanningInFocus = (sprintPlanning) => {
+  //   handleSetItemInFocus(
+  //     setSprintPlanningInFocus,
+  //     sprintPlanning,
+  //     setLatestSelectedItem
+  //   );
+  // };
 
   const handleFindSprintPlannings = (item) => {
     const foundPlannings = displaySprintPlannings.filter((planning) =>
@@ -36,6 +47,7 @@ export const SprintPlanningsProvider = ({ children }) => {
         setSelectedSprintPlannings,
         sprintPlanningInFocus,
         setSprintPlanningInFocus,
+        // handleSetSprintPlanningInFocus,
         handleFindSprintPlannings,
       }}
     >

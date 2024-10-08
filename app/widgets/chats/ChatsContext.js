@@ -8,11 +8,14 @@ import DefaultValuesContext from '@/context/DefaultValuesContext';
 import { chats } from './mockChats';
 import UIContext from '@/context/UIContext';
 import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 
 const ChatsContext = createContext();
 
 export const ChatsProvider = ({ children }) => {
   const { appContext, setAppContext } = useContext(AppContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
   const {
@@ -53,7 +56,7 @@ export const ChatsProvider = ({ children }) => {
     setIsFiltered(false);
   };
   const handleSetChatInFocus = (chat) => {
-    setChatInFocus(chat);
+    handleSetItemInFocus(setChatInFocus, chat, setLatestSelectedItem);
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();

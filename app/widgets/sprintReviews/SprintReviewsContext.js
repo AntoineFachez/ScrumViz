@@ -6,10 +6,13 @@ import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
 import { sprintReviews } from './mockSprintReviews';
+import { handleSetItemInFocus } from '../actions';
+import InFocusContext from '@/context/InFocusContext';
 
 const SprintReviewContext = createContext();
 
 export const SprintReviewProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [displaySprintReviews, setDisplaySprintReviews] =
     useState(sprintReviews);
@@ -33,19 +36,13 @@ export const SprintReviewProvider = ({ children }) => {
     setIsFiltered(false);
   };
 
-  const handleSetSprintReviewInFocus = (sprintReview) => {
-    setSprintReviewInFocus(sprintReview);
-    // const foundPlannings = displaySprintPlannings.filter((planning) =>
-    //   planning.sprint_backlog.some(
-    //     (task) => task.product_backlog_item_id === sprintReview.id
-    //   )
-    // );
-    // setSelectedSprintPlannings(foundPlannings);
-    // const foundSprintLogs = displaySprintBackLogs.filter(
-    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
-    // );
-    // setSelectedSprintBackLogs(foundSprintLogs);
-  };
+  // const handleSetSprintReviewInFocus = (sprintReview) => {
+  //   handleSetItemInFocus(
+  //     setSprintReviewInFocus,
+  //     sprintReview,
+  //     setLatestSelectedItem
+  //   );
+  // };
   const handleSelectWidgetContext = (context) => {
     //  if (generated) {
     //    setPassWidgetContext(context);
@@ -87,7 +84,7 @@ export const SprintReviewProvider = ({ children }) => {
         setIsFiltered,
         handleSearchTermChange,
         handleResetFiltered,
-        handleSetSprintReviewInFocus,
+        // handleSetSprintReviewInFocus,
         handleSelectWidgetContext,
       }}
     >
