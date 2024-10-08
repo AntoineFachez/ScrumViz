@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Avatar,
   Box,
   Button,
   IconButton,
   Paper,
+  Skeleton,
   TextField,
   Tooltip,
   Typography,
@@ -15,12 +17,10 @@ import {
   a11yDark,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Message } from '@chatscope/chat-ui-kit-react';
-import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { ContentCopy } from '@mui/icons-material';
-import { ToastContainer, toast } from 'react-toastify';
 import { notify } from '@/utils/utils';
 
-const ChatMessage = ({ data, styled, messageInFocus }) => {
+const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
   const handleCopyToClipBoard = (textToCopy) => {
     navigator.clipboard
       .writeText(textToCopy)
@@ -36,88 +36,72 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
     <>
       {data ? (
         <Box
-          // className="chat-response widget"
-          sx={{ backgroundColor: data === messageInFocus ? 'green' : '' }}
+          className="chat-response widget"
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexFlow: 'row',
+          }}
           // variant="outlined"
-          square={false}
+          // square={false}
         >
           {' '}
-          {data?.parts?.map((part, i) => {
-            return (
-              <Message
-                key={i}
-                model={{
-                  message: part?.content,
-                  sentTime: 'just now',
-                  sender: data?.role,
-                  direction: data?.role === 'model' ? 'incoming' : 'outgoing',
-                }}
-                style={
-                  {
-                    // marginTop: 0,
-                    // marginBottom: 0,
-                    // padding: 0,
-                  }
-                }
-              >
-                <Message.CustomContent
-                // style={{
-                //   width: '100%',
-                //   marginTop: 0,
-                //   marginBottom: 0,
-                //   padding: 0,
-                //   padding: '0.5rem',
-                // }}
-                >
-                  {part.type === 'code' ? (
-                    <>
-                      <SyntaxHighlighter
-                        language={part.language}
-                        style={{
-                          ...a11yDark,
+          <Avatar
+            src={
+              data?.role === 'model'
+                ? 'https://play-lh.googleusercontent.com/Pkwn0AbykyjSuCdSYCbq0dvOqHP-YXcbBLTZ8AOUZhvnRuhUnZ2aJrw_YCf6kVMcZ4PM=w240-h480'
+                : 'https://lh3.googleusercontent.com/a/ACg8ocKRaYWG3WkdMdzKGUHVruNwPGE9LWCL1K5NdaQVs2rNXsPNTLFx=s288-c-no'
+            }
+            sx={{ margin: '0.5rem', width: 30, height: 30, opacity: 0.8 }}
+          />
+          <Box
+            sx={{
+              // backgroundColor: data === messageInFocus ? 'green' : '',
+              // padding: '1rem',
+              // display: 'flex',
+              width: '100%',
+              height: '100%',
+              flexFlow: 'column',
+              borderRadius: '5px',
+              textAlign: 'start',
 
-                          // backgroundColor: 'black',
-                          '& pre': {
-                            // Target the 'code' element within the 'pre'
-                            backgroundColor: '#f8f8f8',
-                          },
-                          '& code': {
-                            // Target the 'code' element within the 'pre'
-                            backgroundColor: '#f8f8f8',
-                          },
-                        }}
-                        wrapLongLines={true}
-                      >
-                        {part.content}
-                      </SyntaxHighlighter>
-                      <Box
-                        sx={{
-                          width: '100%',
-                          display: 'flex',
-                          justifyContent: 'flex-end',
-                        }}
-                      >
-                        <Tooltip title="copy code">
-                          <IconButton
-                            onClick={() => handleCopyToClipBoard(part.content)}
-                            sx={{ color: 'white' }}
-                          >
-                            <ContentCopy />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </>
-                  ) : (
-                    <>
-                      <Typography sx={{ ...styled.textBody, width: '100%' }}>
-                        {part.content}
-                      </Typography>
-                    </>
-                  )}
-                </Message.CustomContent>
-              </Message>
-            );
-          })}
+              // backgroundColor: '#111',
+              // '&  >*': {
+              //   width: '100%',
+              // },
+            }}
+            elevation={10}
+            // variant="elevation"
+          >
+            {data?.parts?.map((part, i) => {
+              return (
+                <Message
+                  key={i}
+                  model={{
+                    message: part?.content,
+                    sentTime: 'just now',
+                    sender: data?.role,
+                    // direction: data?.role === 'model' ? 'incoming' : 'outgoing',
+                  }}
+                  style={{
+                    position: 'relative',
+                    display: 'inline-block',
+                    width: '100%',
+                    // height: '100%',
+                  }}
+                >
+                  <Message.CustomContent>
+                    <CodeBlock
+                      key={i}
+                      part={part}
+                      handleCopyToClipBoard={handleCopyToClipBoard}
+                      styled={styled}
+                    />
+                  </Message.CustomContent>
+                </Message>
+              );
+            })}
+          </Box>
         </Box>
       ) : (
         `selecet a message of the chat`
@@ -126,3 +110,66 @@ const ChatMessage = ({ data, styled, messageInFocus }) => {
   );
 };
 export default ChatMessage;
+function CodeBlock({ part, styled, handleCopyToClipBoard }) {
+  const codeFenceRegex = /```(\w+)\n([\s\S]*?)```/;
+  const match = part?.text.match(codeFenceRegex);
+
+  if (match) {
+    const language = match[1];
+    const code = match[2];
+    return (
+      <Box
+        sx={{ position: 'relative', paddingLeft: '1rem', borderRadius: '5px' }}
+      >
+        <SyntaxHighlighter
+          language={language}
+          style={{
+            ...a11yDark,
+            '& pre, & code': {
+              // height: '100%',
+              fontSize: '1rem',
+              backgroundColor: '#f8f8f8',
+            },
+          }}
+          wrapLongLines={true}
+        >
+          {code}
+        </SyntaxHighlighter>
+        <Box
+          sx={{
+            position: 'sticky',
+            // top: 0,
+            bottom: 0,
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            borderRadius: '5px',
+            backgroundColor: 'rgb(43, 43, 43)',
+          }}
+        >
+          <Tooltip title="copy code">
+            <IconButton
+              onClick={() => handleCopyToClipBoard(code)}
+              sx={styled.iconButton.action}
+            >
+              <ContentCopy />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
+    <Typography
+      sx={{
+        ...styled.textBody,
+        width: '100%',
+        height: '100%',
+        paddingLeft: '1rem',
+      }}
+    >
+      {part.text}
+    </Typography>
+  );
+}

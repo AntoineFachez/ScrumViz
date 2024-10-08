@@ -24,6 +24,11 @@ export const TimeStampsProvider = ({ children }) => {
 
     return () => {};
   }, [searchStart]);
+  useEffect(() => {
+    setSelectedTimeStamps(displayTimeStamps);
+
+    return () => {};
+  }, [displayTimeStamps]);
   return (
     <TimeStampsContext.Provider
       value={{

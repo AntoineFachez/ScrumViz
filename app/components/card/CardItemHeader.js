@@ -44,7 +44,7 @@ export default function CardItemHeader({
               ? styled?.textBody?.selected
               : //   : item[singleItemScheme.title]?.length > 25
                 //   ? styled?.truncate
-                styled?.textBody
+                styled?.textBody.contrast
           }
           variant={styled?.textBody?.variant}
         >
@@ -63,7 +63,7 @@ export default function CardItemHeader({
               ? { ...styled?.textBody?.selected, fontSize: '0.7rem' }
               : //   : item[singleItemScheme.title]?.length > 25
                 //   ? styled?.truncate
-                { ...styled?.textBody, fontSize: '0.7rem' }
+                { ...styled?.textBody.contrast, fontSize: '0.7rem' }
           }
           variant={styled?.textBody?.variant}
         >

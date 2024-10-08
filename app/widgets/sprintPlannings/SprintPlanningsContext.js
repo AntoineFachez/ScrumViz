@@ -22,6 +22,11 @@ export const SprintPlanningsProvider = ({ children }) => {
     );
     setSelectedSprintPlannings(foundPlannings);
   };
+  useEffect(() => {
+    setSelectedSprintPlannings(displaySprintPlannings);
+
+    return () => {};
+  }, [displaySprintPlannings]);
   return (
     <SprintPlanningsContext.Provider
       value={{

@@ -51,6 +51,7 @@ export default function MultiItems({
   } else if (uiContext === selector?.selected) {
     array = selectedData;
   }
+
   return (
     <>
       <Paper className="flexList" sx={styled?.flexList} ref={flexListRef}>
@@ -58,102 +59,102 @@ export default function MultiItems({
           <>select an entity section or create new {`${itemContext}`}</>
         ) : (
           <>
-            {array?.map((item, i) => {
-              const customElement = (
-                <Box
-                  component="ul"
-                  sx={{
-                    ...styled?.widgetMenuButtonArray?.vert,
-                    alignItems: 'center',
-                    gap: '1rem',
-                  }}
-                >
-                  {item[singleItemScheme.customArray]?.map((customItem, i) => {
-                    {
-                      /* console.log('customArray', customItem); */
-                    }
-                    return (
-                      <Button
-                        // sx={styled?.menuButtonText.action}
-                        sx={
-                          customArrayItemInFocus?.[
-                            singleItemScheme.itemInFocusIdKey
-                          ] ===
-                          customItem?.[singleItemScheme.filterArrayByIdKey]
-                            ? styled?.menuButtonText?.selected
-                            : styled?.menuButtonText?.action
+            {array &&
+              array?.map((item, i) => {
+                const customElement = (
+                  <Box
+                    component="ul"
+                    sx={{
+                      ...styled?.widgetMenuButtonArray?.vert,
+                      alignItems: 'center',
+                      gap: '1rem',
+                    }}
+                  >
+                    {item[singleItemScheme.customArray]?.map(
+                      (customItem, i) => {
+                        {
                         }
-                        key={i}
-                        onClick={() => handleClickCustomArrayItem(customItem)}
-                      >
-                        {/* <Typography sx={styled?.textBody}> */}
-                        {customItem[singleItemScheme.customArrayKey]}
-                        {/* </Typography> */}
-                        {/* <Typography sx={styled?.textBody}> */}
-                        {customItem[singleItemScheme.customArrayKey_2]}
-                        {/* </Typography> */}
-                      </Button>
-                    );
-                  })}
-                </Box>
-              );
-              return (
-                <Draggable
-                  dataSlug={item.id}
-                  context="draggable"
-                  item={item}
-                  key={i}
-                  htmlItem={
-                    <>
-                      {selectedWidgetContext === 'card' ? (
-                        <>
-                          <CardItem
-                            context="item"
-                            dataSlug={item.id}
-                            singleItemScheme={singleItemScheme}
-                            item={item}
-                            handleClick={handleSetItemInFocus}
-                            itemContext={itemContext}
-                            itemInFocus={itemInFocus}
-                            customElement={customElement}
-                            alertElement={alertElement}
-                            styled={styled}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <Chip
-                            data-slug={item.id}
-                            onClick={() => handleSetItemInFocus(item)}
-                            multilines
-                            avatar={
-                              <Avatar
-                                onClick={() => handleClick(item)}
-                                sx={styled?.avatar}
-                                aria-label={itemContext}
-                                // src={item?.basics?.[`${itemContext}ImageUrl`]}
-                                {...stringAvatar(
-                                  item[singleItemScheme.title] || 'N/A'
-                                )}
-                              />
-                            }
+                        return (
+                          <Button
+                            // sx={styled?.menuButtonText.action}
                             sx={
-                              itemInFocus?.id === item.id
-                                ? styled?.chip?.multilines?.selected
-                                : styled?.chip?.multilines?.unselected
+                              customArrayItemInFocus?.[
+                                singleItemScheme.itemInFocusIdKey
+                              ] ===
+                              customItem?.[singleItemScheme.filterArrayByIdKey]
+                                ? styled?.menuButtonText?.selected
+                                : styled?.menuButtonText?.action
                             }
-                            size={styled?.chip?.size}
-                            variant="outlined"
-                            label={item[singleItemScheme.title] || 'N/A'}
-                          />
-                          {alertElement && alertElement(item)}
-                        </>
-                      )}
-                    </>
-                  }
-                />
-              );
-            })}
+                            key={i}
+                            onClick={() =>
+                              handleClickCustomArrayItem(customItem)
+                            }
+                          >
+                            {customItem[singleItemScheme.customArrayKey]}
+                            {customItem[singleItemScheme.customArrayKey_2]}
+                          </Button>
+                        );
+                      }
+                    )}
+                  </Box>
+                );
+                return (
+                  <Draggable
+                    dataSlug={item.id}
+                    context="draggable"
+                    item={item}
+                    key={i}
+                    htmlItem={
+                      <>
+                        {selectedWidgetContext === 'card' ? (
+                          <>
+                            <CardItem
+                              context="item"
+                              dataSlug={item.id}
+                              singleItemScheme={singleItemScheme}
+                              item={item}
+                              handleClick={handleSetItemInFocus}
+                              itemContext={itemContext}
+                              itemInFocus={itemInFocus}
+                              customElement={customElement}
+                              alertElement={alertElement}
+                              styled={styled}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <Chip
+                              data-slug={item.id}
+                              onClick={() => handleSetItemInFocus(item)}
+                              multilines
+                              avatar={
+                                <Avatar
+                                  onClick={() => handleClick(item)}
+                                  sx={styled?.avatar}
+                                  aria-label={itemContext}
+                                  // src={item?.basics?.[`${itemContext}ImageUrl`]}
+                                  {...stringAvatar(
+                                    item[singleItemScheme.title] || 'N/A'
+                                  )}
+                                />
+                              }
+                              sx={
+                                itemInFocus?.id === item.id
+                                  ? styled?.chip?.multilines?.selected
+                                  : styled?.chip?.multilines?.unselected
+                              }
+                              size={styled?.chip?.size}
+                              variant="outlined"
+                              label={item[singleItemScheme.title] || 'N/A'}
+                            />
+                            {alertElement && alertElement(item)}
+                          </>
+                        )}
+                      </>
+                    }
+                  />
+                );
+              })}
           </>
         )}
       </Paper>

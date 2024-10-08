@@ -3,6 +3,7 @@ import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 // import SearchContext from "../../context/SearchContext";
 // import AutoCompleteTextField from '../auto-complete/Index';
 import { Settings } from '@mui/icons-material';
+import ToolTipComponent from '../tooltip/ToolTipComponent';
 
 export default function Menu({
   menuProps,
@@ -72,13 +73,15 @@ export default function Menu({
               // onMouseLeave={() => setTimeout(() => setIsOpen(false), 0)}
             >
               {verticalArray?.map((button, i) => (
-                <Tooltip
-                  key={i}
-                  title={button?.props?.tooltip}
-                  placement="right"
-                >
-                  {button}
-                </Tooltip>
+                <>
+                  <ToolTipComponent
+                    i={i}
+                    title={button?.props?.tooltip}
+                    placement="right"
+                    arrow={true}
+                    content={button}
+                  />
+                </>
               ))}
             </Box>{' '}
           </Box>

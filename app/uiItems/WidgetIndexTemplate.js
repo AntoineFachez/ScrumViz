@@ -4,11 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import AppContext from '@/context/AppContext';
 // import DataContext from '../context/DataContext';
-// import UIContext from '@/context/UIContext';
+import UIContext from '@/context/UIContext';
 
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
 import { themeSettings, useMode } from '../theme/ThemeContext';
+import ToolTipComponent from '../components/tooltip/ToolTipComponent';
+import SimpleDialog from '../components/dialog/Dialog';
 
 // import { styled } from "../themes/styled";
 
@@ -24,6 +26,7 @@ const WidgetIndexTemplate = ({
   tree,
   flexList,
   vertical,
+  inputField,
   horizontal,
   isFiltered,
   onResetFiltered,
@@ -31,8 +34,9 @@ const WidgetIndexTemplate = ({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext } = useContext(AppContext);
   // const { dataContext } = useContext(DataContext);
-  // const { navBarHeight, showNewItem, mainPaneHeight, setMainPaneHeight } =
-  //   useContext(UIContext);
+
+  const { showDialog, setShowDialog, handleCloseDialog } =
+    useContext(UIContext);
   const {
     uiGridMapContext,
     collection,
@@ -52,19 +56,21 @@ const WidgetIndexTemplate = ({
     drawer,
     card,
     media,
-    inputField,
+
     contextToolBar,
     iconButton,
     onClick,
     uiContext,
     widgetContext,
+    dialogTitle,
     // styled,
   } = widgetProps;
   return (
     <>
       {contextToolBar === 'navBar' ? (
         <>
-          <Tooltip title={collection}>
+          <Tooltip title={collection} placement="bottom" arrow={true}>
+            {' '}
             <Draggable
               keyToPass={uuidv4()}
               // item={uiContext}
@@ -108,11 +114,12 @@ const WidgetIndexTemplate = ({
             <>
               <>
                 <Box className="widgetContainer" sx={styled.widgetContainer}>
-                  {menu && (
+                  {menu && menu}
+                  {/* {menu && (
                     <Box className="widgetMenu" sx={styled?.widgetMenu}>
                       {menu}
                     </Box>
-                  )}{' '}
+                  )}{' '} */}
                   {isFiltered && (
                     <Button
                       className="widgetMenuButton"
