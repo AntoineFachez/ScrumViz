@@ -1,12 +1,16 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import { Assignment, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import {
+  Add,
+  Assignment,
+  StoreMallDirectoryOutlined,
+} from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import { useMode } from '@/app/theme/ThemeContext';
 import TableComponent from '@/app/components/table/TableComponent';
@@ -15,12 +19,14 @@ import MultiItems from '@/app/uiItems/MultiItems';
 import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
 import SearchContext from '@/context/SearchContext';
 import SingleItem from '@/app/uiItems/SingleItem';
-import { singleItemScheme } from './dataScheme';
 import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
+import { scheme, singleItemScheme } from './dataScheme';
 import { handleSelectWidgetContext } from '../actions';
+import NewItem from '@/app/uiItems/NewItem';
+import { handleNewUserStory } from './functions/dbFunctions';
 
 export default function UserStory({
   widget,
@@ -35,14 +41,23 @@ export default function UserStory({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    // selectedWidgetContext,
+    // setSelectedWidgetContext,
+    displayUserStories,
+    setDisplayUserStories,
     selectedUserStories,
     setSelectedUserStories,
-    isFiltered,
     userStoryInFocus,
+    setUserStoryInFocus,
     searchTerm,
+    setSearchTerm,
+    isFiltered,
+    setIsFiltered,
     handleResetFiltered,
-    handleSetUserStoryInFocus,
     handleSearchTermChange,
+    // handleResetFiltered,
+    handleSetUserStoryInFocus,
+    // handleSelectWidgetContext,
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
   const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
@@ -95,17 +110,7 @@ export default function UserStory({
       />
     </>
   );
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      UserStory New Item
-    </Box>
-  );
+
   const soloWidget = (
     <Box
       className="widget"
@@ -154,8 +159,28 @@ export default function UserStory({
       sx={{
         ...styled.widget,
         // backgroundColor: '#555',
+        flexFlow: 'column',
       }}
     >
+      {' '}
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+        <Tooltip title="Create new default Prompt" placement="top" arrow>
+          <IconButton
+            sx={styled?.iconButton?.action}
+            onClick={() =>
+              handleNewUserStory(
+                widgetProps,
+                userStoryInFocus,
+                setUserStoryInFocus,
+                displayUserStories,
+                setDisplayUserStories
+              )
+            }
+          >
+            <Add />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
@@ -177,7 +202,43 @@ export default function UserStory({
       />
     </Box>
   );
-
+  const newItem = (
+    <Box
+      className="widget"
+      sx={{
+        ...styled.widget,
+      }}
+    >
+      {' '}
+      <Box
+        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
+        className="widget"
+      >
+        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
+          {defaultPromptSelector}
+        </Box> */}
+        <NewItem
+          component="form"
+          sxStyle={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#eee',
+            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
+          }}
+          autoComplete="off"
+          size={'small'}
+          id="outlined-multiline-static"
+          label={collection}
+          rows={14}
+          data={userStoryInFocus}
+          scheme={scheme}
+        />
+      </Box>
+    </Box>
+  );
   return (
     <>
       <WidgetIndexTemplate

@@ -15,7 +15,7 @@ import { handleSelectWidgetContext } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 
-import { defaultPromptScheme, singleItemSchemePrompt } from './dataScheme';
+import { scheme, singleItemSchemePrompt } from './dataScheme';
 import SimpleDialog from '@/app/components/dialog/Dialog';
 import NewItem from '@/app/uiItems/NewItem';
 
@@ -186,7 +186,7 @@ export default function DefaultPromptWidget({
           label={collection}
           rows={14}
           data={promptTextInFocus}
-          scheme={defaultPromptScheme}
+          scheme={scheme}
         />
       </Box>
     </Box>

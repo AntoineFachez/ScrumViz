@@ -58,6 +58,11 @@ export const DefaultPromptsProvider = ({ children }) => {
       )
     );
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedDefaultPrompts(displayDefaultPrompts);
+
+    return () => {};
+  }, [displayDefaultPrompts]);
   return (
     <DefaultPromptsContext.Provider
       value={{

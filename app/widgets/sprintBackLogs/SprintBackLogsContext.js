@@ -33,7 +33,11 @@ export const SprintBackLogsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedSprintBackLogs(displaySprintBackLogs);
 
+    return () => {};
+  }, [displaySprintBackLogs]);
   return (
     <SprintBackLogsContext.Provider
       value={{

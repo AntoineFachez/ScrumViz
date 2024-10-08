@@ -1,61 +1,35 @@
 import { v4 as uuidv4 } from 'uuid';
 import { submitToFirestore } from '@/firebase/helperFunctions';
 
-export const handleNewChat = async (
+export const handleNewUserStory = async (
   widgetProps,
-  setChatInFocus,
-  displayChats,
-  setDisplayChats
+  userStoryInFocus,
+  setUserStoryInFocus,
+  displayUserStories,
+  setDisplayUserStories
 ) => {
-  const data = {
-    chat_id: uuidv4(),
-    title: 'next chat',
-    createdAt: new Date(),
-    summary: '',
-    history: [
-      {
-        role: 'user',
-        parts: [
-          {
-            text: 'I am in development of an AI integration.',
-          },
-        ],
-      },
-      {
-        role: 'model',
-        parts: [{ text: 'hi. Tell me more about that.' }],
-      },
-      {
-        role: 'user',
-        parts: [
-          {
-            text: 'Please return what ever comes to your mind. By now I only need to receive some kind of response and am wondering what you come up with.',
-          },
-        ],
-      },
-    ],
-  };
   submitToFirestore({
     //firestoreContext, data, setItemInFocus, setter, setSetter
     dataPack: {
       firestoreContext: widgetProps.collection,
-      data: data,
-      setItemInFocus: setChatInFocus,
-      arrayToPushOnTo: displayChats,
+      data: userStoryInFocus,
+      setItemInFocus: setUserStoryInFocus,
+      arrayToPushOnTo: displayUserStories,
       // setDisplayChats,
       // uploadFileUrl: data.uploadFileUrl || "",
     },
   }).then((tempArray) => {
-    setDisplayChats(tempArray);
+    setDisplayUserStories(tempArray);
   });
 };
-export const handleStoreChat = async (data) => {
+
+export const handleStoreUserStrory = async (data) => {
   const parentCollectionName = collection;
   let queryField;
 
   let searchString;
-  searchString = data?.chat_id;
-  queryField = 'chat_id';
+  searchString = data?.id;
+  queryField = 'id';
 
   const parentDoc = await getDocIdSByValueSearch(
     parentCollectionName,
