@@ -34,6 +34,7 @@ export default function Home({}) {
         return <SignupLogin />;
     }
   };
+
   const data = ['username@gmail.com', 'user02@gmail.com'];
 
   const [selectedValue, setSelectedValue] = useState(data[1]);
