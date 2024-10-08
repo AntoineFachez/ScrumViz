@@ -1216,6 +1216,9 @@ const styled = (colorMode) => ({
     noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
     alignStart: { textAlign: 'start' },
     // color: () => themeSettings(colorMode).neutral.light,
+    contrast: {
+      color: 'white',
+    },
     selected: {
       width: '100%',
       height: '100%',

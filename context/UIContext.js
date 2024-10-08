@@ -30,6 +30,7 @@ export const UIProvider = ({ children }) => {
   const [showWidgetMenus, setShowWidgetMenus] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
 
+  const [showProductsItemMenu, setShowProductsItemMenu] = useState(false);
   const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
   const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
   const [showSprintMenu, setShowSprintMenu] = useState(false);
@@ -125,6 +126,8 @@ export const UIProvider = ({ children }) => {
         setShowWidgetMenus,
         showDialog,
         setShowDialog,
+        showProductsItemMenu,
+        setShowProductsItemMenu,
         showUserStoryMenu,
         setShowUserStoryMenu,
         showSprintPlanningMenu,

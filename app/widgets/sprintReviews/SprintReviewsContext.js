@@ -67,7 +67,11 @@ export const SprintReviewProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedSprintReviews(displaySprintReviews);
 
+    return () => {};
+  }, [displaySprintReviews]);
   return (
     <SprintReviewContext.Provider
       value={{

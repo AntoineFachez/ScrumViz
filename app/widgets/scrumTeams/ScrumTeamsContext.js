@@ -39,6 +39,11 @@ export const ScrumTeamsProvider = ({ children }) => {
 
     return () => {};
   }, [searchTerm]);
+  useEffect(() => {
+    setSelectedScrumTeams(displayScrumTeams);
+
+    return () => {};
+  }, [displayScrumTeams]);
   return (
     <ScrumTeamsContext.Provider
       value={{
