@@ -3,10 +3,13 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { scrumTeamMembers } from './mockScrumTeamMembers';
+import InFocusContext from '@/context/InFocusContext';
+import { handleSetItemInFocus } from '../actions';
 
 const TeamMembersContext = createContext();
 
 export const TeamMembersProvider = ({ children }) => {
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const [displayTeamMembers, setDisplayTeamMembers] =
     useState(scrumTeamMembers);
   const [selectedTeamMembers, setSelectedTeamMembers] =
@@ -14,6 +17,14 @@ export const TeamMembersProvider = ({ children }) => {
   const [teamMemberInFocus, setTeamMemberInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  // const handleSetTeamMemberInFocus = (teamMember) => {
+  //   handleSetItemInFocus(
+  //     setTeamMemberInFocus,
+  //     teamMember,
+  //     setLatestSelectedItem
+  //   );
+  // };
 
   useEffect(() => {
     setSelectedTeamMembers(
@@ -40,6 +51,7 @@ export const TeamMembersProvider = ({ children }) => {
         setTeamMemberInFocus,
         searchTerm,
         setSearchTerm,
+        // handleSetTeamMemberInFocus,
       }}
     >
       {children}

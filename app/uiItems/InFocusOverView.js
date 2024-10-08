@@ -6,11 +6,14 @@ import UIContext from '@/context/UIContext';
 
 import Draggable from '@/app/components/dragDrop/Index';
 import ChatsContext from '../widgets/chats/ChatsContext';
+import InFocusContext from '@/context/InFocusContext';
 export default function InFocusOverView({ contextToolBar, styled }) {
   const { appContext, uiGridMapContext, alert } = useContext(AppContext);
 
   const { userRole, setUserRole, intro, setIntro } = useContext(UIContext);
+  const { latestSelectedItem } = useContext(InFocusContext);
   const { availablePromptTokensAmount } = useContext(ChatsContext);
+  console.log('latestSelectedItem', latestSelectedItem);
 
   return (
     <>

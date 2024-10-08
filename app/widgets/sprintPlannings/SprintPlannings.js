@@ -11,7 +11,7 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import SprintPlanningsContext from './SprintPlanningsContext';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
@@ -23,6 +23,7 @@ import { singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function SprintPlannings({
   widget,
@@ -35,6 +36,7 @@ export default function SprintPlannings({
     useContext(AppContext);
   const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
     useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [searchTerm, setSearchTerm] = useState('');
   const { selectedUserStories, setSelectedUserStories } =
@@ -85,7 +87,11 @@ export default function SprintPlannings({
   };
 
   const handleSetSprintPlanningInFocus = (sprintPlanning) => {
-    setSprintPlanningInFocus(sprintPlanning);
+    handleSetItemInFocus(
+      setSprintPlanningInFocus,
+      sprintPlanning,
+      setLatestSelectedItem
+    );
     const productBacklogItemIds = new Set(
       sprintPlanning.sprint_backlog.map((item) => item.product_backlog_item_id)
     );

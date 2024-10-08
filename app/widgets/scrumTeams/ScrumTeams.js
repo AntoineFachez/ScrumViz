@@ -18,9 +18,10 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function ScrumTeam({
   widget,
@@ -38,6 +39,7 @@ export default function ScrumTeam({
     setShowTeamMembersMenu,
     toggleDrawer,
   } = useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -91,12 +93,13 @@ export default function ScrumTeam({
     },
   };
   const handleSetScrumTeamInFocus = (scrumTeam) => {
-    setScrumTeamInFocus(scrumTeam);
-    const found = displaySprints.filter((sprint) => {
+    handleSetItemInFocus(setScrumTeamInFocus, scrumTeam, setLatestSelectedItem);
+
+    const foundSprints = displaySprints.filter((sprint) => {
       console.log(sprint.scrum_id, scrumTeam.id);
       return sprint.team_id === scrumTeam.id;
     });
-    setSelectedSprints(found);
+    setSelectedSprints(foundSprints);
     // setActiveSearchTerm(userStory?.universityName);
     // setLastInFocusItem({
     //   context: widgetProps?.itemContext,

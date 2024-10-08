@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Button, TextField, Box, Typography } from '@mui/material';
-import ThemeContext, { themeSettings } from '@/app/theme/ThemeContext';
+import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 
 const SignUpWithEmailPawword = ({
   email,

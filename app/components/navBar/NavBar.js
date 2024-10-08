@@ -34,7 +34,7 @@ export default function NavBar({ showDev, setShowDev }) {
 
   return (
     <Box
-      className="navBar widget"
+      className="navBar "
       sx={{
         ...styled?.navBar,
         flexFlow: 'row nowrap',

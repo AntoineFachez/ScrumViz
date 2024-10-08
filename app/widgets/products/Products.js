@@ -19,9 +19,10 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 
 import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function Products({
   widget,
@@ -34,6 +35,7 @@ export default function Products({
     useContext(AppContext);
   const { showProductsItemMenu, setShowProductsItemMenu } =
     useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
@@ -109,7 +111,8 @@ export default function Products({
   //   setUserStoryInFocus(found);
   // };
   const handleSetProductInFocus = (product) => {
-    setProductInFocus(product);
+    handleSetItemInFocus(setProductInFocus, product, setLatestSelectedItem);
+    // setProductInFocus(product);
     const found = displayUserStories.filter(
       (story) => story.productBacklog_id === product.id
     );

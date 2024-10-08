@@ -22,8 +22,9 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function TeamMembers({
   widget,
@@ -35,6 +36,7 @@ export default function TeamMembers({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);
+  const { setLatestSelectedItem } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     displayTeamMembers,
@@ -82,7 +84,11 @@ export default function TeamMembers({
   };
 
   const handleSetTeamMemberInFocus = (teamMember) => {
-    setTeamMemberInFocus(teamMember);
+    handleSetItemInFocus(
+      setTeamMemberInFocus,
+      teamMember,
+      setLatestSelectedItem
+    );
   };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
