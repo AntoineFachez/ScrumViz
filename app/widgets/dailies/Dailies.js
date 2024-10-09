@@ -42,6 +42,8 @@ export default function Dailies({
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     selectedDailies,
     setSelectedDailies,
     dailiesInFocus,
@@ -74,13 +76,29 @@ export default function Dailies({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showDailyMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowDailyMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showDailyMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowDailyMenu,
+  //   },
+  // };
 
   const handleSetDailiesInFocus = (item) => {
     handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
@@ -91,19 +109,19 @@ export default function Dailies({
     return () => {};
   }, [dailiesInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widgetProps={widgetProps}
+  //       widget={widget}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -193,7 +211,7 @@ export default function Dailies({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

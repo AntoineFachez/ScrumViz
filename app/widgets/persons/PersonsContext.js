@@ -5,12 +5,13 @@ import AppContext from '../../../context/AppContext';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { persons } from './mockPersons';
+import { persons, generateMockPerson } from './mockPersons';
 
 const PersonsContext = createContext();
 
 export const PersonsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayPersons, setDisplayPersons] = useState(persons);
@@ -36,13 +37,16 @@ export const PersonsProvider = ({ children }) => {
   useEffect(() => {
     setSelectedPersons(
       displayPersons.filter((person) =>
-        person.person_name.toLowerCase().includes(searchTerm.toLowerCase())
+        person.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
 
     return () => {};
   }, [searchTerm]);
   useEffect(() => {
+    const mockPersons = persons.map(generateMockPerson);
+    // console.log(JSON.stringify(mockPersons, null, 2));
+
     setSelectedPersons(displayPersons);
 
     return () => {};
@@ -50,6 +54,8 @@ export const PersonsProvider = ({ children }) => {
   return (
     <PersonsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displayPersons,

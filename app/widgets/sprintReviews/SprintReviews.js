@@ -36,6 +36,8 @@ export default function SprintReviews({
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprintReviews,
     setDisplaySprintReviews,
     selectedSprintReviews,
@@ -71,16 +73,32 @@ export default function SprintReviews({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showSprinReviewtMenu,
-      widgetProps: widgetProps,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
-    functions: {
-      handleShowMenu: setShowSprinReviewtMenu,
-    },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: {
+  //     showMenu: showSprinReviewtMenu,
+  //     widgetProps: widgetProps,
+  //   },
+  //   functions: {
+  //     handleShowMenu: setShowSprinReviewtMenu,
+  //   },
+  // };
 
   const handleSetSprintReviewInFocus = (item) => {
     handleSetItemInFocus(setSprintReviewInFocus, item, setLatestItemInFocus);
@@ -110,19 +128,19 @@ export default function SprintReviews({
     setIsFiltered(false);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -224,7 +242,7 @@ export default function SprintReviews({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

@@ -25,6 +25,8 @@ import { DefaultValuesProvider } from '@/context/DefaultValuesContext';
 import { DefaultPromptsProvider } from './widgets/defaultPrompts/DefaultPromptsContext';
 import { InFocusProvider } from '@/context/InFocusContext';
 import { ProductsProvider } from './widgets/products/ProductsContext';
+import { ImageDropZoneProvider } from './widgets/imageDropZone/ImageDropZoneContext';
+import { PersonsProvider } from './widgets/persons/PersonsContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -80,37 +82,41 @@ export default function RootLayout({ children }) {
                   <UIProvider>
                     <SearchProvider>
                       <NavBarProvider>
-                        <ProductsProvider>
-                          <TeamMembersProvider>
-                            <UserStoriesProvider>
-                              <SprintsProvider>
-                                <TimeStampsProvider>
-                                  <ScrumTeamsProvider>
-                                    <BackLogsProvider>
-                                      <DailiesProvider>
-                                        <SprintBackLogsProvider>
-                                          <SprintReviewProvider>
-                                            <SprintPlanningsProvider>
-                                              <SprintRetrospectivesProvider>
-                                                <ScrumManagerProvider>
-                                                  <DefaultPromptsProvider>
-                                                    <ChatsProvider>
-                                                      {children}
-                                                    </ChatsProvider>
-                                                  </DefaultPromptsProvider>
-                                                </ScrumManagerProvider>
-                                              </SprintRetrospectivesProvider>
-                                            </SprintPlanningsProvider>
-                                          </SprintReviewProvider>
-                                        </SprintBackLogsProvider>
-                                      </DailiesProvider>
-                                    </BackLogsProvider>
-                                  </ScrumTeamsProvider>
-                                </TimeStampsProvider>
-                              </SprintsProvider>
-                            </UserStoriesProvider>
-                          </TeamMembersProvider>
-                        </ProductsProvider>
+                        <ImageDropZoneProvider>
+                          <PersonsProvider>
+                            <ProductsProvider>
+                              <TeamMembersProvider>
+                                <UserStoriesProvider>
+                                  <SprintsProvider>
+                                    <TimeStampsProvider>
+                                      <ScrumTeamsProvider>
+                                        <BackLogsProvider>
+                                          <DailiesProvider>
+                                            <SprintBackLogsProvider>
+                                              <SprintReviewProvider>
+                                                <SprintPlanningsProvider>
+                                                  <SprintRetrospectivesProvider>
+                                                    <ScrumManagerProvider>
+                                                      <DefaultPromptsProvider>
+                                                        <ChatsProvider>
+                                                          {children}
+                                                        </ChatsProvider>
+                                                      </DefaultPromptsProvider>
+                                                    </ScrumManagerProvider>
+                                                  </SprintRetrospectivesProvider>
+                                                </SprintPlanningsProvider>
+                                              </SprintReviewProvider>
+                                            </SprintBackLogsProvider>
+                                          </DailiesProvider>
+                                        </BackLogsProvider>
+                                      </ScrumTeamsProvider>
+                                    </TimeStampsProvider>
+                                  </SprintsProvider>
+                                </UserStoriesProvider>
+                              </TeamMembersProvider>
+                            </ProductsProvider>
+                          </PersonsProvider>
+                        </ImageDropZoneProvider>
                       </NavBarProvider>
                     </SearchProvider>
                   </UIProvider>

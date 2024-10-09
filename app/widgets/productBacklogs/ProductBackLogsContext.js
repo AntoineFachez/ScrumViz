@@ -7,6 +7,7 @@ import { productBackLogs } from './mockProductBackLogs';
 const BackLogsContext = createContext();
 
 export const BackLogsProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displayProductBackLogs, setDisplayProductBackLogs] =
     useState(productBackLogs);
@@ -45,6 +46,8 @@ export const BackLogsProvider = ({ children }) => {
   return (
     <BackLogsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displayProductBackLogs,

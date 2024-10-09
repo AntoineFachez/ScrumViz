@@ -39,6 +39,25 @@ export default function NavBarWidget({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
   const newItem = (

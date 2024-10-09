@@ -48,6 +48,8 @@ export default function ChatsWidget({
   const {
     isLoading,
     setIsLoading,
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
 
@@ -120,35 +122,66 @@ export default function ChatsWidget({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
-
+    tooltipTitle_newItem: 'Create new Chat',
+    onClickNewItem: () => handleNewChat(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showChatsMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowChatsMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showChatsMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowChatsMenu,
+  //   },
+  // };
   const handleSetChatInFocus = (item) => {
     handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
   };
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
-
+  const quickMenu = (
+    <Box
+      className="widget"
+      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
+    >
+      <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>
+        <IconButton
+          sx={styled?.iconButton?.action}
+          onClick={widgetProps.onClickNewItem}
+        >
+          <Add />
+        </IconButton>
+      </Tooltip>
+    </Box>
+  );
   const menu = (
     <>
       <WidgetMenu
-        widget={widget}
+        // widget={widget}
         widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
+        // menuProps={menuProps}
+        // setSelectedWidgetContext={setSelectedWidgetContext}
+        // handleSelectWidgetContext={handleSelectWidgetContext}
+        // handleSearchTermChange={handleSearchTermChange}
+        // searchTerm={searchTerm}
       />
     </>
   );
@@ -233,7 +266,7 @@ export default function ChatsWidget({
         flexFlow: 'column',
       }}
     >
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+      {/* <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
         <Tooltip title="Create new Chat" placement="top" arrow>
           <IconButton
             sx={styled?.iconButton?.action}
@@ -242,7 +275,7 @@ export default function ChatsWidget({
             <Add />
           </IconButton>
         </Tooltip>
-      </Box>
+      </Box> */}
       <MultiItems
         widget={widget}
         uiContext={uiContext}
@@ -350,7 +383,7 @@ export default function ChatsWidget({
         // contextToolBar={contextToolBar}
         // iconButton={<Chat />}
         // onClick={handleSetAppContext}
-        menu={menu}
+        // menu={menu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
         // vertical={defaultPromptSelector}

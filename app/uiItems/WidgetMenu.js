@@ -75,15 +75,15 @@ export default function WidgetMenu({
           tooltip={buttonData.state}
           key={buttonData.state} // Use state as the key
           sx={
-            selectedWidgetContext === buttonData.state
+            widgetProps.selectedWidgetContext === buttonData.state
               ? styled?.widgetMenuButton?.active
               : styled?.widgetMenuButton?.inactive
           }
           onClick={() =>
-            handleSelectWidgetContext(
-              widget,
+            widgetProps.handleSelectWidgetContext(
+              widgetProps.widget,
               widgetProps,
-              setSelectedWidgetContext,
+              widgetProps.setSelectedWidgetContext,
               buttonData.state
             )
           }
@@ -102,12 +102,12 @@ export default function WidgetMenu({
         sx={styled?.widgetMenuTextField}
         size="small"
         variant={styled?.widgetMenuTextField?.variant}
-        value={searchString}
-        onChange={handleSearchTermChange}
+        value={widgetProps.searchString}
+        onChange={widgetProps.handleSearchTermChange}
       />
       <IconButton
         tooltip={'search'}
-        onClick={handleSearch}
+        onClick={widgetProps.handleSearch}
         // sx={styled.widgetSettingButton?.inactive}
       >
         <SearchOutlined />
@@ -117,7 +117,7 @@ export default function WidgetMenu({
   return (
     <>
       <Menu
-        menuProps={menuProps}
+        menuProps={widgetProps?.menuProps}
         verticalArray={renderedButtons(buttonData)}
         horizontalArray={fieldsArray}
         contextSelector={<></>}

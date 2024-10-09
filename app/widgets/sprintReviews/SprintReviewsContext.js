@@ -10,6 +10,7 @@ import { sprintReviews } from './mockSprintReviews';
 const SprintReviewContext = createContext();
 
 export const SprintReviewProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [displaySprintReviews, setDisplaySprintReviews] =
     useState(sprintReviews);
@@ -75,6 +76,8 @@ export const SprintReviewProvider = ({ children }) => {
   return (
     <SprintReviewContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displaySprintReviews,
         setDisplaySprintReviews,
         selectedSprintReviews,

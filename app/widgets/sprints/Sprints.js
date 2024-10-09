@@ -37,6 +37,8 @@ export default function Sprints({
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprints,
     setDisplaySprints,
     selectedSprints,
@@ -70,13 +72,29 @@ export default function Sprints({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showSprintMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowSprintMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showSprintMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowSprintMenu,
+  //   },
+  // };
 
   const handleSetSprintInFocus = (item) => {
     handleSetItemInFocus(setSprintInFocus, item, setLatestItemInFocus);
@@ -104,19 +122,19 @@ export default function Sprints({
     return () => {};
   }, [sprintInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -215,7 +233,7 @@ export default function Sprints({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
