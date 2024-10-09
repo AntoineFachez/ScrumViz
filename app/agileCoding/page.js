@@ -39,6 +39,8 @@ export default function AgileCodingPage({
   const collection = 'agileCoding';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     iconButton: <Code />,
     collection: collection,
     uiContext: uiContext,

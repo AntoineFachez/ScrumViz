@@ -18,7 +18,11 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
@@ -73,6 +77,8 @@ export default function ScrumTeam({
   const collection = 'scrumTeams';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <Group />,
     collection: collection,
@@ -96,20 +102,14 @@ export default function ScrumTeam({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleSearchTermChange: () =>
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  // const menuProps = {
-  //   states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowTeamMembersMenu,
-  //   },
-  // };
   const handleSetScrumTeamInFocus = (item) => {
     handleSetItemInFocus(setScrumTeamInFocus, item, setLatestItemInFocus);
 
@@ -124,13 +124,13 @@ export default function ScrumTeam({
     //   item: universityInFocus,
     // });
   };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
+  // const handleSearchTermChange = (e) => {
+  //   e.preventDefault();
 
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-    setIsFiltered(true);
-  };
+  //   setSearchTerm(e.target.value);
+  //   setActiveSearchTerm(e.target.value);
+  //   setIsFiltered(true);
+  // };
 
   const handleClickCustomArrayItem = (e) => {
     const found = displayTeamMembers.filter(
@@ -147,19 +147,6 @@ export default function ScrumTeam({
     return () => {};
   }, [scrumTeamInFocus]);
 
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       widget={widget}
-  //       widgetProps={widgetProps}
-  //       menuProps={menuProps}
-  //       setSelectedWidgetContext={setSelectedWidgetContext}
-  //       handleSelectWidgetContext={handleSelectWidgetContext}
-  //       handleSearchTermChange={handleSearchTermChange}
-  //       searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
   const newItem = (
     <Box
       className="widget"
@@ -262,7 +249,6 @@ export default function ScrumTeam({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

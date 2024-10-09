@@ -77,6 +77,8 @@ export default function UserStory({
   const collection = 'userStories';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <Assignment />,
     collection: collection,
@@ -101,19 +103,13 @@ export default function UserStory({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
-  // const menuProps = {
-  //   states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowUserStoryMenu,
-  //   },
-  // };
   const handleSetUserStoryInFocus = (item) => {
     handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
   };
@@ -125,28 +121,6 @@ export default function UserStory({
 
     return () => {};
   }, [userStoryInFocus]);
-
-  const quickMenu = (
-    <Box
-      className="widget"
-      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
-    >
-      <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>
-        <IconButton
-          sx={styled?.iconButton?.action}
-          onClick={widgetProps.handleNewItem}
-        >
-          <Add />
-        </IconButton>
-      </Tooltip>
-    </Box>
-  );
-
-  // const menu = (
-  //   <>
-  //     <WidgetMenu widgetProps={widgetProps} />
-  //   </>
-  // );
 
   const soloWidget = (
     <Box
@@ -263,8 +237,6 @@ export default function UserStory({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        quickMenu={quickMenu}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

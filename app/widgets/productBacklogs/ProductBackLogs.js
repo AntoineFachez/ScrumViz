@@ -71,6 +71,8 @@ export default function Products({
   };
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     widget: widget,
     uiGridMapContext: uiGridMapContext,
     iconButton: <AddToQueue />,
@@ -96,23 +98,14 @@ export default function Products({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  // const menuProps = {
-  //   states: {
-  //     showMenu: showBackLogItemMenu,
-  //     widgetProps: widgetProps,
-  //   },
-  //   functions: {
-  //     handleShowMenu: setShowBackLogItemMenu,
-  //   },
-  // };
   const handleSetProductBackLogInFocus = (item) => {
     handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
 
@@ -136,34 +129,7 @@ export default function Products({
     )[0];
     setUserStoryInFocus(found);
   };
-  const quickMenu = (
-    <Box
-      className="widget"
-      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
-    >
-      <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>
-        <IconButton
-          sx={styled?.iconButton?.action}
-          onClick={widgetProps.onClickNewItem}
-        >
-          <Add />
-        </IconButton>
-      </Tooltip>
-    </Box>
-  );
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       // widget={widget}
-  //       widgetProps={widgetProps}
-  //       // menuProps={menuProps}
-  //       // setSelectedWidgetContext={setSelectedWidgetContext}
-  //       // handleSelectWidgetContext={handleSelectWidgetContext}
-  //       // handleSearchTermChange={handleSearchTermChange}
-  //       // searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
+
   const newItem = (
     <Box
       className="widget"
@@ -255,8 +221,6 @@ export default function Products({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        quickMenu={quickMenu}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

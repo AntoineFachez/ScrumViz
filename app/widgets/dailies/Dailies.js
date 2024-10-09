@@ -19,7 +19,11 @@ import StandInTable from '@/app/components/table/StandInTable';
 import SprintsContext from '../sprints/SprintsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
 
@@ -54,7 +58,6 @@ export default function Dailies({
     setIsFiltered,
     handleResetFiltered,
     // handleSetDailiesInFocus,
-    handleSearchTermChange,
   } = useContext(DailiesContext);
   const { handleFindSprints } = useContext(SprintsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -62,6 +65,8 @@ export default function Dailies({
   const collection = 'dailies';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <DateRange />,
     collection: collection,
@@ -85,11 +90,11 @@ export default function Dailies({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleSearchTermChange: () =>
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
