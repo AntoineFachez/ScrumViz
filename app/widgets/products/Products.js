@@ -17,7 +17,11 @@ import SingleItem from '@/app/uiItems/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 
 import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
@@ -36,6 +40,8 @@ export default function Products({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayProducts,
@@ -76,16 +82,31 @@ export default function Products({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showProductsItemMenu,
-      widgetProps: widgetProps,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
-    functions: {
-      handleShowMenu: setShowProductsItemMenu,
-    },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+  // const menuProps = {
+  //   states: {
+  //     showMenu: showProductsItemMenu,
+  //     widgetProps: widgetProps,
+  //   },
+  //   functions: {
+  //     handleShowMenu: setShowProductsItemMenu,
+  //   },
+  // };
   const handleSetProductInFocus = (item) => {
     console.log('handleSetProductInFocus', item);
 
@@ -96,12 +117,7 @@ export default function Products({
     // );
     // setSelectedUserStories(found);
   };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
 
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-  };
   const handleClickCustomArrayItem = (e) => {
     const found = displayProducts.filter(
       (story) => story.id === e.userStory_id
@@ -109,19 +125,19 @@ export default function Products({
     setUserStoryInFocus(found);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -213,7 +229,7 @@ export default function Products({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

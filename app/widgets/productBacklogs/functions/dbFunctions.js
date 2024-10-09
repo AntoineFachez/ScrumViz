@@ -1,31 +1,19 @@
 import { v4 as uuidv4 } from 'uuid';
 import { submitToFirestore } from '@/firebase/helperFunctions';
 
-export const handleNewUserStory = async (setShowDialog) => {
-  setShowDialog(true);
-
-  // submitToFirestore({
-  //   //firestoreContext, data, setItemInFocus, setter, setSetter
-  //   dataPack: {
-  //     firestoreContext: widgetProps.collection,
-  //     data: userStoryInFocus,
-  //     setItemInFocus: setUserStoryInFocus,
-  //     arrayToPushOnTo: displayUserStories,
-  //     // setDisplayChats,
-  //     // uploadFileUrl: data.uploadFileUrl || "",
-  //   },
-  // }).then((tempArray) => {
-  //   setDisplayUserStories(tempArray);
-  // });
-};
-
-export const handleStoreUserStrory = async (data) => {
+export const handleNewProductBackLog = async (
+  widgetProps,
+  setChatInFocus,
+  displayChats,
+  setDisplayChats
+) => {};
+export const handleProductBackLog = async (data) => {
   const parentCollectionName = collection;
   let queryField;
 
   let searchString;
-  searchString = data?.id;
-  queryField = 'id';
+  searchString = data?.chat_id;
+  queryField = 'chat_id';
 
   const parentDoc = await getDocIdSByValueSearch(
     parentCollectionName,

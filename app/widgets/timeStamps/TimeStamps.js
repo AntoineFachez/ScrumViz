@@ -39,6 +39,8 @@ export default function TimeStamps({
     useState(startUpWidgetLayout);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displayTimeStamps,
     setDisplayTimeStamps,
     selectedTimeStamps,
@@ -69,13 +71,29 @@ export default function TimeStamps({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowBackLogItemMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showBackLogItemMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowBackLogItemMenu,
+  //   },
+  // };
 
   const handleSetTimeStampInFocus = (item) => {
     handleSetItemInFocus(setTimeStampInFocus, item, setLatestItemInFocus);
@@ -105,19 +123,19 @@ export default function TimeStamps({
       variant={styled?.textBody?.variant}
     ></Typography>
   );
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -217,7 +235,7 @@ export default function TimeStamps({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

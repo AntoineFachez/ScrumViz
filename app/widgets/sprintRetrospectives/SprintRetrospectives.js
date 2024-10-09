@@ -41,6 +41,8 @@ export default function SprintRetrospectives({
     useContext(UIContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     selectedSprintRetrospectives,
     setSelectedSprintRetrospectives,
     isFiltered,
@@ -70,13 +72,29 @@ export default function SprintRetrospectives({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowSprinReviewtMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowSprinReviewtMenu,
+  //   },
+  // };
   const handleSetSprintRetrospectiveInFocus = (item) => {
     handleSetItemInFocus(
       setSprintRetrospectiveInFocus,
@@ -103,19 +121,19 @@ export default function SprintRetrospectives({
       SprintRetrospective New Item
     </Box>
   );
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const soloWidget = (
     <Box
       className="widget"
@@ -203,7 +221,7 @@ export default function SprintRetrospectives({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

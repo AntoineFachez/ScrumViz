@@ -14,7 +14,7 @@ export const DefaultPromptsProvider = ({ children }) => {
   const { appContext, setAppContext } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
-
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayDefaultPrompts, setDisplayDefaultPrompts] =
@@ -66,6 +66,8 @@ export const DefaultPromptsProvider = ({ children }) => {
   return (
     <DefaultPromptsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
 

@@ -10,6 +10,7 @@ export const handleSelectWidgetContext = (
   updateWidgetContext(widget, widgetProps, context);
   return;
 };
+
 export const handleSetItemInFocus = (
   inFocusSetter,
   item,
@@ -17,4 +18,14 @@ export const handleSetItemInFocus = (
 ) => {
   inFocusSetter(item);
   setLatestItemInFocus(item);
+};
+export const handleSearchTermChange = (
+  e,
+  setSearchTerm,
+  setActiveSearchTerm
+) => {
+  e.preventDefault();
+
+  setSearchTerm(e.target.value);
+  setActiveSearchTerm(e.target.value);
 };

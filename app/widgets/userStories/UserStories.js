@@ -2,32 +2,36 @@
 import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-
-import UIContext from '@/context/UIContext';
-
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import {
   Add,
   Assignment,
   StoreMallDirectoryOutlined,
 } from '@mui/icons-material';
+
 import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
+import InFocusContext from '@/context/InFocusContext';
+import SearchContext from '@/context/SearchContext';
+import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
+import UIContext from '@/context/UIContext';
+import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
+
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/uiItems/MultiItems';
-import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
-import SearchContext from '@/context/SearchContext';
 import SingleItem from '@/app/uiItems/SingleItem';
-import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
-import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import NewItem from '@/app/uiItems/NewItem';
 
 import { scheme, singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import NewItem from '@/app/uiItems/NewItem';
-import { handleNewUserStory } from './functions/dbFunctions';
-import InFocusContext from '@/context/InFocusContext';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
+// import { handleNewUserStory } from './functions/dbFunctions';
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function UserStory({
   widget,
@@ -38,11 +42,15 @@ export default function UserStory({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
+  const {} = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
+    showUserStoryMenu,
+    setShowUserStoryMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayUserStories,
@@ -56,7 +64,8 @@ export default function UserStory({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSearchTermChange,
+
+    handleNewUserStory,
     // handleResetFiltered,
     // handleSetUserStoryInFocus,
     // handleSelectWidgetContext,
@@ -77,18 +86,34 @@ export default function UserStory({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
-
+    tooltipTitle_newItem: 'Create new User Story',
+    handleNewItem: () => handleNewUserStory(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowUserStoryMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+  // const menuProps = {
+  //   states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowUserStoryMenu,
+  //   },
+  // };
   const handleSetUserStoryInFocus = (item) => {
     handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
   };
@@ -101,19 +126,27 @@ export default function UserStory({
     return () => {};
   }, [userStoryInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
+  const quickMenu = (
+    <Box
+      className="widget"
+      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
+    >
+      <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>
+        <IconButton
+          sx={styled?.iconButton?.action}
+          onClick={widgetProps.handleNewItem}
+        >
+          <Add />
+        </IconButton>
+      </Tooltip>
+    </Box>
   );
+
+  // const menu = (
+  //   <>
+  //     <WidgetMenu widgetProps={widgetProps} />
+  //   </>
+  // );
 
   const soloWidget = (
     <Box
@@ -167,24 +200,6 @@ export default function UserStory({
       }}
     >
       {' '}
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-        <Tooltip title="Create new default Prompt" placement="top" arrow>
-          <IconButton
-            sx={styled?.iconButton?.action}
-            onClick={() =>
-              handleNewUserStory(
-                widgetProps,
-                userStoryInFocus,
-                setUserStoryInFocus,
-                displayUserStories,
-                setDisplayUserStories
-              )
-            }
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </Box>
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
@@ -248,7 +263,8 @@ export default function UserStory({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        quickMenu={quickMenu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

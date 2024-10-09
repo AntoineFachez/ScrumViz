@@ -2,9 +2,8 @@ import { v4 as uuidv4 } from 'uuid';
 export const userStories = [
   {
     id: '9a138bf7-0cdb-4e7d-92fe-f14c3897140b',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Task Management',
-    user_story:
+    userStory_short:
       'As a user, I want to manage my tasks so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
     writtenByTeamMember_id: '858d8477-4b06-4cf2-b335-d66bbb37a559',
@@ -13,9 +12,8 @@ export const userStories = [
   },
   {
     id: '8a09830f-8e46-438c-b4cc-7432aa8de12b',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'User Registration',
-    user_story:
+    userStory_short:
       'As a user, I want a user registration so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -25,9 +23,8 @@ export const userStories = [
   },
   {
     id: 'a311cd75-8722-487c-9ad4-7b6395a5ad41',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Social Media Integration',
-    user_story:
+    userStory_short:
       'As a user, I want a social media integration so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -37,9 +34,8 @@ export const userStories = [
   },
   {
     id: '755d041f-a4fb-48e2-8f14-315a51b58f9a',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Kanban Board',
-    user_story:
+    userStory_short:
       'As a user, I want a Kanban Board so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -49,9 +45,8 @@ export const userStories = [
   },
   {
     id: '3207d0b9-730d-4282-b09c-8c42c55b918f',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Gantt Chart',
-    user_story:
+    userStory_short:
       'As a user, I want a Gantt Chart so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -61,9 +56,8 @@ export const userStories = [
   },
   {
     id: '24054d06-3f60-4f1e-ba7c-644ee8c566a3',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Time Tracking',
-    user_story:
+    userStory_short:
       'As a user, I want a Time Tracking so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -73,9 +67,8 @@ export const userStories = [
   },
   {
     id: '41a39e0f-7726-4499-b649-7e60a928b99d',
-    productBacklog_id: 'a7c5d8e4-25b4-4e35-b37b-d1f8e0092f0e',
     userStory_name: 'Reporting and Analytics',
-    user_story:
+    userStory_short:
       'As a user, I want Reporting and Analytics so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -85,9 +78,8 @@ export const userStories = [
   },
   {
     id: '9b950fa9-27a1-4f26-b338-a817abf3e3b3',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Payment Gateway Integration',
-    user_story:
+    userStory_short:
       'As a customer, I want a payment gateway integration so that I can purchase products easily.',
     acceptanceCriteria: [
       {
@@ -122,9 +114,8 @@ export const userStories = [
   },
   {
     id: 'bd37e325-52f9-48f4-ae61-5d6c107e161e',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Shopping Cart',
-    user_story:
+    userStory_short:
       'As a customer, I want a shopping cart so that I can manage my purchases.',
     acceptanceCriteria: [
       {
@@ -159,7 +150,6 @@ export const userStories = [
   },
   {
     id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'User Profiles',
     userStory:
       'As a user, I want a user registration so that I can achieve my goals.',
@@ -171,9 +161,8 @@ export const userStories = [
   },
   {
     id: '68a531dd-eaaf-4b55-a7b3-9577fd3975b7',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Search Functionality',
-    user_story:
+    userStory_short:
       "As a customer, I want a search functionality so that I can find what I'm looking for.",
     acceptanceCriteria: [
       {
@@ -208,9 +197,8 @@ export const userStories = [
   },
   {
     id: 'ccd29397-8de7-4a5a-beba-54e5fc6dabba',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Order Tracking',
-    user_story:
+    userStory_short:
       'As a customer, I want an order tracking so that I can manage my purchases.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -220,9 +208,8 @@ export const userStories = [
   },
   {
     id: 'bf27910d-1cbf-4679-931b-ea3908df2b7c',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'New Website Design',
-    user_story:
+    userStory_short:
       'As a user, I want a new website design so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -232,9 +219,8 @@ export const userStories = [
   },
   {
     id: '3415f65e-a2ca-401d-954b-0e8df88dddf6',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Login Functionality',
-    user_story:
+    userStory_short:
       'As a user, I want a login functionality so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -244,9 +230,8 @@ export const userStories = [
   },
   {
     id: '3eaef6a1-73e4-4df1-8899-79c4f04788a5',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'User Feedback Collection',
-    user_story:
+    userStory_short:
       'As a user, I want a user feedback collection so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -256,9 +241,8 @@ export const userStories = [
   },
   {
     id: 'af7750fd-a771-4ef4-b5f6-e9396b47e7e5',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Admin Dashboard',
-    user_story:
+    userStory_short:
       'As a administrator, I want a admin dashboard so that I can achieve my goals.',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -268,9 +252,8 @@ export const userStories = [
   },
   {
     id: '873a5f7a-cd47-4102-ad73-84f51ef934ed',
-    productBacklog_id: '1f4b2e3c-a68d-4c1f-8a4e-0d315a983b6c',
     userStory_name: 'Product Catalog',
-    user_story:
+    userStory_short:
       "As a customer, I want a product catalog so that I can find what I'm looking for.",
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -280,9 +263,8 @@ export const userStories = [
   },
   {
     id: 'f6ae82a0-6588-4675-b209-742da8cc4f71',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'User Profiles',
-    user_story: 'Allow users to create profiles and share information.',
+    userStory_short: 'Allow users to create profiles and share information.',
     writtenByTeamMember_id: 'ab8ac605-7ac5-49fd-a0d9-4b8ce11f7da5',
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -290,9 +272,8 @@ export const userStories = [
   },
   {
     id: '62f05723-171c-4df2-9067-e332f94dba43',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'News Feed',
-    user_story: 'Display posts from friends and followed accounts.',
+    userStory_short: 'Display posts from friends and followed accounts.',
     writtenByTeamMember_id: null,
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -300,9 +281,8 @@ export const userStories = [
   },
   {
     id: '277a9d28-9ef3-403e-8f89-aae931492c29',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Messaging',
-    user_story: 'Enable users to send private messages to each other.',
+    userStory_short: 'Enable users to send private messages to each other.',
     writtenByTeamMember_id: null,
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -310,9 +290,9 @@ export const userStories = [
   },
   {
     id: 'fb65e361-032f-470a-8f3c-e9390861b5a5',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Groups and Communities',
-    user_story: 'Allow users to create and join groups based on interests.',
+    userStory_short:
+      'Allow users to create and join groups based on interests.',
     writtenByTeamMember_id: null,
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 
@@ -320,9 +300,8 @@ export const userStories = [
   },
   {
     id: '538d899e-2673-4b53-b50c-5ae065d6ba1c',
-    productBacklog_id: 'e072f3a1-c28c-40e5-a7de-0b97a2e416f7',
     userStory_name: 'Live Streaming',
-    user_story: 'Implement live video streaming functionality.',
+    userStory_short: 'Implement live video streaming functionality.',
     writtenByTeamMember_id: null,
     acceptanceCriteria: [{ id: uuidv4(), acceptanceCriteria_description: '' }],
 

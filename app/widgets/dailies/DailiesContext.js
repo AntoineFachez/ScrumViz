@@ -7,6 +7,7 @@ import { dailies } from './mockDailes';
 const DailiesContext = createContext();
 
 export const DailiesProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displayDailies, setDisplayDailies] = useState(dailies);
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailiesInFocus, setDailiesInFocus] = useState(false);
@@ -42,6 +43,8 @@ export const DailiesProvider = ({ children }) => {
   return (
     <DailiesContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displayDailies,
         setDisplayDailies,
         selectedDailies,

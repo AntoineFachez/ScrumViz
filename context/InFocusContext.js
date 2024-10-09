@@ -2,7 +2,6 @@
 import React from 'react';
 import { createContext, useContext, useState, useEffect } from 'react';
 import DefaultValuesContext from './DefaultValuesContext';
-import { createUUID } from '@/utils/utils';
 
 const InFocusContext = createContext();
 
@@ -13,11 +12,7 @@ export const InFocusProvider = ({ children }) => {
 
     return () => {};
   }, [latestItemInFocus]);
-  useEffect(() => {
-    const uuids = createUUID(10);
 
-    return () => {};
-  }, []);
   return (
     <InFocusContext.Provider
       value={{

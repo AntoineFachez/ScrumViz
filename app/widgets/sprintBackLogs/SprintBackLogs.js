@@ -41,6 +41,8 @@ export default function SprintBackLogs({
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprintBackLogs,
     setDisplaySprintBackLogs,
     selectedSprintBackLogs,
@@ -76,16 +78,32 @@ export default function SprintBackLogs({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showBackLogItemMenu,
-      widgetProps: widgetProps,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
-    functions: {
-      handleShowMenu: setShowBackLogItemMenu,
-    },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: {
+  //     showMenu: showBackLogItemMenu,
+  //     widgetProps: widgetProps,
+  //   },
+  //   functions: {
+  //     handleShowMenu: setShowBackLogItemMenu,
+  //   },
+  // };
 
   const handleSetBackLogInFocus = (item) => {
     handleSetItemInFocus(setSprintBackLogInFocus, item, setLatestItemInFocus);
@@ -115,19 +133,19 @@ export default function SprintBackLogs({
     setActiveSearchTerm(e.target.value);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -226,7 +244,7 @@ export default function SprintBackLogs({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

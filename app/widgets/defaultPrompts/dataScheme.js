@@ -16,7 +16,7 @@ export const fieldsAccordion = {
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
-export const singleItemSchemePrompt = {
+export const singleItemScheme = {
   id: 'id',
   title: 'title',
   subTitle: 'text',

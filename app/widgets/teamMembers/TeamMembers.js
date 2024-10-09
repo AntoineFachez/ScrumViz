@@ -39,6 +39,8 @@ export default function TeamMembers({
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displayTeamMembers,
     setDisplayTeamMembers,
     selectedTeamMembers,
@@ -75,13 +77,29 @@ export default function TeamMembers({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowTeamMembersMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: () =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
+  //   functions: {
+  //     handleShowMenu: setShowTeamMembersMenu,
+  //   },
+  // };
 
   const handleSetTeamMemberInFocus = (item) => {
     handleSetItemInFocus(setTeamMemberInFocus, item, setLatestItemInFocus);
@@ -103,19 +121,19 @@ export default function TeamMembers({
     return () => {};
   }, [teamMemberInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       widget={widget}
+  //       widgetProps={widgetProps}
+  //       menuProps={menuProps}
+  //       setSelectedWidgetContext={setSelectedWidgetContext}
+  //       handleSelectWidgetContext={handleSelectWidgetContext}
+  //       handleSearchTermChange={handleSearchTermChange}
+  //       searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -214,7 +232,7 @@ export default function TeamMembers({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

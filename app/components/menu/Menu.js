@@ -17,28 +17,7 @@ export default function Menu({
 }) {
   return (
     <>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          sx={{
-            ...styled?.textBody,
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-          variant={styled?.textBody?.variant}
-        >
-          {menuProps?.states?.widgetProps?.collection}
-        </Typography>
-      </Box>
-
-      {menuProps.states.showMenu && isOpen ? (
+      {menuProps?.states?.showMenu && isOpen ? (
         <>
           {' '}
           <Box className="widgetMenuExpand" sx={styled?.widgetMenuExpand}>

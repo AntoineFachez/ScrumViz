@@ -7,6 +7,7 @@ import { scrumTeamMembers } from './mockScrumTeamMembers';
 const TeamMembersContext = createContext();
 
 export const TeamMembersProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displayTeamMembers, setDisplayTeamMembers] =
     useState(scrumTeamMembers);
   const [selectedTeamMembers, setSelectedTeamMembers] =
@@ -32,6 +33,8 @@ export const TeamMembersProvider = ({ children }) => {
   return (
     <TeamMembersContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displayTeamMembers,
         setDisplayTeamMembers,
         selectedTeamMembers,

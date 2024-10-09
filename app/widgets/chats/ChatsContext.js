@@ -27,6 +27,7 @@ export const ChatsProvider = ({ children }) => {
     DefaultPromptsContext
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
 
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
@@ -184,6 +185,8 @@ export const ChatsProvider = ({ children }) => {
       value={{
         isLoading,
         setIsLoading,
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         // selectedWidgetContext,
         // setSelectedWidgetContext,
 

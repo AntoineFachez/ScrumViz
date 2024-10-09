@@ -1,26 +1,28 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import { Add, AddToQueue, BackupOutlined } from '@mui/icons-material';
 
+import AppContext from '@/context/AppContext';
+import BackLogsContext from './ProductBackLogsContext';
+import InFocusContext from '@/context/InFocusContext';
 import UIContext from '@/context/UIContext';
+import ProductsContext from '../products/ProductsContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import SearchContext from '@/context/SearchContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '../../uiItems/WidgetMenu';
-import { AddToQueue, BackupOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import BackLogsContext from './ProductBackLogsContext';
 import SingleItem from '@/app/uiItems/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
-import SearchContext from '@/context/SearchContext';
-import { singleItemScheme } from './dataScheme';
-import UserStoriesContext from '../userStories/UserStoriesContext';
 
+import { singleItemScheme } from './dataScheme';
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
-import ProductsContext from '../products/ProductsContext';
+import { handleNewProductBackLog } from './functions/dbFunctions';
+
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function Products({
   widget,
@@ -36,6 +38,8 @@ export default function Products({
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayProductBackLogs,
@@ -59,9 +63,15 @@ export default function Products({
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'productBackLogs';
+  const handleSearchTermChange = (e) => {
+    e.preventDefault();
 
+    setSearchTerm(e.target.value);
+    setActiveSearchTerm(e.target.value);
+  };
   const widgetProps = {
     appContext: appContext,
+    widget: widget,
     uiGridMapContext: uiGridMapContext,
     iconButton: <AddToQueue />,
     collection: collection,
@@ -71,59 +81,89 @@ export default function Products({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
-
+    tooltipTitle_newItem: 'Create new Product BackLog',
+    onClickNewItem: () => handleNewProductBackLog(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showBackLogItemMenu,
-      widgetProps: widgetProps,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
-    functions: {
-      handleShowMenu: setShowBackLogItemMenu,
-    },
+    searchTerm: searchTerm,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
+  // const menuProps = {
+  //   states: {
+  //     showMenu: showBackLogItemMenu,
+  //     widgetProps: widgetProps,
+  //   },
+  //   functions: {
+  //     handleShowMenu: setShowBackLogItemMenu,
+  //   },
+  // };
   const handleSetProductBackLogInFocus = (item) => {
     handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
 
-    const foundUserStory = displayUserStories.filter(
-      (story) => story.productBacklog_id === item.id
-    );
-    setSelectedUserStories(foundUserStory);
+    const foundUserStories = displayUserStories.filter((userStory) => {
+      return item.productBackLog_items.some(
+        (backLog_item) => backLog_item.userStory_id === userStory.id
+      );
+    });
+
+    setSelectedUserStories(foundUserStories);
+
     const foundProducts = displayProducts.filter(
-      (story) => story.id === item.product_id
+      (product) => product.id === item.productBackLog_id
     );
     setProductInFocus(foundProducts[0]);
   };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
 
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-  };
   const handleClickCustomArrayItem = (e) => {
     const found = displayUserStories.filter(
       (story) => story.id === e.userStory_id
     )[0];
     setUserStoryInFocus(found);
   };
-
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
+  const quickMenu = (
+    <Box
+      className="widget"
+      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
+    >
+      <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>
+        <IconButton
+          sx={styled?.iconButton?.action}
+          onClick={widgetProps.onClickNewItem}
+        >
+          <Add />
+        </IconButton>
+      </Tooltip>
+    </Box>
   );
+  // const menu = (
+  //   <>
+  //     <WidgetMenu
+  //       // widget={widget}
+  //       widgetProps={widgetProps}
+  //       // menuProps={menuProps}
+  //       // setSelectedWidgetContext={setSelectedWidgetContext}
+  //       // handleSelectWidgetContext={handleSelectWidgetContext}
+  //       // handleSearchTermChange={handleSearchTermChange}
+  //       // searchTerm={searchTerm}
+  //     />
+  //   </>
+  // );
   const newItem = (
     <Box
       className="widget"
@@ -215,7 +255,8 @@ export default function Products({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
+        quickMenu={quickMenu}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
