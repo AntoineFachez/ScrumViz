@@ -70,6 +70,8 @@ export default function SprintPlannings({
   const collection = 'sprintPlannings';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <Schedule />,
     collection: collection,
@@ -94,20 +96,13 @@ export default function SprintPlannings({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
-
-  // const menuProps = {
-  //   states: { showMenu: showSprintPlanningMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowSprintPlanningMenu,
-  //   },
-  // };
 
   const handleSetSprintPlanningInFocus = (item) => {
     handleSetItemInFocus(setSprintPlanningInFocus, item, setLatestItemInFocus);
@@ -145,34 +140,7 @@ export default function SprintPlannings({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const quickMenu = (
-    <Box
-      className="widget"
-      sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
-    >
-      <Tooltip title="Create new default Prompt" placement="top" arrow>
-        <IconButton
-          sx={styled?.iconButton?.action}
-          onClick={() => handleNewSprintPlanning()}
-        >
-          <Add />
-        </IconButton>
-      </Tooltip>
-    </Box>
-  );
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       widgetProps={widgetProps}
-  //       // widget={widget}
-  //       // menuProps={menuProps}
-  //       // setSelectedWidgetContext={setSelectedWidgetContext}
-  //       // handleSelectWidgetContext={handleSelectWidgetContext}
-  //       // handleSearchTermChange={handleSearchTermChange}
-  //       // searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
+
   const newItem = (
     <Box
       className="widget"
@@ -298,8 +266,6 @@ export default function SprintPlannings({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        quickMenu={quickMenu}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

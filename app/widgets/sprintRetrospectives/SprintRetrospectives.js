@@ -18,7 +18,11 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 import SprintRetrospectivesContext from './SprintRetrospectivesContext';
 import SingleItem from '@/app/uiItems/SingleItem';
 import { singleItemScheme } from './dataScheme';
@@ -51,13 +55,14 @@ export default function SprintRetrospectives({
     searchTerm,
     handleResetFiltered,
     // handleSetSprintRetrospectiveInFocus,
-    handleSearchTermChange,
   } = useContext(SprintRetrospectivesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'sprintRetrospectives';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <History />,
     collection: collection,
@@ -81,20 +86,14 @@ export default function SprintRetrospectives({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleSearchTermChange: () =>
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  // const menuProps = {
-  //   states: { showMenu: showSprinReviewtMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowSprinReviewtMenu,
-  //   },
-  // };
   const handleSetSprintRetrospectiveInFocus = (item) => {
     handleSetItemInFocus(
       setSprintRetrospectiveInFocus,
@@ -121,19 +120,7 @@ export default function SprintRetrospectives({
       SprintRetrospective New Item
     </Box>
   );
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       widget={widget}
-  //       widgetProps={widgetProps}
-  //       menuProps={menuProps}
-  //       setSelectedWidgetContext={setSelectedWidgetContext}
-  //       handleSelectWidgetContext={handleSelectWidgetContext}
-  //       handleSearchTermChange={handleSearchTermChange}
-  //       searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
+
   const soloWidget = (
     <Box
       className="widget"
@@ -221,7 +208,6 @@ export default function SprintRetrospectives({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

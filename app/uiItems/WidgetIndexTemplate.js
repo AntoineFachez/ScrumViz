@@ -12,6 +12,7 @@ import { themeSettings, useMode } from '../theme/ThemeContext';
 import ToolTipComponent from '../components/tooltip/ToolTipComponent';
 import SimpleDialog from '../components/dialog/Dialog';
 import WidgetMenu from './WidgetMenu';
+import QuickMenu from './QuickMenu';
 
 // import { styled } from "../themes/styled";
 
@@ -116,13 +117,13 @@ const WidgetIndexTemplate = ({
             <>
               <>
                 <Box className="widgetContainer" sx={styled.widgetContainer}>
-                  {quickMenu}
-                  <WidgetMenu widgetProps={widgetProps} />
-                  {/* {menu && (
-                    <Box className="widgetMenu" sx={styled?.widgetMenu}>
-                      {menu}
-                    </Box>
-                  )}{' '} */}
+                  {widgetProps.hasQuickMenu && (
+                    <QuickMenu widgetProps={widgetProps} styled={styled} />
+                  )}
+                  {widgetProps.hasWidgetMenu && (
+                    <WidgetMenu widgetProps={widgetProps} />
+                  )}
+
                   {isFiltered && (
                     <Button
                       className="widgetMenuButton"

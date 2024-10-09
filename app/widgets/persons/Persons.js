@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
+import PersonsContext from './PersonsContext';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
@@ -13,10 +14,10 @@ import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
+import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
-import PersonsContext from './PersonsContext';
 
 export default function Persons({
   widget,
@@ -38,6 +39,8 @@ export default function Persons({
   const collection = 'persons';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <Group />,
     collection: collection,
@@ -61,20 +64,14 @@ export default function Persons({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleSearchTermChange: () =>
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  // const menuProps = {
-  //   states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowPersonsMenu,
-  //   },
-  // };
   const handleSetPersonInFocus = (item) => {
     handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
   };
@@ -86,16 +83,6 @@ export default function Persons({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  // const menu = (
-  //   <WidgetMenu
-  //     widgetProps={widgetProps}
-  //     menuProps={menuProps}
-  //     setSelectedWidgetContext={setSelectedWidgetContext}
-  //     handleSelectWidgetContext={handleSelectWidgetContext}
-  //     handleSearchTermChange={handleSearchTermChange}
-  //     searchTerm={searchTerm}
-  //   />
-  // );
   const newItem = (
     <Box
       className="widget"
@@ -198,7 +185,6 @@ export default function Persons({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}

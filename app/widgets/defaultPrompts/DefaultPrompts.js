@@ -16,7 +16,7 @@ import MultiItems from '@/app/uiItems/MultiItems';
 
 import SimpleDialog from '@/app/components/dialog/Dialog';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
@@ -58,7 +58,6 @@ export default function DefaultPromptWidget({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSearchTermChange,
 
     handleNewDefaultPrompt,
 
@@ -72,6 +71,8 @@ export default function DefaultPromptWidget({
   const collection = 'defaultPrompts';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     iconButton: <Chat />,
     collection: collection,
@@ -96,20 +97,14 @@ export default function DefaultPromptWidget({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    searchTerm: searchTerm,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleSearchTermChange: () =>
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  // const menuProps = {
-  //   states: { showMenu: showDefaultPromptsMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowDefaultPromptsMenu,
-  //   },
-  // };
   const handleSetDefaultPromptInFocus = (item) => {
     handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
   };
@@ -118,31 +113,6 @@ export default function DefaultPromptWidget({
     if (!isLoading) setPromptTextInFocus('');
     return () => {};
   }, []);
-  const quickMenu = (
-    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-      <Tooltip title="Create new default Prompt" placement="top" arrow>
-        <IconButton
-          sx={styled?.iconButton?.action}
-          onClick={() => handleNewDefaultPrompt()}
-        >
-          <Add />
-        </IconButton>
-      </Tooltip>
-    </Box>
-  );
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       widget={widget}
-  //       widgetProps={widgetProps}
-  //       menuProps={menuProps}
-  //       setSelectedWidgetContext={setSelectedWidgetContext}
-  //       handleSelectWidgetContext={handleSelectWidgetContext}
-  //       handleSearchTermChange={handleSearchTermChange}
-  //       searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
 
   const defaultPromptSelector = (
     <>
@@ -237,8 +207,6 @@ export default function DefaultPromptWidget({
         widgetProps={widgetProps}
         uiContext={uiContext}
         widgetContext={selectedWidgetContext}
-        quickMenu={quickMenu}
-        // menu={menu}
         // newItem={newItem}
         flexList={defaultPromptSelector}
         isFiltered={isFiltered}

@@ -46,6 +46,8 @@ export default function ImageDrop({
   };
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     iconButton: <Upload />,
     collection: collection,
     uiContext: uiContext,
