@@ -78,24 +78,24 @@ export default function UserStory({
     displayAcceptanceCriteria,
     selectedAcceptanceCriteria,
     setSelectedAcceptanceCriteria,
+    setAcceptanceCriteriaInFocus,
+    handleFindAcceptanceCriteria,
   } = useContext(AcceptanceCriteriaContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
 
   const handleSetUserStoryInFocus = (item) => {
-    console.log(item);
-
     handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
   };
   const handleClickCustomArrayItem = (item) => {
-    console.log(item);
-    // acceptanceCriteria_id;
+    console.log('acceptanceCriteria_id');
+
     const found = displayAcceptanceCriteria.filter(
       (criteria) => criteria.id === item.acceptanceCriteria_id
     )[0];
-    setSelectedAcceptanceCriteria(found);
-    handleFindSprintBackLogs(item, 'acceptanceCriteria_id', 'id');
+    setAcceptanceCriteriaInFocus(found);
+    // handleFindAcceptanceCriteria(item, 'id', 'acceptanceCriteria_id');
   };
   const widgetProps = {
     iconButton: <Assignment />,
