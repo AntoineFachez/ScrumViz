@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 
-import AppContext from '@/context/AppContext';
+import AppContext, { AppState } from '@/context/AppContext';
 // import InFocusContext from '@/context/InFocusContext';
 import UIContext from '@/context/UIContext';
 import AuthContext from './AuthContext';
@@ -13,13 +13,15 @@ import SignUpWithEmailPawword from './signUplogIn/SignUpWithEmailPawword';
 
 import { handleCreateNewUser } from './helper';
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
-
+import { notify } from '@/utils/utils';
 // import './log-in.css';
 
 export default function Index({}) {
-  const [theme, colorMode, palette, styled] = useMode();
+  const { alert, setAlert } = useContext(AppContext);
   const { users, user, setUser, userInFocus, setUserInFocus } =
     useContext(AuthContext);
+
+  const [theme, colorMode, palette, styled] = useMode();
   // const { coordsInFocus } = useContext(InFocusContext);
 
   const { userRole } = useContext(UIContext);
@@ -28,14 +30,13 @@ export default function Index({}) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showSignUp, setShowSignUp] = useState(false);
-  const [alert, setAlert] = useState(false);
 
   const switchToSignUp = () => {
     if (!showSignUp) {
-      setAlert('');
+      setAlert({ state: '', note: '' });
       setShowSignUp(true);
     } else {
-      setAlert('');
+      setAlert({ state: '', note: '' });
       setShowSignUp(false);
     }
   };
@@ -51,17 +52,14 @@ export default function Index({}) {
       setAlert
     );
   };
+
   return (
     <>
       {!user ? (
-        <Box
-          sx={{
-            ...styled.card,
-          }}
-        >
+        <Box sx={styled.signUpLogInCard}>
           {showSignUp ? (
             <Button
-              sx={styled.textButton}
+              sx={styled.menuButtonText.action}
               size="small"
               onClick={switchToSignUp}
             >
@@ -69,21 +67,14 @@ export default function Index({}) {
             </Button>
           ) : (
             <Button
-              sx={styled.textButton}
+              sx={styled.menuButtonText.action}
               size="small"
               onClick={switchToSignUp}
             >
               Sign Up ?
             </Button>
           )}
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
-              padding: '1rem',
-            }}
-          >
+          <>
             {showSignUp ? (
               <>
                 <SignUpWithEmailPawword
@@ -94,8 +85,8 @@ export default function Index({}) {
                   confirmPassword={confirmPassword}
                   setConfirmPassword={setConfirmPassword}
                   switchToSignUp={switchToSignUp}
-                  setAlert={setAlert}
                   onSubmit={handleSubmit}
+                  setAlert={setAlert}
                 />
               </>
             ) : (
@@ -106,15 +97,16 @@ export default function Index({}) {
                   password={password}
                   setPassword={setPassword}
                   switchToSignUp={switchToSignUp}
-                  setAlert={setAlert}
                   users={users}
                   user={user}
                   setUser={setUser}
                   setUserInFocus={setUserInFocus}
+                  setAlert={setAlert}
                 />
               </>
             )}
-          </Box>
+          </>{' '}
+          <p className="signUp-logIn-message">{alert?.message}</p>
         </Box>
       ) : (
         <>

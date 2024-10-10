@@ -2,31 +2,38 @@
 import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-
-import UIContext from '@/context/UIContext';
-
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import {
   Add,
   Assignment,
   StoreMallDirectoryOutlined,
 } from '@mui/icons-material';
+
 import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
+import InFocusContext from '@/context/InFocusContext';
+import SearchContext from '@/context/SearchContext';
+import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
+import UIContext from '@/context/UIContext';
+import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
+
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/uiItems/MultiItems';
-import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
-import SearchContext from '@/context/SearchContext';
-import SingleItem from '@/app/uiItems/SingleItem';
-import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
-import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
+import NewItem from '@/app/uiItems/NewItem';
 
 import { scheme, singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext } from '../actions';
-import NewItem from '@/app/uiItems/NewItem';
-import { handleNewUserStory } from './functions/dbFunctions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
+// import { handleNewUserStory } from './functions/dbFunctions';
+import { useMode } from '@/app/theme/ThemeContext';
+import AcceptanceCriteria from '../acceptanceCriteria/AcceptanceCriteria';
+import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
 
 export default function UserStory({
   widget,
@@ -37,10 +44,15 @@ export default function UserStory({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showUserStoryMenu, setShowUserStoryMenu } = useContext(UIContext);
+  const {} = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
+    showUserStoryMenu,
+    setShowUserStoryMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayUserStories,
@@ -54,62 +66,96 @@ export default function UserStory({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSearchTermChange,
+
+    handleNewUserStory,
     // handleResetFiltered,
-    handleSetUserStoryInFocus,
+    // handleSetUserStoryInFocus,
     // handleSelectWidgetContext,
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
   const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
+  const {
+    displayAcceptanceCriteria,
+    selectedAcceptanceCriteria,
+    setSelectedAcceptanceCriteria,
+  } = useContext(AcceptanceCriteriaContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
+
+  const handleSetUserStoryInFocus = (item) => {
+    console.log(item);
+
+    handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
+  };
+  const handleClickCustomArrayItem = (item) => {
+    console.log(item);
+    // acceptanceCriteria_id;
+    const found = displayAcceptanceCriteria.filter(
+      (criteria) => criteria.id === item.acceptanceCriteria_id
+    )[0];
+    setSelectedAcceptanceCriteria(found);
+    handleFindSprintBackLogs(item, 'acceptanceCriteria_id', 'id');
+  };
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <Assignment />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    data: selectedUserStories,
+
+    selectedData: selectedUserStories,
+    setSelectedItem: setSelectedUserStories,
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-
+    itemInFocus: userStoryInFocus,
+    customArrayItemInFocus: userStoryInFocus,
+    tooltipTitle_newItem: 'Create new User Story',
+    handleNewItem: () => handleNewUserStory(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showUserStoryMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowUserStoryMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    selector: {
+      selector: 'userStoriesSelector',
+      selected: 'selectedUserStories',
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+
+    handleSetItemInFocus: handleSetUserStoryInFocus,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
 
   useEffect(() => {
     if (userStoryInFocus) {
-      handleFindSprintPlannings(userStoryInFocus);
-      handleFindSprintBackLogs(userStoryInFocus);
+      handleFindSprintPlannings(userStoryInFocus, 'id', 'userStory_id');
+      handleFindSprintBackLogs(userStoryInFocus, 'id', 'userStory_id');
     }
 
     return () => {};
   }, [userStoryInFocus]);
-
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
 
   const soloWidget = (
     <Box
@@ -121,14 +167,6 @@ export default function UserStory({
     >
       UserStory SoloWidget
     </Box>
-  );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={userStoryInFocus}
-      styled={styled}
-    />
   );
 
   const tree = (
@@ -163,43 +201,6 @@ export default function UserStory({
       }}
     >
       {' '}
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-        <Tooltip title="Create new default Prompt" placement="top" arrow>
-          <IconButton
-            sx={styled?.iconButton?.action}
-            onClick={() =>
-              handleNewUserStory(
-                widgetProps,
-                userStoryInFocus,
-                setUserStoryInFocus,
-                displayUserStories,
-                setDisplayUserStories
-              )
-            }
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </Box>
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
-        customElement={null}
-        alertElement={null}
-        data={selectedUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
-        selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
-        }}
-        itemInFocus={userStoryInFocus}
-        styled={styled}
-      />
     </Box>
   );
   const newItem = (
@@ -244,14 +245,11 @@ export default function UserStory({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

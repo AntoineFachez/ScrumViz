@@ -1,20 +1,21 @@
 'use client';
 import { useContext, useState } from 'react';
 import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
-
 import { Box } from '@mui/material';
 
-import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
+import PersonsContext from './PersonsContext';
+import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
-import SearchContext from '@/context/SearchContext';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
+import { scheme, singleItemScheme } from './dataScheme';
+
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function Persons({
   widget,
@@ -25,54 +26,76 @@ export default function Persons({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
+
+    selectedPersons,
+    setSelectedPersons,
+    personInFocus,
+  } = useContext(PersonsContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-
+  const handleSetPersonInFocus = (item) => {
+    handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'persons';
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <Group />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    data: selectedPersons,
+
+    selectedData: selectedPersons,
+    setSelectedItem: setSelectedPersons,
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-
+    itemInFocus: personInFocus,
+    tooltipTitle_newItem: 'Create new Person',
+    handleNewItem: () => handleNewPerson(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showPersonsMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowPersonsMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    selector: {
+      selector: 'personsSelector',
+      selected: 'selectedPersons',
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+
+    handleSetItemInFocus: handleSetPersonInFocus,
   };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const menu = (
-    <WidgetMenu
-      widgetProps={widgetProps}
-      menuProps={menuProps}
-      setSelectedWidgetContext={setSelectedWidgetContext}
-      handleSelectWidgetContext={handleSelectWidgetContext}
-      handleSearchTermChange={handleSearchTermChange}
-      searchTerm={searchTerm}
-    />
-  );
   const newItem = (
     <Box
       className="widget"
@@ -95,28 +118,7 @@ export default function Persons({
       TeamMembers SoloWidget
     </Box>
   );
-  const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers SingleItem
-    </Box>
-  );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -139,50 +141,16 @@ export default function Persons({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers
-      {/* <MultiItems
-        uiContext={uiContext}
-        selectedWidgetContext={selectedWidgetContext}
-        data={displayUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
-        selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
-        customElement={null}
-        alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
-        styled={styled}
-      /> */}
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
         tree={tree}
-        flexList={flexList}
       />
     </>
   );

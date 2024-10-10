@@ -18,12 +18,13 @@ import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from './TeamMembersContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/uiItems/SingleItem';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function TeamMembers({
   widget,
@@ -35,8 +36,11 @@ export default function TeamMembers({
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
   const { showTeamMembersMenu, setShowTeamMembersMenu } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displayTeamMembers,
     setDisplayTeamMembers,
     selectedTeamMembers,
@@ -50,18 +54,33 @@ export default function TeamMembers({
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetTeamMemberInFocus = (item) => {
+    handleSetItemInFocus(setTeamMemberInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'teamMembers';
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <GroupAdd />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetTeamMemberInFocus,
+    data: selectedTeamMembers,
+    selectedData: selectedTeamMembers,
+    setSelectedItem: setSelectedTeamMembers,
+    selector: {
+      selector: 'teamMembersSelector',
+      selected: 'selectedTeamMembers',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: teamMemberInFocus,
     // menu: menu,
     // soloWidget: soloWidget,
     // table: table,
@@ -73,17 +92,23 @@ export default function TeamMembers({
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowTeamMembersMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetTeamMemberInFocus = (teamMember) => {
-    setTeamMemberInFocus(teamMember);
-  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -101,19 +126,6 @@ export default function TeamMembers({
     return () => {};
   }, [teamMemberInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
@@ -136,25 +148,25 @@ export default function TeamMembers({
       TeamMembers SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={teamMemberInFocus}
-      styled={styled}
-    />
-  );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers Chip
-    </Box>
-  );
+  // const singleItem = (
+  //   <SingleItem
+  //     singleItemScheme={singleItemScheme}
+  //     itemContext={widgetProps?.itemContext}
+  //     itemInFocus={teamMemberInFocus}
+  //     styled={styled}
+  //   />
+  // );
+  // const chip = (
+  //   <Box
+  //     className="widget"
+  //     sx={{
+  //       ...styled.widget,
+  //       // backgroundColor: '#555',
+  //     }}
+  //   >
+  //     TeamMembers Chip
+  //   </Box>
+  // );
   const tree = (
     <Box
       className="widget"
@@ -189,19 +201,16 @@ export default function TeamMembers({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={selectedTeamMembers}
-        selectedData={selectedTeamMembers}
-        setSelectedItem={setSelectedTeamMembers}
-        selector={{
-          selector: 'teamMembersSelector',
-          selected: 'selectedTeamMembers',
-        }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={teamMemberInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetTeamMemberInFocus}
+        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
         customElement={null}
         alertElement={null}
+        data={widgetProps?.data}
+        selectedData={widgetProps?.selectedData}
+        setSelectedItem={widgetProps?.setSelectedItem}
+        selector={widgetProps?.selector}
+        itemInFocus={widgetProps?.itemInFocus}
         styled={styled}
       />
     </Box>
@@ -212,14 +221,13 @@ export default function TeamMembers({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
+        // singleItem={singleItem}
+        // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

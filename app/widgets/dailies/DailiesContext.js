@@ -7,6 +7,7 @@ import { dailies } from './mockDailes';
 const DailiesContext = createContext();
 
 export const DailiesProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displayDailies, setDisplayDailies] = useState(dailies);
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailiesInFocus, setDailiesInFocus] = useState(false);
@@ -17,9 +18,9 @@ export const DailiesProvider = ({ children }) => {
     setSelectedDailies(displayDailies);
     setIsFiltered(false);
   };
-  const handleSetDailiesInFocus = (dailies) => {
-    setDailiesInFocus(dailies);
-  };
+  // const handleSetDailiesInFocus = (dailies) => {
+  //   setDailiesInFocus(dailies);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
@@ -42,6 +43,8 @@ export const DailiesProvider = ({ children }) => {
   return (
     <DailiesContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displayDailies,
         setDisplayDailies,
         selectedDailies,
@@ -53,7 +56,7 @@ export const DailiesProvider = ({ children }) => {
         isFiltered,
         setIsFiltered,
         handleResetFiltered,
-        handleSetDailiesInFocus,
+        // handleSetDailiesInFocus,
         handleSearchTermChange,
       }}
     >

@@ -27,7 +27,7 @@ const Index = ({
   return (
     <>
       {showWidgetMenus && (
-        <Box className="widgetMenu" sx={styled?.widgetMenu}>
+        <Box className="widget-menu" sx={styled?.widgetMenu}>
           <Menu
             menuProps={menuProps}
             isOpen={isOpen}

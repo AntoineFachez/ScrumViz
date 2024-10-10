@@ -3,10 +3,13 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { sprintPlannings } from './mockSpringPlanning';
+import UIContext from '@/context/UIContext';
 
 const SprintPlanningsContext = createContext();
 
 export const SprintPlanningsProvider = ({ children }) => {
+  const { showDialog, setShowDialog } = useContext(UIContext);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displaySprintPlannings, setDisplaySprintPlannings] =
     useState(sprintPlannings);
   const [selectedSprintPlannings, setSelectedSprintPlannings] = useState(
@@ -14,13 +17,18 @@ export const SprintPlanningsProvider = ({ children }) => {
   );
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
 
-  const handleFindSprintPlannings = (item) => {
-    const foundPlannings = displaySprintPlannings.filter((planning) =>
-      planning.sprint_backlog.some(
-        (task) => task.product_backlog_item_id === item.id
-      )
-    );
+  const handleFindSprintPlannings = (item, itemKey, filterKey) => {
+    const foundPlannings = displaySprintPlannings.filter((planning) => {
+      return planning?.sprintBackLog_items?.some((backLog) => {
+        return backLog[filterKey] === item[itemKey];
+      });
+    });
     setSelectedSprintPlannings(foundPlannings);
+  };
+  const handleNewSprintPlanning = async () => {
+    console.log('handleNewDefaultPrompt');
+    // setSelectedWidgetContext('newItem');
+    setShowDialog(true);
   };
   useEffect(() => {
     setSelectedSprintPlannings(displaySprintPlannings);
@@ -30,6 +38,8 @@ export const SprintPlanningsProvider = ({ children }) => {
   return (
     <SprintPlanningsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displaySprintPlannings,
         setDisplaySprintPlannings,
         selectedSprintPlannings,
@@ -37,6 +47,7 @@ export const SprintPlanningsProvider = ({ children }) => {
         sprintPlanningInFocus,
         setSprintPlanningInFocus,
         handleFindSprintPlannings,
+        handleNewSprintPlanning,
       }}
     >
       {children}

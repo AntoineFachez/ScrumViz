@@ -2,15 +2,24 @@
 import React from 'react';
 import { createContext, useContext, useState, useEffect } from 'react';
 import DefaultValuesContext from './DefaultValuesContext';
+import { notify } from '@/utils/utils';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const { startUpAppContext } = useContext(DefaultValuesContext);
+  const { startUpAppContext, startUpCollectionContext } =
+    useContext(DefaultValuesContext);
   const [appContext, setAppContext] = useState(startUpAppContext);
-  const [uiGridMapContext, setUiGridMapContext] = useState('prompts');
+  const [uiGridMapContext, setUiGridMapContext] = useState(
+    startUpCollectionContext
+  );
   const [newItemElement, setNewItemElement] = useState(null);
+  const [alert, setAlert] = useState(null);
+  useEffect(() => {
+    notify(alert);
 
+    return () => {};
+  }, [alert]);
   return (
     <AppContext.Provider
       value={{
@@ -20,6 +29,8 @@ export const AppProvider = ({ children }) => {
         setUiGridMapContext,
         newItemElement,
         setNewItemElement,
+        alert,
+        setAlert,
       }}
     >
       {children}

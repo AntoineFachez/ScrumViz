@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import AgileCodingPage from '../../../agileCoding/page';
 import ScrumManagerPage from '../../../scrumManager/page';
 
+import Products from '../../../widgets/products/Products';
 import UserStory from '../../../widgets/userStories/UserStories';
 import ProductBackLogs from '../../../widgets/productBacklogs/ProductBackLogs';
 import Persons from '../../../widgets/persons/Persons';
@@ -19,6 +20,7 @@ import ImageDropzone from '../../../widgets/imageDropZone/Index';
 const Components = {
   AgileCodingPage: AgileCodingPage,
   ScrumManagerPage: ScrumManagerPage,
+  Products: Products,
   UserStory: UserStory,
   SprintPlannings: SprintPlannings,
   ProductBackLogs: ProductBackLogs,

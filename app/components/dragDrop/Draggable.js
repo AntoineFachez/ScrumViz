@@ -8,8 +8,24 @@ export default function Draggable({
   item,
   htmlItem,
   width,
-  styled,
+  // styled,
 }) {
+  const styled = {
+    draggable: {
+      // width: "100%",
+      width: 'fit-content',
+      // height: `${100}%`,
+      // height: "100%",
+      height: 'fit-content',
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: 'transparent',
+      cursor: 'grab',
+      // backgroundColor: () => themeSettings(colorMode).neutral.dark,
+      // overflow: "scroll",
+    },
+  };
   return (
     <Box
       ref={listItemRef}

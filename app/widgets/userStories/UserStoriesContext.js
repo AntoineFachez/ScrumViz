@@ -6,12 +6,17 @@ import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
 import { userStories } from './mockUserStories';
+import UIContext from '@/context/UIContext';
+import { createUUID } from '@/utils/utils';
 
 const UserStoriesContext = createContext();
 
 export const UserStoriesProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const { showDialog, setShowDialog } = useContext(UIContext);
   const { displayTeamMembers } = useContext(TeamMembersContext);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  // const [showUserStoryMenu, setShowUserStoryMenu] = useState(true);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayUserStories, setDisplayUserStories] = useState(userStories);
@@ -26,15 +31,20 @@ export const UserStoriesProvider = ({ children }) => {
     setSelectedUserStories(displayUserStories);
     setIsFiltered(false);
   };
-  const handleSetUserStoryInFocus = (userStory) => {
-    setUserStoryInFocus(userStory);
-  };
+  // const handleSetUserStoryInFocus = (userStory) => {
+  //   setUserStoryInFocus(userStory);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
+  };
+  const handleNewUserStory = async () => {
+    console.log('handleNewDefaultPrompt');
+    // setSelectedWidgetContext('newItem');
+    setShowDialog(true);
   };
   useEffect(() => {
     setSelectedUserStories(
@@ -52,10 +62,19 @@ export const UserStoriesProvider = ({ children }) => {
 
     return () => {};
   }, [displayUserStories]);
+  // useEffect(() => {
+  //   const uuids = createUUID(10);
+
+  //   return () => {};
+  // }, [selectedUserStories]);
 
   return (
     <UserStoriesContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
+        // showUserStoryMenu,
+        // setShowUserStoryMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displayUserStories,
@@ -70,8 +89,9 @@ export const UserStoriesProvider = ({ children }) => {
         setIsFiltered,
         handleResetFiltered,
         handleSearchTermChange,
+        handleNewUserStory,
         // handleResetFiltered,
-        handleSetUserStoryInFocus,
+        // handleSetUserStoryInFocus,
         // handleSelectWidgetContext,
       }}
     >

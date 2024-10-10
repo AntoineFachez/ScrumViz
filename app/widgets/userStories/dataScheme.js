@@ -17,8 +17,8 @@ export const scheme = {
   description: '',
   customField: '',
   img_uri: '',
-  customArray: '',
-  customArrayKey: '',
+  // customArray: '',
+  // customArrayKey: '',
 };
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];

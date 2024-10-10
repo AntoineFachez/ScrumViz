@@ -14,7 +14,7 @@ export const DefaultPromptsProvider = ({ children }) => {
   const { appContext, setAppContext } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
-
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayDefaultPrompts, setDisplayDefaultPrompts] =
@@ -40,9 +40,9 @@ export const DefaultPromptsProvider = ({ children }) => {
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
   };
-  const handleSetDefaultPromptInFocus = (item) => {
-    setPromptTextInFocus(item);
-  };
+  // const handleSetDefaultPromptInFocus = (item) => {
+  //   setPromptTextInFocus(item);
+  // };
 
   const handleNewDefaultPrompt = async () => {
     console.log('handleNewDefaultPrompt');
@@ -66,6 +66,8 @@ export const DefaultPromptsProvider = ({ children }) => {
   return (
     <DefaultPromptsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
 
@@ -85,7 +87,7 @@ export const DefaultPromptsProvider = ({ children }) => {
 
         handleNewDefaultPrompt,
 
-        handleSetDefaultPromptInFocus,
+        // handleSetDefaultPromptInFocus,
       }}
     >
       {children}

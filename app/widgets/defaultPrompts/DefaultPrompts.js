@@ -4,20 +4,26 @@ import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import DefaultPromptsContext from './DefaultPromptsContext';
+import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 // import UserContext from '@/context/UserContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
-
-import { handleSelectWidgetContext } from '../actions';
-import { useMode } from '@/app/theme/ThemeContext';
+import NewItem from '@/app/uiItems/NewItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 
-import { scheme, singleItemSchemePrompt } from './dataScheme';
 import SimpleDialog from '@/app/components/dialog/Dialog';
-import NewItem from '@/app/uiItems/NewItem';
+
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
+import { scheme, singleItemScheme } from './dataScheme';
+
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function DefaultPromptWidget({
   widget,
@@ -35,9 +41,12 @@ export default function DefaultPromptWidget({
     setShowDialog,
     handleCloseDialog,
   } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     selectedWidgetContext,
     setSelectedWidgetContext,
 
@@ -53,61 +62,70 @@ export default function DefaultPromptWidget({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSearchTermChange,
 
     handleNewDefaultPrompt,
 
-    handleSetDefaultPromptInFocus,
+    // handleSetDefaultPromptInFocus,
   } = useContext(DefaultPromptsContext);
 
   // const [selectedWidgetContext, setSelectedWidgetContext] =
   //   useState(startUpWidgetLayout);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const handleSetDefaultPromptInFocus = (item) => {
+    handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'defaultPrompts';
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <Chat />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetDefaultPromptInFocus,
+    data: selectedDefaultPrompts,
+    selectedData: selectedDefaultPrompts,
+    selector: {
+      selector: 'defaultPromptsSelector',
+      selected: 'selectedPrompts',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: promptTextInFocus,
     dialogTitle: 'Create new default Prompt',
 
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showDefaultPromptsMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowDefaultPromptsMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
   useEffect(() => {
     setSelectedWidgetContext(startUpWidgetLayout);
     if (!isLoading) setPromptTextInFocus('');
     return () => {};
   }, []);
-
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
 
   const defaultPromptSelector = (
     <>
@@ -119,36 +137,32 @@ export default function DefaultPromptWidget({
           flexFlow: 'column',
         }}
       >
-        <Box
-          sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
-        >
-          <Tooltip title="Create new default Prompt" placement="top" arrow>
-            <IconButton
-              sx={styled?.iconButton?.action}
-              onClick={() => handleNewDefaultPrompt()}
-            >
-              <Add />
-            </IconButton>
-          </Tooltip>
-        </Box>
-        <MultiItems
+        {/* <MultiItems
           widget={widget}
           uiContext={uiContext}
-          singleItemScheme={singleItemSchemePrompt}
+          singleItemScheme={singleItemScheme}
           selectedWidgetContext={selectedWidgetContext}
           setActiveSearchTerm={setActiveSearchTerm}
-          handleSetItemInFocus={handleSetDefaultPromptInFocus}
           customElement={null}
           alertElement={null}
-          data={selectedDefaultPrompts}
-          selectedData={selectedDefaultPrompts}
-          // setSelectedItem={setDefaultPrompts}
-          selector={{
-            selector: 'defaultPromptsSelector',
-            selected: 'selectedPrompts',
-          }}
           itemContext={widgetProps?.itemContext}
           itemInFocus={promptTextInFocus}
+          styled={styled}
+        />{' '} */}
+        <MultiItems
+          uiContext={uiContext}
+          singleItemScheme={singleItemScheme}
+          selectedWidgetContext={selectedWidgetContext}
+          itemContext={widgetProps?.itemContext}
+          setActiveSearchTerm={setActiveSearchTerm}
+          handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
+          customElement={null}
+          alertElement={null}
+          data={widgetProps?.data}
+          selectedData={widgetProps?.selectedData}
+          setSelectedItem={widgetProps?.setSelectedItem}
+          selector={widgetProps?.selector}
+          itemInFocus={widgetProps?.itemInFocus}
           styled={styled}
         />
       </Box>
@@ -214,9 +228,8 @@ export default function DefaultPromptWidget({
         widgetProps={widgetProps}
         uiContext={uiContext}
         widgetContext={selectedWidgetContext}
-        menu={menu}
         // newItem={newItem}
-        flexList={defaultPromptSelector}
+        // flexList={defaultPromptSelector}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

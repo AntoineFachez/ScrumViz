@@ -39,7 +39,7 @@ export default function NavBar({ showDev, setShowDev }) {
         ...styled?.navBar,
         flexFlow: 'row nowrap',
       }}
-      square={true}
+      square="true"
     >
       {' '}
       <Tooltip title={'home'} placement="bottom" arrow={true}>

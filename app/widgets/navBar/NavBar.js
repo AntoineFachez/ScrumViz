@@ -31,6 +31,8 @@ export default function NavBarWidget({
   const collection = '';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     uiGridMapContext: uiGridMapContext,
     collection: collection,
     uiContext: uiContext,
@@ -39,6 +41,25 @@ export default function NavBarWidget({
     itemContext: '',
     dropWidgetName: collection,
     orderedBy: '',
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    // selectedWidgetContext: selectedWidgetContext,
+    // setSelectedWidgetContext: setSelectedWidgetContext,
+    // handleSelectWidgetContext: handleSelectWidgetContext,
+    // searchTerm: searchTerm,
+    // handleSearchTermChange: (e) =>
+    //   handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
   const newItem = (

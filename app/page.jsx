@@ -1,23 +1,24 @@
 'use client';
 import { useContext, useRef, useState } from 'react';
 import { Box, Paper } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ToastContainer } from 'react-toastify';
 
 import AppContext from '@/context/AppContext';
 import AuthContext from './widgets/auth/AuthContext';
+import UIContext from '@/context/UIContext';
 
 import NavBar from './components/navBar/Index';
 import SignupLogin from './widgets/auth/Index';
 import ScrumManagerPage from './scrumManager/page';
 import AgileCodingPage from './agileCoding/page';
+import Home from './home/page';
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { useMode } from './theme/ThemeContext';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import SimpleDialogDemo from './components/dialog/Dialog';
-import SimpleDialog from './components/dialog/Dialog';
-import UIContext from '@/context/UIContext';
-export default function Home({}) {
+import { useMode } from './theme/ThemeContext';
+import Profile from './profile/page';
+
+export default function BasePage({}) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
@@ -29,9 +30,13 @@ export default function Home({}) {
         return <AgileCodingPage />;
       case 'scrumManager':
         return <ScrumManagerPage />;
+      case 'home':
+        return <Home />;
+      case 'profile':
+        return <Profile />;
 
       default:
-        return <SignupLogin />;
+        return <Home />;
     }
   };
   const data = ['username@gmail.com', 'user02@gmail.com'];
@@ -43,45 +48,39 @@ export default function Home({}) {
   };
 
   return (
-    <>
-      {' '}
+    <Box
+      sx={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: styled?.navBar.height,
+      }}
+    >
       <ThemeProvider theme={theme}>
         {user ? (
           <>
-            <Box
+            {/* <Box
               sx={{
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: '100%',
                 display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: styled?.navBar.height,
+                // justifyContent: 'center',
+                // alignItems: 'center',
               }}
-            >
-              <Box
-                sx={
-                  {
-                    // width: '100vw',
-                    // height: '100vh',
-                    // display: 'flex',
-                    // justifyContent: 'center',
-                    // alignItems: 'center',
-                  }
-                }
-              >
-                <NavBar />
-              </Box>
-              {uiElements()} <ToastContainer />{' '}
-            </Box>
+            > */}
+            <NavBar />
+            {/* </Box> */}
+            {uiElements()}{' '}
           </>
         ) : (
-          <Paper>
-            {' '}
-            {/* <NavBar /> */}
+          <>
             <SignupLogin />
-          </Paper>
+          </>
         )}
-      </ThemeProvider>
-    </>
+        <ToastContainer />
+      </ThemeProvider>{' '}
+    </Box>
   );
 }

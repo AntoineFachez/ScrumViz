@@ -7,6 +7,7 @@ import { sprintBackLogs } from './mockSprintBackLogs';
 const SprintBackLogsContext = createContext();
 
 export const SprintBackLogsProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displaySprintBackLogs, setDisplaySprintBackLogs] =
     useState(sprintBackLogs);
   const [selectedSprintBackLogs, setSelectedSprintBackLogs] = useState(
@@ -16,9 +17,11 @@ export const SprintBackLogsProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleFindSprintBackLogs = (item) => {
+  const handleFindSprintBackLogs = (item, itemKey, filterKey) => {
+    console.log('handleFindSprintBackLogs', itemKey, filterKey);
+
     const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog.product_backlog_item_id === item.id
+      (sprintBackLog) => sprintBackLog[filterKey] === item[itemKey]
     );
     setSelectedSprintBackLogs(foundSprintLogs);
   };
@@ -41,6 +44,8 @@ export const SprintBackLogsProvider = ({ children }) => {
   return (
     <SprintBackLogsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displaySprintBackLogs,
         setDisplaySprintBackLogs,
         selectedSprintBackLogs,

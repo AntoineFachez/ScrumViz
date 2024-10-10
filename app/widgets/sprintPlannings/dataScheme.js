@@ -1,4 +1,12 @@
-export const context = 'university';
+import { v4 as uuidv4 } from 'uuid';
+
+export const scheme = {
+  id: uuidv4(),
+  createdAt: new Date(),
+  title: '',
+  description: '',
+};
+
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',

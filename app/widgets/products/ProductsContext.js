@@ -7,6 +7,7 @@ import { products } from './mockProducts';
 const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displayProducts, setDisplayProducts] = useState(products);
   const [selectedProducts, setSelectedProducts] = useState(displayProducts);
@@ -35,13 +36,15 @@ export const ProductsProvider = ({ children }) => {
     return () => {};
   }, [searchTerm]);
   useEffect(() => {
-    setSelectedProductProducts(displayProducts);
+    setSelectedProducts(displayProducts);
 
     return () => {};
   }, [displayProducts]);
   return (
     <ProductsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         // selectedWidgetContext,
         // setSelectedWidgetContext,
         displayProducts,

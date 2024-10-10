@@ -27,7 +27,7 @@ export const fieldsAccordion = {
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
-export const singleItemSchemeChat = {
+export const singleItemScheme = {
   id: 'id',
   title: 'title',
   subTitle: 'summary',
@@ -38,7 +38,7 @@ export const singleItemSchemeChat = {
   filterArrayByIdKey: 'parts',
 };
 
-export const singleItemSchemePrompt = {
+export const singleItemSchemeP = {
   id: 'id',
   title: 'title',
   subTitle: 'text',
