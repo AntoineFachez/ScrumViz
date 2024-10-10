@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 
@@ -15,6 +15,7 @@ import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
+import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
 
 export default function SprintBackLogs({
   widget,
@@ -38,6 +39,7 @@ export default function SprintBackLogs({
     setSprintBackLogInFocus,
     searchTerm,
     setSearchTerm,
+    handleFindSprintBackLogs,
   } = useContext(SprintBackLogsContext);
   const {
     displayUserStories,
@@ -45,6 +47,7 @@ export default function SprintBackLogs({
     userStoryInFocus,
     setUserStoryInFocus,
   } = useContext(UserStoriesContext);
+  const { acceptanceCriteriaInFocus } = useContext(AcceptanceCriteriaContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const handleSetBackLogInFocus = (item) => {
@@ -121,7 +124,16 @@ export default function SprintBackLogs({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
+  useEffect(() => {
+    handleFindSprintBackLogs(
+      acceptanceCriteriaInFocus,
+      'id',
+      'acceptanceCriteria_id',
+      'call acceptanceCriteriaInFocus'
+    );
 
+    return () => {};
+  }, [acceptanceCriteriaInFocus]);
   const newItem = (
     <Box
       className="widget"

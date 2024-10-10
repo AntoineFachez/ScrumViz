@@ -17,12 +17,18 @@ export const SprintBackLogsProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleFindSprintBackLogs = (item, itemKey, filterKey) => {
-    console.log('handleFindSprintBackLogs', itemKey, filterKey);
-
-    const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog[filterKey] === item[itemKey]
-    );
+  const handleFindSprintBackLogs = (item, itemKey, filterKey, callingFn) => {
+    const foundSprintLogs = displaySprintBackLogs.filter((sprintBackLog) => {
+      console.log(
+        'handleFindSprintBackLogs',
+        sprintBackLog,
+        // item,
+        filterKey,
+        sprintBackLog[filterKey],
+        item[itemKey]
+      );
+      return sprintBackLog[filterKey] === item[itemKey];
+    });
     setSelectedSprintBackLogs(foundSprintLogs);
   };
   useEffect(() => {

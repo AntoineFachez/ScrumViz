@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import {
@@ -30,6 +30,7 @@ import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
 
 export default function SprintPlannings({
   widget,
