@@ -1,27 +1,26 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
-import UIContext from '@/context/UIContext';
-
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
+import InFocusContext from '@/context/InFocusContext';
 import ScrumTeamsContext from './ScrumTeamsContext';
-import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/uiItems/SingleItem';
-import MultiItems from '@/app/uiItems/MultiItems';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import { handleSelectWidgetContext } from '../actions';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import StandInTable from '@/app/components/table/StandInTable';
 
+import { singleItemScheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
+
+import { useMode } from '@/app/theme/ThemeContext';
 export default function ScrumTeam({
   widget,
   uiContext,
@@ -31,16 +30,13 @@ export default function ScrumTeam({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const {
-    homeUiSelected,
-    setHomeUiSelected,
-    showTeamMembersMenu,
-    setShowTeamMembersMenu,
-    toggleDrawer,
-  } = useContext(UIContext);
+
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displayScrumTeams,
     setDisplayScrumTeams,
     selectedScrumTeams,
@@ -66,35 +62,12 @@ export default function ScrumTeam({
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const collection = 'scrumTeams';
-  const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Group />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
-    itemContext: '',
-    dropWidgetName: collection,
-    orderedBy: '',
+  const handleSetScrumTeamInFocus = (item) => {
+    handleSetItemInFocus(setScrumTeamInFocus, item, setLatestItemInFocus);
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
-  };
-  const menuProps = {
-    states: { showMenu: showTeamMembersMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowTeamMembersMenu,
-    },
-  };
-  const handleSetScrumTeamInFocus = (scrumTeam) => {
-    setScrumTeamInFocus(scrumTeam);
     const found = displaySprints.filter((sprint) => {
-      console.log(sprint.scrum_id, scrumTeam.id);
-      return sprint.team_id === scrumTeam.id;
+      console.log(sprint.scrum_id, item.id);
+      return sprint.team_id === item.id;
     });
     setSelectedSprints(found);
     // setActiveSearchTerm(userStory?.universityName);
@@ -103,14 +76,6 @@ export default function ScrumTeam({
     //   item: universityInFocus,
     // });
   };
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
-
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-    setIsFiltered(true);
-  };
-
   const handleClickCustomArrayItem = (e) => {
     const found = displayTeamMembers.filter(
       (teamMember) => teamMember.id === e.id
@@ -118,6 +83,61 @@ export default function ScrumTeam({
     console.log(found);
     setTeamMemberInFocus(found);
   };
+  const collection = 'scrumTeams';
+  const widgetProps = {
+    iconButton: <Group />,
+    appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetScrumTeamInFocus,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
+    data: selectedScrumTeams,
+    selectedData: selectedScrumTeams,
+    setSelectedItem: setSelectedScrumTeams,
+    selector: {
+      selector: 'scrumTeamSelector',
+      selected: 'selectedScrumTeam',
+    },
+    singleItemScheme: singleItemScheme,
+    dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: scrumTeamInFocus,
+    orderedBy: '',
+
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+  };
+
+  // const handleSearchTermChange = (e) => {
+  //   e.preventDefault();
+
+  //   setSearchTerm(e.target.value);
+  //   setActiveSearchTerm(e.target.value);
+  //   setIsFiltered(true);
+  // };
+
   useEffect(() => {
     if (scrumTeamInFocus) {
       handleFindSprints('team_id', scrumTeamInFocus, 'id');
@@ -126,19 +146,6 @@ export default function ScrumTeam({
     return () => {};
   }, [scrumTeamInFocus]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
@@ -160,14 +167,6 @@ export default function ScrumTeam({
     >
       ScrumTeam SoloWidget
     </Box>
-  );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={scrumTeamInFocus}
-      styled={styled}
-    />
   );
 
   const chip = (
@@ -203,52 +202,19 @@ export default function ScrumTeam({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      {/* UserStory MultiItems */}
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        handleClickCustomArrayItem={handleClickCustomArrayItem}
-        customElement={null}
-        alertElement={null}
-        data={selectedScrumTeams}
-        selectedData={selectedScrumTeams}
-        setSelectedItem={setSelectedScrumTeams}
-        selector={{
-          selector: 'scrumTeamSelector',
-          selected: 'selectedScrumTeam',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={scrumTeamInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        customArrayItemInFocus={teamMemberInFocus}
-        handleSetItemInFocus={handleSetScrumTeamInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

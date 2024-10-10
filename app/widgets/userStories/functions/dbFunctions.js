@@ -1,26 +1,22 @@
 import { v4 as uuidv4 } from 'uuid';
 import { submitToFirestore } from '@/firebase/helperFunctions';
 
-export const handleNewUserStory = async (
-  widgetProps,
-  userStoryInFocus,
-  setUserStoryInFocus,
-  displayUserStories,
-  setDisplayUserStories
-) => {
-  submitToFirestore({
-    //firestoreContext, data, setItemInFocus, setter, setSetter
-    dataPack: {
-      firestoreContext: widgetProps.collection,
-      data: userStoryInFocus,
-      setItemInFocus: setUserStoryInFocus,
-      arrayToPushOnTo: displayUserStories,
-      // setDisplayChats,
-      // uploadFileUrl: data.uploadFileUrl || "",
-    },
-  }).then((tempArray) => {
-    setDisplayUserStories(tempArray);
-  });
+export const handleNewUserStory = async (setShowDialog) => {
+  setShowDialog(true);
+
+  // submitToFirestore({
+  //   //firestoreContext, data, setItemInFocus, setter, setSetter
+  //   dataPack: {
+  //     firestoreContext: widgetProps.collection,
+  //     data: userStoryInFocus,
+  //     setItemInFocus: setUserStoryInFocus,
+  //     arrayToPushOnTo: displayUserStories,
+  //     // setDisplayChats,
+  //     // uploadFileUrl: data.uploadFileUrl || "",
+  //   },
+  // }).then((tempArray) => {
+  //   setDisplayUserStories(tempArray);
+  // });
 };
 
 export const handleStoreUserStrory = async (data) => {

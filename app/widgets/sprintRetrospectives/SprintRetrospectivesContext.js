@@ -7,6 +7,7 @@ import AppContext from '../../../context/AppContext';
 const SprintRetrospectivesContext = createContext();
 
 export const SprintRetrospectivesProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displaySprintRetrospectives, setDisplaySprintRetrospectives] =
     useState(null);
@@ -20,9 +21,9 @@ export const SprintRetrospectivesProvider = ({ children }) => {
     setSprintRetrospectiveInFocus(sprintRetrospectiveInFocus);
     setIsFiltered(false);
   };
-  const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
-    setSprintRetrospectiveInFocus(sprintRetrospective);
-  };
+  // const handleSetSprintRetrospectiveInFocus = (sprintRetrospective) => {
+  //   setSprintRetrospectiveInFocus(sprintRetrospective);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -49,6 +50,8 @@ export const SprintRetrospectivesProvider = ({ children }) => {
   return (
     <SprintRetrospectivesContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displaySprintRetrospectives,
@@ -64,7 +67,7 @@ export const SprintRetrospectivesProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetSprintRetrospectiveInFocus,
+        // handleSetSprintRetrospectiveInFocus,
         // handleSelectWidgetContext,
       }}
     >

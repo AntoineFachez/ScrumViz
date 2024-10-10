@@ -1,28 +1,35 @@
 'use client';
 import { useContext, useState } from 'react';
 import ChatIcon from '@mui/icons-material/Chat';
-import { Box, Typography } from '@mui/material';
-import { Replay, Schedule, SportsRugbyOutlined } from '@mui/icons-material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
+import {
+  Add,
+  Replay,
+  Schedule,
+  SportsRugbyOutlined,
+} from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
+import ProductBackLogsContext from '../productBacklogs/ProductBackLogsContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
-import UIContext from '@/context/UIContext';
-import UserStoriesContext from '../userStories/UserStoriesContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import SprintPlanningsContext from './SprintPlanningsContext';
-
-import { handleSelectWidgetContext } from '../actions';
+import UserStoriesContext from '../userStories/UserStoriesContext';
+import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/SingleItem';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
+import NewItem from '@/app/uiItems/NewItem';
 
-import { singleItemScheme } from './dataScheme';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 
 export default function SprintPlannings({
   widget,
@@ -36,8 +43,9 @@ export default function SprintPlannings({
   const { showSprintPlanningMenu, setShowSprintPlanningMenu } =
     useContext(UIContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const [searchTerm, setSearchTerm] = useState('');
-  const { selectedUserStories, setSelectedUserStories } =
+  const { displayUserStories, selectedUserStories, setSelectedUserStories } =
     useContext(UserStoriesContext);
   const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
     SprintBackLogsContext
@@ -46,61 +54,97 @@ export default function SprintPlannings({
     useState(startUpWidgetLayout);
 
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprintPlannings,
     setDisplaySprintPlannings,
     selectedSprintPlannings,
     setSelectedSprintPlannings,
     sprintPlanningInFocus,
     setSprintPlanningInFocus,
+    handleNewSprintPlanning,
   } = useContext(SprintPlanningsContext);
-  const collection = 'sprintPlannings';
-  const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Schedule />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
-    itemContext: '',
-    dropWidgetName: collection,
-    orderedBy: '',
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
-  };
-  const menuProps = {
-    states: { showMenu: showSprintPlanningMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowSprintPlanningMenu,
-    },
-  };
+  const { displayProductBackLogs, setSelectedProductBackLogs } = useContext(
+    ProductBackLogsContext
+  );
+  const handleSetSprintPlanningInFocus = (item) => {
+    handleSetItemInFocus(setSprintPlanningInFocus, item, setLatestItemInFocus);
 
-  const handleSetSprintPlanningInFocus = (sprintPlanning) => {
-    setSprintPlanningInFocus(sprintPlanning);
-    const productBacklogItemIds = new Set(
-      sprintPlanning.sprint_backlog.map((item) => item.product_backlog_item_id)
+    // setSprintPlanningInFocus(item);
+    const productBacklog_item_ids = new Set(
+      item.sprintBackLog_items.map((backLog) => backLog.productBackLog_item_id)
     );
+    const userStories_ids = new Set(
+      item.sprintBackLog_items.map((backLog) => backLog.userStory_id)
+    );
+    console.log(productBacklog_item_ids);
 
-    const filteredUserStories = selectedUserStories.filter((story) =>
-      productBacklogItemIds.has(story.id)
+    const filteredUserStories = displayUserStories.filter((story) =>
+      userStories_ids.has(story.id)
     );
 
     setSelectedUserStories(filteredUserStories);
 
+    // const filteredProductBackLogs = displayProductBackLogs.filter((backLog) => {
+    //   console.log(backLog);
+    //   return productBacklog_item_ids.has(backLog.id);
+    // });
+
+    // setSelectedProductBackLogs(filteredProductBackLogs);
+
     const foundSprintLogs = displaySprintBackLogs.filter((backLog) =>
-      productBacklogItemIds.has(backLog.product_backlog_item_id)
+      productBacklog_item_ids.has(backLog.id)
     );
     setSelectedSprintBackLogs(foundSprintLogs);
   };
+  const collection = 'sprintPlannings';
+  const widgetProps = {
+    iconButton: <Schedule />,
+    appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetSprintPlanningInFocus,
+    data: selectedSprintPlannings,
+    selectedData: selectedSprintPlannings,
+    setSelectedItem: setSelectedSprintPlannings,
+    selector: {
+      selector: 'sprintPlanningsSelector',
+      selected: 'selectedSprintPlanning',
+    },
+    singleItemScheme: singleItemScheme,
+    dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintPlanningInFocus,
+    orderedBy: '',
+    tooltipTitle_newItem: 'Create new Sprint Planning',
+    onClickNewItem: () => handleNewSprintPlanning(),
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+  };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -108,28 +152,41 @@ export default function SprintPlannings({
     setActiveSearchTerm(e.target.value);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
       sx={{
         ...styled.widget,
-        // backgroundColor: '#555',
       }}
     >
-      SprintPlanning New Item
+      {' '}
+      <Box
+        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
+        className="widget"
+      >
+        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
+          {defaultPromptSelector}
+        </Box> */}
+        <NewItem
+          component="form"
+          sxStyle={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#eee',
+            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
+          }}
+          autoComplete="off"
+          size={'small'}
+          id="outlined-multiline-static"
+          label={collection}
+          rows={14}
+          data={sprintPlanningInFocus}
+          scheme={scheme}
+        />
+      </Box>
     </Box>
   );
   const soloWidget = (
@@ -143,25 +200,7 @@ export default function SprintPlannings({
       SprintPlanning SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={sprintPlanningInFocus}
-      styled={styled}
-    />
-  );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintPlanning Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -193,23 +232,21 @@ export default function SprintPlannings({
       }}
     >
       {/* UserStory MultiItems */}
+
       <MultiItems
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={selectedSprintPlannings}
-        selectedData={selectedSprintPlannings}
-        setSelectedItem={setSelectedSprintPlannings}
-        selector={{
-          selector: 'sprintPlanningsSelector',
-          selected: 'selectedSprintPlanning',
-        }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={sprintPlanningInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintPlanningInFocus}
+        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
         customElement={null}
         alertElement={null}
+        data={widgetProps?.data}
+        selectedData={widgetProps?.selectedData}
+        setSelectedItem={widgetProps?.setSelectedItem}
+        selector={widgetProps?.selector}
+        itemInFocus={widgetProps?.itemInFocus}
         styled={styled}
       />
     </Box>
@@ -220,14 +257,13 @@ export default function SprintPlannings({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
+        // singleItem={singleItem}
+
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
       />
     </>
   );

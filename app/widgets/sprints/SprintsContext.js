@@ -7,6 +7,7 @@ import { sprints } from './mockSprints';
 const SprintsContext = createContext();
 
 export const SprintsProvider = ({ children }) => {
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displaySprints, setDisplaySprints] = useState(sprints);
   const [selectedSprints, setSelectedSprints] = useState(displaySprints);
   const [sprintInFocus, setSprintInFocus] = useState(false);
@@ -36,6 +37,8 @@ export const SprintsProvider = ({ children }) => {
   return (
     <SprintsContext.Provider
       value={{
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         displaySprints,
         setDisplaySprints,
         selectedSprints,

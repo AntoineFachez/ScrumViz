@@ -9,6 +9,7 @@ const ScrumManagerContext = createContext();
 export const ScrumManagerProvider = ({ children }) => {
   const { scrumManagerContext, setScrumManagerContext } =
     useContext(AppContext);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   // const { setActiveSearchTerm } = useContext(SearchContext);
 
   return (
@@ -16,6 +17,8 @@ export const ScrumManagerProvider = ({ children }) => {
       value={{
         scrumManagerContext,
         setScrumManagerContext,
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
       }}
     >
       {children}

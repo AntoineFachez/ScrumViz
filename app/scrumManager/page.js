@@ -28,6 +28,7 @@ export default function ScrumManagerPage({
   const collection = 'scrumManager';
   const widgetProps = {
     appContext: appContext,
+    hasWidgetMenu: false,
     uiGridMapContext: uiGridMapContext,
     iconButton: <DeveloperBoard />,
     collection: collection,

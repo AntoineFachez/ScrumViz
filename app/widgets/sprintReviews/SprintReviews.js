@@ -17,8 +17,9 @@ import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
 import SprintReviewContext from './SprintReviewsContext';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function SprintReviews({
   widget,
@@ -32,8 +33,11 @@ export default function SprintReviews({
     useContext(AppContext);
   const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
     useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprintReviews,
     setDisplaySprintReviews,
     selectedSprintReviews,
@@ -46,39 +50,74 @@ export default function SprintReviews({
     setIsFiltered,
     // handleSearchTermChange,
     // handleResetFiltered,
-    handleSetSprintReviewInFocus,
+    // handleSetSprintReviewInFocus,
     // handleSelectWidgetContext,
   } = useContext(SprintReviewContext);
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetSprintReviewInFocus = (item) => {
+    handleSetItemInFocus(setSprintReviewInFocus, item, setLatestItemInFocus);
+
+    // const foundPlannings = displaySprintPlannings.filter((planning) =>
+    //   planning.sprint_backlog.some(
+    //     (task) => task.product_backlog_item_id === sprintReview.id
+    //   )
+    // );
+    // setSelectedSprintPlannings(foundPlannings);
+    // const foundSprintLogs = displaySprintBackLogs.filter(
+    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
+    // );
+    // setSelectedSprintBackLogs(foundSprintLogs);
+  };
+
   const collection = 'sprintReviews';
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <RateReview />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetSprintReviewInFocus,
+    data: selectedSprintReviews,
+    selectedData: selectedSprintReviews,
+    setSelectedItem: setSelectedSprintReviews,
+    selector: {
+      selector: 'sprintReviewSelector',
+      selected: 'selectedSprintReviews',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintReviewInFocus,
     orderedBy: '',
 
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showSprinReviewtMenu,
-      widgetProps: widgetProps,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
-    functions: {
-      handleShowMenu: setShowSprinReviewtMenu,
-    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -92,19 +131,6 @@ export default function SprintReviews({
     setIsFiltered(false);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
@@ -127,17 +153,17 @@ export default function SprintReviews({
       SprintReview SoloWidget
     </Box>
   );
-  const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintReview SingleItem
-    </Box>
-  );
+  // const singleItem = (
+  //   <Box
+  //     className="widget"
+  //     sx={{
+  //       ...styled.widget,
+  //       // backgroundColor: '#555',
+  //     }}
+  //   >
+  //     SprintReview SingleItem
+  //   </Box>
+  // );
   const chip = (
     <Box
       className="widget"
@@ -171,49 +197,19 @@ export default function SprintReviews({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintReviewInFocus}
-        customElement={null}
-        alertElement={null}
-        data={selectedSprintReviews}
-        selectedData={selectedSprintReviews}
-        setSelectedItem={setSelectedSprintReviews}
-        selector={{
-          selector: 'sprintReviewSelector',
-          selected: 'selectedSprintReviews',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={sprintReviewInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

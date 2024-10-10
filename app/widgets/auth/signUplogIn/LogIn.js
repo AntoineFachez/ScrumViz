@@ -28,20 +28,24 @@ const Login = ({
   setUserInFocus,
   handleClose,
   switchToSignUp,
+  setAlert,
   // styled,
 }) => {
   const [theme, colorMode, palette, styled] = useMode();
-  const { alert, setAlert } = AppState();
   const [error, setError] = useState();
   const { log, setLog } = useContext(AppContext);
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   const handleSubmit = async (e) => {
     if (!email || !password) {
+      // setAlert({
+      //   open: true,
+      //   message: 'fill in email and password',
+      //   type: 'error',
+      // });
       setAlert({
-        open: true,
-        message: 'fill in email and password',
-        type: 'error',
+        note: 'fill in email and password',
+        state: 'error',
       });
     }
     try {
@@ -88,16 +92,24 @@ const Login = ({
           );
         setUserInFocus(parentDoc?.parentDoc);
 
+        // setAlert({
+        //   open: true,
+        //   message: `welcome ${userCredential.user.email}`,
+        //   type: 'success',
+        // });
         setAlert({
-          open: true,
-          message: `welcome ${userCredential.user.email}`,
-          type: 'success',
+          note: `welcome ${userCredential.user.email}`,
+          state: 'success',
         });
       } else {
+        // setAlert({
+        //   open: true,
+        //   message: `please check your emails before proceeding`,
+        //   type: 'success',
+        // });
         setAlert({
-          open: true,
-          message: `please check your emails before proceeding`,
-          type: 'success',
+          note: `please check your emails before proceeding`,
+          state: 'success',
         });
       }
       // window.localStorage.setItem(JSON.stringify("userLogin", userCredential));
@@ -116,36 +128,42 @@ const Login = ({
 
   return (
     <>
-      <TextField
-        sx={styled.textField}
-        placeholder="email"
-        type="email"
-        label="email"
-        value={email}
-        size="small"
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <TextField
-        sx={styled.textField}
-        placeholder="password"
-        type="password"
-        label="password"
-        value={password}
-        size="small"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <Box className="form-footer">
+      <Box
+        sx={{
+          ...styled.card,
+          ...styled.signUpLogInCard.body,
+        }}
+      >
+        <TextField
+          sx={styled.textField}
+          placeholder="email"
+          type="email"
+          label="email"
+          value={email}
+          size="small"
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <TextField
+          sx={styled.textField}
+          placeholder="password"
+          type="password"
+          label="password"
+          value={password}
+          size="small"
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </Box>
+      <Box className="form-footer" sx={styled.signUpLogInCard.footer}>
         <Button
-          sx={styled.textButtonStyles}
+          sx={styled.menuButtonText.action}
           onClick={handleSubmit}
           size="small"
         >
           Log In
         </Button>
-        <Typography>{error?.code}</Typography>
-        <p className="signUp-logIn-message">{alert?.message}</p>
+        {/* <Typography>{error?.code}</Typography> */}
       </Box>
     </>
   );

@@ -46,6 +46,7 @@ export default function CardItem({
   const CardSubHeaderElement = cardSubHeaderElement;
   const isSelected = itemInFocus?.id === item?.id;
   const handleExpandClick = () => {
+    // handleClick();
     setExpanded(!expanded);
   };
 
@@ -63,9 +64,11 @@ export default function CardItem({
 
   return (
     <Card
-      sx={isSelected ? styled.card.selected : styled?.card}
+      sx={isSelected ? styled.card.selected : { ...styled?.card }}
       ref={listItemRef}
       data-slug={dataSlug}
+
+      // variant="outlined"
     >
       <CardItemHeader
         item={item}
@@ -90,8 +93,9 @@ export default function CardItem({
               color: 'white',
               fontSize: '0.6rem',
               objectFit: 'contain',
+              cursor: '',
             }}
-            onClick={() => handleClick(item)}
+            onClick={() => handleExpandClick(item)}
           />
         )}
         <CardContent

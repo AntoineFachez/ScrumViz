@@ -27,6 +27,7 @@ export const ChatsProvider = ({ children }) => {
     DefaultPromptsContext
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
 
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
@@ -52,9 +53,9 @@ export const ChatsProvider = ({ children }) => {
     setSelectedChats(displayChats);
     setIsFiltered(false);
   };
-  const handleSetChatInFocus = (chat) => {
-    setChatInFocus(chat);
-  };
+  // const handleSetChatInFocus = (chat) => {
+  //   setChatInFocus(chat);
+  // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -184,6 +185,8 @@ export const ChatsProvider = ({ children }) => {
       value={{
         isLoading,
         setIsLoading,
+        showWidgetUIMenu,
+        setShowWidgetUIMenu,
         // selectedWidgetContext,
         // setSelectedWidgetContext,
 
@@ -212,7 +215,7 @@ export const ChatsProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        handleSetChatInFocus,
+        // handleSetChatInFocus,
         // handleSelectWidgetContext,
         // handleNewChat,
         // handleNewDefaultPrompt,

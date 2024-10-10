@@ -14,6 +14,7 @@ const GridComponent = ({}) => {
   const componentMap = {
     create: Grid,
     read: Grid,
+    products: Grid,
     scrumManager: Grid,
     productBackLogs: Grid,
     sprintPlannings: Grid,

@@ -48,6 +48,11 @@ export const widgetListScrumManager = {
       },
       {
         _uid: uuidv4(),
+        widget: 'Products',
+        name: 'Products',
+      },
+      {
+        _uid: uuidv4(),
         widget: 'UserStory',
         name: 'UserStory',
       },

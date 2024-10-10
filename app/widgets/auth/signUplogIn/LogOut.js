@@ -74,10 +74,14 @@ export default function LogOut({
 
     // console.log(user);
     setUser(null);
+    // setAlert({
+    //   open: true,
+    //   type: 'success',
+    //   message: 'Logout Successfull !',
+    // });
     setAlert({
-      open: true,
-      type: 'success',
-      message: 'Logout Successfull !',
+      note: 'Logout Successfull !',
+      state: 'success',
     });
   };
   const updateUser = async (user) => {

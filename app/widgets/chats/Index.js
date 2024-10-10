@@ -16,12 +16,16 @@ import AIModelSelector from './gemini/AIModelSelector';
 import ChatInFocus from './ChatInFocus';
 import ChatMessage from './ChatMessage';
 
-import { handleSelectWidgetContext } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 // import SliderComponent from '@/app/components/slider/Slider';
 
-import { singleItemSchemeChat } from './dataScheme';
+import { singleItemScheme, singleItemSchemeChat } from './dataScheme';
 import ChatInputField from './ChatInputField';
 import SettingsAndMenu from './SettingsAndMenu';
 
@@ -29,6 +33,7 @@ import { runChat } from './functions/apiFunctions';
 import { handleNewChat, handleStoreChat } from './functions/dbFunctions';
 
 import './ChatInFocus.scss';
+import InFocusContext from '@/context/InFocusContext';
 
 export default function ChatsWidget({
   widget,
@@ -41,11 +46,14 @@ export default function ChatsWidget({
     useContext(AppContext);
   const { showChatsMenu, setShowChatsMenu, showSliderExtendData, sliderSize } =
     useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
     isLoading,
     setIsLoading,
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
 
@@ -72,9 +80,8 @@ export default function ChatsWidget({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    handleSearchTermChange,
     // handleResetFiltered,
-    handleSetChatInFocus,
+    // handleSetChatInFocus,
     // handleSelectWidgetContext,
     // handleNewChat,
     // handleNewDefaultPrompt,
@@ -106,48 +113,62 @@ export default function ChatsWidget({
   const [showGeminiCard, setShowGeminiCard] = useState('text');
 
   const [error, setError] = useState(null);
+  const handleSetChatInFocus = (item) => {
+    handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'chats';
   const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
     iconButton: <Chat />,
-    collection: collection,
+    appContext: appContext,
     uiContext: uiContext,
-    contextToolBar: contextToolBar,
+    uiGridMapContext: uiGridMapContext,
     widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetChatInFocus,
+    customElement: null,
+    alertElement: null,
+    data: selectedChats,
+    selectedData: selectedChats,
+    setSelectedItem: setSelectedChats,
+    selector: {
+      selector: 'chatsSelector',
+      selected: 'selectedChats',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-
+    itemInFocus: chatInFocus,
+    tooltipTitle_newItem: 'Create new Chat',
+    onClickNewItem: () => handleNewChat(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
     },
-  };
-  const menuProps = {
-    states: { showMenu: showChatsMenu, widgetProps: widgetProps },
-    functions: {
-      handleShowMenu: setShowChatsMenu,
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
     },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
@@ -229,7 +250,7 @@ export default function ChatsWidget({
         flexFlow: 'column',
       }}
     >
-      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+      {/* <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
         <Tooltip title="Create new Chat" placement="top" arrow>
           <IconButton
             sx={styled?.iconButton?.action}
@@ -238,11 +259,11 @@ export default function ChatsWidget({
             <Add />
           </IconButton>
         </Tooltip>
-      </Box>
+      </Box> */}
       <MultiItems
         widget={widget}
         uiContext={uiContext}
-        singleItemScheme={singleItemSchemeChat}
+        singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
         setActiveSearchTerm={setActiveSearchTerm}
         handleSetItemInFocus={handleSetChatInFocus}
@@ -312,7 +333,7 @@ export default function ChatsWidget({
 
   const promptField = (
     <ChatInputField
-      ref={messageInputRef}
+      messageInputRef={messageInputRef}
       placeholder="Type message here..."
       onChange={handleInputChange}
       value={promptTextInFocus?.description}
@@ -346,7 +367,7 @@ export default function ChatsWidget({
         // contextToolBar={contextToolBar}
         // iconButton={<Chat />}
         // onClick={handleSetAppContext}
-        menu={menu}
+        // menu={menu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
         // vertical={defaultPromptSelector}

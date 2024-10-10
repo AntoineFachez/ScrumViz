@@ -5,6 +5,7 @@ import AppContext from './AppContext';
 import {
   agileCodingMap,
   scrumManagerMap,
+  productsMap,
   userStoriesMap,
   scrumTeamsMap,
   teamMembersMap,
@@ -27,21 +28,21 @@ export const UIProvider = ({ children }) => {
   const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
-  const [showWidgetMenus, setShowWidgetMenus] = useState(false);
+  const [showWidgetMenus, setShowWidgetMenus] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
 
-  const [showProductsItemMenu, setShowProductsItemMenu] = useState(false);
-  const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
-  const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
-  const [showSprintMenu, setShowSprintMenu] = useState(false);
-  const [showBackLogItemMenu, setShowBackLogItemMenu] = useState(false);
-  const [showImageDropMenu, setShowImageDropMenu] = useState(false);
-  const [showPersonsMenu, setShowPersonsMenu] = useState(false);
-  const [showTeamMembersMenu, setShowTeamMembersMenu] = useState(false);
-  const [showDailyMenu, setShowDailyMenu] = useState(false);
-  const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
-  const [showChatsMenu, setShowChatsMenu] = useState(false);
-  const [showDefaultPromptsMenu, setShowDefaultPromptsMenu] = useState(false);
+  // const [showProductsItemMenu, setShowProductsItemMenu] = useState(false);
+  // const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
+  // const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
+  // const [showSprintMenu, setShowSprintMenu] = useState(false);
+  // const [showBackLogItemMenu, setShowBackLogItemMenu] = useState(false);
+  // const [showImageDropMenu, setShowImageDropMenu] = useState(false);
+  // const [showPersonsMenu, setShowPersonsMenu] = useState(false);
+  // const [showTeamMembersMenu, setShowTeamMembersMenu] = useState(false);
+  // const [showDailyMenu, setShowDailyMenu] = useState(false);
+  // const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
+  // const [showChatsMenu, setShowChatsMenu] = useState(false);
+  // const [showDefaultPromptsMenu, setShowDefaultPromptsMenu] = useState(false);
 
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
@@ -87,6 +88,8 @@ export const UIProvider = ({ children }) => {
             return agileCodingMap;
           case 'scrumManager':
             return scrumManagerMap;
+          case 'products':
+            return productsMap;
           case 'userStories':
             return userStoriesMap;
           case 'productBackLogs':
@@ -126,30 +129,32 @@ export const UIProvider = ({ children }) => {
         setShowWidgetMenus,
         showDialog,
         setShowDialog,
-        showProductsItemMenu,
-        setShowProductsItemMenu,
-        showUserStoryMenu,
-        setShowUserStoryMenu,
-        showSprintPlanningMenu,
-        setShowSprintPlanningMenu,
-        showSprintMenu,
-        setShowSprintMenu,
-        showBackLogItemMenu,
-        setShowBackLogItemMenu,
-        showImageDropMenu,
-        setShowImageDropMenu,
-        showPersonsMenu,
-        setShowPersonsMenu,
-        showTeamMembersMenu,
-        setShowTeamMembersMenu,
-        showDailyMenu,
-        setShowDailyMenu,
-        showSprinReviewtMenu,
-        setShowSprinReviewtMenu,
-        showChatsMenu,
-        setShowChatsMenu,
-        showDefaultPromptsMenu,
-        setShowDefaultPromptsMenu,
+
+        // showProductsItemMenu,
+        // setShowProductsItemMenu,
+        // showUserStoryMenu,
+        // setShowUserStoryMenu,
+        // showSprintPlanningMenu,
+        // setShowSprintPlanningMenu,
+        // showSprintMenu,
+        // setShowSprintMenu,
+        // showBackLogItemMenu,
+        // setShowBackLogItemMenu,
+        // showImageDropMenu,
+        // setShowImageDropMenu,
+        // showPersonsMenu,
+        // setShowPersonsMenu,
+        // showTeamMembersMenu,
+        // setShowTeamMembersMenu,
+        // showDailyMenu,
+        // setShowDailyMenu,
+        // showSprinReviewtMenu,
+        // setShowSprinReviewtMenu,
+        // showChatsMenu,
+        // setShowChatsMenu,
+        // showDefaultPromptsMenu,
+        // setShowDefaultPromptsMenu,
+
         defaultWidgetMap,
         setDefaultWidgetMap,
         gridDOMMap,

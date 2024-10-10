@@ -1,26 +1,20 @@
 'use client';
 import { useContext, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Box, Typography } from '@mui/material';
+import { AddToQueue, BackupOutlined } from '@mui/icons-material';
 
-import UIContext from '@/context/UIContext';
+import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
+import SearchContext from '@/context/SearchContext';
+import SprintBackLogsContext from './SprintBackLogsContext';
+import UserStoriesContext from '../userStories/UserStoriesContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-
-import { AddToQueue, BackupOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import SingleItem from '@/app/uiItems/SingleItem';
-import MultiItems from '@/app/uiItems/MultiItems';
-import SearchContext from '@/context/SearchContext';
-import { singleItemScheme } from './dataScheme';
-import UserStoriesContext from '../userStories/UserStoriesContext';
-import SprintBackLogsContext from './SprintBackLogsContext';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
-import { handleSelectWidgetContext } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import { singleItemScheme } from './dataScheme';
+import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function SprintBackLogs({
   widget,
@@ -31,14 +25,11 @@ export default function SprintBackLogs({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const {
-    homeUiSelected,
-    setHomeUiSelected,
-    showBackLogItemMenu,
-    setShowBackLogItemMenu,
-  } = useContext(UIContext);
+  const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
     displaySprintBackLogs,
     setDisplaySprintBackLogs,
     selectedSprintBackLogs,
@@ -56,39 +47,11 @@ export default function SprintBackLogs({
   } = useContext(UserStoriesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetBackLogInFocus = (item) => {
+    handleSetItemInFocus(setSprintBackLogInFocus, item, setLatestItemInFocus);
 
-  const collection = 'sprintBackLogs';
-  const widgetProps = {
-    appContext: appContext,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <AddToQueue />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
-    itemContext: '',
-    dropWidgetName: collection,
-    orderedBy: '',
-
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
-  };
-  const menuProps = {
-    states: {
-      showMenu: showBackLogItemMenu,
-      widgetProps: widgetProps,
-    },
-    functions: {
-      handleShowMenu: setShowBackLogItemMenu,
-    },
-  };
-
-  const handleSetBackLogInFocus = (sprintBackLog) => {
-    setSprintBackLogInFocus(sprintBackLog);
     const foundUserStories = displayUserStories.filter(
-      (story) => story.id === sprintBackLog.product_backlog_item_id
+      (story) => story.id === item.product_backlog_item_id
     )[0];
     setUserStoryInFocus(foundUserStories);
 
@@ -103,6 +66,53 @@ export default function SprintBackLogs({
     //   item: universityInFocus,
     // });
   };
+  const collection = 'sprintBackLogs';
+  const widgetProps = {
+    iconButton: <AddToQueue />,
+    appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetBackLogInFocus,
+    data: selectedSprintBackLogs,
+    selectedData: selectedSprintBackLogs,
+    setSelectedItem: setSelectedSprintBackLogs,
+    selector: {
+      selector: 'sprintBackLogsSelector',
+      selected: 'selectedSprintBackLog',
+    },
+    singleItemScheme: singleItemScheme,
+    dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintBackLogInFocus,
+    orderedBy: '',
+
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+        // widgetProps: widgetProps,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+  };
+
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     // setResetData();
@@ -112,19 +122,6 @@ export default function SprintBackLogs({
     setActiveSearchTerm(e.target.value);
   };
 
-  const menu = (
-    <>
-      <WidgetMenu
-        widget={widget}
-        widgetProps={widgetProps}
-        menuProps={menuProps}
-        setSelectedWidgetContext={setSelectedWidgetContext}
-        handleSelectWidgetContext={handleSelectWidgetContext}
-        handleSearchTermChange={handleSearchTermChange}
-        searchTerm={searchTerm}
-      />
-    </>
-  );
   const newItem = (
     <Box
       className="widget"
@@ -147,14 +144,7 @@ export default function SprintBackLogs({
       BackLogItems SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={sprintBackLogInFocus}
-      styled={styled}
-    />
-  );
+
   const chip = (
     <Box
       className="widget"
@@ -188,49 +178,16 @@ export default function SprintBackLogs({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        data={selectedSprintBackLogs}
-        selectedData={selectedSprintBackLogs}
-        setSelectedItem={setSelectedSprintBackLogs}
-        selector={{
-          selector: 'sprintBackLogsSelector',
-          selected: 'selectedSprintBackLog',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={sprintBackLogInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetBackLogInFocus}
-        customElement={null}
-        alertElement={null}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
         tree={tree}
-        flexList={flexList}
       />
     </>
   );

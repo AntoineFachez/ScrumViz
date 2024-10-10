@@ -17,28 +17,7 @@ export default function Menu({
 }) {
   return (
     <>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          sx={{
-            ...styled?.textBody,
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-          variant={styled?.textBody?.variant}
-        >
-          {menuProps?.states?.widgetProps?.collection}
-        </Typography>
-      </Box>
-
-      {menuProps.states.showMenu && isOpen ? (
+      {menuProps?.states?.showMenu && isOpen ? (
         <>
           {' '}
           <Box className="widgetMenuExpand" sx={styled?.widgetMenuExpand}>
@@ -88,15 +67,7 @@ export default function Menu({
           <Box
             className="widgetMenuButtonArray hor"
             sx={styled?.widgetMenuButtonArray?.hor}
-            // sx={{
-            //   position: 'absolute',
-            //   top: 0,
-            //   width: '100%',
-            //   height: '2rem',
-            //   display: 'flex',
-            //   flexDirection: 'row',
-            //   padding: '0 0rem 0 2rem',
-            // }}
+
             // noValidate
             // autoComplete="off"
           >

@@ -10,3 +10,24 @@ export const handleSelectWidgetContext = (
   updateWidgetContext(widget, widgetProps, context);
   return;
 };
+
+export const handleSetItemInFocus = (
+  inFocusSetter,
+  item,
+  setLatestItemInFocus
+) => {
+  inFocusSetter(item);
+  setLatestItemInFocus(item);
+};
+
+export const handleSearchTermChange = (
+  e,
+  setSearchTerm,
+  setActiveSearchTerm
+) => {
+  e.preventDefault();
+  console.log(e.target.value);
+
+  setSearchTerm(e.target.value);
+  setActiveSearchTerm(e.target.value);
+};
