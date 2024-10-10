@@ -79,13 +79,9 @@ export default function MultiItems({ widgetProps, alertElement, styled }) {
                           <>
                             <CardItem
                               widgetProps={widgetProps}
-                              item={item}
-                              context="item"
                               dataSlug={item.id}
-                              singleItemScheme={singleItemScheme}
+                              item={item}
                               handleClick={handleSetItemInFocus}
-                              itemContext={itemContext}
-                              itemInFocus={itemInFocus}
                               customElement={customElement}
                               alertElement={alertElement}
                               styled={styled}
@@ -94,11 +90,8 @@ export default function MultiItems({ widgetProps, alertElement, styled }) {
                         ) : (
                           <>
                             <ChipComponent
+                              widgetProps={widgetProps}
                               item={item}
-                              itemContext={itemContext}
-                              singleItemScheme={singleItemScheme}
-                              itemInFocus={itemInFocus}
-                              handleSetItemInFocus={handleSetItemInFocus}
                               styled={styled}
                             />
                           </>

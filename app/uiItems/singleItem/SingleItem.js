@@ -62,10 +62,7 @@ const SingleItem = ({
               handleClickCustomArrayItem={handleClickCustomArrayItem}
               styled={styled}
             />
-            <Media
-              itemInFocus={itemInFocus}
-              singleItemScheme={singleItemScheme}
-            />
+            <Media widgetProps={widgetProps} styled={styled} />
           </Box>
         </>
       )}

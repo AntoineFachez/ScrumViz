@@ -3,15 +3,10 @@ import React from 'react';
 
 import { stringAvatar } from '@/utils/colorHelpers';
 
-export default function ChipComponent({
-  item,
-  itemContext,
-  singleItemScheme,
-  itemInFocus,
-  handleSetItemInFocus,
-  handleClick,
-  styled,
-}) {
+export default function ChipComponent({ widgetProps, item, styled }) {
+  const { itemContext, itemInFocus, singleItemScheme, handleSetItemInFocus } =
+    widgetProps;
+
   return (
     <Chip
       data-slug={item.id}
@@ -19,7 +14,7 @@ export default function ChipComponent({
       multilines="true"
       avatar={
         <Avatar
-          onClick={() => handleClick(item)}
+          // onClick={() => handleClick(item)}
           sx={styled?.avatar}
           aria-label={itemContext}
           // src={item?.basics?.[`${itemContext}ImageUrl`]}

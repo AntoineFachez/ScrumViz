@@ -59,6 +59,7 @@ export default function TimeStamps({
   const collection = 'timeStamps';
   const widgetProps = {
     iconButton: <AddToQueue />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

@@ -56,6 +56,7 @@ export default function Dailies({
   };
   const widgetProps = {
     iconButton: <DateRange />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

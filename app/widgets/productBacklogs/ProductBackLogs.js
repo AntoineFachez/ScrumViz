@@ -91,6 +91,7 @@ export default function Products({
   };
   const widgetProps = {
     iconButton: <AddToQueue />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

@@ -101,6 +101,7 @@ export default function SprintPlannings({
   const collection = 'sprintPlannings';
   const widgetProps = {
     iconButton: <Schedule />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

@@ -78,6 +78,7 @@ export default function DefaultPromptWidget({
   const collection = 'defaultPrompts';
   const widgetProps = {
     iconButton: <Chat />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
