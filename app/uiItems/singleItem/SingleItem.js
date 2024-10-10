@@ -6,13 +6,21 @@ import Body from './Body';
 import Media from './Media';
 
 const SingleItem = ({
-  itemContext,
-  itemInFocus,
-  customArrayItemInFocus,
-  handleClickCustomArrayItem,
+  widgetProps,
+  // itemContext,
+  // itemInFocus,
+  // customArrayItemInFocus,
+  // handleClickCustomArrayItem,
+  // singleItemScheme,
   styled,
-  singleItemScheme,
 }) => {
+  const {
+    itemContext,
+    itemInFocus,
+    customArrayItemInFocus,
+    handleClickCustomArrayItem,
+    singleItemScheme,
+  } = widgetProps;
   const { setUiGridMapContext } = useContext(AppContext);
   return (
     <Box className="widget" sx={styled?.widget}>
@@ -47,6 +55,7 @@ const SingleItem = ({
             />
 
             <Body
+              widgetProps={widgetProps}
               singleItemScheme={singleItemScheme}
               itemInFocus={itemInFocus}
               customArrayItemInFocus={customArrayItemInFocus}

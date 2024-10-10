@@ -17,11 +17,11 @@ export const SprintBackLogsProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleFindSprintBackLogs = (item) => {
-    // console.log('handleFindSprintBackLogs', item);
+  const handleFindSprintBackLogs = (item, itemKey, filterKey) => {
+    console.log('handleFindSprintBackLogs', itemKey, filterKey);
 
     const foundSprintLogs = displaySprintBackLogs.filter(
-      (sprintBackLog) => sprintBackLog.userStory_id === item.id
+      (sprintBackLog) => sprintBackLog[filterKey] === item[itemKey]
     );
     setSelectedSprintBackLogs(foundSprintLogs);
   };

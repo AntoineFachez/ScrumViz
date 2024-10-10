@@ -1,15 +1,12 @@
 import { Box, Button } from '@mui/material';
 import React from 'react';
 
-export default function CustomSubList({
-  item,
-  customArrayItemInFocus,
-  singleItemScheme,
-  handleClickCustomArrayItem,
-  styled,
-}) {
-  //   console.log(handleClickCustomArrayItem);
-
+export default function CustomSubList({ widgetProps, item, styled }) {
+  const {
+    singleItemScheme,
+    customArrayItemInFocus,
+    handleClickCustomArrayItem,
+  } = widgetProps;
   return (
     <Box
       component="ul"
