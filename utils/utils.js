@@ -1,10 +1,19 @@
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 
-export const notify = (note, state) => {
-  toast[state](note, {
-    position: 'bottom-center',
-  });
+export const notify = (alert) => {
+  if (alert) {
+    const { state, note } = alert;
+    if (alert && state && note && toast[state]) {
+      console.log(alert);
+      toast[state](note, {
+        position: 'bottom-center',
+        closeOnClick: true,
+      });
+    } else {
+      'error', 'error';
+    }
+  }
 };
 export const printLetterByLetter = (destination, message, speed) => {
   var i = 0;

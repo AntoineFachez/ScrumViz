@@ -27,6 +27,7 @@ import { InFocusProvider } from '@/context/InFocusContext';
 import { ProductsProvider } from './widgets/products/ProductsContext';
 import { ImageDropZoneProvider } from './widgets/imageDropZone/ImageDropZoneContext';
 import { PersonsProvider } from './widgets/persons/PersonsContext';
+import { ToastContainer } from 'react-toastify';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -99,6 +100,7 @@ export default function RootLayout({ children }) {
                                                     <ScrumManagerProvider>
                                                       <DefaultPromptsProvider>
                                                         <ChatsProvider>
+                                                          {' '}
                                                           {children}
                                                         </ChatsProvider>
                                                       </DefaultPromptsProvider>

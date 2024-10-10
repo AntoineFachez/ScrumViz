@@ -5,7 +5,7 @@ import React from 'react';
 export default function QuickMenu({ widgetProps, styled }) {
   const quickMenu = (
     <Box
-      className="widget"
+      className="widget-menu"
       sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}
     >
       <Tooltip title={widgetProps.tooltipTitle_newItem} placement="top" arrow>

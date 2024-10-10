@@ -12,7 +12,7 @@ import SprintsContext from './SprintsContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/SingleItem';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
@@ -55,19 +55,38 @@ export default function Sprints({
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetSprintInFocus = (item) => {
+    handleSetItemInFocus(setSprintInFocus, item, setLatestItemInFocus);
+
+    const found = displayDailies.filter((daily) => {
+      return daily.sprint_id === item.id;
+    });
+    setSelectedDailies(found);
+  };
   const collection = 'sprints';
   const widgetProps = {
+    iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetSprintInFocus,
+    data: selectedSprints,
+    selectedData: selectedSprints,
+    setSelectedItem: setSelectedSprints,
+    selector: {
+      selector: 'sprintSelector',
+      selected: 'selectedSprints',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintInFocus,
     orderedBy: '',
 
     onClick: () => {
@@ -91,14 +110,6 @@ export default function Sprints({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetSprintInFocus = (item) => {
-    handleSetItemInFocus(setSprintInFocus, item, setLatestItemInFocus);
-
-    const found = displayDailies.filter((daily) => {
-      return daily.sprint_id === item.id;
-    });
-    setSelectedDailies(found);
-  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -139,25 +150,7 @@ export default function Sprints({
       Sprint SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={sprintInFocus}
-      styled={styled}
-    />
-  );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Sprint Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -192,19 +185,16 @@ export default function Sprints({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={selectedSprints}
-        selectedData={selectedSprints}
-        setSelectedItem={setSelectedSprints}
-        selector={{
-          selector: 'sprintSelector',
-          selected: 'selectedSprints',
-        }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={sprintInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintInFocus}
+        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
         customElement={null}
         alertElement={null}
+        data={widgetProps?.data}
+        selectedData={widgetProps?.selectedData}
+        setSelectedItem={widgetProps?.setSelectedItem}
+        selector={widgetProps?.selector}
+        itemInFocus={widgetProps?.itemInFocus}
         styled={styled}
       />
     </Box>
@@ -218,10 +208,9 @@ export default function Sprints({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
+        // singleItem={singleItem}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

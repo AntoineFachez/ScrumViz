@@ -6,8 +6,8 @@ import {
 } from '@chatscope/chat-ui-kit-react';
 import { Paper } from '@mui/material';
 
-import { handleFormatResponse } from './functions/apiFunctions';
 import ChatMessageList from './ChatMessageList';
+import { handleFormatResponse } from '@/utils/formatters';
 
 export default function ChatInFocus({
   chatInFocus,

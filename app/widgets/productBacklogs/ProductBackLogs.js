@@ -8,15 +8,11 @@ import BackLogsContext from './ProductBackLogsContext';
 import InFocusContext from '@/context/InFocusContext';
 import UIContext from '@/context/UIContext';
 import ProductsContext from '../products/ProductsContext';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '../../uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
-import SingleItem from '@/app/uiItems/SingleItem';
-import MultiItems from '@/app/uiItems/MultiItems';
 
 import { singleItemScheme } from './dataScheme';
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
@@ -69,48 +65,11 @@ export default function Products({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const widgetProps = {
-    appContext: appContext,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    widget: widget,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <AddToQueue />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
-    itemContext: '',
-    dropWidgetName: collection,
-    orderedBy: '',
-    tooltipTitle_newItem: 'Create new Product BackLog',
-    onClickNewItem: () => handleNewProductBackLog(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
-    menuProps: {
-      states: {
-        showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
-      },
-      functions: {
-        handleShowMenu: setShowWidgetUIMenu,
-      },
-    },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
-    handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
-    handleSearchTermChange: (e) =>
-      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-  };
-
   const handleSetProductBackLogInFocus = (item) => {
     handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
 
     const foundUserStories = displayUserStories.filter((userStory) => {
-      return item.productBackLog_items.some(
+      return item?.productBackLog_items?.some(
         (backLog_item) => backLog_item.userStory_id === userStory.id
       );
     });
@@ -122,14 +81,61 @@ export default function Products({
     );
     setProductInFocus(foundProducts[0]);
   };
-
   const handleClickCustomArrayItem = (e) => {
+    console.log(e);
+
     const found = displayUserStories.filter(
       (story) => story.id === e.userStory_id
     )[0];
     setUserStoryInFocus(found);
   };
-
+  const widgetProps = {
+    iconButton: <AddToQueue />,
+    appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetProductBackLogInFocus,
+    data: selectedProductBackLogs,
+    selectedData: selectedProductBackLogs,
+    setSelectedItem: setSelectedProductBackLogs,
+    selector: {
+      selector: 'productBackLogsSelector',
+      selected: 'selectedProductBackLog',
+    },
+    singleItemScheme: singleItemScheme,
+    dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: productBackLogInFocus,
+    customArrayItemInFocus: userStoryInFocus,
+    tooltipTitle_newItem: 'Create new Product BackLog',
+    onClickNewItem: () => handleNewProductBackLog(),
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    menuProps: {
+      states: {
+        showMenu: showWidgetUIMenu,
+      },
+      functions: {
+        handleShowMenu: setShowWidgetUIMenu,
+      },
+    },
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    handleSelectWidgetContext: handleSelectWidgetContext,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
+    searchTerm: searchTerm,
+    handleSearchTermChange: (e) =>
+      handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+  };
+  console.log(widgetProps?.customArrayItemInFocus);
   const newItem = (
     <Box
       className="widget"
@@ -151,14 +157,6 @@ export default function Products({
     >
       BackLogItems SoloWidget
     </Box>
-  );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={productBackLogInFocus}
-      styled={styled}
-    />
   );
 
   const tree = (
@@ -184,38 +182,6 @@ export default function Products({
     </Box>
   );
 
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        customArrayItemInFocus={userStoryInFocus}
-        handleSetItemInFocus={handleSetProductBackLogInFocus}
-        handleClickCustomArrayItem={handleClickCustomArrayItem}
-        customElement={null}
-        alertElement={null}
-        data={selectedProductBackLogs}
-        selectedData={selectedProductBackLogs}
-        setSelectedItem={setSelectedProductBackLogs}
-        selector={{
-          selector: 'productBackLogsSelector',
-          selected: 'selectedProductBackLog',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={productBackLogInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
-
   return (
     <>
       <WidgetIndexTemplate
@@ -224,10 +190,10 @@ export default function Products({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

@@ -4,28 +4,23 @@ import { Avatar, Box, Typography } from '@mui/material';
 import { DateRange, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
-import UIContext from '@/context/UIContext';
-import SearchContext from '@/context/SearchContext';
 import DailiesContext from './DailiesContext';
+import InFocusContext from '@/context/InFocusContext';
+import SearchContext from '@/context/SearchContext';
+import SprintsContext from '../sprints/SprintsContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import { useMode } from '@/app/theme/ThemeContext';
-import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/SingleItem';
+import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
-
-import StandInTable from '@/app/components/table/StandInTable';
-import SprintsContext from '../sprints/SprintsContext';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
 
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
 } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
+
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function Dailies({
   widget,
@@ -36,13 +31,7 @@ export default function Dailies({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const {
-    homeUiSelected,
-    setHomeUiSelected,
-    showDailyMenu,
-    setShowDailyMenu,
-    toggleDrawer,
-  } = useContext(UIContext);
+
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
@@ -57,25 +46,33 @@ export default function Dailies({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-    // handleSetDailiesInFocus,
   } = useContext(DailiesContext);
   const { handleFindSprints } = useContext(SprintsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'dailies';
+  const handleSetDailiesInFocus = (item) => {
+    handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
+  };
   const widgetProps = {
+    iconButton: <DateRange />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <DateRange />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    data: selectedDailies,
+    selectedData: selectedDailies,
+    setSelectedItem: setSelectedDailies,
+    selector: { selector: 'dailiesSelector', selected: 'selectedDailies' },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: dailiesInFocus,
 
     onClick: () => {
       setUiGridMapContext(collection);
@@ -84,7 +81,6 @@ export default function Dailies({
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
@@ -96,37 +92,15 @@ export default function Dailies({
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    handleSetItemInFocus: handleSetDailiesInFocus,
   };
 
-  // const menuProps = {
-  //   states: { showMenu: showDailyMenu, widgetProps: widgetProps },
-  //   functions: {
-  //     handleShowMenu: setShowDailyMenu,
-  //   },
-  // };
-
-  const handleSetDailiesInFocus = (item) => {
-    handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
-  };
   useEffect(() => {
     if (dailiesInFocus) handleFindSprints('id', dailiesInFocus, 'sprint_id');
 
     return () => {};
   }, [dailiesInFocus]);
 
-  // const menu = (
-  //   <>
-  //     <WidgetMenu
-  //       widgetProps={widgetProps}
-  //       widget={widget}
-  //       menuProps={menuProps}
-  //       setSelectedWidgetContext={setSelectedWidgetContext}
-  //       handleSelectWidgetContext={handleSelectWidgetContext}
-  //       handleSearchTermChange={handleSearchTermChange}
-  //       searchTerm={searchTerm}
-  //     />
-  //   </>
-  // );
   const newItem = (
     <Box
       className="widget"
@@ -148,14 +122,6 @@ export default function Dailies({
     >
       Daily SoloWidget
     </Box>
-  );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={dailiesInFocus}
-      styled={styled}
-    />
   );
 
   const tree = (
@@ -180,36 +146,6 @@ export default function Dailies({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        widget={widget}
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetDailiesInFocus}
-        customElement={null}
-        alertElement={null}
-        data={selectedDailies}
-        selectedData={selectedDailies}
-        setSelectedItem={setSelectedDailies}
-        selector={{
-          selector: 'dailiesSelector',
-          selected: 'selectedDailies',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={dailiesInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
@@ -220,9 +156,9 @@ export default function Dailies({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

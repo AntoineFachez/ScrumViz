@@ -21,7 +21,7 @@ import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
 import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/SingleItem';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
 import NewItem from '@/app/uiItems/NewItem';
 
 import { scheme, singleItemScheme } from './dataScheme';
@@ -75,19 +75,39 @@ export default function UserStory({
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
+
+  const handleSetUserStoryInFocus = (item) => {
+    console.log(item);
+
+    handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
+  };
+  const handleClickCustomArrayItem = (e) => {
+    console.log(e);
+
+    // const found = displayUserStories.filter(
+    //   (story) => story.id === e.userStory_id
+    // )[0];
+    // setUserStoryInFocus(found);
+  };
   const widgetProps = {
+    iconButton: <Assignment />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Assignment />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    data: selectedUserStories,
+
+    selectedData: selectedUserStories,
+    setSelectedItem: setSelectedUserStories,
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: userStoryInFocus,
     tooltipTitle_newItem: 'Create new User Story',
     handleNewItem: () => handleNewUserStory(),
     onClick: () => {
@@ -103,16 +123,22 @@ export default function UserStory({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
+    selector: {
+      selector: 'userStoriesSelector',
+      selected: 'selectedUserStories',
+    },
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
     searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+
+    handleSetItemInFocus: handleSetUserStoryInFocus,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
-  const handleSetUserStoryInFocus = (item) => {
-    handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
-  };
+
   useEffect(() => {
     if (userStoryInFocus) {
       handleFindSprintPlannings(userStoryInFocus);
@@ -132,14 +158,6 @@ export default function UserStory({
     >
       UserStory SoloWidget
     </Box>
-  );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={userStoryInFocus}
-      styled={styled}
-    />
   );
 
   const tree = (
@@ -174,25 +192,6 @@ export default function UserStory({
       }}
     >
       {' '}
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
-        customElement={null}
-        alertElement={null}
-        data={selectedUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
-        selector={{
-          selector: 'userStoriesSelector',
-          selected: 'selectedUserStories',
-        }}
-        itemInFocus={userStoryInFocus}
-        styled={styled}
-      />
     </Box>
   );
   const newItem = (
@@ -240,10 +239,8 @@ export default function UserStory({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />
