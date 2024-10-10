@@ -215,15 +215,14 @@ function mergeLayouts(firstSet, secondSet) {
 
   return mergedArray;
 }
-export const updateWidgetContext = (widget, widgetProps, context) => {
+export const updateWidgetContext = (widgetProps, context) => {
+  const { widget, uiGridMapContext } = widgetProps;
   const storedLayout = getFromLS(widgetProps.uiGridMapContext);
-  // console.log('updateWidgetContext', widget, widgetProps, context);
   if (storedLayout && Object?.keys(storedLayout).length) {
-    console.log(storedLayout);
-
     const widgetIndex = storedLayout?.findIndex(
       (storedWidget) => storedWidget?.id === widget?.id
     );
+
     const temp = storedLayout[widgetIndex];
     const widgetToUpdate = {
       ...temp,
@@ -238,8 +237,7 @@ export const updateWidgetContext = (widget, widgetProps, context) => {
         ...storedLayout.slice(widgetIndex + 1),
       ];
 
-      // console.log(widget, updatedLayout);
-      saveToLS(widgetProps.uiGridMapContext, updatedLayout);
+      saveToLS(uiGridMapContext, updatedLayout);
     } else {
       console.warn('Widget not found in stored layout. Unable to update.');
     }

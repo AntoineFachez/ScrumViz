@@ -3,13 +3,10 @@ import CardItem from './CardItem';
 import { Box, Button } from '@mui/material';
 
 export default function Index({
-  context,
+  widgetProps,
   dataSlug,
-  singleItemScheme,
   item,
   handleClick,
-  itemContext,
-  itemInFocus,
   customElement,
   alertElement,
   styled,
@@ -19,16 +16,13 @@ export default function Index({
   return (
     <>
       <CardItem
+        widgetProps={widgetProps}
         dataSlug={dataSlug}
         listItemRef={listItemRef}
-        context={context}
-        singleItemScheme={singleItemScheme}
         item={item}
-        itemContext={itemContext}
-        itemInFocus={itemInFocus}
         customElement={customElement}
-        alertElement={alertElement}
         handleClick={handleClick}
+        alertElement={alertElement}
         styled={styled}
       />
     </>

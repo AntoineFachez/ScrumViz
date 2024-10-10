@@ -66,6 +66,7 @@ export default function Sprints({
   const collection = 'sprints';
   const widgetProps = {
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

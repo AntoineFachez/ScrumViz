@@ -29,21 +29,17 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function CardItem({
+  widgetProps,
   listItemRef,
   dataSlug,
-  context,
   item,
-  singleItemScheme,
   handleClick,
-  itemContext,
-  itemInFocus,
   customElement,
-  cardSubHeaderElement,
   alertElement,
   styled,
 }) {
+  const { itemContext, singleItemScheme, itemInFocus } = widgetProps;
   const [expanded, setExpanded] = React.useState(false);
-  const CardSubHeaderElement = cardSubHeaderElement;
   const isSelected = itemInFocus?.id === item?.id;
   const handleExpandClick = () => {
     // handleClick();
@@ -75,13 +71,17 @@ export default function CardItem({
         itemContext={itemContext}
         isSelected={isSelected}
         singleItemScheme={singleItemScheme}
-        CardSubHeaderElement={CardSubHeaderElement}
         alertElement={alertElement}
         stringAvatar={stringAvatar}
         handleClick={handleClick}
         styled={styled}
       />
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Collapse
+        in={expanded}
+        timeout="auto"
+        unmountOnExit
+        sx={{ '& .MuiCardContent-root': { padding: 0 } }}
+      >
         {item[singleItemScheme.url] && (
           <CardMedia
             component="img"
@@ -105,7 +105,8 @@ export default function CardItem({
             flexFlow: 'column nowrap',
             justifyContent: 'center',
             alignItems: 'center',
-            // padding: '0 2rem',
+
+            // backgroundColor: 'white',
           }}
         >
           {item[singleItemScheme.description] && (

@@ -34,6 +34,7 @@ import {
 import { useMode } from '@/app/theme/ThemeContext';
 import AcceptanceCriteria from '../acceptanceCriteria/AcceptanceCriteria';
 import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
+import { updateWidgetContext } from '@/app/components/grid/helperFunctions';
 
 export default function UserStory({
   widget,
@@ -78,6 +79,7 @@ export default function UserStory({
     displayAcceptanceCriteria,
     selectedAcceptanceCriteria,
     setSelectedAcceptanceCriteria,
+    acceptanceCriteriaInFocus,
     setAcceptanceCriteriaInFocus,
     handleFindAcceptanceCriteria,
   } = useContext(AcceptanceCriteriaContext);
@@ -89,8 +91,6 @@ export default function UserStory({
     handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
   };
   const handleClickCustomArrayItem = (item) => {
-    console.log('acceptanceCriteria_id');
-
     const found = displayAcceptanceCriteria.filter(
       (criteria) => criteria.id === item.acceptanceCriteria_id
     )[0];
@@ -99,6 +99,8 @@ export default function UserStory({
   };
   const widgetProps = {
     iconButton: <Assignment />,
+
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
@@ -116,13 +118,8 @@ export default function UserStory({
     dropWidgetName: collection,
     orderedBy: '',
     itemInFocus: userStoryInFocus,
-    customArrayItemInFocus: userStoryInFocus,
+    customArrayItemInFocus: acceptanceCriteriaInFocus,
     tooltipTitle_newItem: 'Create new User Story',
-    handleNewItem: () => handleNewUserStory(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -138,8 +135,13 @@ export default function UserStory({
     },
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    handleSelectWidgetContext: handleSelectWidgetContext,
     searchTerm: searchTerm,
+    handleNewItem: () => handleNewUserStory(),
+    onClick: () => {
+      setUiGridMapContext(collection);
+      return;
+    },
+    handleSelectWidgetContext: handleSelectWidgetContext,
     setActiveSearchTerm: setActiveSearchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
@@ -156,6 +158,16 @@ export default function UserStory({
 
     return () => {};
   }, [userStoryInFocus]);
+  // useEffect(() => {
+  //   console.log('updateWidgetContext', uiGridMapContext);
+
+  //   updateWidgetContext(
+  //     widget,
+  //     widgetProps.uiGridMapContext,
+  //     widgetProps.widgetContext
+  //   );
+  //   return () => {};
+  // }, [widgetProps.uiGridMapContext]);
 
   const soloWidget = (
     <Box

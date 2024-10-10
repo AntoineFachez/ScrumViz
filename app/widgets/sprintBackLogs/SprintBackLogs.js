@@ -72,6 +72,7 @@ export default function SprintBackLogs({
   const collection = 'sprintBackLogs';
   const widgetProps = {
     iconButton: <AddToQueue />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

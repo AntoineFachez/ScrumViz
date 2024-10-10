@@ -73,19 +73,14 @@ export default function WidgetMenu({
       return (
         <IconButton
           tooltip={buttonData.state}
-          key={buttonData.state} // Use state as the key
+          key={buttonData.state}
           sx={
             widgetProps.selectedWidgetContext === buttonData.state
               ? styled?.widgetMenuButton?.active
               : styled?.widgetMenuButton?.inactive
           }
           onClick={() =>
-            widgetProps.handleSelectWidgetContext(
-              widgetProps.widget,
-              widgetProps,
-              widgetProps.setSelectedWidgetContext,
-              buttonData.state
-            )
+            widgetProps.handleSelectWidgetContext(widgetProps, buttonData.state)
           }
         >
           {buttonData.icon}

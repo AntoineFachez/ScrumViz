@@ -27,13 +27,13 @@ export const singleItemScheme = {
   id: 'id',
   title: 'userStory_name',
   subTitle: 'teamMemberName',
-  description: 'user_story',
+  description: 'userStory_short',
   customField: 'teamMemberName',
   img_uri: 'wireFrame_uri',
   customArray: 'acceptanceCriteria',
   customArrayKey: 'acceptanceCriteria_description',
-  // itemInFocusIdKey: 'id',
-  // filterArrayByIdKey: 'userStory_id',
+  itemInFocusIdKey: 'id',
+  filterArrayByIdKey: 'acceptanceCriteria_id',
 };
 
 export const headCellsTable = [

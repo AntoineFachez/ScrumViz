@@ -57,6 +57,7 @@ export default function AcceptanceCriteria({
   };
   const widgetProps = {
     iconButton: <DateRange />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
