@@ -28,6 +28,7 @@ import { ProductsProvider } from './widgets/products/ProductsContext';
 import { ImageDropZoneProvider } from './widgets/imageDropZone/ImageDropZoneContext';
 import { PersonsProvider } from './widgets/persons/PersonsContext';
 import { ToastContainer } from 'react-toastify';
+import { AcceptanceCriteriaProvider } from './widgets/acceptanceCriteria/AcceptanceCriteriaContext';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -88,32 +89,34 @@ export default function RootLayout({ children }) {
                             <ProductsProvider>
                               <TeamMembersProvider>
                                 <UserStoriesProvider>
-                                  <SprintsProvider>
-                                    <TimeStampsProvider>
-                                      <ScrumTeamsProvider>
-                                        <BackLogsProvider>
-                                          <DailiesProvider>
-                                            <SprintBackLogsProvider>
-                                              <SprintReviewProvider>
-                                                <SprintPlanningsProvider>
-                                                  <SprintRetrospectivesProvider>
-                                                    <ScrumManagerProvider>
-                                                      <DefaultPromptsProvider>
-                                                        <ChatsProvider>
-                                                          {' '}
-                                                          {children}
-                                                        </ChatsProvider>
-                                                      </DefaultPromptsProvider>
-                                                    </ScrumManagerProvider>
-                                                  </SprintRetrospectivesProvider>
-                                                </SprintPlanningsProvider>
-                                              </SprintReviewProvider>
-                                            </SprintBackLogsProvider>
-                                          </DailiesProvider>
-                                        </BackLogsProvider>
-                                      </ScrumTeamsProvider>
-                                    </TimeStampsProvider>
-                                  </SprintsProvider>
+                                  <AcceptanceCriteriaProvider>
+                                    <SprintsProvider>
+                                      <TimeStampsProvider>
+                                        <ScrumTeamsProvider>
+                                          <BackLogsProvider>
+                                            <DailiesProvider>
+                                              <SprintBackLogsProvider>
+                                                <SprintReviewProvider>
+                                                  <SprintPlanningsProvider>
+                                                    <SprintRetrospectivesProvider>
+                                                      <ScrumManagerProvider>
+                                                        <DefaultPromptsProvider>
+                                                          <ChatsProvider>
+                                                            {' '}
+                                                            {children}
+                                                          </ChatsProvider>
+                                                        </DefaultPromptsProvider>
+                                                      </ScrumManagerProvider>
+                                                    </SprintRetrospectivesProvider>
+                                                  </SprintPlanningsProvider>
+                                                </SprintReviewProvider>
+                                              </SprintBackLogsProvider>
+                                            </DailiesProvider>
+                                          </BackLogsProvider>
+                                        </ScrumTeamsProvider>
+                                      </TimeStampsProvider>
+                                    </SprintsProvider>
+                                  </AcceptanceCriteriaProvider>
                                 </UserStoriesProvider>
                               </TeamMembersProvider>
                             </ProductsProvider>

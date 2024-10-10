@@ -1,36 +1,24 @@
 import { Avatar, Box, Button, Chip, Paper, Typography } from '@mui/material';
 import Draggable from '../components/dragDrop/Index';
 import CardItem from '../components/card/Index';
-import { stringAvatar } from '@/utils/colorHelpers';
-import AccordionComponent from '../components/accordion/Accordion';
 import { useEffect, useRef } from 'react';
-import { useMode } from '../theme/ThemeContext';
 import ChipComponent from '../components/chip/Chip';
 import CustomSubList from './CustomSubList';
 
-export default function MultiItems({
-  widgetProps,
-  uiContext,
-  singleItemScheme,
-  selectedWidgetContext,
-  itemContext,
-  setActiveSearchTerm,
-  handleSetItemInFocus,
-  handleClickCustomArrayItem,
-  customElement,
-  customArrayItemInFocus,
-  alertElement,
-  data,
-  selectedData,
-  setSelectedItem,
-  selector,
-  itemInFocus,
-  styled,
-}) {
-  // console.log(customArrayItemInFocus);
-
-  // const [theme, colorMode, palette, styled] = useMode();
-
+export default function MultiItems({ widgetProps, alertElement, styled }) {
+  const {
+    uiContext,
+    itemContext,
+    handleSetItemInFocus,
+    data,
+    selectedData,
+    selector,
+    singleItemScheme,
+    itemInFocus,
+    customArrayItemInFocus,
+    selectedWidgetContext,
+    handleClickCustomArrayItem,
+  } = widgetProps;
   let array = [];
   const flexListRef = useRef();
   const scrollToPiece = (listItemRef) => {
@@ -73,10 +61,8 @@ export default function MultiItems({
                 const customElement = (
                   <>
                     <CustomSubList
-                      singleItemScheme={singleItemScheme}
+                      widgetProps={widgetProps}
                       item={item}
-                      customArrayItemInFocus={customArrayItemInFocus}
-                      handleClickCustomArrayItem={handleClickCustomArrayItem}
                       styled={styled}
                     />
                   </>
@@ -92,10 +78,11 @@ export default function MultiItems({
                         {selectedWidgetContext === 'card' ? (
                           <>
                             <CardItem
+                              widgetProps={widgetProps}
+                              item={item}
                               context="item"
                               dataSlug={item.id}
                               singleItemScheme={singleItemScheme}
-                              item={item}
                               handleClick={handleSetItemInFocus}
                               itemContext={itemContext}
                               itemInFocus={itemInFocus}

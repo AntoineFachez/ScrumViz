@@ -29,6 +29,6 @@ export const printLetterByLetter = (destination, message, speed) => {
 export const createUUID = (amount) => {
   const temp = [];
   for (let i = 0; i < amount; i++) {
-    // console.log(uuidv4());
+    console.log(uuidv4());
   }
 };

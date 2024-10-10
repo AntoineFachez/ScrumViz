@@ -42,35 +42,15 @@ const WidgetIndexTemplate = ({
     widgetContext,
   } = widgetProps;
 
-  const multiItems = (
-    <MultiItems
-      widgetProps={widgetProps}
-      uiContext={widgetProps?.uiContext}
-      singleItemScheme={widgetProps?.singleItemScheme}
-      selectedWidgetContext={widgetProps?.selectedWidgetContext}
-      itemContext={widgetProps?.itemContext}
-      setActiveSearchTerm={widgetProps?.setActiveSearchTerm}
-      customElement={null}
-      alertElement={null}
-      data={widgetProps?.data}
-      selectedData={widgetProps?.selectedData}
-      setSelectedItem={widgetProps?.setSelectedItem}
-      selector={widgetProps?.selector}
-      itemInFocus={widgetProps?.itemInFocus}
-      customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
-      handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-      handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
-      styled={styled}
-    />
-  );
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   const singleItem = (
     <SingleItem
       widgetProps={widgetProps}
-      singleItemScheme={widgetProps?.singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={widgetProps?.itemInFocus}
-      customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
-      handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
+      // singleItemScheme={widgetProps?.singleItemScheme}
+      // itemContext={widgetProps?.itemContext}
+      // itemInFocus={widgetProps?.itemInFocus}
+      // customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
+      // handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
       styled={styled}
     />
   );

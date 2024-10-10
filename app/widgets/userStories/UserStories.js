@@ -32,6 +32,8 @@ import {
 } from '../actions';
 // import { handleNewUserStory } from './functions/dbFunctions';
 import { useMode } from '@/app/theme/ThemeContext';
+import AcceptanceCriteria from '../acceptanceCriteria/AcceptanceCriteria';
+import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
 
 export default function UserStory({
   widget,
@@ -72,6 +74,11 @@ export default function UserStory({
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
   const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
+  const {
+    displayAcceptanceCriteria,
+    selectedAcceptanceCriteria,
+    setSelectedAcceptanceCriteria,
+  } = useContext(AcceptanceCriteriaContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'userStories';
@@ -81,13 +88,14 @@ export default function UserStory({
 
     handleSetItemInFocus(setUserStoryInFocus, item, setLatestItemInFocus);
   };
-  const handleClickCustomArrayItem = (e) => {
-    console.log(e);
-
-    // const found = displayUserStories.filter(
-    //   (story) => story.id === e.userStory_id
-    // )[0];
-    // setUserStoryInFocus(found);
+  const handleClickCustomArrayItem = (item) => {
+    console.log(item);
+    // acceptanceCriteria_id;
+    const found = displayAcceptanceCriteria.filter(
+      (criteria) => criteria.id === item.acceptanceCriteria_id
+    )[0];
+    setSelectedAcceptanceCriteria(found);
+    handleFindSprintBackLogs(item, 'acceptanceCriteria_id', 'id');
   };
   const widgetProps = {
     iconButton: <Assignment />,
@@ -108,6 +116,7 @@ export default function UserStory({
     dropWidgetName: collection,
     orderedBy: '',
     itemInFocus: userStoryInFocus,
+    customArrayItemInFocus: userStoryInFocus,
     tooltipTitle_newItem: 'Create new User Story',
     handleNewItem: () => handleNewUserStory(),
     onClick: () => {
@@ -141,8 +150,8 @@ export default function UserStory({
 
   useEffect(() => {
     if (userStoryInFocus) {
-      handleFindSprintPlannings(userStoryInFocus);
-      handleFindSprintBackLogs(userStoryInFocus);
+      handleFindSprintPlannings(userStoryInFocus, 'id', 'userStory_id');
+      handleFindSprintBackLogs(userStoryInFocus, 'id', 'userStory_id');
     }
 
     return () => {};

@@ -2,13 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import CustomSubList from '../CustomSubList';
 
-export default function Body({
-  itemInFocus,
-  customArrayItemInFocus,
-  handleClickCustomArrayItem,
-  singleItemScheme,
-  styled,
-}) {
+export default function Body({ widgetProps, itemInFocus, styled }) {
+  const { singleItemScheme } = widgetProps;
   return (
     <>
       <Box
@@ -43,10 +38,8 @@ export default function Body({
         </Typography>
 
         <CustomSubList
-          singleItemScheme={singleItemScheme}
+          widgetProps={widgetProps}
           item={itemInFocus}
-          customArrayItemInFocus={customArrayItemInFocus}
-          handleClickCustomArrayItem={handleClickCustomArrayItem}
           styled={styled}
         />
         {/* Add more fields here as needed, using the same pattern */}

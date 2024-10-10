@@ -13,12 +13,6 @@ export const DefaultValuesProvider = ({ children }) => {
   const [defaultMinPromptToken, setDefaultMinPromptToken] = useState(1000);
   const [defaultMaxPromptToken, setDefaultMaxPromptToken] = useState(20000);
 
-  useEffect(() => {
-    // const uuids = createUUID(10);
-
-    return () => {};
-  }, []);
-
   return (
     <DefaultValuesContext.Provider
       value={{

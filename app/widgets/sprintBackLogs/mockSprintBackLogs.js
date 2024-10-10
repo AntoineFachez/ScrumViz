@@ -43,7 +43,8 @@ export const sprintBackLogs = [
     id: 'b6730063-27ac-4c9d-a52b-7391266b3ea6',
     productBackLog_item_id: 'f2506107-13ea-4f19-8827-9ed16d74fa39',
     userStory_id: 'bd37e325-52f9-48f4-ae61-5d6c107e161e',
-    description: 'Implement add to cart functionality',
+    acceptanceCriteria_id: 'fb4c411f-6e45-47a8-8928-e0987ac105aa',
+    description: 'Implement add / remove to cart functionality',
     assignee: '479fb554-4526-4ac0-8831-fbea5201f52e', // Charlie
     estimated_hours: 6,
   },

@@ -17,10 +17,10 @@ export const SprintPlanningsProvider = ({ children }) => {
   );
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
 
-  const handleFindSprintPlannings = (item) => {
+  const handleFindSprintPlannings = (item, itemKey, filterKey) => {
     const foundPlannings = displaySprintPlannings.filter((planning) => {
       return planning?.sprintBackLog_items?.some((backLog) => {
-        return backLog.userStory_id === item.id;
+        return backLog[filterKey] === item[itemKey];
       });
     });
     setSelectedSprintPlannings(foundPlannings);

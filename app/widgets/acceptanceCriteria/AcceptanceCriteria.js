@@ -1,26 +1,29 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import { Add, AddToQueue, BackupOutlined } from '@mui/icons-material';
+import { Avatar, Box, Typography } from '@mui/material';
+import { DateRange, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
-import BackLogsContext from './ProductBackLogsContext';
+import DailiesContext from './AcceptanceCriteriaContext';
 import InFocusContext from '@/context/InFocusContext';
-import UIContext from '@/context/UIContext';
-import ProductsContext from '../products/ProductsContext';
 import SearchContext from '@/context/SearchContext';
-import UserStoriesContext from '../userStories/UserStoriesContext';
+import SprintsContext from '../sprints/SprintsContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import { handleNewProductBackLog } from './functions/dbFunctions';
+
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import AcceptanceCriteriaContext from './AcceptanceCriteriaContext';
 
-export default function Products({
+export default function AcceptanceCriteria({
   widget,
   uiContext,
   startUpWidgetLayout,
@@ -29,68 +32,31 @@ export default function Products({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
+
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
-    // selectedWidgetContext,
-    // setSelectedWidgetContext,
-    displayProductBackLogs,
-    setDisplayProductBackLogs,
-    selectedProductBackLogs,
-    setSelectedProductBackLogs,
-    productBackLogInFocus,
-    setProductBackLogInFocus,
-    isFiltered,
-    handleResetFiltered,
+    selectedDailies,
+    setSelectedDailies,
+    dailiesInFocus,
+    setDailiesInFocus,
     searchTerm,
     setSearchTerm,
-  } = useContext(BackLogsContext);
-  const { displayProducts, setProductInFocus } = useContext(ProductsContext);
-  const {
-    displayUserStories,
-    setSelectedUserStories,
-    userStoryInFocus,
-    setUserStoryInFocus,
-  } = useContext(UserStoriesContext);
+    isFiltered,
+    setIsFiltered,
+    handleResetFiltered,
+  } = useContext(AcceptanceCriteriaContext); //);
+  const { handleFindSprints } = useContext(SprintsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const collection = 'productBackLogs';
-  const handleSearchTermChange = (e) => {
-    e.preventDefault();
-
-    setSearchTerm(e.target.value);
-    setActiveSearchTerm(e.target.value);
-  };
-  const handleSetProductBackLogInFocus = (item) => {
-    handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
-
-    const foundUserStories = displayUserStories.filter((userStory) => {
-      return item?.productBackLog_items?.some(
-        (backLog_item) => backLog_item.userStory_id === userStory.id
-      );
-    });
-
-    setSelectedUserStories(foundUserStories);
-
-    const foundProducts = displayProducts.filter(
-      (product) => product.id === item.productBackLog_id
-    );
-    setProductInFocus(foundProducts[0]);
-  };
-  const handleClickCustomArrayItem = (e) => {
-    console.log(e);
-
-    const found = displayUserStories.filter(
-      (story) => story.id === e.userStory_id
-    )[0];
-    setUserStoryInFocus(found);
+  const collection = 'dailies';
+  const handleSetDailiesInFocus = (item) => {
+    handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
   };
   const widgetProps = {
-    iconButton: <AddToQueue />,
+    iconButton: <DateRange />,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
@@ -100,21 +66,15 @@ export default function Products({
     hasQuickMenu: true,
     itemContext: '',
     collection: collection,
-    handleSetItemInFocus: handleSetProductBackLogInFocus,
-    data: selectedProductBackLogs,
-    selectedData: selectedProductBackLogs,
-    setSelectedItem: setSelectedProductBackLogs,
-    selector: {
-      selector: 'productBackLogsSelector',
-      selected: 'selectedProductBackLog',
-    },
+    data: selectedDailies,
+    selectedData: selectedDailies,
+    setSelectedItem: setSelectedDailies,
+    selector: { selector: 'dailiesSelector', selected: 'selectedDailies' },
     singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-    itemInFocus: productBackLogInFocus,
-    customArrayItemInFocus: userStoryInFocus,
-    tooltipTitle_newItem: 'Create new Product BackLog',
-    onClickNewItem: () => handleNewProductBackLog(),
+    itemInFocus: dailiesInFocus,
+
     onClick: () => {
       setUiGridMapContext(collection);
       return;
@@ -130,11 +90,18 @@ export default function Products({
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    handleClickCustomArrayItem: handleClickCustomArrayItem,
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    handleSetItemInFocus: handleSetDailiesInFocus,
   };
+
+  useEffect(() => {
+    if (dailiesInFocus) handleFindSprints('id', dailiesInFocus, 'sprint_id');
+
+    return () => {};
+  }, [dailiesInFocus]);
+
   const newItem = (
     <Box
       className="widget"
@@ -143,7 +110,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems New Item
+      Daily New Item
     </Box>
   );
   const soloWidget = (
@@ -154,7 +121,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems SoloWidget
+      Daily SoloWidget
     </Box>
   );
 
@@ -166,7 +133,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems Tree
+      Daily Tree
     </Box>
   );
   const table = (
@@ -186,11 +153,11 @@ export default function Products({
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
+        // menu={menu}
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
         // singleItem={singleItem}
-        // chip={chip}
         tree={tree}
         // flexList={flexList}
         isFiltered={isFiltered}
