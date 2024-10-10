@@ -67,15 +67,7 @@ export default function Menu({
           <Box
             className="widgetMenuButtonArray hor"
             sx={styled?.widgetMenuButtonArray?.hor}
-            // sx={{
-            //   position: 'absolute',
-            //   top: 0,
-            //   width: '100%',
-            //   height: '2rem',
-            //   display: 'flex',
-            //   flexDirection: 'row',
-            //   padding: '0 0rem 0 2rem',
-            // }}
+
             // noValidate
             // autoComplete="off"
           >

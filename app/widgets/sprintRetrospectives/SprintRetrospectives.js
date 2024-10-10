@@ -24,7 +24,7 @@ import {
   handleSetItemInFocus,
 } from '../actions';
 import SprintRetrospectivesContext from './SprintRetrospectivesContext';
-import SingleItem from '@/app/uiItems/SingleItem';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
 import { singleItemScheme } from './dataScheme';
 import MultiItems from '@/app/uiItems/MultiItems';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
@@ -58,19 +58,39 @@ export default function SprintRetrospectives({
   } = useContext(SprintRetrospectivesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetSprintRetrospectiveInFocus = (item) => {
+    handleSetItemInFocus(
+      setSprintRetrospectiveInFocus,
+      item,
+      setLatestItemInFocus
+    );
+  };
   const collection = 'sprintRetrospectives';
   const widgetProps = {
+    iconButton: <History />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <History />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetSprintRetrospectiveInFocus,
+
+    data: selectedSprintRetrospectives,
+    selectedData: selectedSprintRetrospectives,
+    setSelectedItem: setSelectedSprintRetrospectives,
+    selector: {
+      selector: 'sprintRetrospectiveSelector',
+      selected: 'selectedSprintRetrospectives',
+    },
+    itemInFocus: sprintRetrospectiveInFocus,
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintRetrospectiveInFocus,
     orderedBy: '',
 
     onClick: () => {
@@ -94,13 +114,6 @@ export default function SprintRetrospectives({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetSprintRetrospectiveInFocus = (item) => {
-    handleSetItemInFocus(
-      setSprintRetrospectiveInFocus,
-      item,
-      setLatestItemInFocus
-    );
-  };
   // const handleSearchTermChange = (e) => {
   //   e.preventDefault();
   //   // setResetData();
@@ -132,14 +145,14 @@ export default function SprintRetrospectives({
       Sprint Retrospective SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={sprintRetrospectiveInFocus}
-      styled={styled}
-    />
-  );
+  // const singleItem = (
+  //   <SingleItem
+  //     singleItemScheme={singleItemScheme}
+  //     itemContext={widgetProps?.itemContext}
+  //     itemInFocus={sprintRetrospectiveInFocus}
+  //     styled={styled}
+  //   />
+  // );
   const chip = (
     <Box
       className="widget"
@@ -187,17 +200,14 @@ export default function SprintRetrospectives({
         selectedWidgetContext={selectedWidgetContext}
         itemContext={widgetProps?.itemContext}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintRetrospectiveInFocus}
+        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
         customElement={null}
         alertElement={null}
-        data={selectedSprintRetrospectives}
-        selectedData={selectedSprintRetrospectives}
-        setSelectedItem={setSelectedSprintRetrospectives}
-        selector={{
-          selector: 'sprintRetrospectiveSelector',
-          selected: 'selectedSprintRetrospectives',
-        }}
-        itemInFocus={sprintRetrospectiveInFocus}
+        data={widgetProps?.data}
+        selectedData={widgetProps?.selectedData}
+        setSelectedItem={widgetProps?.setSelectedItem}
+        selector={widgetProps?.selector}
+        itemInFocus={widgetProps?.itemInFocus}
         styled={styled}
       />
     </Box>
@@ -211,10 +221,10 @@ export default function SprintRetrospectives({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         // chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

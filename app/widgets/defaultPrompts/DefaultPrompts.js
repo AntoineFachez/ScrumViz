@@ -16,7 +16,11 @@ import MultiItems from '@/app/uiItems/MultiItems';
 
 import SimpleDialog from '@/app/components/dialog/Dialog';
 
-import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+} from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
@@ -68,20 +72,32 @@ export default function DefaultPromptWidget({
   //   useState(startUpWidgetLayout);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const handleSetDefaultPromptInFocus = (item) => {
+    handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'defaultPrompts';
   const widgetProps = {
+    iconButton: <Chat />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Chat />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetDefaultPromptInFocus,
+    data: selectedDefaultPrompts,
+    selectedData: selectedDefaultPrompts,
+    selector: {
+      selector: 'defaultPromptsSelector',
+      selected: 'selectedPrompts',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: promptTextInFocus,
     dialogTitle: 'Create new default Prompt',
 
     onClick: () => {
@@ -105,9 +121,6 @@ export default function DefaultPromptWidget({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetDefaultPromptInFocus = (item) => {
-    handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
-  };
   useEffect(() => {
     setSelectedWidgetContext(startUpWidgetLayout);
     if (!isLoading) setPromptTextInFocus('');
@@ -124,24 +137,32 @@ export default function DefaultPromptWidget({
           flexFlow: 'column',
         }}
       >
-        <MultiItems
+        {/* <MultiItems
           widget={widget}
           uiContext={uiContext}
           singleItemScheme={singleItemScheme}
           selectedWidgetContext={selectedWidgetContext}
           setActiveSearchTerm={setActiveSearchTerm}
-          handleSetItemInFocus={handleSetDefaultPromptInFocus}
           customElement={null}
           alertElement={null}
-          data={selectedDefaultPrompts}
-          selectedData={selectedDefaultPrompts}
-          // setSelectedItem={setDefaultPrompts}
-          selector={{
-            selector: 'defaultPromptsSelector',
-            selected: 'selectedPrompts',
-          }}
           itemContext={widgetProps?.itemContext}
           itemInFocus={promptTextInFocus}
+          styled={styled}
+        />{' '} */}
+        <MultiItems
+          uiContext={uiContext}
+          singleItemScheme={singleItemScheme}
+          selectedWidgetContext={selectedWidgetContext}
+          itemContext={widgetProps?.itemContext}
+          setActiveSearchTerm={setActiveSearchTerm}
+          handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
+          customElement={null}
+          alertElement={null}
+          data={widgetProps?.data}
+          selectedData={widgetProps?.selectedData}
+          setSelectedItem={widgetProps?.setSelectedItem}
+          selector={widgetProps?.selector}
+          itemInFocus={widgetProps?.itemInFocus}
           styled={styled}
         />
       </Box>
@@ -208,7 +229,7 @@ export default function DefaultPromptWidget({
         uiContext={uiContext}
         widgetContext={selectedWidgetContext}
         // newItem={newItem}
-        flexList={defaultPromptSelector}
+        // flexList={defaultPromptSelector}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

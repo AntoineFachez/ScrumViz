@@ -6,12 +6,10 @@ import { Box } from '@mui/material';
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
 import PersonsContext from './PersonsContext';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
@@ -28,29 +26,44 @@ export default function Persons({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showPersonsMenu, setShowPersonsMenu } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const { showWidgetUIMenu, setShowWidgetUIMenu } = useContext(PersonsContext);
+  const {
+    showWidgetUIMenu,
+    setShowWidgetUIMenu,
+
+    selectedPersons,
+    setSelectedPersons,
+    personInFocus,
+  } = useContext(PersonsContext);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-
+  const handleSetPersonInFocus = (item) => {
+    handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'persons';
   const widgetProps = {
+    iconButton: <Group />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Group />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    data: selectedPersons,
+
+    selectedData: selectedPersons,
+    setSelectedItem: setSelectedPersons,
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-
+    itemInFocus: personInFocus,
+    tooltipTitle_newItem: 'Create new Person',
+    handleNewItem: () => handleNewPerson(),
     onClick: () => {
       setUiGridMapContext(collection);
       return;
@@ -58,11 +71,14 @@ export default function Persons({
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
+    },
+    selector: {
+      selector: 'personsSelector',
+      selected: 'selectedPersons',
     },
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
@@ -70,15 +86,12 @@ export default function Persons({
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+
+    handleSetItemInFocus: handleSetPersonInFocus,
   };
 
-  const handleSetPersonInFocus = (item) => {
-    handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
-  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
-    // setResetData();
-    console.log(e.target.value);
 
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
@@ -105,28 +118,7 @@ export default function Persons({
       TeamMembers SoloWidget
     </Box>
   );
-  const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers SingleItem
-    </Box>
-  );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -149,36 +141,6 @@ export default function Persons({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMembers
-      {/* <MultiItems
-        uiContext={uiContext}
-        selectedWidgetContext={selectedWidgetContext}
-        data={displayUserStories}
-        selectedData={selectedUserStories}
-        setSelectedItem={setSelectedUserStories}
-        selector={{
-          selector: 'userStorySelector',
-          selected: 'selectedUserStories',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={userStoryInFocus}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetUserStoryInFocus}
-        customElement={null}
-        alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
-        styled={styled}
-      /> */}
-    </Box>
-  );
 
   return (
     <>
@@ -188,10 +150,7 @@ export default function Persons({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
-        chip={chip}
         tree={tree}
-        flexList={flexList}
       />
     </>
   );

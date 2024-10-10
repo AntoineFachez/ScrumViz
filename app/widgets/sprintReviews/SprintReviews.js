@@ -56,19 +56,45 @@ export default function SprintReviews({
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetSprintReviewInFocus = (item) => {
+    handleSetItemInFocus(setSprintReviewInFocus, item, setLatestItemInFocus);
+
+    // const foundPlannings = displaySprintPlannings.filter((planning) =>
+    //   planning.sprint_backlog.some(
+    //     (task) => task.product_backlog_item_id === sprintReview.id
+    //   )
+    // );
+    // setSelectedSprintPlannings(foundPlannings);
+    // const foundSprintLogs = displaySprintBackLogs.filter(
+    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
+    // );
+    // setSelectedSprintBackLogs(foundSprintLogs);
+  };
+
   const collection = 'sprintReviews';
   const widgetProps = {
+    iconButton: <RateReview />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <RateReview />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetSprintReviewInFocus,
+    data: selectedSprintReviews,
+    selectedData: selectedSprintReviews,
+    setSelectedItem: setSelectedSprintReviews,
+    selector: {
+      selector: 'sprintReviewSelector',
+      selected: 'selectedSprintReviews',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: sprintReviewInFocus,
     orderedBy: '',
 
     onClick: () => {
@@ -90,21 +116,6 @@ export default function SprintReviews({
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-  };
-
-  const handleSetSprintReviewInFocus = (item) => {
-    handleSetItemInFocus(setSprintReviewInFocus, item, setLatestItemInFocus);
-
-    // const foundPlannings = displaySprintPlannings.filter((planning) =>
-    //   planning.sprint_backlog.some(
-    //     (task) => task.product_backlog_item_id === sprintReview.id
-    //   )
-    // );
-    // setSelectedSprintPlannings(foundPlannings);
-    // const foundSprintLogs = displaySprintBackLogs.filter(
-    //   (sprintBackLog) => sprintBackLog.product_backlog_item_id === sprintReview.id
-    // );
-    // setSelectedSprintBackLogs(foundSprintLogs);
   };
 
   const handleSearchTermChange = (e) => {
@@ -142,17 +153,17 @@ export default function SprintReviews({
       SprintReview SoloWidget
     </Box>
   );
-  const singleItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintReview SingleItem
-    </Box>
-  );
+  // const singleItem = (
+  //   <Box
+  //     className="widget"
+  //     sx={{
+  //       ...styled.widget,
+  //       // backgroundColor: '#555',
+  //     }}
+  //   >
+  //     SprintReview SingleItem
+  //   </Box>
+  // );
   const chip = (
     <Box
       className="widget"
@@ -186,35 +197,6 @@ export default function SprintReviews({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetSprintReviewInFocus}
-        customElement={null}
-        alertElement={null}
-        data={selectedSprintReviews}
-        selectedData={selectedSprintReviews}
-        setSelectedItem={setSelectedSprintReviews}
-        selector={{
-          selector: 'sprintReviewSelector',
-          selected: 'selectedSprintReviews',
-        }}
-        itemContext={widgetProps?.itemContext}
-        itemInFocus={sprintReviewInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
@@ -224,10 +206,10 @@ export default function SprintReviews({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

@@ -14,7 +14,7 @@ export const singleItemScheme = {
   title: 'product_name',
   subTitle: 'status',
   description: 'description',
-  customArray: 'backLog_items',
+  customArray: 'productBackLog_items',
   customArrayKey: 'userStory_name',
   itemInFocusIdKey: 'id',
   filterArrayByIdKey: 'userStory_id',

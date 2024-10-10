@@ -1,31 +1,22 @@
-import React, { memo, useContext, useEffect } from 'react';
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-import AppContext from '@/context/AppContext';
-// import DataContext from '../context/DataContext';
-import UIContext from '@/context/UIContext';
-
 import Draggable from '../components/dragDrop/Index';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
-import { themeSettings, useMode } from '../theme/ThemeContext';
-import ToolTipComponent from '../components/tooltip/ToolTipComponent';
-import SimpleDialog from '../components/dialog/Dialog';
 import WidgetMenu from './WidgetMenu';
 import QuickMenu from './QuickMenu';
 
-// import { styled } from "../themes/styled";
+import { themeSettings, useMode } from '../theme/ThemeContext';
+import SingleItem from './singleItem/SingleItem';
+import MultiItems from './MultiItems';
+import { singleItemScheme } from '../widgets/scrumTeams/dataScheme';
 
 const WidgetIndexTemplate = ({
-  widget,
   widgetProps,
-  quickMenu,
-  menu,
   newItem,
   soloWidget,
   table,
-  singleItem,
-  chip,
+  // singleItem,
   tree,
   flexList,
   vertical,
@@ -35,39 +26,54 @@ const WidgetIndexTemplate = ({
   onResetFiltered,
 }) => {
   const [theme, colorMode, palette, styled] = useMode();
-  const { appContext } = useContext(AppContext);
-  // const { dataContext } = useContext(DataContext);
 
-  const { showDialog, setShowDialog, handleCloseDialog } =
-    useContext(UIContext);
   const {
     uiGridMapContext,
     collection,
-    itemContext,
     dropWidgetName,
-    selectedWidgetContext,
-    orderedBy,
-    // menu,
-    // newItem,
-    // soloWidget,
-    // table,
-    // singleItem,
-    // chip,
-    // tree,
-    // flexList,
     selector,
     drawer,
     card,
     media,
-
     contextToolBar,
     iconButton,
     onClick,
     uiContext,
     widgetContext,
-    dialogTitle,
-    // styled,
   } = widgetProps;
+
+  const multiItems = (
+    <MultiItems
+      widgetProps={widgetProps}
+      uiContext={widgetProps?.uiContext}
+      singleItemScheme={widgetProps?.singleItemScheme}
+      selectedWidgetContext={widgetProps?.selectedWidgetContext}
+      itemContext={widgetProps?.itemContext}
+      setActiveSearchTerm={widgetProps?.setActiveSearchTerm}
+      customElement={null}
+      alertElement={null}
+      data={widgetProps?.data}
+      selectedData={widgetProps?.selectedData}
+      setSelectedItem={widgetProps?.setSelectedItem}
+      selector={widgetProps?.selector}
+      itemInFocus={widgetProps?.itemInFocus}
+      customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
+      handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
+      handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
+      styled={styled}
+    />
+  );
+  const singleItem = (
+    <SingleItem
+      widgetProps={widgetProps}
+      singleItemScheme={widgetProps?.singleItemScheme}
+      itemContext={widgetProps?.itemContext}
+      itemInFocus={widgetProps?.itemInFocus}
+      customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
+      handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
+      styled={styled}
+    />
+  );
   return (
     <>
       {contextToolBar === 'navBar' ? (
@@ -99,15 +105,8 @@ const WidgetIndexTemplate = ({
           {uiContext === 'home' ? (
             <>
               <Box className="widgetContainer" sx={styled?.widget}>
-                {menu && (
-                  <>
-                    <Box
-                      className="widgetMenuCollapse"
-                      sx={styled?.widgetMenuCollapse}
-                    >
-                      {menu}
-                    </Box>
-                  </>
+                {widgetProps.hasWidgetMenu && (
+                  <WidgetMenu widgetProps={widgetProps} />
                 )}
                 {table}
                 {soloWidget}
@@ -118,12 +117,23 @@ const WidgetIndexTemplate = ({
               <>
                 <Box className="widgetContainer" sx={styled.widgetContainer}>
                   {widgetProps.hasQuickMenu && (
-                    <QuickMenu widgetProps={widgetProps} styled={styled} />
+                    <>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          display: 'flex',
+                          flexFlow: 'row nowrap',
+                          justifyContent: 'space-around',
+                        }}
+                      >
+                        {widgetProps.collection}
+                        <QuickMenu widgetProps={widgetProps} styled={styled} />
+                      </Box>
+                    </>
                   )}
                   {widgetProps.hasWidgetMenu && (
                     <WidgetMenu widgetProps={widgetProps} />
                   )}
-
                   {isFiltered && (
                     <Button
                       className="widgetMenuButton"
@@ -132,22 +142,18 @@ const WidgetIndexTemplate = ({
                       Resetter
                     </Button>
                   )}
-                  {/* {uiContext === "horizontal" ? ( */}
                   {widgetContext === 'horizontal' ? (
                     <>{horizontal}</>
                   ) : widgetContext === 'vertical' ? (
                     <>{vertical}</>
                   ) : widgetContext === 'flexList' ? (
-                    <>{flexList}</>
+                    <>{multiItems}</>
                   ) : widgetContext === 'card' ? (
-                    <>{flexList}</>
+                    <>{multiItems}</>
                   ) : widgetContext === 'table' ? (
-                    <>
-                      {table}
-                      {/* <Box sx={styled?.tableContainer}>{table}</Box> */}
-                    </>
+                    <>{table}</>
                   ) : widgetContext === 'chip' ? (
-                    <>{flexList}</>
+                    <>{multiItems}</>
                   ) : widgetContext === 'tree' ? (
                     <>{tree}</>
                   ) : widgetContext === 'singleItem' ? (
@@ -171,8 +177,6 @@ const WidgetIndexTemplate = ({
                   ) : (
                     <>{soloWidget}</>
                   )}
-                  {/* ) : null} */}
-                  {/* </Box> */}
                 </Box>
               </>
             </>

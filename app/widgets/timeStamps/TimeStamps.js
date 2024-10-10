@@ -12,7 +12,7 @@ import TimeStampsContext from './TimeStampsContext';
 import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
 import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import SingleItem from '@/app/uiItems/SingleItem';
+import SingleItem from '@/app/uiItems/singleItem/SingleItem';
 import MultiItems from '@/app/uiItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
 
@@ -37,7 +37,15 @@ export default function TimeStamps({
   const [isFiltered, setIsFiltered] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
+  const handleSetTimeStampInFocus = (item) => {
+    handleSetItemInFocus(setTimeStampInFocus, item, setLatestItemInFocus);
 
+    // setActiveSearchTerm(userStory?.universityName);
+    // setLastInFocusItem({
+    //   context: widgetProps?.itemContext,
+    //   item: universityInFocus,
+    // });
+  };
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
@@ -50,17 +58,28 @@ export default function TimeStamps({
   } = useContext(TimeStampsContext);
   const collection = 'timeStamps';
   const widgetProps = {
+    iconButton: <AddToQueue />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <AddToQueue />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetTimeStampInFocus,
+    data: displayTimeStamps,
+    selectedData: selectedTimeStamps,
+    setSelectedItem: setSelectedTimeStamps,
+    selector: {
+      selector: 'timeStampSelector',
+      selected: 'selectedTimeStamps}',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
+    orderedBy: '',
+    itemInFocus: timeStampInFocus,
     orderedBy: '',
     onClick: () => {
       setUiGridMapContext(collection);
@@ -83,15 +102,6 @@ export default function TimeStamps({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetTimeStampInFocus = (item) => {
-    handleSetItemInFocus(setTimeStampInFocus, item, setLatestItemInFocus);
-
-    // setActiveSearchTerm(userStory?.universityName);
-    // setLastInFocusItem({
-    //   context: widgetProps?.itemContext,
-    //   item: universityInFocus,
-    // });
-  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -134,14 +144,14 @@ export default function TimeStamps({
       TimeStamps SoloWidget
     </Box>
   );
-  const singleItem = (
-    <SingleItem
-      singleItemScheme={singleItemScheme}
-      itemContext={widgetProps?.itemContext}
-      itemInFocus={timeStampInFocus}
-      styled={styled}
-    />
-  );
+  // const singleItem = (
+  //   <SingleItem
+  //     singleItemScheme={singleItemScheme}
+  //     itemContext={widgetProps?.itemContext}
+  //     itemInFocus={timeStampInFocus}
+  //     styled={styled}
+  //   />
+  // );
   const chip = (
     <Box
       className="widget"
@@ -187,20 +197,16 @@ export default function TimeStamps({
         uiContext={uiContext}
         singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
-        data={displayTimeStamps}
-        selectedData={selectedTimeStamps}
-        setSelectedItem={setSelectedTimeStamps}
-        selector={{
-          selector: 'timeStampSelector',
-          selected: 'selectedTimeStamps}',
-        }}
         itemContext={widgetProps?.itemContext}
-        itemInFocus={timeStampInFocus}
         setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={handleSetTimeStampInFocus}
+        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
         customElement={null}
         alertElement={null}
-        cardSubHeaderElement={CardSubHeaderElement}
+        data={widgetProps?.data}
+        selectedData={widgetProps?.selectedData}
+        setSelectedItem={widgetProps?.setSelectedItem}
+        selector={widgetProps?.selector}
+        itemInFocus={widgetProps?.itemInFocus}
         styled={styled}
       />
     </Box>
@@ -214,10 +220,10 @@ export default function TimeStamps({
         newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        singleItem={singleItem}
+        // singleItem={singleItem}
         chip={chip}
         tree={tree}
-        flexList={flexList}
+        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

@@ -5,24 +5,31 @@ import { stringAvatar } from '@/utils/colorHelpers';
 import AccordionComponent from '../components/accordion/Accordion';
 import { useEffect, useRef } from 'react';
 import { useMode } from '../theme/ThemeContext';
+import ChipComponent from '../components/chip/Chip';
+import CustomSubList from './CustomSubList';
 
 export default function MultiItems({
-  selectedWidgetContext,
+  widgetProps,
   uiContext,
   singleItemScheme,
-  data,
-  selectedData,
-  selector,
+  selectedWidgetContext,
   itemContext,
-  itemInFocus,
-  customElement,
-  customArrayItemInFocus,
+  setActiveSearchTerm,
   handleSetItemInFocus,
   handleClickCustomArrayItem,
+  customElement,
+  customArrayItemInFocus,
   alertElement,
-  // styled,
+  data,
+  selectedData,
+  setSelectedItem,
+  selector,
+  itemInFocus,
+  styled,
 }) {
-  const [theme, colorMode, palette, styled] = useMode();
+  // console.log(customArrayItemInFocus);
+
+  // const [theme, colorMode, palette, styled] = useMode();
 
   let array = [];
   const flexListRef = useRef();
@@ -56,47 +63,23 @@ export default function MultiItems({
     <>
       <Paper className="flexList" sx={styled?.flexList} ref={flexListRef}>
         {array.length < 1 ? (
-          <>select an entity section or create new {`${itemContext}`}</>
+          <>
+            select an entity from {itemContext} or create new {`${itemContext}`}
+          </>
         ) : (
           <>
             {array &&
               array?.map((item, i) => {
                 const customElement = (
-                  <Box
-                    component="ul"
-                    sx={{
-                      ...styled?.widgetMenuButtonArray?.vert,
-                      alignItems: 'center',
-                      gap: '1rem',
-                    }}
-                  >
-                    {item[singleItemScheme.customArray]?.map(
-                      (customItem, i) => {
-                        {
-                        }
-                        return (
-                          <Button
-                            // sx={styled?.menuButtonText.action}
-                            sx={
-                              customArrayItemInFocus?.[
-                                singleItemScheme.itemInFocusIdKey
-                              ] ===
-                              customItem?.[singleItemScheme.filterArrayByIdKey]
-                                ? styled?.menuButtonText?.selected
-                                : styled?.menuButtonText?.action
-                            }
-                            key={i}
-                            onClick={() =>
-                              handleClickCustomArrayItem(customItem)
-                            }
-                          >
-                            {customItem[singleItemScheme.customArrayKey]}
-                            {customItem[singleItemScheme.customArrayKey_2]}
-                          </Button>
-                        );
-                      }
-                    )}
-                  </Box>
+                  <>
+                    <CustomSubList
+                      singleItemScheme={singleItemScheme}
+                      item={item}
+                      customArrayItemInFocus={customArrayItemInFocus}
+                      handleClickCustomArrayItem={handleClickCustomArrayItem}
+                      styled={styled}
+                    />
+                  </>
                 );
                 return (
                   <Draggable
@@ -123,33 +106,17 @@ export default function MultiItems({
                           </>
                         ) : (
                           <>
-                            <Chip
-                              data-slug={item.id}
-                              onClick={() => handleSetItemInFocus(item)}
-                              multilines="true"
-                              avatar={
-                                <Avatar
-                                  onClick={() => handleClick(item)}
-                                  sx={styled?.avatar}
-                                  aria-label={itemContext}
-                                  // src={item?.basics?.[`${itemContext}ImageUrl`]}
-                                  {...stringAvatar(
-                                    item[singleItemScheme.title] || 'N/A'
-                                  )}
-                                />
-                              }
-                              sx={
-                                itemInFocus?.id === item.id
-                                  ? styled?.chip?.multilines?.selected
-                                  : styled?.chip?.multilines?.unselected
-                              }
-                              size={styled?.chip?.size}
-                              variant="outlined"
-                              label={item[singleItemScheme.title] || 'N/A'}
+                            <ChipComponent
+                              item={item}
+                              itemContext={itemContext}
+                              singleItemScheme={singleItemScheme}
+                              itemInFocus={itemInFocus}
+                              handleSetItemInFocus={handleSetItemInFocus}
+                              styled={styled}
                             />
-                            {alertElement && alertElement(item)}
                           </>
                         )}
+                        {alertElement && alertElement(item)}
                       </>
                     }
                   />

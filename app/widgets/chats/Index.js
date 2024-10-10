@@ -25,7 +25,7 @@ import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/MultiItems';
 // import SliderComponent from '@/app/components/slider/Slider';
 
-import { singleItemSchemeChat } from './dataScheme';
+import { singleItemScheme, singleItemSchemeChat } from './dataScheme';
 import ChatInputField from './ChatInputField';
 import SettingsAndMenu from './SettingsAndMenu';
 
@@ -113,20 +113,35 @@ export default function ChatsWidget({
   const [showGeminiCard, setShowGeminiCard] = useState('text');
 
   const [error, setError] = useState(null);
+  const handleSetChatInFocus = (item) => {
+    handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
+  };
   const collection = 'chats';
   const widgetProps = {
+    iconButton: <Chat />,
     appContext: appContext,
+    uiContext: uiContext,
+    uiGridMapContext: uiGridMapContext,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    uiGridMapContext: uiGridMapContext,
-    iconButton: <Chat />,
-    collection: collection,
-    uiContext: uiContext,
-    contextToolBar: contextToolBar,
-    widgetContext: selectedWidgetContext,
     itemContext: '',
+    collection: collection,
+    handleSetItemInFocus: handleSetChatInFocus,
+    customElement: null,
+    alertElement: null,
+    data: selectedChats,
+    selectedData: selectedChats,
+    setSelectedItem: setSelectedChats,
+    selector: {
+      selector: 'chatsSelector',
+      selected: 'selectedChats',
+    },
+    singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
+    itemInFocus: chatInFocus,
     tooltipTitle_newItem: 'Create new Chat',
     onClickNewItem: () => handleNewChat(),
     onClick: () => {
@@ -150,9 +165,6 @@ export default function ChatsWidget({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const handleSetChatInFocus = (item) => {
-    handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
-  };
   useEffect(() => {
     return () => {};
   }, [streamedResponse]);
@@ -251,7 +263,7 @@ export default function ChatsWidget({
       <MultiItems
         widget={widget}
         uiContext={uiContext}
-        singleItemScheme={singleItemSchemeChat}
+        singleItemScheme={singleItemScheme}
         selectedWidgetContext={selectedWidgetContext}
         setActiveSearchTerm={setActiveSearchTerm}
         handleSetItemInFocus={handleSetChatInFocus}
