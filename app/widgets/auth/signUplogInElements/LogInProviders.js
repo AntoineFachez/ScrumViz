@@ -25,7 +25,7 @@ export default function LogInProviders({ widgetProps }) {
       </Button>{' '}
       <Button
         sx={styled.menuButtonText.action}
-        onClick={() => handleSubmit('google')}
+        onClick={() => handleSubmit('github')}
       >
         Sign in with GitHub
       </Button>{' '}

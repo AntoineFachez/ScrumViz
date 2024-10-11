@@ -1,22 +1,14 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Button, Divider, Typography } from '@mui/material';
 
 import AppContext, { AppState } from '@/context/AppContext';
-// import InFocusContext from '@/context/InFocusContext';
 import AuthContext from './AuthContext';
 import UIContext from '@/context/UIContext';
 
-import LogIn from './signUplogInElements/customSignUp/LogIn';
 import LogOut from './signUplogInElements/customSignUp/LogOut';
-import SignUpWithEmailPawword from './signUplogInElements/customSignUp/SignUpWithEmailPawword';
 
-import { notify } from '@/utils/utils';
 import { handleCreateNewUser } from './functions/helper';
 import { signIn } from 'next-auth/react';
-import LogInProviders from './signUplogInElements/LogInProviders';
-import CustomSignUp from './signUplogInElements/CustomSignUp';
-// import './log-in.css';
 
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import CardTemplate from './CardTemplate';
@@ -28,13 +20,10 @@ export default function Index({}) {
     showSignUp,
     setShowSignUp,
     users,
-    setUsers,
     user,
     setUser,
     userInFocus,
     setUserInFocus,
-    // userLocation,
-    // setUserLocation,
     email,
     setEmail,
     password,
@@ -49,6 +38,8 @@ export default function Index({}) {
   const handleSubmit = async (method) => {
     if (method === 'google') {
       signIn('google');
+    } else if (method === 'github') {
+      signIn('github');
     } else if (method === 'emailPassword') {
       handleCreateNewUser(
         email,
@@ -105,8 +96,6 @@ export default function Index({}) {
     switchToSignUp,
     styled,
   };
-
-  // const { coordsInFocus } = useContext(InFocusContext);
 
   return (
     <>
