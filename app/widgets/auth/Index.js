@@ -1,37 +1,82 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Button, Typography } from '@mui/material';
-import { signIn } from 'next-auth/react';
+import { Box, Button, Divider, Typography } from '@mui/material';
 
 import AppContext, { AppState } from '@/context/AppContext';
 // import InFocusContext from '@/context/InFocusContext';
-import UIContext from '@/context/UIContext';
 import AuthContext from './AuthContext';
+import UIContext from '@/context/UIContext';
 
-import LogIn from './signUplogIn/LogIn';
-import LogOut from './signUplogIn/LogOut';
-import SignUpWithEmailPawword from './signUplogIn/SignUpWithEmailPawword';
+import LogIn from './signUplogInElements/customSignUp/LogIn';
+import LogOut from './signUplogInElements/customSignUp/LogOut';
+import SignUpWithEmailPawword from './signUplogInElements/customSignUp/SignUpWithEmailPawword';
 
-import { handleCreateNewUser } from './helper';
-import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import { notify } from '@/utils/utils';
+import { handleCreateNewUser } from './functions/helper';
+import { signIn } from 'next-auth/react';
+import LogInProviders from './signUplogInElements/LogInProviders';
+import CustomSignUp from './signUplogInElements/CustomSignUp';
 // import './log-in.css';
+
+import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
+import CardTemplate from './CardTemplate';
 
 export default function Index({}) {
   const { alert, setAlert } = useContext(AppContext);
-  const { users, user, setUser, userInFocus, setUserInFocus } =
-    useContext(AuthContext);
-
   const [theme, colorMode, palette, styled] = useMode();
-  // const { coordsInFocus } = useContext(InFocusContext);
+  const {
+    showSignUp,
+    setShowSignUp,
+    users,
+    setUsers,
+    user,
+    setUser,
+    userInFocus,
+    setUserInFocus,
+    // userLocation,
+    // setUserLocation,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+  } = useContext(AuthContext);
 
   const { userRole } = useContext(UIContext);
   const firebaseContext = 'users';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showSignUp, setShowSignUp] = useState(false);
 
+  const handleSubmit = async (method) => {
+    if (method === 'google') {
+      signIn('google');
+    } else if (method === 'emailPassword') {
+      handleCreateNewUser(
+        email,
+        password,
+        confirmPassword,
+        userRole,
+        // coordsInFocus,
+        firebaseContext,
+        setAlert
+      );
+    }
+  };
+  const onSubmit = (method) => {
+    if (method) {
+      () => onSubmit('emailPassword');
+    } else {
+      handleLogIn(
+        e,
+        auth,
+        email,
+        password,
+        setUser,
+        setUserInFocus,
+        setAlert,
+        setError
+      );
+    }
+  };
   const switchToSignUp = () => {
     if (!showSignUp) {
       setAlert({ state: '', note: '' });
@@ -41,80 +86,37 @@ export default function Index({}) {
       setShowSignUp(false);
     }
   };
-
-  const handleSubmit = async () => {
-    handleCreateNewUser(
-      email,
-      password,
-      confirmPassword,
-      userRole,
-      // coordsInFocus,
-      firebaseContext,
-      setAlert
-    );
+  const widgetProps = {
+    showSignUp,
+    setShowSignUp,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    handleSubmit,
+    onSubmit,
+    users,
+    user,
+    setUser,
+    setUserInFocus,
+    setAlert,
+    switchToSignUp,
+    styled,
   };
+
+  // const { coordsInFocus } = useContext(InFocusContext);
 
   return (
     <>
       {!user ? (
-        <Box sx={styled.signUpLogInCard}>
-          {' '}
-          <button onClick={() => signIn('google')}>Sign in with Google</button>
-          {showSignUp ? (
-            <Button
-              sx={styled.menuButtonText.action}
-              size="small"
-              onClick={switchToSignUp}
-            >
-              already an account ?
-            </Button>
-          ) : (
-            <Button
-              sx={styled.menuButtonText.action}
-              size="small"
-              onClick={switchToSignUp}
-            >
-              Sign Up ?
-            </Button>
-          )}
-          <>
-            {' '}
-            {showSignUp ? (
-              <>
-                <SignUpWithEmailPawword
-                  email={email}
-                  setEmail={setEmail}
-                  password={password}
-                  setPassword={setPassword}
-                  confirmPassword={confirmPassword}
-                  setConfirmPassword={setConfirmPassword}
-                  switchToSignUp={switchToSignUp}
-                  onSubmit={handleSubmit}
-                  setAlert={setAlert}
-                />
-              </>
-            ) : (
-              <>
-                <LogIn
-                  email={email}
-                  setEmail={setEmail}
-                  password={password}
-                  setPassword={setPassword}
-                  switchToSignUp={switchToSignUp}
-                  users={users}
-                  user={user}
-                  setUser={setUser}
-                  setUserInFocus={setUserInFocus}
-                  setAlert={setAlert}
-                />
-              </>
-            )}
-          </>{' '}
+        <>
+          <CardTemplate widgetProps={widgetProps} />{' '}
           <p className="signUp-logIn-message">{alert?.message}</p>
-        </Box>
+        </>
       ) : (
         <>
-          {' '}
           <LogOut
             user={user}
             setUser={setUser}
