@@ -72,6 +72,7 @@ export default function Products({
   };
   const widgetProps = {
     iconButton: <ShoppingBag />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

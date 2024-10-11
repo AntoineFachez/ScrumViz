@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { createContext, useContext, useState } from 'react';
 import AppContext from '../../../context/AppContext';
 import { acceptanceCriteria } from './mockAcceptanceCriteria';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 
 const AcceptanceCriteriaContext = createContext();
 
@@ -13,7 +14,8 @@ export const AcceptanceCriteriaProvider = ({ children }) => {
   const [selectedAcceptanceCriteria, setSelectedAcceptanceCriteria] = useState(
     displayAcceptanceCriteria
   );
-  const [dailiesInFocus, setAcceptanceCriteriaInFocus] = useState(false);
+  const [acceptanceCriteriaInFocus, setAcceptanceCriteriaInFocus] =
+    useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [isFiltered, setIsFiltered] = useState(false);
@@ -21,9 +23,15 @@ export const AcceptanceCriteriaProvider = ({ children }) => {
     setSelectedAcceptanceCriteria(displayAcceptanceCriteria);
     setIsFiltered(false);
   };
-  // const handleSetAcceptanceCriteriaInFocus = (dailies) => {
-  //   setAcceptanceCriteriaInFocus(dailies);
-  // };
+  const handleFindAcceptanceCriteria = (item, itemKey, filterKey) => {
+    // console.log('handleFindAcceptanceCriteria', itemKey, filterKey);
+
+    const foundAcceptanceCriteria = displayAcceptanceCriteria.filter(
+      (criteria) => criteria[filterKey] === item[itemKey]
+    );
+
+    setAcceptanceCriteriaInFocus(foundAcceptanceCriteria);
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
@@ -54,7 +62,7 @@ export const AcceptanceCriteriaProvider = ({ children }) => {
         setDisplayAcceptanceCriteria,
         selectedAcceptanceCriteria,
         setSelectedAcceptanceCriteria,
-        dailiesInFocus,
+        acceptanceCriteriaInFocus,
         setAcceptanceCriteriaInFocus,
         searchTerm,
         setSearchTerm,
@@ -63,6 +71,7 @@ export const AcceptanceCriteriaProvider = ({ children }) => {
         handleResetFiltered,
         // handleSetAcceptanceCriteriaInFocus,
         handleSearchTermChange,
+        handleFindAcceptanceCriteria,
       }}
     >
       {children}

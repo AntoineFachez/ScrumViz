@@ -12,6 +12,7 @@ import ScrumTeams from '../../../widgets/scrumTeams/ScrumTeams';
 import TeamMembers from '../../../widgets/teamMembers/TeamMembers';
 import SprintPlannings from '../../../widgets/sprintPlannings/SprintPlannings';
 import Sprint from '../../../widgets/sprints/Sprints';
+import SprintBackLogs from '../../../widgets/sprintBackLogs/SprintBackLogs';
 import Daily from '../../../widgets/dailies/Dailies';
 import SprintReviews from '../../../widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '../../../widgets/sprintRetrospectives/SprintRetrospectives';
@@ -28,6 +29,7 @@ const Components = {
   ScrumTeams: ScrumTeams,
   TeamMembers: TeamMembers,
   Sprint: Sprint,
+  SprintBackLogs: SprintBackLogs,
   Daily: Daily,
   SprintReviews: SprintReviews,
   SprintRetrospectives: SprintRetrospectives,

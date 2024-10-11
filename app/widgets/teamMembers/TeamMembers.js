@@ -60,6 +60,7 @@ export default function TeamMembers({
   const collection = 'teamMembers';
   const widgetProps = {
     iconButton: <GroupAdd />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

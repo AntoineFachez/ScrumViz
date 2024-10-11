@@ -11,7 +11,7 @@ export default function CardItemHeader({
   alertElement,
   isSelected,
   singleItemScheme,
-  CardSubHeaderElement,
+  // CardSubHeaderElement,
   stringAvatar,
   handleClick,
   styled,

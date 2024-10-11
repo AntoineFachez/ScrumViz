@@ -74,6 +74,7 @@ export default function SprintReviews({
   const collection = 'sprintReviews';
   const widgetProps = {
     iconButton: <RateReview />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

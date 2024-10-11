@@ -68,6 +68,7 @@ export default function SprintRetrospectives({
   const collection = 'sprintRetrospectives';
   const widgetProps = {
     iconButton: <History />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

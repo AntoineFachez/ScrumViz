@@ -1,7 +1,9 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 
-export default function Header({ itemInFocus, singleItemScheme, styled }) {
+export default function Header({ widgetProps, styled }) {
+  const { collection_context_title, itemInFocus, singleItemScheme } =
+    widgetProps;
   return (
     <>
       <Button onClick={() => setUiGridMapContext('prompts')}>
@@ -14,6 +16,16 @@ export default function Header({ itemInFocus, singleItemScheme, styled }) {
       </Button>
       <Box className="singleItem header" sx={styled?.articleHeader}>
         <Box>
+          <Typography
+            sx={{
+              ...styled.widgetSubTitle,
+              // width: '100%',
+              textAlign: 'center',
+            }}
+            variant={styled.widgetSubTitle.variant}
+          >
+            {collection_context_title}
+          </Typography>
           <Typography
             sx={styled.widgetTitle}
             variant={styled.widgetTitle.variant}

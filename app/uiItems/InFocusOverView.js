@@ -6,6 +6,7 @@ import UIContext from '@/context/UIContext';
 
 import Draggable from '@/app/components/dragDrop/Index';
 import ChatsContext from '../widgets/chats/ChatsContext';
+
 export default function InFocusOverView({ contextToolBar, styled }) {
   const { appContext, uiGridMapContext, alert } = useContext(AppContext);
 

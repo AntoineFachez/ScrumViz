@@ -39,8 +39,8 @@ export default function Dailies({
     setShowWidgetUIMenu,
     selectedDailies,
     setSelectedDailies,
-    dailiesInFocus,
-    setDailiesInFocus,
+    dailyInFocus,
+    setDailyInFocus,
     searchTerm,
     setSearchTerm,
     isFiltered,
@@ -51,11 +51,14 @@ export default function Dailies({
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const collection = 'dailies';
-  const handleSetDailiesInFocus = (item) => {
-    handleSetItemInFocus(setDailiesInFocus, item, setLatestItemInFocus);
+  const handlesetDailyInFocus = (item) => {
+    console.log(item);
+
+    handleSetItemInFocus(setDailyInFocus, item, setLatestItemInFocus);
   };
   const widgetProps = {
     iconButton: <DateRange />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
@@ -72,7 +75,7 @@ export default function Dailies({
     singleItemScheme: singleItemScheme,
     dropWidgetName: collection,
     orderedBy: '',
-    itemInFocus: dailiesInFocus,
+    itemInFocus: dailyInFocus,
 
     onClick: () => {
       setUiGridMapContext(collection);
@@ -92,14 +95,14 @@ export default function Dailies({
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-    handleSetItemInFocus: handleSetDailiesInFocus,
+    handleSetItemInFocus: handlesetDailyInFocus,
   };
 
   useEffect(() => {
-    if (dailiesInFocus) handleFindSprints('id', dailiesInFocus, 'sprint_id');
+    if (dailyInFocus) handleFindSprints('id', dailyInFocus, 'sprint_id');
 
     return () => {};
-  }, [dailiesInFocus]);
+  }, [dailyInFocus]);
 
   const newItem = (
     <Box

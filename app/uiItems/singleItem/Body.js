@@ -2,31 +2,27 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import CustomSubList from '../CustomSubList';
 
-export default function Body({ widgetProps, itemInFocus, styled }) {
-  const { singleItemScheme } = widgetProps;
+export default function Body({ widgetProps, styled }) {
+  const { singleItemScheme, itemInFocus } = widgetProps;
   return (
     <>
       <Box
         sx={{
           width: '100%',
           height: '100%',
-          paddingRight: '2rem',
-          overflowY: 'auto',
-          overflowX: 'hidden',
+          maxHeight: '8rem',
+
+          // overflowY: 'auto',
+          // overflowX: 'auto',
         }}
       >
-        {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
-                {singleItemScheme.title}:{' '}
-                {itemInFocus[singleItemScheme.title] || 'N/A'}
-              </Typography> */}
         <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
-          {singleItemScheme.customField}:<br />
-          {itemInFocus[singleItemScheme.customField] || 'N/A'}
+          Author: {itemInFocus[singleItemScheme.customField] || 'N/A'}
         </Typography>
         <br />
-        <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
+        {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
           {singleItemScheme.description}:<br />
-        </Typography>
+        </Typography> */}
         <Typography
           sx={{
             ...styled.textBody,
@@ -34,20 +30,10 @@ export default function Body({ widgetProps, itemInFocus, styled }) {
             color: 'white',
           }}
         >
-          {itemInFocus[singleItemScheme.description] || 'N/A'}
+          &quot;{itemInFocus[singleItemScheme.description] || 'N/A'}&quot;
         </Typography>
-
-        <CustomSubList
-          widgetProps={widgetProps}
-          item={itemInFocus}
-          styled={styled}
-        />
-        {/* Add more fields here as needed, using the same pattern */}
-        {/* <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
-                {singleItemScheme.id}:{' '}
-                {itemInFocus[singleItemScheme.id] || 'N/A'}
-              </Typography> */}
       </Box>
+      <CustomSubList widgetProps={widgetProps} styled={styled} />
     </>
   );
 }
