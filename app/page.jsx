@@ -1,6 +1,7 @@
 'use client';
+import { signIn } from 'next-auth/react';
 import { useContext, useRef, useState } from 'react';
-import { Box, Paper } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
 
@@ -18,7 +19,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useMode } from './theme/ThemeContext';
 import Profile from './profile/page';
 
-export default function BasePage({}) {
+import { SessionProvider } from 'next-auth/react';
+export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
@@ -58,10 +60,12 @@ export default function BasePage({}) {
         marginTop: styled?.navBar.height,
       }}
     >
-      <ThemeProvider theme={theme}>
-        {user ? (
-          <>
-            {/* <Box
+      {' '}
+      <SessionProvider session={session}>
+        <ThemeProvider theme={theme}>
+          {user ? (
+            <>
+              {/* <Box
               sx={{
                 width: '100%',
                 height: '100%',
@@ -70,17 +74,26 @@ export default function BasePage({}) {
                 // alignItems: 'center',
               }}
             > */}
-            <NavBar />
-            {/* </Box> */}
-            {uiElements()}{' '}
-          </>
-        ) : (
-          <>
-            <SignupLogin />
-          </>
-        )}
-        <ToastContainer />
-      </ThemeProvider>{' '}
+              <NavBar />
+              {/* </Box> */}
+              {uiElements()}{' '}
+            </>
+          ) : (
+            <Box
+              sx={{
+                height: 'fit-content',
+                maxHeight: '16rem',
+                display: 'flex',
+                flexFlow: 'row',
+                // justifyContent: 'flex-start',
+              }}
+            >
+              <SignupLogin />
+            </Box>
+          )}
+          <ToastContainer />
+        </ThemeProvider>{' '}
+      </SessionProvider>{' '}
     </Box>
   );
 }
