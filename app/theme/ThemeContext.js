@@ -254,9 +254,6 @@ const styled = (colorMode) => ({
     // padding: '4rem 0rem 0rem 0rem',
   },
   signUpLogInCard: {
-    maxWidth: '18rem',
-    height: '16rem',
-    maxHeight: '16rem',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

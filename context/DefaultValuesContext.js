@@ -6,7 +6,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const DefaultValuesContext = createContext();
 
 export const DefaultValuesProvider = ({ children }) => {
-  const startUpAppContext = 'scrumManager';
+  const startUpAppContext = 'home';
   const startUpCollectionContext = 'scrumManager';
   const [defaultAmountPromptToken, setDefaultAmountPromptToken] =
     useState(7000);

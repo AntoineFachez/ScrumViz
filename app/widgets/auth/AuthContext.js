@@ -8,10 +8,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const [showSignUp, setShowSignUp] = useState(false);
   const [users, setUsers] = useState(null);
   const [user, setUser] = useState(null);
   const [userInFocus, setUserInFocus] = useState([null]);
-
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user?.emailVerified) {
@@ -41,6 +44,8 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        showSignUp,
+        setShowSignUp,
         users,
         setUsers,
         user,
@@ -49,6 +54,12 @@ export const AuthProvider = ({ children }) => {
         setUserInFocus,
         // userLocation,
         // setUserLocation,
+        email,
+        setEmail,
+        password,
+        setPassword,
+        confirmPassword,
+        setConfirmPassword,
       }}
     >
       {children}

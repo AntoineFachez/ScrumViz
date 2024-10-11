@@ -55,18 +55,18 @@ const SignUpWithEmailPawword = ({
           required
         />
       </Box>
-      <Box className="form-footer" sx={styled.signUpLogInCard.footer}>
+      {/* <Box className="form-footer" sx={styled.signUpLogInCard.footer}>
         <Button
           sx={styled.menuButtonText.action}
           size="small"
-          onClick={onSubmit}
+          onClick={() => onSubmit('emailPassword')}
         >
           Sign Up
         </Button>
         <Typography>{error?.code}</Typography>
 
-        {/* <p className="signUp-logIn-message">{alert.message}</p> */}
-      </Box>
+        <p className="signUp-logIn-message">{alert.message}</p>
+      </Box> */}
     </>
   );
 };
