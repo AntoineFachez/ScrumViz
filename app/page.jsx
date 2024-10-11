@@ -17,7 +17,7 @@ import Home from './home/page';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useMode } from './theme/ThemeContext';
-import Profile from './profile/page';
+// import Profile from './profile/page';
 
 import { SessionProvider } from 'next-auth/react';
 export default function BasePage({ session }) {
@@ -34,8 +34,8 @@ export default function BasePage({ session }) {
         return <ScrumManagerPage />;
       case 'home':
         return <Home />;
-      case 'profile':
-        return <Profile />;
+      // case 'profile':
+      //   return <Profile />;
 
       default:
         return <Home />;
