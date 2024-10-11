@@ -41,9 +41,9 @@ export default function BasePage({ session }) {
         return <Home />;
     }
   };
-  const data = ['username@gmail.com', 'user02@gmail.com'];
+  // const data = ['username@gmail.com', 'user02@gmail.com'];
 
-  const [selectedValue, setSelectedValue] = useState(data[1]);
+  // const [selectedValue, setSelectedValue] = useState(data[1]);
 
   const handleClickOpen = () => {
     setShowDialog(true);
