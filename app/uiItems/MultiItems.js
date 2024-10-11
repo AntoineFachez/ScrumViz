@@ -13,11 +13,8 @@ export default function MultiItems({ widgetProps, alertElement, styled }) {
     data,
     selectedData,
     selector,
-    singleItemScheme,
     itemInFocus,
-    customArrayItemInFocus,
     selectedWidgetContext,
-    handleClickCustomArrayItem,
   } = widgetProps;
   let array = [];
   const flexListRef = useRef();

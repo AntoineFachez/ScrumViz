@@ -2,11 +2,7 @@ import ImageDropzone from '@/app/widgets/imageDropZone/ImageDropZone';
 import React from 'react';
 import QuickMenu from '../QuickMenu';
 
-export default function Media({
-  widgetProps,
-
-  styled,
-}) {
+export default function Media({ widgetProps, styled }) {
   const { itemInFocus, singleItemScheme } = widgetProps;
   return (
     <>

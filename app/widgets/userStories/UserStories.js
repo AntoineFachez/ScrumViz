@@ -99,6 +99,8 @@ export default function UserStory({
   };
   const widgetProps = {
     iconButton: <Assignment />,
+    tooltipTitle_newItem: 'Create new User Story',
+    collection_context_title: 'User Story',
 
     widget: widget,
     appContext: appContext,
@@ -119,7 +121,6 @@ export default function UserStory({
     orderedBy: '',
     itemInFocus: userStoryInFocus,
     customArrayItemInFocus: acceptanceCriteriaInFocus,
-    tooltipTitle_newItem: 'Create new User Story',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,

@@ -105,7 +105,6 @@ export default function CardItem({
             flexFlow: 'column nowrap',
             justifyContent: 'center',
             alignItems: 'center',
-
             // backgroundColor: 'white',
           }}
         >
@@ -114,10 +113,17 @@ export default function CardItem({
               sx={
                 isSelected
                   ? {
-                      ...styled?.textBody?.selected,
+                      // ...styled?.textBody?.selected,
                       textAlign: 'justify',
+                      fontSize: '0.8rem',
+                      margin: '1rem 1rem',
                     }
-                  : styled?.textBody.contrast
+                  : {
+                      ...styled?.textBody.contrast,
+                      textAlign: 'justify',
+                      fontSize: '0.8rem',
+                      margin: '1rem 1rem',
+                    }
               }
               variant={styled?.textBody?.variant}
             >

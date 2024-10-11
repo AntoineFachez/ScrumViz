@@ -19,14 +19,14 @@ export const SprintBackLogsProvider = ({ children }) => {
 
   const handleFindSprintBackLogs = (item, itemKey, filterKey, callingFn) => {
     const foundSprintLogs = displaySprintBackLogs.filter((sprintBackLog) => {
-      console.log(
-        'handleFindSprintBackLogs',
-        sprintBackLog,
-        // item,
-        filterKey,
-        sprintBackLog[filterKey],
-        item[itemKey]
-      );
+      // console.log(
+      //   'handleFindSprintBackLogs',
+      //   sprintBackLog,
+      //   // item,
+      //   filterKey,
+      //   sprintBackLog[filterKey],
+      //   item[itemKey]
+      // );
       return sprintBackLog[filterKey] === item[itemKey];
     });
     setSelectedSprintBackLogs(foundSprintLogs);

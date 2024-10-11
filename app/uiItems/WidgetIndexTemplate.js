@@ -9,7 +9,6 @@ import QuickMenu from './QuickMenu';
 import { themeSettings, useMode } from '../theme/ThemeContext';
 import SingleItem from './singleItem/SingleItem';
 import MultiItems from './MultiItems';
-import { singleItemScheme } from '../widgets/scrumTeams/dataScheme';
 
 const WidgetIndexTemplate = ({
   widgetProps,
@@ -43,17 +42,7 @@ const WidgetIndexTemplate = ({
   } = widgetProps;
 
   const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
-  const singleItem = (
-    <SingleItem
-      widgetProps={widgetProps}
-      // singleItemScheme={widgetProps?.singleItemScheme}
-      // itemContext={widgetProps?.itemContext}
-      // itemInFocus={widgetProps?.itemInFocus}
-      // customArrayItemInFocus={widgetProps?.customArrayItemInFocus}
-      // handleClickCustomArrayItem={widgetProps?.handleClickCustomArrayItem}
-      styled={styled}
-    />
-  );
+  const singleItem = <SingleItem widgetProps={widgetProps} styled={styled} />;
   return (
     <>
       {contextToolBar === 'navBar' ? (
@@ -64,6 +53,7 @@ const WidgetIndexTemplate = ({
               keyToPass={uuidv4()}
               // item={uiContext}
               item={widgetProps?.dropWidgetName}
+              // item={widgetProps?.widget}
               context="draggable"
               htmlItem={
                 <NavBarButton

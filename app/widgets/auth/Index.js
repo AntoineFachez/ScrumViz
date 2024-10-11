@@ -1,6 +1,7 @@
 'use client';
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
+import { signIn } from 'next-auth/react';
 
 import AppContext, { AppState } from '@/context/AppContext';
 // import InFocusContext from '@/context/InFocusContext';
@@ -57,6 +58,8 @@ export default function Index({}) {
     <>
       {!user ? (
         <Box sx={styled.signUpLogInCard}>
+          {' '}
+          <button onClick={() => signIn('google')}>Sign in with Google</button>
           {showSignUp ? (
             <Button
               sx={styled.menuButtonText.action}
@@ -75,6 +78,7 @@ export default function Index({}) {
             </Button>
           )}
           <>
+            {' '}
             {showSignUp ? (
               <>
                 <SignUpWithEmailPawword
