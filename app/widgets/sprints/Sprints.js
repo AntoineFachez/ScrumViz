@@ -23,6 +23,7 @@ import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import WidgetMenu from '@/app/uiItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 
 export default function Sprints({
   widget,
@@ -48,6 +49,7 @@ export default function Sprints({
     searchTerm,
     setSearchTerm,
   } = useContext(SprintsContext);
+  const { displaySprintBacklogs } = useContext(SprintBackLogsContext);
   const { displayDailies, selectedDailies, setSelectedDailies } =
     useContext(DailiesContext);
   const { handleFindScrumTeam } = useContext(ScrumTeamsContext);
@@ -63,9 +65,19 @@ export default function Sprints({
     });
     setSelectedDailies(found);
   };
+  const handleClickCustomArrayItem = (item) => {
+    // const found = displaySprintBacklogs.filter(
+    //   (sprintBackLog) => sprintBackLog.id === item.acceptanceCriteria_id
+    // )[0];
+    // setSelectedSprintBackLogs(found);
+    // handleFindAcceptanceCriteria(item, 'id', 'acceptanceCriteria_id');
+  };
   const collection = 'sprints';
   const widgetProps = {
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
+    tooltipTitle_newItem: 'Create new Sprint',
+    collection_context_title: 'Sprint',
+
     widget: widget,
     appContext: appContext,
     uiContext: uiContext,
@@ -88,6 +100,7 @@ export default function Sprints({
     dropWidgetName: collection,
     orderedBy: '',
     itemInFocus: sprintInFocus,
+    customArrayItemInFocus: displaySprintBacklogs,
     orderedBy: '',
 
     onClick: () => {
@@ -107,8 +120,10 @@ export default function Sprints({
     setSelectedWidgetContext: setSelectedWidgetContext,
     handleSelectWidgetContext: handleSelectWidgetContext,
     searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
 
   const handleSearchTermChange = (e) => {

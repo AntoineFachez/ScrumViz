@@ -1,31 +1,11 @@
 import { IconButton, TextField } from '@mui/material';
-import {
-  AccountTree,
-  CloseFullscreen,
-  FilterList,
-  Grain,
-  GridView,
-  OpenInFull,
-  SearchOutlined,
-  Summarize,
-} from '@mui/icons-material';
+import { SearchOutlined } from '@mui/icons-material';
 import Menu from '../components/menu/Index';
 import { useMode } from '@/app/theme/ThemeContext';
 import { Fragment } from 'react';
 import { buttonData } from './widgetMenuButtonData';
 
-export default function WidgetMenu({
-  widget,
-  widgetProps,
-  menuProps,
-  handleSelectWidgetContext,
-  setSelectedWidgetContext,
-  searchString,
-  selectedWidgetContext,
-  handleSearchTermChange,
-  handleSearch,
-  // buttonData,
-}) {
+export default function WidgetMenu({ widgetProps }) {
   const [theme, colorMode, palette, styled] = useMode();
 
   const renderedButtons = (buttonDataToRender) => {

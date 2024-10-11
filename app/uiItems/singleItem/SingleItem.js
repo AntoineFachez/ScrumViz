@@ -5,29 +5,13 @@ import Header from './Header';
 import Body from './Body';
 import Media from './Media';
 
-const SingleItem = ({
-  widgetProps,
-  // itemContext,
-  // itemInFocus,
-  // customArrayItemInFocus,
-  // handleClickCustomArrayItem,
-  // singleItemScheme,
-  styled,
-}) => {
-  const {
-    itemContext,
-    itemInFocus,
-    customArrayItemInFocus,
-    handleClickCustomArrayItem,
-    singleItemScheme,
-  } = widgetProps;
-  const { setUiGridMapContext } = useContext(AppContext);
+const SingleItem = ({ widgetProps, styled }) => {
+  const { itemContext, itemInFocus } = widgetProps;
   return (
     <Box className="widget" sx={styled?.widget}>
       {!itemInFocus ? (
         <Box
           sx={{
-            // ...styled?.centerFullAvailableSpace,
             backgroundColor: 'transparent',
           }}
         >
@@ -48,20 +32,9 @@ const SingleItem = ({
       ) : (
         <>
           <Box sx={styled?.article}>
-            <Header
-              itemInFocus={itemInFocus}
-              singleItemScheme={singleItemScheme}
-              styled={styled}
-            />
+            <Header widgetProps={widgetProps} styled={styled} />
 
-            <Body
-              widgetProps={widgetProps}
-              singleItemScheme={singleItemScheme}
-              itemInFocus={itemInFocus}
-              customArrayItemInFocus={customArrayItemInFocus}
-              handleClickCustomArrayItem={handleClickCustomArrayItem}
-              styled={styled}
-            />
+            <Body widgetProps={widgetProps} styled={styled} />
             <Media widgetProps={widgetProps} styled={styled} />
           </Box>
         </>

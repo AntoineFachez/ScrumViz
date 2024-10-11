@@ -65,7 +65,8 @@ export const generateDOM = (uiGridMapContext, defaultWidgetMap, styled) => {
             // dynamicComponent={dynamicComponent}
             // showPaneMenu={showPaneMenu}
             // menuSpace={menuSpace}
-            viewerGridMap={defaultWidgetMap}
+            // mapToRender={defaultWidgetMap}
+            mapToRender={mapToRender}
             // contextSpaces="top-left-top"
             selectedWidget={selectedWidget}
             dropWidgetName={widget.collection}

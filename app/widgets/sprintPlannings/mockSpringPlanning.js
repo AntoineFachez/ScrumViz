@@ -73,7 +73,7 @@ export const sprintPlannings = [
   },
   {
     id: 'd0e8c0091fa3-4f5a-d5e4-b4eb-a3f2b1c4', // Replace with a real UUID if needed
-    sprint_id: 'some_sprint_id', // Replace with the actual sprint ID this planning is for
+    sprint_id: 'e3580a72-b640-4138-a25a-3c688822229d', // Replace with the actual sprint ID this planning is for
     date: '2024-11-13', // Adjust the date as needed
     duration: 120, // Example duration in minutes
     attendees: [

@@ -36,7 +36,7 @@ export default function Index({
             droppedItemsArray={droppedItemsArray}
             dataTransfer={dataTransfer}
             setDataTransfer={setDataTransfer}
-            handleDrop={handleDrop}
+            handleDrop={handleDrop} //when drop into Space: components/grid/Space
             styled={styled}
           />
         </>

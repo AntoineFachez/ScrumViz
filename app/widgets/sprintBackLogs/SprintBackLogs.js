@@ -125,6 +125,7 @@ export default function SprintBackLogs({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
+
   useEffect(() => {
     handleFindSprintBackLogs(
       acceptanceCriteriaInFocus,
@@ -135,6 +136,18 @@ export default function SprintBackLogs({
 
     return () => {};
   }, [acceptanceCriteriaInFocus]);
+
+  // useEffect(() => {
+  //   handleFindSprintBackLogs(
+  //     sprintInFocus,
+  //     'id',
+  //     'acceptanceCriteria_id',
+  //     'call acceptanceCriteriaInFocus'
+  //   );
+
+  //   return () => {};
+  // }, [sprintInFocus]);
+
   const newItem = (
     <Box
       className="widget"

@@ -31,6 +31,7 @@ import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
 import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
+import SprintsContext from '../sprints/SprintsContext';
 
 export default function SprintPlannings({
   widget,
@@ -51,6 +52,7 @@ export default function SprintPlannings({
   const { displaySprintBackLogs, setSelectedSprintBackLogs } = useContext(
     SprintBackLogsContext
   );
+  const { sprintInFocus } = useContext(SprintsContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
 
@@ -64,10 +66,12 @@ export default function SprintPlannings({
     sprintPlanningInFocus,
     setSprintPlanningInFocus,
     handleNewSprintPlanning,
+    handleFindSprintPlannings,
   } = useContext(SprintPlanningsContext);
   const { displayProductBackLogs, setSelectedProductBackLogs } = useContext(
     ProductBackLogsContext
   );
+  const { displaySprints, setSelectedSprints } = useContext(SprintsContext);
   const handleSetSprintPlanningInFocus = (item) => {
     handleSetItemInFocus(setSprintPlanningInFocus, item, setLatestItemInFocus);
 
@@ -85,6 +89,11 @@ export default function SprintPlannings({
     );
 
     setSelectedUserStories(filteredUserStories);
+    const filteredSprints = displaySprints.filter(
+      (sprint) => sprint.id === item.sprint_id
+    );
+
+    setSelectedSprints(filteredSprints);
 
     // const filteredProductBackLogs = displayProductBackLogs.filter((backLog) => {
     //   console.log(backLog);
@@ -97,6 +106,13 @@ export default function SprintPlannings({
       productBacklog_item_ids.has(backLog.id)
     );
     setSelectedSprintBackLogs(foundSprintLogs);
+  };
+  const handleClickCustomArrayItem = (item) => {
+    const found = displaySprintBackLogs.filter(
+      (backLog) => backLog.id === item.sprintBackLog_item_id
+    )[0];
+    setSelectedSprintBackLogs(found);
+    // handleFindAcceptanceCriteria(item, 'id', 'acceptanceCriteria_id');
   };
   const collection = 'sprintPlannings';
   const widgetProps = {
@@ -145,7 +161,15 @@ export default function SprintPlannings({
     searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
+  useEffect(() => {
+    const foundSprintPlannings = displaySprintPlannings.filter(
+      (planning) => planning.sprint_id === sprintInFocus.id
+    );
+    setSelectedSprintPlannings(foundSprintPlannings);
+    return () => {};
+  }, [sprintInFocus]);
 
   const handleSearchTermChange = (e) => {
     e.preventDefault();

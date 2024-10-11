@@ -2,8 +2,8 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import CustomSubList from '../CustomSubList';
 
-export default function Body({ widgetProps, itemInFocus, styled }) {
-  const { singleItemScheme } = widgetProps;
+export default function Body({ widgetProps, styled }) {
+  const { singleItemScheme, itemInFocus } = widgetProps;
   return (
     <>
       <Box
@@ -12,8 +12,8 @@ export default function Body({ widgetProps, itemInFocus, styled }) {
           height: '100%',
           maxHeight: '8rem',
 
-          overflowY: 'auto',
-          overflowX: 'auto',
+          // overflowY: 'auto',
+          // overflowX: 'auto',
         }}
       >
         <Typography sx={{ ...styled.textBody, height: 'fit-content' }}>
@@ -30,14 +30,10 @@ export default function Body({ widgetProps, itemInFocus, styled }) {
             color: 'white',
           }}
         >
-          "{itemInFocus[singleItemScheme.description] || 'N/A'}"
+          &quot;{itemInFocus[singleItemScheme.description] || 'N/A'}&quot;
         </Typography>
       </Box>
-      <CustomSubList
-        widgetProps={widgetProps}
-        item={itemInFocus}
-        styled={styled}
-      />
+      <CustomSubList widgetProps={widgetProps} styled={styled} />
     </>
   );
 }
