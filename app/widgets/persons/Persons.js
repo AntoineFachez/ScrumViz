@@ -45,6 +45,7 @@ export default function Persons({
   const collection = 'persons';
   const widgetProps = {
     iconButton: <Group />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

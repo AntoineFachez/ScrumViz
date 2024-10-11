@@ -83,6 +83,11 @@ export const widgetListScrumManager = {
         widget: 'Sprint',
         name: 'Sprint',
       },
+      {
+        _uid: uuidv4(),
+        widget: 'SprintBackLogs',
+        name: 'SprintBackLogs',
+      },
       // {
       //   _uid: uuidv4(),
       //   widget: 'Users',

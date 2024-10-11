@@ -22,6 +22,11 @@ export const singleItemScheme = {
   title: 'date',
   subTitle: 'date',
   description: 'user_story',
+  img_uri: 'wireFrame_uri',
+  customArray: 'sprintBackLog_items',
+  customArrayKey: 'description',
+  itemInFocusIdKey: 'sprintBackLog_item_id',
+  filterArrayByIdKey: 'sprintBackLog_item_id',
 };
 
 export const headCellsTable = [

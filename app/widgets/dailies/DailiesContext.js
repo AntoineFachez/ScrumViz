@@ -10,7 +10,7 @@ export const DailiesProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [displayDailies, setDisplayDailies] = useState(dailies);
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
-  const [dailiesInFocus, setDailiesInFocus] = useState(false);
+  const [dailyInFocus, setDailyInFocus] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   const [isFiltered, setIsFiltered] = useState(false);
@@ -18,8 +18,8 @@ export const DailiesProvider = ({ children }) => {
     setSelectedDailies(displayDailies);
     setIsFiltered(false);
   };
-  // const handleSetDailiesInFocus = (dailies) => {
-  //   setDailiesInFocus(dailies);
+  // const handlesetDailyInFocus = (dailies) => {
+  //   setDailyInFocus(dailies);
   // };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -49,14 +49,14 @@ export const DailiesProvider = ({ children }) => {
         setDisplayDailies,
         selectedDailies,
         setSelectedDailies,
-        dailiesInFocus,
-        setDailiesInFocus,
+        dailyInFocus,
+        setDailyInFocus,
         searchTerm,
         setSearchTerm,
         isFiltered,
         setIsFiltered,
         handleResetFiltered,
-        // handleSetDailiesInFocus,
+        // handlesetDailyInFocus,
         handleSearchTermChange,
       }}
     >

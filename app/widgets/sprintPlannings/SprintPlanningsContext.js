@@ -18,6 +18,7 @@ export const SprintPlanningsProvider = ({ children }) => {
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
 
   const handleFindSprintPlannings = (item, itemKey, filterKey) => {
+    console.log('handleFindSprintPlannings');
     const foundPlannings = displaySprintPlannings.filter((planning) => {
       return planning?.sprintBackLog_items?.some((backLog) => {
         return backLog[filterKey] === item[itemKey];

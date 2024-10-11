@@ -14,7 +14,7 @@ export default function Space({
   startUpWidgetLayout,
   widgetContext,
   contextSpaces,
-  viewerGridMap,
+  mapToRender,
   selectedWidget,
   dropWidgetName,
   showPaneMenu,
@@ -39,7 +39,7 @@ export default function Space({
       // dynamicComponent={dynamicComponent}
       // showPaneMenu={showPaneMenu}
       // menuSpace={menuSpace}
-      viewerGridMap={viewerGridMap}
+      mapToRender={mapToRender}
       // contextSpaces="top-left-top"
       selectedWidget={selectedWidget}
       dropWidgetName={widget.collection}
@@ -49,30 +49,31 @@ export default function Space({
     />
   );
   const handleDropWidgetIntoSpace = (droppedItemName) => {
-    console.log('droppedItemName', viewerGridMap, dropWidgetName);
-    const tempWidget = viewerGridMap?.filter((item) => {
+    // console.log('droppedItemName', mapToRender, dropWidgetName);
+    const tempWidgetArray = mapToRender?.filter((item) => {
       return JSON.stringify(item?.collection) === droppedItemName;
     });
-    const TempWidget = tempWidget[0]?.widget;
-    console.log('droppedItemName', TempWidget);
+    const tempWidget = tempWidgetArray[0]?.widget;
+    const TempWidget = tempWidget;
+    // console.log('droppedItemName', tempWidget);
     if (TempWidget)
       setDroppedWidget(
         <TempWidget
           // uiContext={uiContext}
-          widget={widget}
-          uiContext={widget?.uiContext}
-          startUpWidgetLayout={widget?.startUpWidgetLayout}
+          widget={tempWidget}
+          uiContext={tempWidget?.uiContext}
+          startUpWidgetLayout={tempWidget?.startUpWidgetLayout}
           // startUpWidgetLayout={'singleItem'}
-          widgetContext={widget?.widgetContext}
+          widgetContext={tempWidget?.widgetContext}
           generated={true} // contextSpaces={contextSpaces}
           // selectedWidget={selectedWidget}
           // dynamicComponent={dynamicComponent}
           // showPaneMenu={showPaneMenu}
           // menuSpace={menuSpace}
-          viewerGridMap={viewerGridMap}
+          mapToRender={mapToRender}
           // contextSpaces="top-left-top"
           selectedWidget={selectedWidget}
-          dropWidgetName={widget.collection}
+          dropWidgetName={tempWidget.collection}
           setPassWidgetContext=""
           dynamicComponent={null}
           styled={styled}
@@ -94,7 +95,7 @@ export default function Space({
         // dynamicComponent={dynamicComponent}
         // showPaneMenu={showPaneMenu}
         // menuSpace={menuSpace}
-        viewerGridMap={viewerGridMap}
+        mapToRender={mapToRender}
         // contextSpaces="top-left-top"
         selectedWidget={selectedWidget}
         dropWidgetName={widget.collection}

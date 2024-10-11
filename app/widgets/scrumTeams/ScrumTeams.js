@@ -86,6 +86,7 @@ export default function ScrumTeam({
   const collection = 'scrumTeams';
   const widgetProps = {
     iconButton: <Group />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,

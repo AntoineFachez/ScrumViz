@@ -119,6 +119,7 @@ export default function ChatsWidget({
   const collection = 'chats';
   const widgetProps = {
     iconButton: <Chat />,
+    widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
