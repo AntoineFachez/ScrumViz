@@ -8,7 +8,7 @@ import UIContext from '@/context/UIContext';
 import LogOut from './signUplogInElements/customSignUp/LogOut';
 
 import { handleCreateNewUser, handleLogIn } from './functions/helper';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import CardTemplate from './CardCompiler';
@@ -17,7 +17,7 @@ import { auth } from '@/firebase/firebase';
 export default function Index({}) {
   const { log, setLog, alert, setAlert } = useContext(AppContext);
   const [error, setError] = useState();
-
+  const session = useSession();
   const [theme, colorMode, palette, styled] = useMode();
   const {
     showSignUp,
@@ -102,6 +102,7 @@ export default function Index({}) {
     setUserInFocus,
     setAlert,
     switchToSignUp,
+    session,
     styled,
   };
 

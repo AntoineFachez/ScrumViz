@@ -1,3 +1,4 @@
+import { Send } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 
@@ -23,7 +24,8 @@ export default function Footer({ widgetProps, show }) {
         <>
           {' '}
           <Button
-            sx={styled.menuButtonText.action}
+            endIcon={<Send sx={{ ...styled.menuButtonText.action }} />}
+            sx={{ ...styled.menuButtonText.action, color: 'white' }}
             onClick={(e) =>
               handleLogIn(
                 e,

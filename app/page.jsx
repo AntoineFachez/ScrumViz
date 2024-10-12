@@ -20,6 +20,7 @@ import Profile from './profile/page';
 import { useMode } from './theme/ThemeContext';
 
 import 'react-toastify/dist/ReactToastify.css';
+import SketchWrapper from './p5/SketchWrapper';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
@@ -49,10 +50,11 @@ export default function BasePage({ session }) {
   const handleClickOpen = () => {
     setShowDialog(true);
   };
-
+  const containerRef = useRef();
   return (
     <SessionProvider session={session}>
       <Box
+        ref={containerRef}
         sx={{
           width: '100vw',
           height: '100vh',
@@ -80,17 +82,23 @@ export default function BasePage({ session }) {
               {uiElements()}{' '}
             </>
           ) : (
-            <Box
-              sx={{
-                height: 'fit-content',
-                maxHeight: '16rem',
-                display: 'flex',
-                flexFlow: 'row',
-                // justifyContent: 'flex-start',
-              }}
-            >
-              <SignupLogin />
-            </Box>
+            <>
+              <Box
+                sx={{
+                  height: '100%',
+                  maxHeight: '16rem',
+                  display: 'flex',
+                  flexFlow: 'row',
+                  // justifyContent: 'flex-start',
+                }}
+              >
+                {/* <SketchWrapper
+                  containerRef={containerRef}
+                  textToWrite="hello"
+                /> */}
+                <SignupLogin />
+              </Box>
+            </>
           )}
           <ToastContainer />
         </ThemeProvider>{' '}
