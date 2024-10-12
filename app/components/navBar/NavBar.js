@@ -15,6 +15,7 @@ import Logout from '../../widgets/auth/Index';
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import UIContext from '@/context/UIContext';
 import InFocusOverView from '@/app/uiItems/InFocusOverView';
+import Profile from '@/app/profile/page';
 
 export default function NavBar({ showDev, setShowDev }) {
   const [theme, colorMode, palette, styled] = useMode();
@@ -97,6 +98,7 @@ export default function NavBar({ showDev, setShowDev }) {
           {colorMode.mode === 'dark' ? <LightMode /> : <DarkMode />}
         </IconButton>
       </Tooltip>
+      <Profile uiContext="navBar" />
       <Logout />
     </Box>
   );
