@@ -5,16 +5,16 @@ import { useSession } from 'next-auth/react';
 
 export default function Home() {
   const { data: session } = useSession();
-  console.log(session);
 
-  // if (!session) {
-  //   return <div>Loading...</div>; // Display a loading message
-  // }
+  if (!session) {
+    return <div>Loading...</div>; // Display a loading message
+  }
+  console.log(session);
 
   return (
     <div>
       <div>Home</div>
-      {/* {session && ( // Conditional rendering
+      {session && ( // Conditional rendering
         <div>
           <p>Logged in as {session.user.email}</p>
           <p>Using provider: {session.provider}</p>
@@ -22,7 +22,7 @@ export default function Home() {
           <p>Name: {session.user.name}</p>
           <p>Email: {session.user.email}</p>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
