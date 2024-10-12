@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 
-import { signIn } from 'next-auth/react';
-
 export default function LogInProviders({ widgetProps }) {
   const { handleSubmit, styled } = widgetProps;
   return (
@@ -19,13 +17,13 @@ export default function LogInProviders({ widgetProps }) {
     >
       <Button
         sx={styled.menuButtonText.action}
-        onClick={() => handleSubmit('google')}
+        onClick={(e) => handleSubmit(e, 'google')}
       >
         Sign in with Google
       </Button>{' '}
       <Button
         sx={styled.menuButtonText.action}
-        onClick={() => handleSubmit('github')}
+        onClick={(e) => handleSubmit(e, 'github')}
       >
         Sign in with GitHub
       </Button>{' '}
