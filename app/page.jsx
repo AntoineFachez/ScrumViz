@@ -51,18 +51,18 @@ export default function BasePage({ session }) {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: styled?.navBar.height,
-      }}
-    >
-      {' '}
-      <SessionProvider session={session}>
+    <SessionProvider session={session}>
+      <Box
+        sx={{
+          width: '100vw',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: styled?.navBar.height,
+        }}
+      >
+        {' '}
         <ThemeProvider theme={theme}>
           {user ? (
             <>
@@ -94,7 +94,7 @@ export default function BasePage({ session }) {
           )}
           <ToastContainer />
         </ThemeProvider>{' '}
-      </SessionProvider>{' '}
-    </Box>
+      </Box>
+    </SessionProvider>
   );
 }
