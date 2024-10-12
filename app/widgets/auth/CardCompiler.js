@@ -36,7 +36,11 @@ export default function CardCompiler({ widgetProps }) {
             <Divider
               orientation="vertical"
               flexItem
-              sx={{ color: 'white', backgroundColor: 'white' }}
+              sx={{
+                color: 'white',
+                backgroundColor: 'white',
+                margin: '2rem 2rem',
+              }}
             />
           )}
         </React.Fragment>
