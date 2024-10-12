@@ -2,7 +2,20 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 
 export default function Footer({ widgetProps, show }) {
-  const { showSignUp, switchToSignUp, error, styled } = widgetProps;
+  const {
+    showSignUp,
+    switchToSignUp,
+    handleLogIn,
+    auth,
+    email,
+    password,
+    setUser,
+    setUserInFocus,
+    setAlert,
+    setError,
+    error,
+    styled,
+  } = widgetProps;
 
   return (
     <Box sx={{ height: '2rem' }}>

@@ -7,14 +7,17 @@ import UIContext from '@/context/UIContext';
 
 import LogOut from './signUplogInElements/customSignUp/LogOut';
 
-import { handleCreateNewUser } from './functions/helper';
+import { handleCreateNewUser, handleLogIn } from './functions/helper';
 import { signIn } from 'next-auth/react';
 
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
-import CardTemplate from './CardTemplate';
+import CardTemplate from './CardCompiler';
+import { auth } from '@/firebase/firebase';
 
 export default function Index({}) {
-  const { alert, setAlert } = useContext(AppContext);
+  const { log, setLog, alert, setAlert } = useContext(AppContext);
+  const [error, setError] = useState();
+
   const [theme, colorMode, palette, styled] = useMode();
   const {
     showSignUp,
@@ -35,7 +38,8 @@ export default function Index({}) {
   const { userRole } = useContext(UIContext);
   const firebaseContext = 'users';
 
-  const handleSubmit = async (method) => {
+  const handleSubmit = async (e, method) => {
+    e.preventDefault();
     if (method === 'google') {
       signIn('google');
     } else if (method === 'github') {
@@ -53,9 +57,9 @@ export default function Index({}) {
     }
   };
   const onSubmit = (method) => {
-    if (method) {
+    if (method === '') {
       () => onSubmit('emailPassword');
-    } else {
+    } else if (method === 'logIn') {
       handleLogIn(
         e,
         auth,
@@ -87,6 +91,10 @@ export default function Index({}) {
     confirmPassword,
     setConfirmPassword,
     handleSubmit,
+    handleLogIn,
+    auth,
+    error,
+    setError,
     onSubmit,
     users,
     user,
