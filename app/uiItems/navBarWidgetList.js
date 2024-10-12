@@ -18,6 +18,11 @@ export const widgetListHome = {
         widget: 'Persons',
         name: 'Persons',
       },
+      {
+        _uid: uuidv4(),
+        widget: 'Profile',
+        name: 'Profile',
+      },
     ],
   },
 };
