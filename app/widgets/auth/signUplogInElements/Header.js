@@ -1,3 +1,4 @@
+import { Undo } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import React from 'react';
 
@@ -10,7 +11,8 @@ export default function Header({ widgetProps, show }) {
         <>
           {showSignUp ? (
             <Button
-              sx={styled.menuButtonText.action}
+              startIcon={<Undo sx={{ ...styled.menuButtonText.action }} />}
+              sx={{ ...styled.menuButtonText.action, color: 'white' }}
               size="small"
               onClick={switchToSignUp}
             >
@@ -18,7 +20,8 @@ export default function Header({ widgetProps, show }) {
             </Button>
           ) : (
             <Button
-              sx={styled.menuButtonText.action}
+              startIcon={<Undo sx={{ ...styled.menuButtonText.action }} />}
+              sx={{ ...styled.menuButtonText.action, color: 'white' }}
               size="small"
               onClick={switchToSignUp}
             >

@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "eslint": "^8",
-    "eslint-config-next": "14.2.12"
+    "eslint-config-next": "14.2.12",
+    "next-font-loader": "^1.2.4"
   }
 }

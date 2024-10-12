@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import dynamic from 'next/dynamic';
 import useResizeObserver from '@/hooks/useResizeObserver.js';
-const Sketch = dynamic(() => import('./Sketch'), {
+const Sketch = dynamic(() => import('./ParticlesCircle'), {
   ssr: false,
 });
-export default function SketchWrapper({ containerRef, imageUrls }) {
+export default function SketchWrapper({ containerRef }) {
   const [isClient, setIsClient] = useState(false);
   const [dimensions, setDimensions] = useState({
     width: containerRef?.current?.offsetWidth,
@@ -14,10 +14,7 @@ export default function SketchWrapper({ containerRef, imageUrls }) {
 
   const width = dimensions?.width;
   const height = dimensions?.height;
-  const [isUserActive, setIsUserActive] = useState(false);
-  const handleUserActivity = useCallback(() => {
-    setIsUserActive(true);
-  }, []);
+
   useEffect(() => {
     setIsClient(true);
     setDimensions({
@@ -25,7 +22,10 @@ export default function SketchWrapper({ containerRef, imageUrls }) {
       height: containerRef?.current?.offsetHeight,
     });
   }, [containerRef]);
-
+  const [isUserActive, setIsUserActive] = useState(false);
+  const handleUserActivity = useCallback(() => {
+    setIsUserActive(true);
+  }, []);
   useResizeObserver(
     containerRef,
     setDimensions,
@@ -34,23 +34,22 @@ export default function SketchWrapper({ containerRef, imageUrls }) {
   );
   return (
     <>
-      <div
+      {/* <div
         style={{
           width: width,
           height: height,
           backgroundColor: 'transparent',
         }}
-      >
-        {isClient && (
-          <Sketch
-            imageUrls={imageUrls}
-            width={width}
-            height={height}
-            mainObjColor={' #f6e8ea'}
-            backgroundColor={'#2a324b'}
-          />
-        )}
-      </div>
+      > */}
+      {isClient && (
+        <Sketch
+          width={width}
+          height={height}
+          mainObjColor={'white'}
+          backgroundColor={'#2a324b'}
+        />
+      )}
+      {/* </div> */}
     </>
   );
 }
