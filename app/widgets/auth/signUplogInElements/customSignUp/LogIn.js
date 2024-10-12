@@ -57,27 +57,6 @@ const Login = ({
           required
         />
       </Box>
-      {/* <Box className="form-footer" sx={styled.signUpLogInCard.footer}>
-        <Button
-          sx={styled.menuButtonText.action}
-          onClick={(e) =>
-            handleLogIn(
-              e,
-              auth,
-              email,
-              password,
-              setUser,
-              setUserInFocus,
-              setAlert,
-              setError
-            )
-          }
-          size="small"
-        >
-          Log In
-        </Button>
-        <Typography>{error?.code}</Typography>
-      </Box> */}
     </>
   );
 };
