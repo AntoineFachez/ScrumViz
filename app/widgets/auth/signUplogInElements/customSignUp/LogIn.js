@@ -24,8 +24,7 @@ const Login = ({
   // styled,
 }) => {
   const [theme, colorMode, palette, styled] = useMode();
-  const [error, setError] = useState();
-  const { log, setLog } = useContext(AppContext);
+
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
 

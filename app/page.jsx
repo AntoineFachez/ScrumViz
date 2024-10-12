@@ -1,9 +1,10 @@
 'use client';
-import { signIn } from 'next-auth/react';
+
 import { useContext, useRef, useState } from 'react';
 import { Box, Button, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
+import { SessionProvider } from 'next-auth/react';
 
 import AppContext from '@/context/AppContext';
 import AuthContext from './widgets/auth/AuthContext';
@@ -14,12 +15,12 @@ import SignupLogin from './widgets/auth/Index';
 import ScrumManagerPage from './scrumManager/page';
 import AgileCodingPage from './agileCoding/page';
 import Home from './home/page';
+// import Profile from './profile/page';
+
+import { useMode } from './theme/ThemeContext';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { useMode } from './theme/ThemeContext';
-import Profile from './profile/page';
 
-import { SessionProvider } from 'next-auth/react';
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
@@ -34,16 +35,16 @@ export default function BasePage({ session }) {
         return <ScrumManagerPage />;
       case 'home':
         return <Home />;
-      case 'profile':
-        return <Profile />;
+      // case 'profile':
+      //   return <Profile />;
 
       default:
         return <Home />;
     }
   };
-  const data = ['username@gmail.com', 'user02@gmail.com'];
+  // const data = ['username@gmail.com', 'user02@gmail.com'];
 
-  const [selectedValue, setSelectedValue] = useState(data[1]);
+  // const [selectedValue, setSelectedValue] = useState(data[1]);
 
   const handleClickOpen = () => {
     setShowDialog(true);
