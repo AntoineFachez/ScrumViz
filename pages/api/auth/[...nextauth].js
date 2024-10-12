@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import { FirebaseAdapter } from '@next-auth/firebase-adapter';
+import { FirestoreAdapter } from '@next-auth/firebase-adapter';
 
 import { auth } from '@/firebase/firebase';
 
@@ -10,11 +10,11 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          redirect_uri: `${process.env.NEXTAUTH_URI}/api/auth/callback/google`,
-        },
-      },
+      // authorization: {
+      //   params: {
+      //     redirect_uri: `${process.env.NEXTAUTH_URI}/api/auth/callback/google`,
+      //   },
+      // },
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -26,7 +26,7 @@ export const authOptions = {
       // },
     }),
   ],
-  // adapter: FirebaseAdapter(auth),
+  // // adapter: FirestoreAdapter(auth),
   callbacks: {
     async redirect({ url, baseUrl }) {
       // Allows relative callback URLs
@@ -36,6 +36,16 @@ export const authOptions = {
       return baseUrl;
     },
   },
+  // adapter: FirestoreAdapter(auth),
+
+  debug: true,
+  secret: process.env.NEXTAUTH_SECRET,
+  // callbacks: {
+  //   async session({ session, user }) {
+  //     session.user.userId = user.id;
+  //     return session;
+  //   },
+  // },
 };
 
 export default NextAuth(authOptions);
