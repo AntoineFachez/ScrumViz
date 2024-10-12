@@ -8,11 +8,7 @@ export default function LogInProviders({ widgetProps }) {
       component={'ul'}
       sx={{
         ...styled.card,
-        justifyContent: 'center',
-        height: '100%',
-        // flexFlow: 'column nowrap',
-        alignItems: 'center',
-        gap: '1rem',
+        ...styled.signUpLogInCard.body,
       }}
     >
       <Button

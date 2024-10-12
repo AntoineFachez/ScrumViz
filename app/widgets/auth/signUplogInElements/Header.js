@@ -5,7 +5,7 @@ export default function Header({ widgetProps, show }) {
   const { showSignUp, switchToSignUp, styled } = widgetProps;
 
   return (
-    <Box sx={{ height: '2rem' }}>
+    <Box sx={styled.signUpLogInCard.header}>
       {show && (
         <>
           {showSignUp ? (

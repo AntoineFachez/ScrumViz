@@ -1,10 +1,11 @@
 'use client';
 import React from 'react';
 // import Profile from '../profile/page';
-// import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
+  console.log(session);
 
   // if (!session) {
   //   return <div>Loading...</div>; // Display a loading message
