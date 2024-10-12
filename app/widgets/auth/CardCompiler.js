@@ -6,7 +6,7 @@ import CustomSignUp from './signUplogInElements/CustomSignUp';
 import Header from './signUplogInElements/Header';
 import Footer from './signUplogInElements/Footer';
 
-export default function CardTemplate({ widgetProps }) {
+export default function CardCompiler({ widgetProps }) {
   const { showSignUp, handleSubmit, onSubmit, switchToSignUp, error, styled } =
     widgetProps;
 

@@ -1,12 +1,10 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import GithubProvider from 'next-auth/providers/github';
 import { FirebaseAdapter } from '@next-auth/firebase-adapter';
-import { auth } from '../../../firebase/firebase'; // Import your Firebase auth instance
-
-console.log(FirebaseAdapter, auth);
+import { auth } from '../../../firebase/firebase';
 
 export const authOptions = {
-  // Configure one or more authentication providers
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -17,8 +15,6 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  // adapter: FirebaseAdapter(auth), // Use the Firebase adapter
-  // ... other NextAuth.js options (callbacks, etc.)
 };
 
 export default NextAuth(authOptions);
