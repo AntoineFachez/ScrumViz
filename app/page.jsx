@@ -15,7 +15,7 @@ import SignupLogin from './widgets/auth/Index';
 import ScrumManagerPage from './scrumManager/page';
 import AgileCodingPage from './agileCoding/page';
 import Home from './home/page';
-// import Profile from './profile/page';
+import Profile from './profile/page';
 
 import { useMode } from './theme/ThemeContext';
 
@@ -35,8 +35,8 @@ export default function BasePage({ session }) {
         return <ScrumManagerPage />;
       case 'home':
         return <Home />;
-      // case 'profile':
-      //   return <Profile />;
+      case 'profile':
+        return <Profile />;
 
       default:
         return <Home />;
