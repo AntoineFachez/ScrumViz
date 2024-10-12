@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 
 import AgileCodingPage from '../../../agileCoding/page';
 import ScrumManagerPage from '../../../scrumManager/page';
+import Profile from '../../../profile/page';
 
 import Products from '../../../widgets/products/Products';
 import UserStory from '../../../widgets/userStories/UserStories';
@@ -22,6 +23,7 @@ const Components = {
   AgileCodingPage: AgileCodingPage,
   ScrumManagerPage: ScrumManagerPage,
   Products: Products,
+  Profile: Profile,
   UserStory: UserStory,
   SprintPlannings: SprintPlannings,
   ProductBackLogs: ProductBackLogs,
