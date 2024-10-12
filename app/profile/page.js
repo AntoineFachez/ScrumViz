@@ -4,17 +4,22 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 
 export default function Profile() {
-  const { data: session, status } = useSession();
+  const session = useSession(); // Don't destructure immediately
 
-  if (status === 'loading') {
+  if (session?.status === 'loading') {
     return <div>Loading...</div>;
   }
-  if (status === 'authenticated') {
+
+  if (session?.status === 'authenticated') {
+    // Now you can safely destructure
+    const { data } = session;
+
     return (
       <div>
+        <p>Logged in as {data?.user?.email}</p>{' '}
         <img
-          src={session.user.image}
-          alt={session.user.name}
+          src={data?.user?.image}
+          alt={data?.user?.name}
           style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}
         />
       </div>
