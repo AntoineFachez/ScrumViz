@@ -39,7 +39,7 @@ export const authOptions = {
   // adapter: FirestoreAdapter(auth),
 
   debug: true,
-
+  secret: process.env.NEXTAUTH_SECRET,
   // callbacks: {
   //   async session({ session, user }) {
   //     session.user.userId = user.id;
