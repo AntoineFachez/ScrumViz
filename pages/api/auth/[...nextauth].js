@@ -1,19 +1,20 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-// import { FirebaseAdapter } from '@next-auth/firebase-adapter';
-import { auth } from '../../../firebase/firebase';
+import { FirebaseAdapter } from '@next-auth/firebase-adapter';
+
+import { auth } from '@/firebase/firebase';
 
 export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      // authorization: {
-      //   params: {
-      //     redirect_uri: `${process.env.NEXTAUTH_URI}/api/auth/callback/google`,
-      //   },
-      // },
+      authorization: {
+        params: {
+          redirect_uri: `${process.env.NEXTAUTH_URI}/api/auth/callback/google`,
+        },
+      },
     }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,

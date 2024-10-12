@@ -260,7 +260,7 @@ const styled = (colorMode) => ({
     // gap: '1rem',
     // padding: '1rem',
 
-    header: '',
+    header: { height: '2rem' },
     body: {
       '&:hover': { border: '1px solid #555' },
       // maxWidth: '18rem',
@@ -275,6 +275,7 @@ const styled = (colorMode) => ({
     },
     footer: {
       width: '100%',
+      height: '2rem',
       display: 'flex',
       flexFlow: 'row',
       justifyContent: 'flex-end',
@@ -447,18 +448,21 @@ const styled = (colorMode) => ({
   },
   menuButtonText: {
     action: {
+      height: '2rem',
       color: () => themeSettings(colorMode).action,
       fontSize: '0.7rem',
       backgroundColor: () => themeSettings(colorMode).neutral.main,
       '&:hover': { color: () => themeSettings(colorMode).neutral.dark },
     },
     selected: {
+      height: '2rem',
       color: 'white',
       fontSize: '0.7rem',
       backgroundColor: () => themeSettings(colorMode).selected,
       '&:hover': { color: () => themeSettings(colorMode).neutral.dark },
     },
     unselected: {
+      height: '2rem',
       color: () => themeSettings(colorMode).unselected,
       fontSize: '0.7rem',
       backgroundColor: () => themeSettings(colorMode).neutral.main,
@@ -466,7 +470,7 @@ const styled = (colorMode) => ({
     },
     active: {
       width: '3rem',
-      height: 'inherit',
+      height: '2rem',
       display: 'flex',
       // justifyContent: "center",
       // alignItems: "center",
@@ -478,7 +482,7 @@ const styled = (colorMode) => ({
     },
     inactive: {
       width: '100%',
-      height: 'inherit',
+      height: '2rem',
       display: 'flex',
       // justifyContent: "center",
       // alignItems: "center",

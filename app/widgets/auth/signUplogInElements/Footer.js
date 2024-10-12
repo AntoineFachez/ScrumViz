@@ -18,7 +18,7 @@ export default function Footer({ widgetProps, show }) {
   } = widgetProps;
 
   return (
-    <Box sx={{ height: '2rem' }}>
+    <Box sx={styled.signUpLogInCard.footer}>
       {show && (
         <>
           {' '}
