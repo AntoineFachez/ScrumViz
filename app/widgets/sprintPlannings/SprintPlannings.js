@@ -19,12 +19,12 @@ import SprintPlanningsContext from './SprintPlanningsContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
-import NewItem from '@/app/uiItems/NewItem';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
+import NewItem from '@/app/uiItems/widgetItems/NewItem';
 
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
@@ -71,6 +71,7 @@ export default function SprintPlannings({
   const { displayProductBackLogs, setSelectedProductBackLogs } = useContext(
     ProductBackLogsContext
   );
+  const { userStoryInFocus } = useContext(UserStoriesContext);
   const { displaySprints, setSelectedSprints } = useContext(SprintsContext);
   const handleSetSprintPlanningInFocus = (item) => {
     handleSetItemInFocus(setSprintPlanningInFocus, item, setLatestItemInFocus);
@@ -82,7 +83,6 @@ export default function SprintPlannings({
     const userStories_ids = new Set(
       item.sprintBackLog_items.map((backLog) => backLog.userStory_id)
     );
-    console.log(productBacklog_item_ids);
 
     const filteredUserStories = displayUserStories.filter((story) =>
       userStories_ids.has(story.id)
@@ -110,7 +110,7 @@ export default function SprintPlannings({
   const handleClickCustomArrayItem = (item) => {
     const found = displaySprintBackLogs.filter(
       (backLog) => backLog.id === item.sprintBackLog_item_id
-    )[0];
+    );
     setSelectedSprintBackLogs(found);
     // handleFindAcceptanceCriteria(item, 'id', 'acceptanceCriteria_id');
   };
@@ -121,6 +121,7 @@ export default function SprintPlannings({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -163,14 +164,13 @@ export default function SprintPlannings({
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
     handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
-  useEffect(() => {
-    const foundSprintPlannings = displaySprintPlannings.filter(
-      (planning) => planning.sprint_id === sprintInFocus.id
-    );
-    setSelectedSprintPlannings(foundSprintPlannings);
-    return () => {};
-  }, [sprintInFocus]);
-
+  // useEffect(() => {
+  //   const foundSprintPlannings = displaySprintPlannings.filter(
+  //     (planning) => planning.sprint_id === sprintInFocus.id
+  //   );
+  //   setSelectedSprintPlannings(foundSprintPlannings);
+  //   return () => {};
+  // }, [sprintInFocus]);
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 

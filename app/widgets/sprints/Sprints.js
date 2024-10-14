@@ -10,9 +10,9 @@ import DailiesContext from '../dailies/DailiesContext';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from './SprintsContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
 import StandInTable from '@/app/components/table/StandInTable';
 import { singleItemScheme } from './dataScheme';
 
@@ -20,7 +20,7 @@ import { useMode } from '@/app/theme/ThemeContext';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
@@ -82,6 +82,7 @@ export default function Sprints({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

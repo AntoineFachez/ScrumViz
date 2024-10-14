@@ -6,7 +6,7 @@ import { DeveloperBoard } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../uiItems/widgetItems/WidgetIndexTemplate';
 import GridComponent from './GridComponent';
 
 import { useMode } from '@/app/theme/ThemeContext';
@@ -20,6 +20,7 @@ export default function ScrumManagerPage({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
+  const { toggleBG, imageUrlArr } = useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   const image =
@@ -63,8 +64,24 @@ export default function ScrumManagerPage({
         // backgroundSize: appContext === 'scrumManager' && 'cover',
       }}
     >
-      {' '}
-      <GridComponent gridRef={gridRef} /> <ToastContainer />
+      {toggleBG ? (
+        <img
+          src={imageUrlArr[16]} // Assuming the image is in public/images
+          alt=""
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            padding: '2rem',
+            filter: 'brightness(0.8)',
+          }}
+          // width={'100%'} // Set width and height explicitly or use fill
+          // height={300}
+        />
+      ) : (
+        <GridComponent gridRef={gridRef} />
+      )}
+      <ToastContainer />
     </Box>
   );
 

@@ -9,10 +9,10 @@ import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 // import UserContext from '@/context/UserContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
-import NewItem from '@/app/uiItems/NewItem';
-import MultiItems from '@/app/uiItems/MultiItems';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
+import NewItem from '@/app/uiItems/widgetItems/NewItem';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 import SimpleDialog from '@/app/components/dialog/Dialog';
 
@@ -82,6 +82,7 @@ export default function DefaultPromptWidget({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

@@ -1,12 +1,12 @@
 import { Box, Button, Tooltip, Typography } from '@mui/material';
 import { v4 as uuidv4 } from 'uuid';
 
-import Draggable from '../components/dragDrop/Index';
-import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
+import Draggable from '../../components/dragDrop/Index';
+import NavBarButton from '../../components/navBar/navBarButton/NavBarButton';
 import WidgetMenu from './WidgetMenu';
 import QuickMenu from './QuickMenu';
 
-import { themeSettings, useMode } from '../theme/ThemeContext';
+import { themeSettings, useMode } from '../../theme/ThemeContext';
 import SingleItem from './singleItem/SingleItem';
 import MultiItems from './MultiItems';
 
@@ -21,6 +21,7 @@ const WidgetIndexTemplate = ({
   vertical,
   inputField,
   horizontal,
+  menu,
   isFiltered,
   onResetFiltered,
 }) => {
@@ -74,13 +75,13 @@ const WidgetIndexTemplate = ({
         <>
           {uiContext === 'home' ? (
             <>
-              <Box className="widgetContainer" sx={styled?.widget}>
+              {/* <Box className="widgetContainer" sx={styled?.widget}>
                 {widgetProps.hasWidgetMenu && (
                   <WidgetMenu widgetProps={widgetProps} />
                 )}
                 {table}
                 {soloWidget}
-              </Box>
+              </Box> */}
             </>
           ) : (
             <>

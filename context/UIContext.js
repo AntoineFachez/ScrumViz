@@ -20,30 +20,24 @@ import {
 } from '@/app/components/grid/defaultGridMaps';
 import {
   widgetListHome,
+  widgetListAgileCoding,
   widgetListScrumManager,
-} from '@/app/uiItems/navBarWidgetList';
+  widgetListProducts,
+  widgetListUserStories,
+  widgetListSprints,
+  widgetListScrumTeams,
+  widgetListProductBackLogs,
+} from '@/app/uiItems/navBar/navBarWidgetList';
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
   const { appContext, uiGridMapContext } = useContext(AppContext);
 
   const [navBarWidgetList, setNavBarWidgetList] = useState(widgetListHome);
-  const [showWidgetMenus, setShowWidgetMenus] = useState(true);
+  const [showWidgetMenus, setShowWidgetMenus] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-
-  // const [showProductsItemMenu, setShowProductsItemMenu] = useState(false);
-  // const [showUserStoryMenu, setShowUserStoryMenu] = useState(false);
-  // const [showSprintPlanningMenu, setShowSprintPlanningMenu] = useState(false);
-  // const [showSprintMenu, setShowSprintMenu] = useState(false);
-  // const [showBackLogItemMenu, setShowBackLogItemMenu] = useState(false);
-  // const [showImageDropMenu, setShowImageDropMenu] = useState(false);
-  // const [showPersonsMenu, setShowPersonsMenu] = useState(false);
-  // const [showTeamMembersMenu, setShowTeamMembersMenu] = useState(false);
-  // const [showDailyMenu, setShowDailyMenu] = useState(false);
-  // const [showSprinReviewtMenu, setShowSprinReviewtMenu] = useState(false);
-  // const [showChatsMenu, setShowChatsMenu] = useState(false);
-  // const [showDefaultPromptsMenu, setShowDefaultPromptsMenu] = useState(false);
-
+  const [toggleBG, setToggleBG] = useState(false);
+  const [imageUrlArr, setImageUrlArr] = useState([]);
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
   const [latestGridValues, setLatestGridValues] = useState({});
@@ -78,6 +72,47 @@ export const UIProvider = ({ children }) => {
     });
     return () => {};
   }, [appContext]);
+  useEffect(() => {
+    setNavBarWidgetList(() => {
+      switch (uiGridMapContext) {
+        case 'home':
+          return widgetListHome;
+        case 'agileCoding':
+          return widgetListAgileCoding;
+        case 'scrumManager':
+          return widgetListScrumManager;
+        case 'products':
+          return widgetListScrumManager;
+        case 'productBackLogs':
+          return widgetListProductBackLogs;
+        case 'userStories':
+          return widgetListScrumManager;
+        case 'scrumTeams':
+          return widgetListScrumTeams;
+        case 'sprints':
+          return widgetListSprints;
+        case 'sprints':
+          return widgetListSprints;
+        case 'sprintPlannings':
+          return widgetListSprints;
+        case 'sprintBackLogs':
+          return widgetListSprints;
+        case 'dailies':
+          return widgetListSprints;
+        case 'sprintReviews':
+          return widgetListSprints;
+        case 'sprintRetrospectives':
+          return widgetListSprints;
+        case 'teamMembers':
+          return widgetListScrumTeams;
+        case 'persons':
+          return widgetListScrumTeams;
+        default:
+          return widgetListHome;
+      }
+    });
+    return () => {};
+  }, [uiGridMapContext]);
 
   useEffect(() => {
     setDefaultWidgetMap();
@@ -129,7 +164,8 @@ export const UIProvider = ({ children }) => {
         setShowWidgetMenus,
         showDialog,
         setShowDialog,
-
+        toggleBG,
+        setToggleBG,
         // showProductsItemMenu,
         // setShowProductsItemMenu,
         // showUserStoryMenu,
@@ -157,6 +193,8 @@ export const UIProvider = ({ children }) => {
 
         defaultWidgetMap,
         setDefaultWidgetMap,
+        imageUrlArr,
+        setImageUrlArr,
         gridDOMMap,
         setGridDOMMap,
         latestGridValues,

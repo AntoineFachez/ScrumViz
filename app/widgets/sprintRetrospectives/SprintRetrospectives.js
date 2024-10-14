@@ -14,8 +14,8 @@ import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
 import SearchContext from '@/context/SearchContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import {
@@ -24,9 +24,9 @@ import {
   handleSetItemInFocus,
 } from '../actions';
 import SprintRetrospectivesContext from './SprintRetrospectivesContext';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
 import { singleItemScheme } from './dataScheme';
-import MultiItems from '@/app/uiItems/MultiItems';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
 
@@ -72,6 +72,7 @@ export default function SprintRetrospectives({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

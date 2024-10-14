@@ -9,12 +9,12 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [showSignUp, setShowSignUp] = useState(false);
-  const [users, setUsers] = useState(null);
-  const [user, setUser] = useState(null);
-  const [userInFocus, setUserInFocus] = useState([null]);
+  const [signInLoading, setSignInLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentSession, setCurrentSession] = useState(null);
+  const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user?.emailVerified) {
@@ -24,34 +24,15 @@ export const AuthProvider = ({ children }) => {
       }
     });
   }, []);
-  useEffect(() => {
-    const parentCollectionName = 'users';
-    const queryField = 'userId';
-    const searchString = user?.uid;
-    const tempUserInFocus = getDocIdSByValueSearch(
-      parentCollectionName,
-      queryField,
-      searchString
-      //  foundParents,
-    );
-    tempUserInFocus.then(function (result) {
-      setUserInFocus(result?.parentDoc);
-    });
-
-    return () => {};
-  }, [user]);
 
   return (
     <AuthContext.Provider
       value={{
         showSignUp,
         setShowSignUp,
-        users,
-        setUsers,
-        user,
-        setUser,
-        userInFocus,
-        setUserInFocus,
+        signInLoading,
+        setSignInLoading,
+
         // userLocation,
         // setUserLocation,
         email,
@@ -60,6 +41,10 @@ export const AuthProvider = ({ children }) => {
         setPassword,
         confirmPassword,
         setConfirmPassword,
+        currentSession,
+        setCurrentSession,
+        user,
+        setUser,
       }}
     >
       {children}

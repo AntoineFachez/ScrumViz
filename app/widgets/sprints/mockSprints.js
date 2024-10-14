@@ -20,7 +20,7 @@ export const sprints = [
   {
     id: '6072d31d-c2f2-418b-b7a6-3f9812962d7f',
     scrum_id: '817f2aa8-0061-490e-a4ee-ad0343c6149b',
-    team_id: '9fabb029-9a95-415b-be32-ea85f759bf26',
+    team_id: '1bd4dc4c-44e7-465e-80ce-5b3fc39a5bed',
     sprint_name: 'Sprint 3',
     goal: 'Complete 3 features',
     start_date: '2024-09-05',
@@ -47,7 +47,7 @@ export const sprints = [
   {
     id: 'e3580a72-b640-4138-a25a-3c688822229d',
     scrum_id: 'ec9dbe28-a9fd-4c9a-bf83-59b59a9b8153',
-    team_id: '1bd4dc4c-44e7-465e-80ce-5b3fc39a5bed',
+    team_id: '9fabb029-9a95-415b-be32-ea85f759bf26',
     sprint_name: 'Sprint 3',
     goal: 'Complete 3 features',
     start_date: '2024-09-05',

@@ -1,9 +1,9 @@
 import { Box, Button } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Draggable from '../components/dragDrop/Index';
-import ChipComponent from '../components/chip/Chip';
-import { themeSettings, useMode } from '../theme/ThemeContext';
+import Draggable from '../../components/dragDrop/Index';
+import ChipComponent from '../../components/chip/Chip';
+import { themeSettings, useMode } from '../../theme/ThemeContext';
 
 export default function CustomSubList({ widgetProps }) {
   const [theme, colorMode, palette, styled] = useMode();
@@ -56,19 +56,15 @@ export default function CustomSubList({ widgetProps }) {
         backgroundColor: () => themeSettings(colorMode).neutral.dark,
       }}
     >
-      {itemInFocus[singleItemScheme.customArray] &&
+      {itemInFocus &&
+        itemInFocus[singleItemScheme.customArray] &&
         itemInFocus[singleItemScheme.customArray]?.map((customItem, i) => {
-          console.log(
-            'customArrayItemInFocus',
-            customArrayItemInFocus,
-            customItem?.[singleItemScheme.filterArrayByIdKey]
-          );
           return (
             customItem && (
               <Draggable
                 keyToPass={uuidv4()}
                 dataSlug={customItem.id}
-                itemInFocus={widgetProps?.dropWidgetName}
+                item={widgetProps?.dropWidgetName}
                 context="draggable"
                 htmlItem={
                   <>
@@ -93,8 +89,14 @@ export default function CustomSubList({ widgetProps }) {
                         customArrayItemInFocus?.[
                           singleItemScheme.itemInFocusIdKey
                         ] === customItem?.[singleItemScheme.filterArrayByIdKey]
-                          ? styled?.menuButtonText?.selected
-                          : styled?.menuButtonText?.action
+                          ? {
+                              ...styled?.menuButtonText?.selected,
+                              height: 'fit-content',
+                            }
+                          : {
+                              ...styled?.menuButtonText?.action,
+                              height: 'fit-content',
+                            }
                       }
                       key={i}
                       onClick={() => handleClickCustomArrayItem(customItem)}

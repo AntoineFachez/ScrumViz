@@ -5,7 +5,7 @@ import { Box } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../uiItems/widgetItems/WidgetIndexTemplate';
 import {
   listAllBuckets,
   upLoadFilesToFireStore,
@@ -20,6 +20,7 @@ import AppContext from '@/context/AppContext';
 import Image from 'next/image';
 import { Code, DeveloperBoard } from '@mui/icons-material';
 import { v4 as uuidv4 } from 'uuid';
+// import image from '../images/Scrum__MainView.png';
 
 export default function AgileCodingPage({
   uiContext,
@@ -31,8 +32,14 @@ export default function AgileCodingPage({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { homeUiSelected, setHomeUiSelected, defaultWidgetMap } =
-    useContext(UIContext);
+  const {
+    homeUiSelected,
+    setHomeUiSelected,
+    defaultWidgetMap,
+    imageUrlArr,
+    setImageUrlArr,
+  } = useContext(UIContext);
+
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
 
@@ -64,7 +71,7 @@ export default function AgileCodingPage({
     // window.location.href = '/scrumManager';
     setAppContext(collection);
   };
-  const [imageUrlArr, setImageUrlArr] = useState([]);
+
   const spliceIn = () => {
     listAllBuckets(setImageUrlArr);
   };
@@ -73,6 +80,7 @@ export default function AgileCodingPage({
     spliceIn();
     return () => {};
   }, []);
+  console.log(imageUrlArr);
 
   const soloWidget = (
     <Box
@@ -86,13 +94,12 @@ export default function AgileCodingPage({
         overflow: 'hidden',
         // gap: '1rem',
         position: 'relative',
-        // background: appContext === 'scrumManager' && `url(${image})`,
-        // backgroundRepeat: appContext === 'scrumManager' && 'no-repeat',
-        // backgroundPosition: appContext === 'scrumManager' && 'center',
-        // backgroundSize: appContext === 'scrumManager' && 'cover',
+        // background: `url(${'../images/Scrum__MainView.png'})`,
+        // backgroundRepeat: 'no-repeat',
+        // backgroundPosition: 'center',
+        // backgroundSize: 'cover',
       }}
     >
-      {' '}
       <GridComponent styled={styled} />
     </Box>
   );
