@@ -47,7 +47,7 @@ export default function Home() {
               justifyContent: 'flex-start',
             }}
           >
-            'A computer can never <br />
+            &apos;A computer can never <br />
             be held accountable <br />
             for a mistake,
           </Typography>
@@ -73,7 +73,7 @@ export default function Home() {
           >
             a computer must never <br />
             be in charge <br />
-            of a management decision.'
+            of a management decision.&apos;
           </Typography>
         </Box>
         <Typography
