@@ -7,19 +7,19 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { Home, DarkMode, LightMode, Settings } from '@mui/icons-material';
+import { Home, DarkMode, LightMode, Settings, Info } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 
 import NavBarWidgetList from './navBarWidgets/Index';
 import Logout from '../../widgets/auth/Index';
 import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import UIContext from '@/context/UIContext';
-import InFocusOverView from '@/app/uiItems/InFocusOverView';
+import InFocusOverView from '@/app/uiItems/navBar/InFocusOverView';
 import Profile from '@/app/profile/page';
 
 export default function NavBar({ showDev, setShowDev }) {
   const [theme, colorMode, palette, styled] = useMode();
-  const { appContext, setAppContext, uiGridMapContext } =
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
 
   const {
@@ -28,6 +28,7 @@ export default function NavBar({ showDev, setShowDev }) {
     setShowPaneMenu,
     userRole,
     navBarWidgetList,
+    setToggleBG,
   } = useContext(UIContext);
   const handleClick = () => {
     setShowDev(!showDev);
@@ -47,9 +48,14 @@ export default function NavBar({ showDev, setShowDev }) {
         <IconButton
           onClick={() => {
             setAppContext('home');
+            setUiGridMapContext('');
             // window.location.href = '/';
           }}
-          sx={styled.navBarButton.inactive}
+          sx={
+            appContext === 'home'
+              ? { ...styled.navBarButton.active }
+              : { ...styled.navBarButton.inactive }
+          }
         >
           <Home />
         </IconButton>{' '}
@@ -90,14 +96,26 @@ export default function NavBar({ showDev, setShowDev }) {
           <Settings />
         </IconButton>
       </Tooltip>
-      <Tooltip title={'dark mode'} placement="bottom" arrow={true}>
+      <Tooltip title={'show handout'} placement="bottom" arrow={true}>
+        <IconButton
+          onClick={() => setToggleBG((prev) => !prev)}
+          sx={
+            showWidgetMenus
+              ? { ...styled.navBarButton.active }
+              : { ...styled.navBarButton.inactive }
+          }
+        >
+          <Info />
+        </IconButton>
+      </Tooltip>
+      {/* <Tooltip title={'dark mode'} placement="bottom" arrow={true}>
         <IconButton
           onClick={colorMode?.toggleColorMode}
           sx={styled.navBarButton.inactive}
         >
           {colorMode.mode === 'dark' ? <LightMode /> : <DarkMode />}
         </IconButton>
-      </Tooltip>
+      </Tooltip> */}
       <Profile uiContext="navBar" />
       <Logout />
     </Box>

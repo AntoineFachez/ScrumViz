@@ -16,12 +16,15 @@ import { auth } from '@/firebase/firebase';
 
 export default function Index({}) {
   const { log, setLog, alert, setAlert } = useContext(AppContext);
-  const [error, setError] = useState();
+  const { userRole } = useContext(UIContext);
   const session = useSession();
   const [theme, colorMode, palette, styled] = useMode();
+  const [error, setError] = useState();
   const {
     showSignUp,
     setShowSignUp,
+    signInLoading,
+    setSignInLoading,
     users,
     user,
     setUser,
@@ -35,12 +38,12 @@ export default function Index({}) {
     setConfirmPassword,
   } = useContext(AuthContext);
 
-  const { userRole } = useContext(UIContext);
   const firebaseContext = 'users';
 
   const handleSubmit = async (e, method) => {
     e.preventDefault();
     if (method === 'google') {
+      setSignInLoading(true);
       signIn('google');
     } else if (method === 'github') {
       signIn('github');
@@ -105,6 +108,10 @@ export default function Index({}) {
     session,
     styled,
   };
+  useEffect(() => {
+    setSignInLoading(false);
+    return () => {};
+  }, [session]);
 
   return (
     <>

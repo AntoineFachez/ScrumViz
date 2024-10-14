@@ -9,7 +9,7 @@ import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
@@ -61,6 +61,7 @@ export default function AcceptanceCriteria({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
