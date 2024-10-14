@@ -10,7 +10,7 @@ import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 import TeamMembersContext from '../teamMembers/TeamMembersContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
@@ -90,6 +90,7 @@ export default function ScrumTeam({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -112,6 +113,7 @@ export default function ScrumTeam({
     orderedBy: '',
 
     onClick: () => {
+      setAppContext('scrumManager');
       setUiGridMapContext(collection);
       return;
     },

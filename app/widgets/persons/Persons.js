@@ -1,6 +1,10 @@
 'use client';
 import { useContext, useState } from 'react';
-import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import {
+  Group,
+  GroupAdd,
+  StoreMallDirectoryOutlined,
+} from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -9,7 +13,7 @@ import PersonsContext from './PersonsContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
@@ -44,11 +48,12 @@ export default function Persons({
   };
   const collection = 'persons';
   const widgetProps = {
-    iconButton: <Group />,
+    iconButton: <GroupAdd />,
     widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, Chip, Paper, Typography } from '@mui/material';
-import Draggable from '../components/dragDrop/Index';
-import CardItem from '../components/card/Index';
+import Draggable from '../../components/dragDrop/Index';
+import CardItem from '../../components/card/Index';
 import { useEffect, useRef } from 'react';
-import ChipComponent from '../components/chip/Chip';
+import ChipComponent from '../../components/chip/Chip';
 import CustomSubList from './CustomSubList';
 
 export default function MultiItems({ widgetProps, alertElement, styled }) {
@@ -47,7 +47,7 @@ export default function MultiItems({ widgetProps, alertElement, styled }) {
   return (
     <>
       <Paper className="flexList" sx={styled?.flexList} ref={flexListRef}>
-        {array.length < 1 ? (
+        {array?.length < 1 ? (
           <>
             select an entity from {itemContext} or create new {`${itemContext}`}
           </>

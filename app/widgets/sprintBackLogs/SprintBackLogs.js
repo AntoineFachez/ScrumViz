@@ -9,7 +9,7 @@ import SearchContext from '@/context/SearchContext';
 import SprintBackLogsContext from './SprintBackLogsContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
@@ -76,6 +76,7 @@ export default function SprintBackLogs({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -97,7 +98,7 @@ export default function SprintBackLogs({
     orderedBy: '',
 
     onClick: () => {
-      setUiGridMapContext(collection);
+      setUiGridMapContext('sprintBackLogs');
       return;
     },
     menuProps: {

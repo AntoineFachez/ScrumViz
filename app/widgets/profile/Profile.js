@@ -9,7 +9,7 @@ import PersonsContext from './ProfileContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
@@ -49,6 +49,7 @@ export default function Persons({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

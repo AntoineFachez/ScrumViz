@@ -9,15 +9,15 @@ import UIContext from '@/context/UIContext';
 import SearchContext from '@/context/SearchContext';
 import TimeStampsContext from './TimeStampsContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
-import MultiItems from '@/app/uiItems/MultiItems';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
 
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import InFocusContext from '@/context/InFocusContext';
 
@@ -63,6 +63,7 @@ export default function TimeStamps({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

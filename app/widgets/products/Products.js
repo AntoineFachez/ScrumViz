@@ -8,7 +8,7 @@ import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 import ProductsContext from '../products/ProductsContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
 import { singleItemScheme } from './dataScheme';
@@ -76,6 +76,7 @@ export default function Products({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -132,7 +133,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems New Item
+      Products New Item
     </Box>
   );
   const soloWidget = (
@@ -143,7 +144,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems SoloWidget
+      Products SoloWidget
     </Box>
   );
 
@@ -155,7 +156,7 @@ export default function Products({
         // backgroundColor: '#555',
       }}
     >
-      BackLogItems Tree
+      Products Tree
     </Box>
   );
   const table = (
