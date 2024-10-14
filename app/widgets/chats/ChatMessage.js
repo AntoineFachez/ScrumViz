@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -18,20 +18,21 @@ import {
 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Message } from '@chatscope/chat-ui-kit-react';
 import { ContentCopy } from '@mui/icons-material';
-import { notify } from '@/utils/utils';
+import { handleCopyToClipBoard, notify } from '@/utils/utils';
+import AuthContext from '../auth/AuthContext';
+import AppContext from '@/context/AppContext';
+import { useSession } from 'next-auth/react';
 
 const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
-  const handleCopyToClipBoard = (textToCopy) => {
-    navigator.clipboard
-      .writeText(textToCopy)
-      .then(() => {
-        notify('Copied to clipboard!', 'success');
-      })
-      .catch((err) => {
-        notify('Copy not successfull!', 'error');
-      });
-  };
+  const { setAlert } = useContext(AppContext);
+  const { currentSession } = useContext(AuthContext);
+  const { user } = currentSession;
+  const { email, image } = user;
 
+  const handleClickCopyToClipBoard = (code) => {
+    handleCopyToClipBoard(code);
+    setAlert({ state: 'success', note: 'copied to clipboard' });
+  };
   return (
     <>
       {data ? (
@@ -50,7 +51,7 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
             src={
               data?.role === 'model'
                 ? 'https://play-lh.googleusercontent.com/Pkwn0AbykyjSuCdSYCbq0dvOqHP-YXcbBLTZ8AOUZhvnRuhUnZ2aJrw_YCf6kVMcZ4PM=w240-h480'
-                : 'https://lh3.googleusercontent.com/a/ACg8ocKRaYWG3WkdMdzKGUHVruNwPGE9LWCL1K5NdaQVs2rNXsPNTLFx=s288-c-no'
+                : image
             }
             sx={{ margin: '0.5rem', width: 30, height: 30, opacity: 0.8 }}
           />
@@ -94,7 +95,7 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
                     <CodeBlock
                       key={i}
                       part={part}
-                      handleCopyToClipBoard={handleCopyToClipBoard}
+                      handleClickCopyToClipBoard={handleClickCopyToClipBoard}
                       styled={styled}
                     />
                   </Message.CustomContent>
@@ -110,7 +111,7 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
   );
 };
 export default ChatMessage;
-function CodeBlock({ part, styled, handleCopyToClipBoard }) {
+function CodeBlock({ part, styled, handleClickCopyToClipBoard }) {
   const codeFenceRegex = /```(\w+)\n([\s\S]*?)```/;
   const match = part?.text.match(codeFenceRegex);
 
@@ -149,7 +150,7 @@ function CodeBlock({ part, styled, handleCopyToClipBoard }) {
         >
           <Tooltip title="copy code">
             <IconButton
-              onClick={() => handleCopyToClipBoard(code)}
+              onClick={() => handleClickCopyToClipBoard(code)}
               sx={styled.iconButton.action}
             >
               <ContentCopy />

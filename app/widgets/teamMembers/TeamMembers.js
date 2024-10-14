@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import {
   Group,
   GroupAdd,
@@ -16,11 +16,11 @@ import { useMode } from '@/app/theme/ThemeContext';
 import StandInTable from '@/app/components/table/StandInTable';
 import SearchContext from '@/context/SearchContext';
 import TeamMembersContext from './TeamMembersContext';
-import MultiItems from '@/app/uiItems/MultiItems';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
 import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
@@ -59,11 +59,12 @@ export default function TeamMembers({
   };
   const collection = 'teamMembers';
   const widgetProps = {
-    iconButton: <GroupAdd />,
+    iconButton: <Group />,
     widget: widget,
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,

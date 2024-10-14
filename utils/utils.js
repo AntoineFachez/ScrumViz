@@ -32,3 +32,13 @@ export const createUUID = (amount) => {
     console.log(uuidv4());
   }
 };
+export const handleCopyToClipBoard = (textToCopy) => {
+  navigator.clipboard
+    .writeText(textToCopy)
+    .then(() => {
+      notify('Copied to clipboard!', 'success');
+    })
+    .catch((err) => {
+      notify('Copy not successfull!', 'error');
+    });
+};

@@ -16,13 +16,13 @@ import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import UIContext from '@/context/UIContext';
 import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 import TableComponent from '@/app/components/table/TableComponent';
 import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/uiItems/MultiItems';
-import SingleItem from '@/app/uiItems/singleItem/SingleItem';
-import NewItem from '@/app/uiItems/NewItem';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
+import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
+import NewItem from '@/app/uiItems/widgetItems/NewItem';
 
 import { scheme, singleItemScheme } from './dataScheme';
 import {
@@ -106,6 +106,7 @@ export default function UserStory({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -139,6 +140,8 @@ export default function UserStory({
     searchTerm: searchTerm,
     handleNewItem: () => handleNewUserStory(),
     onClick: () => {
+      console.log();
+
       setUiGridMapContext(collection);
       return;
     },
@@ -159,6 +162,7 @@ export default function UserStory({
 
     return () => {};
   }, [userStoryInFocus]);
+
   // useEffect(() => {
   //   console.log('updateWidgetContext', uiGridMapContext);
 

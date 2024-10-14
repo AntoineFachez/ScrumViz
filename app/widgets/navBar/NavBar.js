@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 
 import UIContext from '@/context/UIContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import AppContext from '@/context/AppContext';
 import { useMode } from '@/app/theme/ThemeContext';
 import NavBarContext, { NavBarProvider } from './NavBarContext';

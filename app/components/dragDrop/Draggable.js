@@ -26,6 +26,10 @@ export default function Draggable({
       // overflow: "scroll",
     },
   };
+  const handleDragStart = (e) => {
+    console.log('dragged e.dataTransfer', e.dataTransfer);
+    e.dataTransfer.setData('text/plain', JSON.stringify(item)); // Serialize and store the item's data
+  };
   return (
     <Box
       ref={listItemRef}
@@ -33,10 +37,7 @@ export default function Draggable({
       className={`draggable ${item}`}
       key={keyToPass}
       draggable={true}
-      onDragStart={(e) => {
-        //    console.log("dragged e.dataTransfer", e.dataTransfer);
-        e.dataTransfer.setData('text/plain', JSON.stringify(item)); // Serialize and store the item's data
-      }}
+      onDragStart={handleDragStart}
       sx={styled?.draggable}
     >
       {htmlItem}

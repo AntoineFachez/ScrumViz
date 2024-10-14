@@ -20,11 +20,12 @@ import Profile from './profile/page';
 import { useMode } from './theme/ThemeContext';
 
 import 'react-toastify/dist/ReactToastify.css';
-import SketchWrapper from './p5/SketchWrapper';
+import SketchWrapper from './p5/neonText/SketchWrapper';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
+  const { signInLoading } = useContext(AuthContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
   const [theme, colorMode, palette, styled] = useMode();
 
@@ -43,9 +44,6 @@ export default function BasePage({ session }) {
         return <Home />;
     }
   };
-  // const data = ['username@gmail.com', 'user02@gmail.com'];
-
-  // const [selectedValue, setSelectedValue] = useState(data[1]);
 
   const handleClickOpen = () => {
     setShowDialog(true);
@@ -64,7 +62,6 @@ export default function BasePage({ session }) {
           marginTop: styled?.navBar.height,
         }}
       >
-        {' '}
         <ThemeProvider theme={theme}>
           {user ? (
             <>
@@ -92,11 +89,11 @@ export default function BasePage({ session }) {
                   // justifyContent: 'flex-start',
                 }}
               >
-                {/* <SketchWrapper
-                  containerRef={containerRef}
-                  textToWrite="hello"
-                /> */}
+                {/* {!session ? ( */}
                 <SignupLogin />
+                {/* ) : ( */}
+                {/* <SketchWrapper containerRef={containerRef} /> */}
+                {/* )} */}
               </Box>
             </>
           )}

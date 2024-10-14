@@ -2,15 +2,17 @@
 import React, { useContext, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { useSession } from 'next-auth/react';
-import { Box, Tooltip } from '@mui/material';
+import { Avatar, Box, IconButton, Tooltip } from '@mui/material';
 import Draggable from '../components/dragDrop/Draggable';
 import NavBarButton from '../components/navBar/navBarButton/NavBarButton';
 import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
-import SketchWrapper from '../p5/SketchWrapper';
+import SketchWrapper from '../p5/neonText/SketchWrapper';
+import AuthContext from '../widgets/auth/AuthContext';
 
 export default function Profile({ uiContext }) {
   const { setAppContext } = useContext(AppContext);
+  const { currentSession, setCurrentSession } = useContext(AuthContext);
   const containerRef = useRef();
   const [theme, colorMode, palette, styled] = useMode();
   const session = useSession();
@@ -22,13 +24,19 @@ export default function Profile({ uiContext }) {
 
   if (session?.status === 'authenticated') {
     const { data } = session;
+    setCurrentSession(data);
     const widgetProps = {
       collection: collection,
       iconButton: (
-        <img
+        <Avatar
           src={data?.user?.image}
           alt={data?.user?.name}
-          style={{ width: '2rem', height: '2rem', borderRadius: '50%' }}
+          sx={{
+            ...styled.iconButton,
+            // width: '2rem',
+            // height: '2rem',
+            // padding: '1rem',
+          }}
         />
       ),
       dropWidgetName: collection,
@@ -38,7 +46,9 @@ export default function Profile({ uiContext }) {
     return (
       <>
         {uiContext === 'navBar' ? (
-          <div>
+          <NavBarButton widgetProps={widgetProps} styled={styled} />
+        ) : (
+          <Box sx={{}}>
             <Tooltip
               title={widgetProps.collection}
               placement="bottom"
@@ -55,9 +65,8 @@ export default function Profile({ uiContext }) {
                 styled={styled}
               />{' '}
             </Tooltip>{' '}
-          </div>
-        ) : (
-          <p>Logged in as {data?.user?.email}</p>
+            {data?.user?.name}
+          </Box>
         )}
       </>
     );

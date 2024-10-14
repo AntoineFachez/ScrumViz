@@ -2,8 +2,13 @@ import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 
 export default function Header({ widgetProps, styled }) {
-  const { collection_context_title, itemInFocus, singleItemScheme } =
-    widgetProps;
+  const {
+    collection_context_title,
+    itemInFocus,
+    singleItemScheme,
+    setUiGridMapContext,
+    onClick,
+  } = widgetProps;
   return (
     <>
       <Button onClick={() => setUiGridMapContext('prompts')}>

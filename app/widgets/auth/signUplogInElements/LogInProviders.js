@@ -3,22 +3,8 @@ import { Box, Button } from '@mui/material';
 import { GitHub, Google } from '@mui/icons-material';
 
 export default function LogInProviders({ widgetProps }) {
-  const { handleSubmit, styled, session } = widgetProps;
+  const { handleSubmit, styled } = widgetProps;
 
-  // if (session) {
-  //   return (
-  //     <>
-  //       Signed in as {session?.user?.email} <br />
-  //       <button onClick={() => signOut()}>Sign out</button>
-  //     </>
-  //   );
-  // }
-  // return (
-  //   <>
-  //     Not signed in <br />
-  //     <button onClick={() => signIn()}>Sign in</button>
-  //   </>
-  // );
   return (
     <Box
       component={'ul'}

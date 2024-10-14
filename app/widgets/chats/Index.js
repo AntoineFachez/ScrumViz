@@ -9,8 +9,8 @@ import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 // import UserContext from '@/context/UserContext';
 
-import WidgetIndexTemplate from '../../uiItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/WidgetMenu';
+import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 
 import AIModelSelector from './gemini/AIModelSelector';
 import ChatInFocus from './ChatInFocus';
@@ -22,7 +22,7 @@ import {
   handleSetItemInFocus,
 } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
-import MultiItems from '@/app/uiItems/MultiItems';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 // import SliderComponent from '@/app/components/slider/Slider';
 
 import { singleItemScheme, singleItemSchemeChat } from './dataScheme';
@@ -123,6 +123,7 @@ export default function ChatsWidget({
     appContext: appContext,
     uiContext: uiContext,
     uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
@@ -368,13 +369,13 @@ export default function ChatsWidget({
         // contextToolBar={contextToolBar}
         // iconButton={<Chat />}
         // onClick={handleSetAppContext}
-        // menu={menu}
+        // menu={settingsAndMenu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
-        // vertical={defaultPromptSelector}
+        vertical={chatInFocusWidget}
         selector={modelSelector}
         inputField={promptField}
-        singleItem={chatInFocusWidget}
+        // singleItem={chatInFocusWidget}
         soloWidget={messageInFocusWidget}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}

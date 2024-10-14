@@ -1,6 +1,6 @@
 import { IconButton, TextField } from '@mui/material';
 import { SearchOutlined } from '@mui/icons-material';
-import Menu from '../components/menu/Index';
+import Menu from '../../components/menu/Index';
 import { useMode } from '@/app/theme/ThemeContext';
 import { Fragment } from 'react';
 import { buttonData } from './widgetMenuButtonData';
