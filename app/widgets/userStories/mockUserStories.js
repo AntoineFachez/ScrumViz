@@ -402,4 +402,79 @@ export const userStories = [
 
     wireFrame_uri: null,
   },
+  {
+    id: 'e5f83208-3893-4335-9d93-d52809f3503f',
+    userStory_name: 'Mark Mushroom Location',
+    userStory_short:
+      'As a user, I want to be able to mark the location where I found a mushroom on a map, so I can easily find it again.',
+    acceptanceCriteria: [
+      {
+        acceptanceCriteria_id: '432b20a8-5664-4b42-9b03-250d7b1d3c80',
+        acceptanceCriteria_description:
+          'The app should allow users to drop a pin on a map to mark the location of a mushroom.',
+      },
+      {
+        acceptanceCriteria_id: '8d88e598-2119-4383-8434-2b70a576816b',
+        acceptanceCriteria_description:
+          'Users should be able to add a note to the pin, describing the mushroom and any other relevant details.',
+      },
+      {
+        acceptanceCriteria_id: '04f38369-a9a8-458a-b36a-7c9034e4535e',
+        acceptanceCriteria_description:
+          'The app should store the marked locations and allow users to view them later on a map.',
+      },
+    ],
+    writtenByTeamMember_id: 'ignore',
+    wireFrame_uri: 'ignore',
+  },
+  {
+    id: '7402c89d-0a0c-48e3-ab03-b89b6f80a088',
+    userStory_name: 'Upload Mushroom Image',
+    userStory_short:
+      'As a user, I want to be able to take a picture of the mushroom I found and upload it to the app, so I can share it with others and identify it.',
+    acceptanceCriteria: [
+      {
+        acceptanceCriteria_id: '1e7b3e86-073c-4812-ab65-5087f16e4836',
+        acceptanceCriteria_description:
+          'The app should allow users to take a picture of the mushroom using their device camera.',
+      },
+      {
+        acceptanceCriteria_id: '6f4c5a79-090d-4280-87ff-8a9e0a7548a2',
+        acceptanceCriteria_description:
+          'Users should be able to upload the picture to the app.',
+      },
+      {
+        acceptanceCriteria_id: '3094a107-4e95-42dd-8582-210f5853c556',
+        acceptanceCriteria_description:
+          'The uploaded pictures should be stored securely within the app.',
+      },
+    ],
+    writtenByTeamMember_id: 'ignore',
+    wireFrame_uri: 'ignore',
+  },
+  {
+    id: '8e2d9b18-4d19-4900-872a-1c949f2893e7',
+    userStory_name: 'Identify Mushroom using Gemini',
+    userStory_short:
+      'As a user, I want to be able to upload a picture of a mushroom and ask Gemini for the corresponding Wikipedia article, so I can learn more about it.',
+    acceptanceCriteria: [
+      {
+        acceptanceCriteria_id: 'e58b0317-d2e2-4a54-9c01-3c544056a2df',
+        acceptanceCriteria_description:
+          'The app should integrate with Gemini to allow users to submit image queries.',
+      },
+      {
+        acceptanceCriteria_id: '53d3ea38-50f8-4767-ab28-5b583b8f87b7',
+        acceptanceCriteria_description:
+          'The app should display the corresponding Wikipedia article based on the Gemini response.',
+      },
+      {
+        acceptanceCriteria_id: '4a867d00-7400-487a-b8e9-9ea9058a5749',
+        acceptanceCriteria_description:
+          'The app should handle cases where Gemini fails to identify the mushroom or finds no relevant Wikipedia article.',
+      },
+    ],
+    writtenByTeamMember_id: 'ignore',
+    wireFrame_uri: 'ignore',
+  },
 ];
