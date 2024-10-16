@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const chats = [
   {
     id: uuidv4(),
-    title: 'latest chat',
+    title: 'Mushroom App',
     createdAt: new Date(),
     summary: '',
     history: [
@@ -11,7 +11,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            text: 'In the next prompt you will receive instructions. The aim for you is to return a response that contains only the json. You will be provided furthermore with data.',
+            text: 'in the next prompt you will receive further instructions to generate user stories for a webApp',
           },
         ],
       },
@@ -19,7 +19,7 @@ export const chats = [
         role: 'model',
         parts: [
           {
-            text: 'hi.',
+            text: 'I am ready.',
           },
         ],
       },
