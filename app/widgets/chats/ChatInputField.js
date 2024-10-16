@@ -43,6 +43,7 @@ export default function ChatInputField({
         ...styled?.widget,
         width: '100%',
         height: '100%',
+        // maxHeight: '20rem',
         // position: 'relative !important',
         // overflow: 'scroll',
         // backgroundColor: '#111',

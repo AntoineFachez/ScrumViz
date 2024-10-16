@@ -50,15 +50,15 @@ export const BackLogsProvider = ({ children }) => {
   };
   const handleSetProductBackLogInFocus = (item) => {
     handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
+    if (item?.productBackLog_items) {
+      const foundUserStories = displayUserStories.filter((userStory) => {
+        return item?.productBackLog_items?.some(
+          (backLog_item) => backLog_item.userStory_id === userStory.id
+        );
+      });
 
-    const foundUserStories = displayUserStories.filter((userStory) => {
-      return item?.productBackLog_items?.some(
-        (backLog_item) => backLog_item.userStory_id === userStory.id
-      );
-    });
-
-    setSelectedUserStories(foundUserStories);
-
+      setSelectedUserStories(foundUserStories);
+    }
     const foundProducts = displayProducts.filter(
       (product) => product.id === item.productBackLog_id
     );
