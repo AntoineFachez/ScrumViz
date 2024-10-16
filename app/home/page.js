@@ -55,14 +55,23 @@ export default function Home() {
       setAppContext('scrumManager');
       setUiGridMapContext('userStories');
     },
+    // handleSaveNewProduct: handleSaveNewProduct,
+    itemInFocus: {
+      product_name: 'Mushroom App',
+      status: 'in developement',
+      description:
+        ' Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article',
+      productBackLog_items: '',
+    },
   };
   const handleClickNewProduct = () => {
     handleNewItem();
     console.log('clicked');
   };
   const [dataToStore, setDataToStore] = useState({});
-  const handleSaveNewProduct = () => {
-    console.log('handleSaveNewProduct');
+  const [formData, setFormData] = useState({});
+  const handleSaveNewProduct = (dataToStore) => {
+    console.log('handleSaveNewProduct', dataToStore);
     // handleNewProductBackLog();
     handleNewProductBackLog(
       widgetProps,
@@ -72,12 +81,14 @@ export default function Home() {
       setDisplayProductBackLogs
     );
   };
-
   const newItem = (
     <NewItem
       widgetProps={widgetProps}
       dataToStore={dataToStore}
       setDataToStore={setDataToStore}
+      formData={formData}
+      setFormData={setFormData}
+      handleSaveNewProduct={handleSaveNewProduct}
       styled={styled}
     />
   );
@@ -87,35 +98,54 @@ export default function Home() {
         ...widgetProps,
         dialogCustomComponent: (
           <Box
-            sx={{ height: '100%', display: 'flex', flexFlow: 'column' }}
+            sx={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexFlow: 'column',
+              paddingRight: '1rem',
+            }}
             className="widget"
           >
             {' '}
-            {newItem}
-            {/* <Box sx={{ width: '100%', maxWidth: '25ch' }}></Box> */}
             <Box
               sx={{
                 width: '100%',
                 height: '100%',
+                // maxHeight: '100%',
                 display: 'flex',
                 flexFlow: 'column',
                 overflow: 'scroll',
               }}
             >
-              <ChatInFocus startUpWidgetLayout="vertical" />
+              {newItem}
+            </Box>{' '}
+            {/* <Box sx={{ width: '100%', maxWidth: '25ch' }}></Box> */}
+            <ChatInFocus startUpWidgetLayout="vertical" />{' '}
+            <Box
+              sx={{
+                position: 'sticky',
+                bottom: 0,
+                width: '100%',
+                height: '10rem',
+                display: 'flex',
+                flexFlow: 'column',
+                overflow: 'scroll',
+              }}
+            >
               <ChatInFocus startUpWidgetLayout="inputField" />
             </Box>
           </Box>
         ),
-        customMenu: [
-          <Button
-            key="button1"
-            onClick={handleSaveNewProduct}
-            sx={{ display: 'flex' }}
-          >
-            Save
-          </Button>,
-        ],
+        // customMenu: [
+        //   <Button
+        //     key="button1"
+        //     onClick={handleSaveNewProduct}
+        //     sx={{ display: 'flex' }}
+        //   >
+        //     Save
+        //   </Button>,
+        // ],
       }}
     />
   );
@@ -137,11 +167,11 @@ export default function Home() {
           width: '100%',
           maxWidth: '48rem',
           height: '100%',
-          maxHeight: '48rem',
+          maxHeight: '100%',
           overflow: 'scroll',
           '& .MuiPaper-root': {
             width: '18rem',
-            height: '16rem',
+            height: '14rem',
           },
         }}
       >
@@ -150,7 +180,7 @@ export default function Home() {
           sx={{
             ...styled.card,
             width: '18rem',
-            height: '16rem',
+            height: '14rem',
             position: 'relative',
 
             display: 'flex',
@@ -200,16 +230,27 @@ export default function Home() {
             }
             return (
               <>
-                <Box onClick={widgetProps.onClick}>
-                  <CardItem
-                    widgetProps={widgetProps}
-                    dataSlug={item.id}
-                    item={item}
-                    handleClick={handleSetProductBackLogInFocus}
-                    // styled={{ ...styled.card.width, width: '10rem' }}
-                    styled={{ ...styled }}
-                  />
-                </Box>
+                {item.product_name && (
+                  <Box
+                    onClick={widgetProps.onClick}
+                    sx={
+                      {
+                        // height: '100%',
+                        // maxHeight: '100%',
+                        //  margin: '5%'
+                      }
+                    }
+                  >
+                    <CardItem
+                      widgetProps={widgetProps}
+                      dataSlug={item.id}
+                      item={item}
+                      handleClick={handleSetProductBackLogInFocus}
+                      // styled={{ ...styled.card.width, width: '10rem' }}
+                      styled={{ ...styled }}
+                    />
+                  </Box>
+                )}
               </>
             );
           })}
