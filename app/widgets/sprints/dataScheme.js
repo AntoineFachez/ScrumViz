@@ -1,4 +1,5 @@
-export const context = 'university';
+import { v4 as uuidv4 } from 'uuid';
+
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',
@@ -7,6 +8,16 @@ export const fieldsAccordion = {
   imageDescr: 'imageDescription',
 };
 
+export const scheme = {
+  id: uuidv4(),
+  createdAt: new Date(),
+  scrum_id: '',
+  team_id: '',
+  sprint_name: '',
+  goal: '',
+  start_date: '',
+  end_date: '',
+};
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

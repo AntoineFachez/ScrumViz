@@ -119,7 +119,7 @@ export default function Space({
             context="draggable"
             htmlItem={
               <>
-                <Box className="draggedWidgetMenu" sx={styled?.menu}>
+                <Box className="draggedWidgetMenu" sx={styled?.widgetMenu}>
                   {menuSpace}
                 </Box>
               </>

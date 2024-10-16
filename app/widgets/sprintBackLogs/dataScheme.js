@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 export const context = 'productBackLogs';
 export const fieldsAccordion = {
   heading: 'name',
@@ -6,7 +7,14 @@ export const fieldsAccordion = {
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
 };
-
+export const scheme = {
+  id: uuidv4(),
+  createdAt: new Date(),
+  userStory_id: '',
+  assignee: '',
+  description: '',
+  estimated_hours: '',
+};
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

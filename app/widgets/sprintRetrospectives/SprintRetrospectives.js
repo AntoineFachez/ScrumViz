@@ -1,34 +1,26 @@
 'use client';
 import { useContext, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Box } from '@mui/material';
-import {
-  History,
-  RateReview,
-  Replay,
-  SportsRugbyOutlined,
-} from '@mui/icons-material';
+import { History } from '@mui/icons-material';
 
-import UIContext from '@/context/UIContext';
-import { useMode } from '@/app/theme/ThemeContext';
 import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
+import SprintRetrospectivesContext from './SprintRetrospectivesContext';
+import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-import StandInTable from '@/app/components/table/StandInTable';
 
+import { singleItemScheme, scheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
-import SprintRetrospectivesContext from './SprintRetrospectivesContext';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import { singleItemScheme } from './dataScheme';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
+
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function SprintRetrospectives({
   widget,
@@ -41,12 +33,12 @@ export default function SprintRetrospectives({
     useContext(AppContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
-  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
-    useContext(UIContext);
 
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     selectedSprintRetrospectives,
     setSelectedSprintRetrospectives,
     isFiltered,
@@ -54,7 +46,6 @@ export default function SprintRetrospectives({
     setSprintRetrospectiveInFocus,
     searchTerm,
     handleResetFiltered,
-    // handleSetSprintRetrospectiveInFocus,
   } = useContext(SprintRetrospectivesContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
@@ -68,19 +59,9 @@ export default function SprintRetrospectives({
   const collection = 'sprintRetrospectives';
   const widgetProps = {
     iconButton: <History />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetSprintRetrospectiveInFocus,
-
+    tooltipTitle_newItem: 'Create new Sprint Retrospective',
+    collection_context_title: 'Sprint Retrospectives',
+    dialogTitle: 'Create new Sprint Retrospective',
     data: selectedSprintRetrospectives,
     selectedData: selectedSprintRetrospectives,
     setSelectedItem: setSelectedSprintRetrospectives,
@@ -89,52 +70,45 @@ export default function SprintRetrospectives({
       selected: 'selectedSprintRetrospectives',
     },
     itemInFocus: sprintRetrospectiveInFocus,
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
-    itemInFocus: sprintRetrospectiveInFocus,
-    orderedBy: '',
+    handleSetItemInFocus: handleSetSprintRetrospectiveInFocus,
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
-
-  // const handleSearchTermChange = (e) => {
-  //   e.preventDefault();
-  //   // setResetData();
-  //   console.log(e.target.value);
-
-  //   setSearchTerm(e.target.value);
-  //   setActiveSearchTerm(e.target.value);
-  // };
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintRetrospective New Item
-    </Box>
-  );
 
   const soloWidget = (
     <Box
@@ -147,25 +121,7 @@ export default function SprintRetrospectives({
       Sprint Retrospective SoloWidget
     </Box>
   );
-  // const singleItem = (
-  //   <SingleItem
-  //     singleItemScheme={singleItemScheme}
-  //     itemContext={widgetProps?.itemContext}
-  //     itemInFocus={sprintRetrospectiveInFocus}
-  //     styled={styled}
-  //   />
-  // );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Sprint Retrospective Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -177,52 +133,13 @@ export default function SprintRetrospectives({
       Sprint Retrospective Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-        customElement={null}
-        alertElement={null}
-        data={widgetProps?.data}
-        selectedData={widgetProps?.selectedData}
-        setSelectedItem={widgetProps?.setSelectedItem}
-        selector={widgetProps?.selector}
-        itemInFocus={widgetProps?.itemInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
         // singleItem={singleItem}
         // chip={chip}
         tree={tree}

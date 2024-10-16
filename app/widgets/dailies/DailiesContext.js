@@ -8,6 +8,7 @@ const DailiesContext = createContext();
 
 export const DailiesProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displayDailies, setDisplayDailies] = useState(dailies);
   const [selectedDailies, setSelectedDailies] = useState(displayDailies);
   const [dailyInFocus, setDailyInFocus] = useState(null);
@@ -25,6 +26,11 @@ export const DailiesProvider = ({ children }) => {
     e.preventDefault();
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
+  };
+  const handleNewChat = async () => {
+    console.log('handleNewChat');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
   };
   useEffect(() => {
     setSelectedDailies(
@@ -45,6 +51,8 @@ export const DailiesProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displayDailies,
         setDisplayDailies,
         selectedDailies,
@@ -58,6 +66,7 @@ export const DailiesProvider = ({ children }) => {
         handleResetFiltered,
         // handlesetDailyInFocus,
         handleSearchTermChange,
+        handleNewChat,
       }}
     >
       {children}

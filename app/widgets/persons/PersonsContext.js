@@ -12,6 +12,8 @@ const PersonsContext = createContext();
 export const PersonsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+
+  const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayPersons, setDisplayPersons] = useState(persons);
@@ -56,6 +58,8 @@ export const PersonsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displayPersons,

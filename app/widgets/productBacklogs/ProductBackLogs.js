@@ -14,11 +14,21 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import { handleNewProductBackLog } from './functions/dbFunctions';
+import { scheme, singleItemScheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
+import {} from './functions/dbFunctions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import NewItem from '@/app/uiItems/widgetItems/NewItem';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
+import EnvProductionIcon from '@/app/components/icons/EnvProductionIcon';
 
 export default function Products({
   widget,
@@ -29,13 +39,21 @@ export default function Products({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showBackLogItemMenu, setShowBackLogItemMenu } = useContext(UIContext);
+  const {
+    showBackLogItemMenu,
+    setShowBackLogItemMenu,
+    showDialog,
+    handleCloseDialog,
+  } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
+    optionsVertMenu,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayProductBackLogs,
@@ -48,6 +66,7 @@ export default function Products({
     handleResetFiltered,
     searchTerm,
     setSearchTerm,
+    handleSetProductBackLogInFocus,
   } = useContext(BackLogsContext);
   const { displayProducts, setProductInFocus } = useContext(ProductsContext);
   const {
@@ -65,22 +84,7 @@ export default function Products({
     setSearchTerm(e.target.value);
     setActiveSearchTerm(e.target.value);
   };
-  const handleSetProductBackLogInFocus = (item) => {
-    handleSetItemInFocus(setProductBackLogInFocus, item, setLatestItemInFocus);
 
-    const foundUserStories = displayUserStories.filter((userStory) => {
-      return item?.productBackLog_items?.some(
-        (backLog_item) => backLog_item.userStory_id === userStory.id
-      );
-    });
-
-    setSelectedUserStories(foundUserStories);
-
-    const foundProducts = displayProducts.filter(
-      (product) => product.id === item.productBackLog_id
-    );
-    setProductInFocus(foundProducts[0]);
-  };
   const handleClickCustomArrayItem = (e) => {
     console.log(e);
 
@@ -89,19 +93,12 @@ export default function Products({
     )[0];
     setUserStoryInFocus(found);
   };
+  const customSubTitleItem = <EnvProductionIcon />;
   const widgetProps = {
     iconButton: <AddToQueue />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    tooltipTitle_newItem: 'Create new Product BackLog',
+    collection_context_title: 'Product BackLogs',
+    dialogTitle: 'Create new Product BackLog',
     handleSetItemInFocus: handleSetProductBackLogInFocus,
     data: selectedProductBackLogs,
     selectedData: selectedProductBackLogs,
@@ -110,17 +107,34 @@ export default function Products({
       selector: 'productBackLogsSelector',
       selected: 'selectedProductBackLog',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: productBackLogInFocus,
     customArrayItemInFocus: userStoryInFocus,
-    tooltipTitle_newItem: 'Create new Product BackLog',
-    onClickNewItem: () => handleNewProductBackLog(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    optionsVertMenu: optionsVertMenu,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    customSubTitleItem: customSubTitleItem,
+
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -129,25 +143,14 @@ export default function Products({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
     handleClickCustomArrayItem: handleClickCustomArrayItem,
-    searchTerm: searchTerm,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      BackLogItems New Item
-    </Box>
-  );
+
   const soloWidget = (
     <Box
       className="widget"
@@ -171,30 +174,40 @@ export default function Products({
       BackLogItems Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
+  // const table = (
+  //   <Box
+  //     className="widget"
+  //     sx={{
+  //       ...styled.widget,
+  //       // backgroundColor: '#555',
+  //     }}
+  //   >
+  //     <StandInTable />
+  //   </Box>
+  // );
 
+  // const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      {/* <SimpleDialog
+        widgetProps={widgetProps}
+        dialogCustomComponent={
+          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
+            <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
+            {newItem}
+          </Box>
+        }
+      /> */}
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
+        // newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
+        // table={table}
         // singleItem={singleItem}
         // chip={chip}
         tree={tree}
-        // flexList={flexList}
+        // multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

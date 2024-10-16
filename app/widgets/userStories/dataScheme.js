@@ -11,14 +11,11 @@ export const fieldsAccordion = {
 export const scheme = {
   id: uuidv4(),
   createdAt: new Date(),
-  title: '',
-  description: '',
-  subTitle: '',
-  description: '',
-  customField: '',
-  img_uri: '',
-  // customArray: '',
-  // customArrayKey: '',
+  userStory_name: '',
+  userStory_short: '',
+  acceptanceCriteria: '',
+  writtenByTeamMember_id: '',
+  wireFrame_uri: '',
 };
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];

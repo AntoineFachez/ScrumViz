@@ -15,6 +15,7 @@ export const DefaultPromptsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [displayDefaultPrompts, setDisplayDefaultPrompts] =
@@ -47,7 +48,12 @@ export const DefaultPromptsProvider = ({ children }) => {
   const handleNewDefaultPrompt = async () => {
     console.log('handleNewDefaultPrompt');
     // setSelectedWidgetContext('newItem');
-    setShowDialog(true);
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewItem');
+
+    setShowNewItem(false);
   };
   useEffect(() => {
     setSelectedDefaultPrompts(
@@ -68,6 +74,7 @@ export const DefaultPromptsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
         selectedWidgetContext,
         setSelectedWidgetContext,
 
@@ -86,6 +93,7 @@ export const DefaultPromptsProvider = ({ children }) => {
         handleSearchTermChange,
 
         handleNewDefaultPrompt,
+        handleCloseNewItem,
 
         // handleSetDefaultPromptInFocus,
       }}

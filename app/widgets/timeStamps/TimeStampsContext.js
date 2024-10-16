@@ -8,6 +8,7 @@ const TimeStampsContext = createContext();
 
 export const TimeStampsProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displayTimeStamps, setDisplayTimeStamps] = useState(timeStamps);
 
   const [selectedTimeStamps, setSelectedTimeStamps] = useState(false);
@@ -16,6 +17,16 @@ export const TimeStampsProvider = ({ children }) => {
   const [searchStart, setSearchStart] = useState('');
   const [searchEnd, setSearchEnd] = useState('');
 
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTimeStamps');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTimeStamps');
+
+    setShowNewItem(false);
+  };
   useEffect(() => {
     // setSelectedTimeStamps(
     //   displayTimeStamps.filter((timeStamp) =>
@@ -35,6 +46,8 @@ export const TimeStampsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displayTimeStamps,
         setDisplayTimeStamps,
         selectedTimeStamps,
@@ -42,6 +55,8 @@ export const TimeStampsProvider = ({ children }) => {
         timeStampInFocus,
         setTimeStampInFocus,
         searchStart,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

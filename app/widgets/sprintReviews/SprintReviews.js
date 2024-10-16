@@ -1,43 +1,42 @@
 'use client';
 import { useContext, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
+import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
-import UIContext from '@/context/UIContext';
+import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
+import SearchContext from '@/context/SearchContext';
+import SprintReviewContext from './SprintReviewsContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
+
+import { singleItemScheme, scheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+
 import { useMode } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
-import SearchContext from '@/context/SearchContext';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import { singleItemScheme } from './dataScheme';
-import SprintRetrospectives from '../sprintRetrospectives/SprintRetrospectives';
-import SprintReviewContext from './SprintReviewsContext';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
-
 export default function SprintReviews({
   widget,
   uiContext,
   startUpWidgetLayout,
-
   contextToolBar,
 }) {
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showSprinReviewtMenu, setShowSprinReviewtMenu } =
-    useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     displaySprintReviews,
     setDisplaySprintReviews,
     selectedSprintReviews,
@@ -48,10 +47,6 @@ export default function SprintReviews({
     setSearchTerm,
     isFiltered,
     setIsFiltered,
-    // handleSearchTermChange,
-    // handleResetFiltered,
-    // handleSetSprintReviewInFocus,
-    // handleSelectWidgetContext,
   } = useContext(SprintReviewContext);
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -74,17 +69,9 @@ export default function SprintReviews({
   const collection = 'sprintReviews';
   const widgetProps = {
     iconButton: <RateReview />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    tooltipTitle_newItem: 'Create new Sprint Review',
+    collection_context_title: 'Sprint Reviews',
+    dialogTitle: 'Create new Sprint Review',
     handleSetItemInFocus: handleSetSprintReviewInFocus,
     data: selectedSprintReviews,
     selectedData: selectedSprintReviews,
@@ -93,29 +80,42 @@ export default function SprintReviews({
       selector: 'sprintReviewSelector',
       selected: 'selectedSprintReviews',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: sprintReviewInFocus,
-    orderedBy: '',
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -133,17 +133,6 @@ export default function SprintReviews({
     setIsFiltered(false);
   };
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintReview New Item
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -155,28 +144,7 @@ export default function SprintReviews({
       SprintReview SoloWidget
     </Box>
   );
-  // const singleItem = (
-  //   <Box
-  //     className="widget"
-  //     sx={{
-  //       ...styled.widget,
-  //       // backgroundColor: '#555',
-  //     }}
-  //   >
-  //     SprintReview SingleItem
-  //   </Box>
-  // );
-  const chip = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      SprintReview Chip
-    </Box>
-  );
+
   const tree = (
     <Box
       className="widget"
@@ -188,30 +156,14 @@ export default function SprintReviews({
       SprintReview Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
-        // singleItem={singleItem}
-        chip={chip}
         tree={tree}
-        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

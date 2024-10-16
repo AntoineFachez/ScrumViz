@@ -12,6 +12,7 @@ const ProfileContext = createContext();
 export const ProfileProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   return (
@@ -19,6 +20,8 @@ export const ProfileProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         selectedWidgetContext,
         setSelectedWidgetContext,
       }}
