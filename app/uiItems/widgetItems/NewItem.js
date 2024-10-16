@@ -118,7 +118,9 @@ export default function NewItem({
             id={key}
             label={key}
             multiline={key}
-            rows={key === 'description' ? 5 : 1}
+            rows={
+              key === 'description' || key === 'productBackLog_items' ? 3 : 1
+            }
             value={formData[key]}
             onChange={(event) => handleChange(event, key)}
           />
