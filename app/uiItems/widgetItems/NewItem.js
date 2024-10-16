@@ -4,6 +4,8 @@ import Popper from '@mui/material/Popper';
 
 export default function NewItem({
   widgetProps,
+  dataToStore,
+  setDataToStore,
   styled,
   // component,
   // sxStyle,
@@ -15,7 +17,7 @@ export default function NewItem({
   // data,
   // scheme,
 }) {
-  const { itemInFocus, scheme } = widgetProps;
+  const { itemInFocus, scheme, handleSaveNewProduct } = widgetProps;
   const [formData, setFormData] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -28,7 +30,9 @@ export default function NewItem({
     }
     setFormData(initialFormData);
   }, [itemInFocus, scheme]);
-
+  const handleSubmit = () => {
+    handleSaveNewProduct();
+  };
   const handleChange = (event, fieldId) => {
     setFormData({
       ...formData,
@@ -69,6 +73,11 @@ export default function NewItem({
     setOpen(true);
     setAnchorEl({ getBoundingClientRect });
   };
+  useEffect(() => {
+    setDataToStore(formData);
+
+    return () => {};
+  }, [formData]);
 
   const idPoper = open ? 'virtual-element-popper' : undefined;
   const inputRefs = useRef([]);
@@ -76,6 +85,7 @@ export default function NewItem({
     <Box
       onMouseLeave={handleClose}
       component="form"
+      onSubmit={handleSubmit}
       className="widget"
       sx={{
         ...styled.widget,

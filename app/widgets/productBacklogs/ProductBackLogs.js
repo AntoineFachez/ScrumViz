@@ -86,8 +86,6 @@ export default function Products({
   };
 
   const handleClickCustomArrayItem = (e) => {
-    console.log(e);
-
     const found = displayUserStories.filter(
       (story) => story.id === e.userStory_id
     )[0];
@@ -143,7 +141,10 @@ export default function Products({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    onClick: () => setUiGridMapContext(collection),
+    onClick: () => {
+      setAppContext('scrumManager');
+      setUiGridMapContext(collection);
+    },
 
     handleSelectWidgetContext: handleSelectWidgetContext,
     handleClickCustomArrayItem: handleClickCustomArrayItem,
@@ -174,30 +175,9 @@ export default function Products({
       BackLogItems Tree
     </Box>
   );
-  // const table = (
-  //   <Box
-  //     className="widget"
-  //     sx={{
-  //       ...styled.widget,
-  //       // backgroundColor: '#555',
-  //     }}
-  //   >
-  //     <StandInTable />
-  //   </Box>
-  // );
 
-  // const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
-      {/* <SimpleDialog
-        widgetProps={widgetProps}
-        dialogCustomComponent={
-          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
-            <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
-            {newItem}
-          </Box>
-        }
-      /> */}
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}

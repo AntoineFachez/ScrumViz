@@ -20,6 +20,8 @@ import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
@@ -128,43 +130,7 @@ export default function ChatsWidget({
     handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
   };
   const collection = 'chats';
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-      }}
-    >
-      {' '}
-      <Box
-        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
-        className="widget"
-      >
-        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
-          {defaultPromptSelector}
-        </Box> */}
-        <NewItem
-          component="form"
-          sxStyle={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#eee',
-            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
-          }}
-          autoComplete="off"
-          size={'small'}
-          id="outlined-multiline-static"
-          label={collection}
-          rows={14}
-          data={chatInFocus}
-          scheme={scheme}
-        />
-      </Box>
-    </Box>
-  );
+
   const widgetProps = {
     iconButton: <Chat />,
     tooltipTitle_newItem: 'Create new Chat',
@@ -212,7 +178,7 @@ export default function ChatsWidget({
       },
     },
     onClick: () => setUiGridMapContext(collection),
-
+    handleSetItemInFocus: handleSetChatInFocus,
     handleSelectWidgetContext: handleSelectWidgetContext,
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
@@ -289,16 +255,6 @@ export default function ChatsWidget({
         flexFlow: 'column',
       }}
     >
-      {/* <Box sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-        <Tooltip title="Create new Chat" placement="top" arrow>
-          <IconButton
-            sx={styled?.iconButton?.action}
-            onClick={() => handleNewChat()}
-          >
-            <Add />
-          </IconButton>
-        </Tooltip>
-      </Box> */}
       <MultiItems
         widget={widget}
         uiContext={uiContext}

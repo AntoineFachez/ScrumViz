@@ -34,7 +34,7 @@ export const ChatsProvider = ({ children }) => {
   const [chatContext, setChatContext] = useState('hello world');
   const [displayChats, setDisplayChats] = useState(chats);
   const [selectedChats, setSelectedChats] = useState(displayChats);
-  const [chatInFocus, setChatInFocus] = useState(null);
+  const [chatInFocus, setChatInFocus] = useState(chats[0]);
 
   const [messageInFocus, setMessageInFocus] = useState(null);
 
@@ -53,9 +53,9 @@ export const ChatsProvider = ({ children }) => {
     setSelectedChats(displayChats);
     setIsFiltered(false);
   };
-  // const handleSetChatInFocus = (chat) => {
-  //   setChatInFocus(chat);
-  // };
+  const handleSetChatInFocus = (chat) => {
+    setChatInFocus(chat);
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -227,7 +227,7 @@ export const ChatsProvider = ({ children }) => {
         handleResetFiltered,
         handleSearchTermChange,
         // handleResetFiltered,
-        // handleSetChatInFocus,
+        handleSetChatInFocus,
         // handleSelectWidgetContext,
         handleNewChat,
         handleCloseNewItem,

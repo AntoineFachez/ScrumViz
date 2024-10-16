@@ -9,6 +9,8 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import InFocusContext from '@/context/InFocusContext';
 import ProductsContext from '../products/ProductsContext';
 
+import { scheme } from './dataScheme';
+
 const BackLogsContext = createContext();
 
 export const BackLogsProvider = ({ children }) => {
@@ -32,8 +34,7 @@ export const BackLogsProvider = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
 
-  const handleNewProductBackLog = async () => {
-    console.log('handleNewProductBackLog');
+  const handleNewItem = async () => {
     // setSelectedWidgetContext('newItem');
     setShowNewItem(true);
   };
@@ -85,6 +86,7 @@ export const BackLogsProvider = ({ children }) => {
         showNewItem,
         setShowNewItem,
         optionsVertMenu,
+        scheme,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displayProductBackLogs,
@@ -97,7 +99,7 @@ export const BackLogsProvider = ({ children }) => {
         setSearchTerm,
         isFiltered,
         setIsFiltered,
-        handleNewProductBackLog,
+        handleNewItem,
         // handleSearchTermChange,
         handleResetFiltered,
         handleSetProductBackLogInFocus,
