@@ -20,7 +20,13 @@ export default function SimpleDialog({ widgetProps }) {
       <Dialog
         open={openDialogueState}
         onClose={onCloseDialogue}
-        sx={{ width: '100%', height: '100%' }}
+        sx={{
+          width: '100%',
+          height: '100%',
+          '& .MuiDialog': {
+            maxWidth: '100%',
+          },
+        }}
         className="widget"
       >
         <DialogTitle>

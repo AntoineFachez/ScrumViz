@@ -1,11 +1,14 @@
-import { Box, Fade, Paper, TextField, Typography } from '@mui/material';
+import { Box, Button, Fade, Paper, TextField, Typography } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import Popper from '@mui/material/Popper';
 
 export default function NewItem({
   widgetProps,
-  dataToStore,
-  setDataToStore,
+  // dataToStore,
+  // setDataToStore,
+  // formData,
+  // setFormData,
+  handleSaveNewProduct,
   styled,
   // component,
   // sxStyle,
@@ -17,7 +20,7 @@ export default function NewItem({
   // data,
   // scheme,
 }) {
-  const { itemInFocus, scheme, handleSaveNewProduct } = widgetProps;
+  const { itemInFocus, scheme } = widgetProps;
   const [formData, setFormData] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -29,15 +32,18 @@ export default function NewItem({
       initialFormData[key] = itemInFocus?.[key] || '';
     }
     setFormData(initialFormData);
+    // setDataToStore(formData);
   }, [itemInFocus, scheme]);
   const handleSubmit = () => {
-    handleSaveNewProduct();
+    console.log(formData);
+    handleSaveNewProduct(formData);
   };
   const handleChange = (event, fieldId) => {
     setFormData({
       ...formData,
       [fieldId]: event.target.value,
     });
+    // setDataToStore(formData);
   };
   const handleClose = () => {
     setOpen(false);
@@ -73,11 +79,6 @@ export default function NewItem({
     setOpen(true);
     setAnchorEl({ getBoundingClientRect });
   };
-  useEffect(() => {
-    setDataToStore(formData);
-
-    return () => {};
-  }, [formData]);
 
   const idPoper = open ? 'virtual-element-popper' : undefined;
   const inputRefs = useRef([]);
@@ -139,7 +140,15 @@ export default function NewItem({
             )}
           </Popper>
         </div>
-      ))}
+      ))}{' '}
+      <Button
+        key="button1"
+        onClick={() => handleSaveNewProduct(formData)}
+        sx={{ display: 'flex' }}
+      >
+        Save
+      </Button>
+      ,
     </Box>
   );
 }
