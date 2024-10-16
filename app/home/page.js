@@ -60,7 +60,7 @@ export default function Home() {
       product_name: 'Mushroom App',
       status: 'in developement',
       description:
-        ' Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article',
+        'Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article.',
       productBackLog_items: '',
     },
   };
@@ -237,7 +237,7 @@ export default function Home() {
                       {
                         // height: '100%',
                         // maxHeight: '100%',
-                        //  margin: '5%'
+                        // margin: '5%',
                       }
                     }
                   >
