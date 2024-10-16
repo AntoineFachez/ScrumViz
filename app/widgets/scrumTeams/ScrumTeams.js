@@ -13,14 +13,18 @@ import TeamMembersContext from '../teamMembers/TeamMembersContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
+import { singleItemScheme, scheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
+import SimpleDialog from '@/app/components/dialog/Dialog';
 export default function ScrumTeam({
   widget,
   uiContext,
@@ -37,6 +41,8 @@ export default function ScrumTeam({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     displayScrumTeams,
     setDisplayScrumTeams,
     selectedScrumTeams,
@@ -86,19 +92,9 @@ export default function ScrumTeam({
   const collection = 'scrumTeams';
   const widgetProps = {
     iconButton: <Group />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetScrumTeamInFocus,
-    handleClickCustomArrayItem: handleClickCustomArrayItem,
+    tooltipTitle_newItem: 'Create new Scrum Team',
+    collection_context_title: 'Scrum Teams',
+    dialogTitle: 'Create new Scrum Team',
     data: selectedScrumTeams,
     selectedData: selectedScrumTeams,
     setSelectedItem: setSelectedScrumTeams,
@@ -106,17 +102,31 @@ export default function ScrumTeam({
       selector: 'scrumTeamSelector',
       selected: 'selectedScrumTeam',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: scrumTeamInFocus,
-    orderedBy: '',
+    handleSetItemInFocus: handleSetScrumTeamInFocus,
 
-    onClick: () => {
-      setAppContext('scrumManager');
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -125,10 +135,10 @@ export default function ScrumTeam({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -206,8 +216,15 @@ export default function ScrumTeam({
     </Box>
   );
 
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -218,6 +235,7 @@ export default function ScrumTeam({
         // chip={chip}
         tree={tree}
         // flexList={flexList}
+        multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

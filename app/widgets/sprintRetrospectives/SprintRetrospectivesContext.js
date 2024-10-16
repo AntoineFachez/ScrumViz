@@ -8,6 +8,7 @@ const SprintRetrospectivesContext = createContext();
 
 export const SprintRetrospectivesProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
   const [displaySprintRetrospectives, setDisplaySprintRetrospectives] =
     useState(null);
@@ -17,6 +18,18 @@ export const SprintRetrospectivesProvider = ({ children }) => {
     useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTeamMembers');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTeamMembers');
+
+    setShowNewItem(false);
+  };
+
   const handleResetFiltered = () => {
     setSprintRetrospectiveInFocus(sprintRetrospectiveInFocus);
     setIsFiltered(false);
@@ -52,6 +65,8 @@ export const SprintRetrospectivesProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         selectedWidgetContext,
         setSelectedWidgetContext,
         displaySprintRetrospectives,
@@ -69,6 +84,8 @@ export const SprintRetrospectivesProvider = ({ children }) => {
         // handleResetFiltered,
         // handleSetSprintRetrospectiveInFocus,
         // handleSelectWidgetContext,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

@@ -3,8 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 export const scheme = {
   id: uuidv4(),
   createdAt: new Date(),
-  title: '',
-  description: '',
+  sprint_id: '',
+  date: '',
+  duration: '',
+  attendees: '',
+  selected_product_backlog_items: '',
+  sprintBackLog_items: '',
 };
 
 export const fieldsAccordion = {

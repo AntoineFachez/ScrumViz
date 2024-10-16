@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const context = 'university';
 export const fieldsAccordion = {
   heading: 'name',
@@ -7,6 +9,12 @@ export const fieldsAccordion = {
   imageDescr: 'imageDescription',
 };
 
+export const scheme = {
+  id: uuidv4(),
+  createdAt: new Date(),
+  scrumTeam_name: '',
+  members: '',
+};
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

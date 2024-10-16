@@ -11,6 +11,7 @@ const SprintReviewContext = createContext();
 
 export const SprintReviewProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const [displaySprintReviews, setDisplaySprintReviews] =
     useState(sprintReviews);
@@ -20,7 +21,16 @@ export const SprintReviewProvider = ({ children }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [isFiltered, setIsFiltered] = useState(false);
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTeamMembers');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTeamMembers');
 
+    setShowNewItem(false);
+  };
   const handleSearchTermChange = (e) => {
     e.preventDefault();
 
@@ -78,6 +88,8 @@ export const SprintReviewProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displaySprintReviews,
         setDisplaySprintReviews,
         selectedSprintReviews,
@@ -92,6 +104,8 @@ export const SprintReviewProvider = ({ children }) => {
         handleResetFiltered,
         // handleSetSprintReviewInFocus,
         handleSelectWidgetContext,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

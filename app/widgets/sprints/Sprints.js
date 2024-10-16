@@ -1,29 +1,29 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
-import { Replay, SportsRugbyOutlined } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Replay } from '@mui/icons-material';
+import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
-import UIContext from '@/context/UIContext';
 import DailiesContext from '../dailies/DailiesContext';
+import InFocusContext from '@/context/InFocusContext';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 import SearchContext from '@/context/SearchContext';
+import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import SprintsContext from './SprintsContext';
+import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import StandInTable from '@/app/components/table/StandInTable';
-import { singleItemScheme } from './dataScheme';
+
+import { singleItemScheme, scheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
-import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
-
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
-import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 
 export default function Sprints({
   widget,
@@ -34,12 +34,14 @@ export default function Sprints({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showSprintMenu, setShowSprintMenu } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
+
     displaySprints,
     setDisplaySprints,
     selectedSprints,
@@ -76,19 +78,8 @@ export default function Sprints({
   const widgetProps = {
     iconButton: <Replay sx={{ transform: 'scaleX(-1) scaleY(-1)' }} />,
     tooltipTitle_newItem: 'Create new Sprint',
-    collection_context_title: 'Sprint',
-
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    collection_context_title: 'Sprints',
+    dialogTitle: 'Create new Sprint',
     handleSetItemInFocus: handleSetSprintInFocus,
     data: selectedSprints,
     selectedData: selectedSprints,
@@ -97,34 +88,45 @@ export default function Sprints({
       selector: 'sprintSelector',
       selected: 'selectedSprints',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: sprintInFocus,
     customArrayItemInFocus: displaySprintBacklogs,
-    orderedBy: '',
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
-    setActiveSearchTerm: setActiveSearchTerm,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
 
   const handleSearchTermChange = (e) => {
@@ -145,17 +147,6 @@ export default function Sprints({
     return () => {};
   }, [sprintInFocus]);
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      UserStory New Item
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -179,55 +170,14 @@ export default function Sprints({
       Sprint Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-        customElement={null}
-        alertElement={null}
-        data={widgetProps?.data}
-        selectedData={widgetProps?.selectedData}
-        setSelectedItem={widgetProps?.setSelectedItem}
-        selector={widgetProps?.selector}
-        itemInFocus={widgetProps?.itemInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
-        // singleItem={singleItem}
         tree={tree}
-        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

@@ -8,6 +8,7 @@ const SprintsContext = createContext();
 
 export const SprintsProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displaySprints, setDisplaySprints] = useState(sprints);
   const [selectedSprints, setSelectedSprints] = useState(displaySprints);
   const [sprintInFocus, setSprintInFocus] = useState(false);
@@ -19,6 +20,16 @@ export const SprintsProvider = ({ children }) => {
       (sprint) => sprint[sprintIdKey] === item[item_key]
     );
     setSelectedSprints(foundSprint);
+  };
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTSprints');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTSprints');
+
+    setShowNewItem(false);
   };
   useEffect(() => {
     setSelectedSprints(
@@ -39,6 +50,8 @@ export const SprintsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displaySprints,
         setDisplaySprints,
         selectedSprints,
@@ -48,6 +61,8 @@ export const SprintsProvider = ({ children }) => {
         searchTerm,
         setSearchTerm,
         handleFindSprints,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

@@ -11,15 +11,19 @@ import ProductsContext from '../products/ProductsContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
+import { scheme, singleItemScheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 export default function Products({
   widget,
@@ -72,18 +76,9 @@ export default function Products({
   };
   const widgetProps = {
     iconButton: <ShoppingBag />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetProductInFocus,
+    tooltipTitle_newItem: 'Create new Product',
+    collection_context_title: 'Products',
+    dialogTitle: 'Create new Digital Product',
     data: selectedProducts,
     selectedData: selectedProducts,
     setSelectedItem: setSelectedProducts,
@@ -91,29 +86,43 @@ export default function Products({
       selector: 'productBackLogsSelector',
       selected: 'selectedProductBackLog',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: productInFocus,
-    orderedBy: '',
+    handleSetItemInFocus: handleSetProductInFocus,
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -171,8 +180,15 @@ export default function Products({
     </Box>
   );
 
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -180,6 +196,7 @@ export default function Products({
         soloWidget={soloWidget}
         table={table}
         tree={tree}
+        multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

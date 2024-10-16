@@ -28,7 +28,7 @@ export const ChatsProvider = ({ children }) => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
-
+  const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
   const [chatContext, setChatContext] = useState('hello world');
@@ -78,6 +78,16 @@ export const ChatsProvider = ({ children }) => {
 
   const handleChangeTokenAmount = (e, newValue) => {
     setAvailablePromptTokensAmount(newValue);
+  };
+  const handleNewChat = async () => {
+    console.log('handleNewChat');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewItem');
+
+    setShowNewItem(false);
   };
   // const handleNewChat = async () => {
   //   const data = {
@@ -187,6 +197,8 @@ export const ChatsProvider = ({ children }) => {
         setIsLoading,
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         // selectedWidgetContext,
         // setSelectedWidgetContext,
 
@@ -217,7 +229,8 @@ export const ChatsProvider = ({ children }) => {
         // handleResetFiltered,
         // handleSetChatInFocus,
         // handleSelectWidgetContext,
-        // handleNewChat,
+        handleNewChat,
+        handleCloseNewItem,
         // handleNewDefaultPrompt,
         // handleStoreChat,
         // handleSetDefaultPromptInFocus,

@@ -4,6 +4,7 @@ import { Box, Button } from '@mui/material';
 
 export default function Index({
   widgetProps,
+  optionsVertMenu,
   dataSlug,
   item,
   handleClick,
@@ -17,6 +18,7 @@ export default function Index({
     <>
       <CardItem
         widgetProps={widgetProps}
+        optionsVertMenu={optionsVertMenu}
         dataSlug={dataSlug}
         listItemRef={listItemRef}
         item={item}

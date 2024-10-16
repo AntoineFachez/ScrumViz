@@ -10,13 +10,23 @@ const SprintPlanningsContext = createContext();
 export const SprintPlanningsProvider = ({ children }) => {
   const { showDialog, setShowDialog } = useContext(UIContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displaySprintPlannings, setDisplaySprintPlannings] =
     useState(sprintPlannings);
   const [selectedSprintPlannings, setSelectedSprintPlannings] = useState(
     displaySprintPlannings
   );
   const [sprintPlanningInFocus, setSprintPlanningInFocus] = useState(false);
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTeamMembers');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTeamMembers');
 
+    setShowNewItem(false);
+  };
   const handleFindSprintPlannings = (item, itemKey, filterKey) => {
     console.log('handleFindSprintPlannings');
     const foundPlannings = displaySprintPlannings.filter((planning) => {
@@ -27,7 +37,7 @@ export const SprintPlanningsProvider = ({ children }) => {
     setSelectedSprintPlannings(foundPlannings);
   };
   const handleNewSprintPlanning = async () => {
-    console.log('handleNewDefaultPrompt');
+    console.log('handleNewSprintPlanning');
     // setSelectedWidgetContext('newItem');
     setShowDialog(true);
   };
@@ -41,6 +51,8 @@ export const SprintPlanningsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displaySprintPlannings,
         setDisplaySprintPlannings,
         selectedSprintPlannings,
@@ -48,7 +60,8 @@ export const SprintPlanningsProvider = ({ children }) => {
         sprintPlanningInFocus,
         setSprintPlanningInFocus,
         handleFindSprintPlannings,
-        handleNewSprintPlanning,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

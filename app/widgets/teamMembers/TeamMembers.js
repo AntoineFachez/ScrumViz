@@ -1,30 +1,28 @@
 'use client';
 import { useContext, useState, useEffect } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
+import { Group } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 
+import AppContext from '@/context/AppContext';
+import InFocusContext from '@/context/InFocusContext';
 import UIContext from '@/context/UIContext';
+import SearchContext from '@/context/SearchContext';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
+import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
+import TeamMembersContext from './TeamMembersContext';
+
+import { scheme, singleItemScheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import {
-  Group,
-  GroupAdd,
-  StoreMallDirectoryOutlined,
-} from '@mui/icons-material';
-import AppContext from '@/context/AppContext';
-import { useMode } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
-import SearchContext from '@/context/SearchContext';
-import TeamMembersContext from './TeamMembersContext';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import { singleItemScheme } from './dataScheme';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
 
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
+import { useMode } from '@/app/theme/ThemeContext';
 
 export default function TeamMembers({
   widget,
@@ -41,6 +39,8 @@ export default function TeamMembers({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     displayTeamMembers,
     setDisplayTeamMembers,
     selectedTeamMembers,
@@ -60,17 +60,9 @@ export default function TeamMembers({
   const collection = 'teamMembers';
   const widgetProps = {
     iconButton: <Group />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    tooltipTitle_newItem: 'Create new Team Member',
+    collection_context_title: 'Team Members',
+    dialogTitle: 'Create new Team Member',
     handleSetItemInFocus: handleSetTeamMemberInFocus,
     data: selectedTeamMembers,
     selectedData: selectedTeamMembers,
@@ -79,34 +71,42 @@ export default function TeamMembers({
       selector: 'teamMembersSelector',
       selected: 'selectedTeamMembers',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: teamMemberInFocus,
-    // menu: menu,
-    // soloWidget: soloWidget,
-    // table: table,
-    // singleItem: singleItem,
-    // chip: chip,
-    // tree: tree,
-    // flexList: flexList,
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -128,17 +128,6 @@ export default function TeamMembers({
     return () => {};
   }, [teamMemberInFocus]);
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TeamMember New Item
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -150,25 +139,6 @@ export default function TeamMembers({
       TeamMembers SoloWidget
     </Box>
   );
-  // const singleItem = (
-  //   <SingleItem
-  //     singleItemScheme={singleItemScheme}
-  //     itemContext={widgetProps?.itemContext}
-  //     itemInFocus={teamMemberInFocus}
-  //     styled={styled}
-  //   />
-  // );
-  // const chip = (
-  //   <Box
-  //     className="widget"
-  //     sx={{
-  //       ...styled.widget,
-  //       // backgroundColor: '#555',
-  //     }}
-  //   >
-  //     TeamMembers Chip
-  //   </Box>
-  // );
   const tree = (
     <Box
       className="widget"
@@ -180,56 +150,14 @@ export default function TeamMembers({
       TeamMembers Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-        customElement={null}
-        alertElement={null}
-        data={widgetProps?.data}
-        selectedData={widgetProps?.selectedData}
-        setSelectedItem={widgetProps?.setSelectedItem}
-        selector={widgetProps?.selector}
-        itemInFocus={widgetProps?.itemInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
-        // singleItem={singleItem}
-        // chip={chip}
         tree={tree}
-        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

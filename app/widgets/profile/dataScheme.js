@@ -3,14 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 export const scheme = {
   id: uuidv4(),
   createdAt: new Date(),
-  name: '',
-  firstName: '',
-  lastName: '',
-  birthDate: '',
-  education: '',
-  location: '',
-  customArray: '',
-  customArrayKey: '',
+  userName: '',
+  email: '',
+  image: '',
+  description: '',
 };
 
 export const fieldsAccordion = {

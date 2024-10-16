@@ -25,15 +25,17 @@ import { useMode } from '@/app/theme/ThemeContext';
 import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 // import SliderComponent from '@/app/components/slider/Slider';
 
-import { singleItemScheme, singleItemSchemeChat } from './dataScheme';
+import { singleItemScheme, singleItemSchemeChat, scheme } from './dataScheme';
 import ChatInputField from './ChatInputField';
 import SettingsAndMenu from './SettingsAndMenu';
 
 import { runChat } from './functions/apiFunctions';
-import { handleNewChat, handleStoreChat } from './functions/dbFunctions';
+import { handleStoreChat } from './functions/dbFunctions';
 
 import './ChatInFocus.scss';
 import InFocusContext from '@/context/InFocusContext';
+import NewItem from '@/app/uiItems/widgetItems/NewItem';
+import SimpleDialog from '@/app/components/dialog/Dialog';
 
 export default function ChatsWidget({
   widget,
@@ -44,8 +46,14 @@ export default function ChatsWidget({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const { showChatsMenu, setShowChatsMenu, showSliderExtendData, sliderSize } =
-    useContext(UIContext);
+  const {
+    showChatsMenu,
+    setShowChatsMenu,
+    showSliderExtendData,
+    sliderSize,
+    showDialog,
+    handleCloseDialog,
+  } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -54,6 +62,7 @@ export default function ChatsWidget({
     setIsLoading,
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
 
@@ -90,6 +99,8 @@ export default function ChatsWidget({
     handleSelectMessage,
     handleInputChange,
     handleChangeTokenAmount,
+    handleNewChat,
+    handleCloseNewItem,
     chatContext,
     setChatContext,
     streamedResponse,
@@ -117,22 +128,48 @@ export default function ChatsWidget({
     handleSetItemInFocus(setChatInFocus, item, setLatestItemInFocus);
   };
   const collection = 'chats';
+  const newItem = (
+    <Box
+      className="widget"
+      sx={{
+        ...styled.widget,
+      }}
+    >
+      {' '}
+      <Box
+        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
+        className="widget"
+      >
+        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
+          {defaultPromptSelector}
+        </Box> */}
+        <NewItem
+          component="form"
+          sxStyle={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#eee',
+            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
+            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
+          }}
+          autoComplete="off"
+          size={'small'}
+          id="outlined-multiline-static"
+          label={collection}
+          rows={14}
+          data={chatInFocus}
+          scheme={scheme}
+        />
+      </Box>
+    </Box>
+  );
   const widgetProps = {
     iconButton: <Chat />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetChatInFocus,
-    customElement: null,
-    alertElement: null,
+    tooltipTitle_newItem: 'Create new Chat',
+    collection_context_title: 'Chats',
+    dialogTitle: 'Create new Chat',
     data: selectedChats,
     selectedData: selectedChats,
     setSelectedItem: setSelectedChats,
@@ -140,29 +177,44 @@ export default function ChatsWidget({
       selector: 'chatsSelector',
       selected: 'selectedChats',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: chatInFocus,
     tooltipTitle_newItem: 'Create new Chat',
-    onClickNewItem: () => handleNewChat(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    dialogTitle: 'Create New Chat',
+
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -171,21 +223,6 @@ export default function ChatsWidget({
     return () => {};
   }, [streamedResponse]);
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-      }}
-    >
-      {/* <SimpleDialog
-        data={data}
-        onClose={handleClose}
-        selectedValue={selectedValue}
-        open={showDialog}
-      /> */}
-    </Box>
-  );
   const settingsAndMenu = (
     <Box
       className="widget"
@@ -357,8 +394,15 @@ export default function ChatsWidget({
     />
   );
 
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -372,6 +416,7 @@ export default function ChatsWidget({
         // menu={settingsAndMenu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
+        multiItems={multiItems}
         vertical={chatInFocusWidget}
         selector={modelSelector}
         inputField={promptField}

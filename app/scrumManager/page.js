@@ -23,8 +23,6 @@ export default function ScrumManagerPage({
   const { toggleBG, imageUrlArr } = useContext(UIContext);
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
-  const image =
-    'https://firebasestorage.googleapis.com/v0/b/scrum-viz.appspot.com/o/images%2FScrum__MainView.png?alt=media&token=91f8b1c7-d38c-4e28-b0f2-eae4ee163841';
 
   const collection = 'scrumManager';
   const widgetProps = {
@@ -50,37 +48,39 @@ export default function ScrumManagerPage({
   const soloWidget = (
     <Box
       sx={{
-        // ...styled.widget,
         position: 'relative',
         width: '100%',
         height: '100%',
-
-        // overflow: 'hidden',
-        // gap: '1rem',
-        // position: 'relative',
-        // background: appContext === 'scrumManager' && `url(${image})`,
-        // backgroundRepeat: appContext === 'scrumManager' && 'no-repeat',
-        // backgroundPosition: appContext === 'scrumManager' && 'center',
-        // backgroundSize: appContext === 'scrumManager' && 'cover',
       }}
     >
-      {toggleBG ? (
-        <img
-          src={imageUrlArr[16]} // Assuming the image is in public/images
-          alt=""
-          style={{
+      {toggleBG && (
+        <Box
+          sx={{
             position: 'absolute',
             width: '100%',
             height: '100%',
-            padding: '2rem',
-            filter: 'brightness(0.8)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'white',
           }}
-          // width={'100%'} // Set width and height explicitly or use fill
-          // height={300}
-        />
-      ) : (
-        <GridComponent gridRef={gridRef} />
+        >
+          <img
+            src={imageUrlArr[16]}
+            alt=""
+            style={{
+              zIndex: 0,
+              position: 'absolute',
+              width: '100%',
+              height: 'auto',
+              filter: 'brightness(0.8)',
+              objectFit: 'cover',
+            }}
+          />
+        </Box>
       )}
+      {/* ) : ( */}
+      <GridComponent gridRef={gridRef} />
       <ToastContainer />
     </Box>
   );

@@ -16,6 +16,8 @@ export const UserStoriesProvider = ({ children }) => {
   const { showDialog, setShowDialog } = useContext(UIContext);
   const { displayTeamMembers } = useContext(TeamMembersContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
+
   // const [showUserStoryMenu, setShowUserStoryMenu] = useState(true);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
 
@@ -41,11 +43,7 @@ export const UserStoriesProvider = ({ children }) => {
     setActiveSearchTerm(e.target.value);
     setIsFiltered(true);
   };
-  const handleNewUserStory = async () => {
-    console.log('handleNewDefaultPrompt');
-    // setSelectedWidgetContext('newItem');
-    setShowDialog(true);
-  };
+
   useEffect(() => {
     setSelectedUserStories(
       displayUserStories.filter((userStory) =>
@@ -73,6 +71,8 @@ export const UserStoriesProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         // showUserStoryMenu,
         // setShowUserStoryMenu,
         selectedWidgetContext,
@@ -89,7 +89,6 @@ export const UserStoriesProvider = ({ children }) => {
         setIsFiltered,
         handleResetFiltered,
         handleSearchTermChange,
-        handleNewUserStory,
         // handleResetFiltered,
         // handleSetUserStoryInFocus,
         // handleSelectWidgetContext,

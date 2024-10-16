@@ -4,10 +4,12 @@ import { createContext, useContext, useState } from 'react';
 import { getDocIdSByValueSearch } from '../../../firebase/helperFunctions';
 import { auth, db } from '@/firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useSession } from 'next-auth/react';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  // const { session } = useSession();
   const [showSignUp, setShowSignUp] = useState(false);
   const [signInLoading, setSignInLoading] = useState(false);
   const [email, setEmail] = useState('');
@@ -24,6 +26,10 @@ export const AuthProvider = ({ children }) => {
       }
     });
   }, []);
+  useEffect(() => {
+    setUser(currentSession?.user);
+    return () => {};
+  }, [currentSession]);
 
   return (
     <AuthContext.Provider
