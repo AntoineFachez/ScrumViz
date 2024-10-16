@@ -840,7 +840,7 @@ const styled = (colorMode) => ({
     justifyContent: 'space-between',
     alignItems: 'space-around',
     // padding: '0.5rem',
-    padding: '3%',
+    padding: '8%',
     border: `1px solid ${themeSettings(colorMode).neutral.main}`,
     borderRadius: '15px',
     // backgroundColor: () => themeSettings(colorMode).neutral.dark,
