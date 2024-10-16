@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Box, Button, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
@@ -17,10 +17,11 @@ import AgileCodingPage from './agileCoding/page';
 import Home from './home/page';
 import Profile from './profile/page';
 
-import { useMode } from './theme/ThemeContext';
+import SketchWrapper from './p5/particleCircle/SketchWrapper';
+import GreetingText from './components/greetingText/GreetingText';
 
 import 'react-toastify/dist/ReactToastify.css';
-import SketchWrapper from './p5/neonText/SketchWrapper';
+import { useMode } from './theme/ThemeContext';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
@@ -45,10 +46,20 @@ export default function BasePage({ session }) {
     }
   };
 
-  const handleClickOpen = () => {
-    setShowDialog(true);
-  };
   const containerRef = useRef();
+  const [proceedWelcome, setProceedWelcome] = useState(false);
+  const welcome = (state) => {
+    setProceedWelcome(true);
+    setTimeout(() => {
+      setProceedWelcome(false);
+    }, 10000);
+  };
+  useEffect(() => {
+    console.log(proceedWelcome);
+
+    return () => {};
+  }, [proceedWelcome]);
+
   return (
     <SessionProvider session={session}>
       <Box
@@ -57,6 +68,7 @@ export default function BasePage({ session }) {
           width: '100vw',
           height: '100vh',
           display: 'flex',
+          flexFlow: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           marginTop: styled?.navBar.height,
@@ -65,36 +77,30 @@ export default function BasePage({ session }) {
         <ThemeProvider theme={theme}>
           {user ? (
             <>
-              {/* <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                // justifyContent: 'center',
-                // alignItems: 'center',
-              }}
-            > */}
-              <NavBar />
-              {/* </Box> */}
-              {uiElements()}{' '}
+              <>
+                <NavBar />
+                {uiElements()}
+              </>
             </>
           ) : (
             <>
-              <Box
-                sx={{
-                  height: '100%',
-                  maxHeight: '16rem',
-                  display: 'flex',
-                  flexFlow: 'row',
-                  // justifyContent: 'flex-start',
-                }}
-              >
-                {/* {!session ? ( */}
-                <SignupLogin />
-                {/* ) : ( */}
-                {/* <SketchWrapper containerRef={containerRef} /> */}
-                {/* )} */}
-              </Box>
+              {' '}
+              {proceedWelcome ? (
+                <>
+                  <GreetingText />
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    height: '100%',
+                    maxHeight: '16rem',
+                    display: 'flex',
+                    flexFlow: 'row',
+                  }}
+                >
+                  <SignupLogin welcome={welcome} />
+                </Box>
+              )}
             </>
           )}
           <ToastContainer />

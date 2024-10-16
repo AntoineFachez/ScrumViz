@@ -3,16 +3,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import Popper from '@mui/material/Popper';
 
 export default function NewItem({
-  component,
-  sxStyle,
-  autoComplete,
-  size,
-  id,
-  label,
-  rows,
-  data,
-  scheme,
+  widgetProps,
+  styled,
+  // component,
+  // sxStyle,
+  // autoComplete,
+  // size,
+  // id,
+  // label,
+  // rows,
+  // data,
+  // scheme,
 }) {
+  const { itemInFocus, scheme } = widgetProps;
   const [formData, setFormData] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -21,10 +24,10 @@ export default function NewItem({
   useEffect(() => {
     const initialFormData = {};
     for (const key in scheme) {
-      initialFormData[key] = data[key] || '';
+      initialFormData[key] = itemInFocus?.[key] || '';
     }
     setFormData(initialFormData);
-  }, [data, scheme]);
+  }, [itemInFocus, scheme]);
 
   const handleChange = (event, fieldId) => {
     setFormData({
@@ -72,8 +75,10 @@ export default function NewItem({
   return (
     <Box
       onMouseLeave={handleClose}
-      component={component}
+      component="form"
+      className="widget"
       sx={{
+        ...styled.widget,
         width: '100%',
         display: 'flex',
         flexFlow: 'column nowrap',
@@ -87,7 +92,7 @@ export default function NewItem({
         '& .MuiInputBase-input': { width: '100%' },
       }}
       noValidate
-      autoComplete={autoComplete}
+      autoComplete="off"
     >
       {Object.keys(scheme).map((key, index) => (
         <div key={key}>
@@ -98,7 +103,7 @@ export default function NewItem({
             onMouseUp={handleMouseUp}
             // key={key}
             sx={{ width: '100%' }}
-            size={size}
+            size={'small'}
             id={key}
             label={key}
             multiline={key}

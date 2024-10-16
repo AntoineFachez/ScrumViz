@@ -1,25 +1,24 @@
 'use client';
 import { useContext, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
-import { AddToQueue, BackupOutlined } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { AddToQueue } from '@mui/icons-material';
+import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
-import UIContext from '@/context/UIContext';
+import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import TimeStampsContext from './TimeStampsContext';
+import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
+import { scheme, singleItemScheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
-import StandInTable from '@/app/components/table/StandInTable';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import { singleItemScheme } from './dataScheme';
-
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
-import InFocusContext from '@/context/InFocusContext';
 
 export default function TimeStamps({
   widget,
@@ -49,6 +48,9 @@ export default function TimeStamps({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
+
     displayTimeStamps,
     setDisplayTimeStamps,
     selectedTimeStamps,
@@ -59,17 +61,9 @@ export default function TimeStamps({
   const collection = 'timeStamps';
   const widgetProps = {
     iconButton: <AddToQueue />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    tooltipTitle_newItem: 'Create new Event',
+    collection_context_title: 'Events',
+    dialogTitle: 'Create new Event',
     handleSetItemInFocus: handleSetTimeStampInFocus,
     data: displayTimeStamps,
     selectedData: selectedTimeStamps,
@@ -78,28 +72,42 @@ export default function TimeStamps({
       selector: 'timeStampSelector',
       selected: 'selectedTimeStamps}',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: timeStampInFocus,
+
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
     orderedBy: '',
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -116,25 +124,7 @@ export default function TimeStamps({
     setSelectedUserStories(displayUserStories);
     setIsFiltered(false);
   };
-  const CardSubHeaderElement = (data) => (
-    <Typography
-      onClick={() => handleSetTimeStampInFocus(data)}
-      sx={styled?.textBody}
-      variant={styled?.textBody?.variant}
-    ></Typography>
-  );
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      TimeStamps New Item
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -146,14 +136,6 @@ export default function TimeStamps({
       TimeStamps SoloWidget
     </Box>
   );
-  // const singleItem = (
-  //   <SingleItem
-  //     singleItemScheme={singleItemScheme}
-  //     itemContext={widgetProps?.itemContext}
-  //     itemInFocus={timeStampInFocus}
-  //     styled={styled}
-  //   />
-  // );
   const chip = (
     <Box
       className="widget"
@@ -176,56 +158,14 @@ export default function TimeStamps({
       TimeStamps Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-        customElement={null}
-        alertElement={null}
-        data={widgetProps?.data}
-        selectedData={widgetProps?.selectedData}
-        setSelectedItem={widgetProps?.setSelectedItem}
-        selector={widgetProps?.selector}
-        itemInFocus={widgetProps?.itemInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
-        // singleItem={singleItem}
-        chip={chip}
         tree={tree}
-        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

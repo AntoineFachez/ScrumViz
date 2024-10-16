@@ -1,17 +1,19 @@
 import React from 'react';
 
 import CardHeader from '@mui/material/CardHeader';
-import { IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Avatar from '@mui/material/Avatar';
+import DropDownComponent from '../dropDown/DropDown';
+import EnvProductionIcon from '../icons/EnvProductionIcon';
 
 export default function CardItemHeader({
+  widgetProps,
   item,
   itemContext,
   alertElement,
   isSelected,
   singleItemScheme,
-  // CardSubHeaderElement,
   stringAvatar,
   handleClick,
   styled,
@@ -32,9 +34,9 @@ export default function CardItemHeader({
         )
       }
       action={
-        <IconButton aria-label="settings" sx={styled?.iconButton?.action}>
-          <MoreVertIcon />
-        </IconButton>
+        <>
+          <DropDownComponent options={widgetProps.optionsVertMenu} />
+        </>
       }
       title={
         <Typography
@@ -56,19 +58,22 @@ export default function CardItemHeader({
       }
       // subheader={() => <CardSubHeaderElement item={item} />}
       subheader={
-        <Typography
-          onClick={() => handleClick(item)}
-          sx={
-            isSelected
-              ? { ...styled?.textBody?.selected, fontSize: '0.7rem' }
-              : //   : item[singleItemScheme.title]?.length > 25
-                //   ? styled?.truncate
-                { ...styled?.textBody.contrast, fontSize: '0.7rem' }
-          }
-          variant={styled?.textBody?.variant}
-        >
-          {item[singleItemScheme.subTitle] || 'N/A'}
-        </Typography>
+        <Box sx={{ display: 'flex', flexFlow: 'row', alignItems: 'center' }}>
+          <Typography
+            onClick={() => handleClick(item)}
+            sx={
+              isSelected
+                ? { ...styled?.textBody?.selected, fontSize: '0.7rem' }
+                : //   : item[singleItemScheme.title]?.length > 25
+                  //   ? styled?.truncate
+                  { ...styled?.textBody.contrast, fontSize: '0.7rem' }
+            }
+            variant={styled?.textBody?.variant}
+          >
+            {item[singleItemScheme.subTitle] || 'N/A'}
+          </Typography>
+          {item.customSubTitleItem}{' '}
+        </Box>
       }
       // sx={isSelected ? styled?.textBody?.selected : styled?.textBody}
       sx={{

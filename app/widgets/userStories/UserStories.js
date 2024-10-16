@@ -1,12 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
-import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import {
-  Add,
-  Assignment,
-  StoreMallDirectoryOutlined,
-} from '@mui/icons-material';
+import { Box } from '@mui/material';
+import { Assignment } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
@@ -14,21 +9,17 @@ import SearchContext from '@/context/SearchContext';
 import SprintPlanningsContext from '../sprintPlannings/SprintPlanningsContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import UIContext from '@/context/UIContext';
-import UserStoriesContext, { UserStoriesProvider } from './UserStoriesContext';
+import UserStoriesContext from './UserStoriesContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-import TableComponent from '@/app/components/table/TableComponent';
-import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import NewItem from '@/app/uiItems/widgetItems/NewItem';
 
 import { scheme, singleItemScheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
 // import { handleNewUserStory } from './functions/dbFunctions';
 import { useMode } from '@/app/theme/ThemeContext';
@@ -52,12 +43,8 @@ export default function UserStory({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
-    showUserStoryMenu,
-    setShowUserStoryMenu,
-    // selectedWidgetContext,
-    // setSelectedWidgetContext,
-    displayUserStories,
-    setDisplayUserStories,
+    showNewItem,
+    setShowNewItem,
     selectedUserStories,
     setSelectedUserStories,
     userStoryInFocus,
@@ -67,11 +54,6 @@ export default function UserStory({
     isFiltered,
     setIsFiltered,
     handleResetFiltered,
-
-    handleNewUserStory,
-    // handleResetFiltered,
-    // handleSetUserStoryInFocus,
-    // handleSelectWidgetContext,
   } = useContext(UserStoriesContext);
   const { handleFindSprintPlannings } = useContext(SprintPlanningsContext);
   const { handleFindSprintBackLogs } = useContext(SprintBackLogsContext);
@@ -97,61 +79,60 @@ export default function UserStory({
     setAcceptanceCriteriaInFocus(found);
     // handleFindAcceptanceCriteria(item, 'id', 'acceptanceCriteria_id');
   };
+
   const widgetProps = {
     iconButton: <Assignment />,
     tooltipTitle_newItem: 'Create new User Story',
-    collection_context_title: 'User Story',
+    collection_context_title: 'User Stories',
+    dialogTitle: 'Create new User Story',
+    itemContext: '',
+    data: selectedUserStories,
+    selectedData: selectedUserStories,
+    setSelectedItem: setSelectedUserStories,
+    itemInFocus: userStoryInFocus,
+    customArrayItemInFocus: acceptanceCriteriaInFocus,
+    selector: {
+      selector: 'userStoriesSelector',
+      selected: 'selectedUserStories',
+    },
+    handleSetItemInFocus: handleSetUserStoryInFocus,
 
-    widget: widget,
     appContext: appContext,
+    collection: collection,
+    scheme: scheme,
     uiContext: uiContext,
+    dropWidgetName: collection,
     uiGridMapContext: uiGridMapContext,
     setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    data: selectedUserStories,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
-    selectedData: selectedUserStories,
-    setSelectedItem: setSelectedUserStories,
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
     singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
     orderedBy: '',
-    itemInFocus: userStoryInFocus,
-    customArrayItemInFocus: acceptanceCriteriaInFocus,
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selector: {
-      selector: 'userStoriesSelector',
-      selected: 'selectedUserStories',
-    },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
-    searchTerm: searchTerm,
-    handleNewItem: () => handleNewUserStory(),
-    onClick: () => {
-      console.log();
+    onClick: () => setUiGridMapContext(collection),
 
-      setUiGridMapContext(collection);
-      return;
-    },
     handleSelectWidgetContext: handleSelectWidgetContext,
-    setActiveSearchTerm: setActiveSearchTerm,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-
-    handleSetItemInFocus: handleSetUserStoryInFocus,
-    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
 
   useEffect(() => {
@@ -197,76 +178,17 @@ export default function UserStory({
       UserStory Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-        flexFlow: 'column',
-      }}
-    >
-      {' '}
-    </Box>
-  );
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-      }}
-    >
-      {' '}
-      <Box
-        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
-        className="widget"
-      >
-        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
-          {defaultPromptSelector}
-        </Box> */}
-        <NewItem
-          component="form"
-          sxStyle={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#eee',
-            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
-          }}
-          autoComplete="off"
-          size={'small'}
-          id="outlined-multiline-static"
-          label={collection}
-          rows={14}
-          data={userStoryInFocus}
-          scheme={scheme}
-        />
-      </Box>
-    </Box>
-  );
+
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
+        // newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
+        // table={table}
         tree={tree}
-        // flexList={flexList}
+        // multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

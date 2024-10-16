@@ -16,12 +16,14 @@ import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 import SimpleDialog from '@/app/components/dialog/Dialog';
 
+import { scheme, singleItemScheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
-import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
 
@@ -47,6 +49,7 @@ export default function DefaultPromptWidget({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
     selectedWidgetContext,
     setSelectedWidgetContext,
 
@@ -64,6 +67,7 @@ export default function DefaultPromptWidget({
     handleResetFiltered,
 
     handleNewDefaultPrompt,
+    handleCloseNewItem,
 
     // handleSetDefaultPromptInFocus,
   } = useContext(DefaultPromptsContext);
@@ -76,49 +80,55 @@ export default function DefaultPromptWidget({
     handleSetItemInFocus(setPromptTextInFocus, item, setLatestItemInFocus);
   };
   const collection = 'defaultPrompts';
+
   const widgetProps = {
     iconButton: <Chat />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetDefaultPromptInFocus,
+    tooltipTitle_newItem: 'Create new Default Prompt',
+    collection_context_title: 'Default Prompts',
+    dialogTitle: 'Create new Default Prompt',
     data: selectedDefaultPrompts,
     selectedData: selectedDefaultPrompts,
     selector: {
       selector: 'defaultPromptsSelector',
       selected: 'selectedPrompts',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: promptTextInFocus,
-    dialogTitle: 'Create new default Prompt',
+    handleSetItemInFocus: handleSetDefaultPromptInFocus,
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -129,102 +139,57 @@ export default function DefaultPromptWidget({
     return () => {};
   }, []);
 
-  const defaultPromptSelector = (
-    <>
-      <Box
-        className="widget"
-        sx={{
-          ...styled.widget,
-          // backgroundColor: '#555',
-          flexFlow: 'column',
-        }}
-      >
-        {/* <MultiItems
-          widget={widget}
-          uiContext={uiContext}
-          singleItemScheme={singleItemScheme}
-          selectedWidgetContext={selectedWidgetContext}
-          setActiveSearchTerm={setActiveSearchTerm}
-          customElement={null}
-          alertElement={null}
-          itemContext={widgetProps?.itemContext}
-          itemInFocus={promptTextInFocus}
-          styled={styled}
-        />{' '} */}
-        <MultiItems
-          uiContext={uiContext}
-          singleItemScheme={singleItemScheme}
-          selectedWidgetContext={selectedWidgetContext}
-          itemContext={widgetProps?.itemContext}
-          setActiveSearchTerm={setActiveSearchTerm}
-          handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-          customElement={null}
-          alertElement={null}
-          data={widgetProps?.data}
-          selectedData={widgetProps?.selectedData}
-          setSelectedItem={widgetProps?.setSelectedItem}
-          selector={widgetProps?.selector}
-          itemInFocus={widgetProps?.itemInFocus}
-          styled={styled}
-        />
-      </Box>
-    </>
-  );
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-      }}
-    >
-      {' '}
-      <Box
-        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
-        className="widget"
-      >
-        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
-          {defaultPromptSelector}
-        </Box> */}
-        <NewItem
-          component="form"
-          sxStyle={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#eee',
-            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
-          }}
-          autoComplete="off"
-          size={'small'}
-          id="outlined-multiline-static"
-          label={collection}
-          rows={14}
-          data={promptTextInFocus}
-          scheme={scheme}
-        />
-      </Box>
-    </Box>
-  );
+  // const defaultPromptSelector = (
+  //   <>
+  //     <Box
+  //       className="widget"
+  //       sx={{
+  //         ...styled.widget,
+  //         // backgroundColor: '#555',
+  //         flexFlow: 'column',
+  //       }}
+  //     >
+  //       {/* <MultiItems
+  //         widget={widget}
+  //         uiContext={uiContext}
+  //         singleItemScheme={singleItemScheme}
+  //         selectedWidgetContext={selectedWidgetContext}
+  //         setActiveSearchTerm={setActiveSearchTerm}
+  //         customElement={null}
+  //         alertElement={null}
+  //         itemContext={widgetProps?.itemContext}
+  //         itemInFocus={promptTextInFocus}
+  //         styled={styled}
+  //       />{' '} */}
+  //       <MultiItems
+  //         widgetProps={widgetProps}
+  //         uiContext={uiContext}
+  //         singleItemScheme={singleItemScheme}
+  //         selectedWidgetContext={selectedWidgetContext}
+  //         itemContext={widgetProps?.itemContext}
+  //         setActiveSearchTerm={setActiveSearchTerm}
+  //         handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
+  //         customElement={null}
+  //         alertElement={null}
+  //         data={widgetProps?.data}
+  //         selectedData={widgetProps?.selectedData}
+  //         setSelectedItem={widgetProps?.setSelectedItem}
+  //         selector={widgetProps?.selector}
+  //         itemInFocus={widgetProps?.itemInFocus}
+  //         styled={styled}
+  //       />
+  //     </Box>
+  //   </>
+  // );
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
       <SimpleDialog
-        title={widgetProps.dialogTitle}
-        component={
-          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
-            <Box sx={{ width: '30%', maxWidth: '25ch' }}>
-              {defaultPromptSelector}
-            </Box>
-            {newItem}
-          </Box>
-        }
-        // data={newItem}
-        onClose={handleCloseDialog}
-        // selectedValue={selectedValue}
-        open={showDialog}
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
       />
-
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -232,6 +197,7 @@ export default function DefaultPromptWidget({
         widgetContext={selectedWidgetContext}
         // newItem={newItem}
         // flexList={defaultPromptSelector}
+        multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

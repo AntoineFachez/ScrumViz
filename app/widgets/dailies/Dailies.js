@@ -12,15 +12,18 @@ import SprintsContext from '../sprints/SprintsContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
-
+import { singleItemScheme, scheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
 } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 export default function Dailies({
   widget,
@@ -37,6 +40,10 @@ export default function Dailies({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showUserStoryMenu,
+    setShowUserStoryMenu,
+    showNewItem,
+    setShowNewItem,
     selectedDailies,
     setSelectedDailies,
     dailyInFocus,
@@ -58,30 +65,36 @@ export default function Dailies({
   };
   const widgetProps = {
     iconButton: <DateRange />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
+    tooltipTitle_newItem: 'Create new Daily',
+    collection_context_title: 'Dailies',
+    dialogTitle: 'Create new Daily',
     data: selectedDailies,
     selectedData: selectedDailies,
     setSelectedItem: setSelectedDailies,
     selector: { selector: 'dailiesSelector', selected: 'selectedDailies' },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: dailyInFocus,
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -90,13 +103,12 @@ export default function Dailies({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-    handleSetItemInFocus: handlesetDailyInFocus,
   };
 
   useEffect(() => {
@@ -150,9 +162,18 @@ export default function Dailies({
       <StandInTable />
     </Box>
   );
-
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={widgetProps}
+        dialogCustomComponent={
+          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
+            <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
+            {newItem}
+          </Box>
+        }
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -162,7 +183,7 @@ export default function Dailies({
         table={table}
         // singleItem={singleItem}
         tree={tree}
-        // flexList={flexList}
+        multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

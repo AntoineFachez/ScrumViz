@@ -8,6 +8,7 @@ const ScrumTeamsContext = createContext();
 
 export const ScrumTeamsProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displayScrumTeams, setDisplayScrumTeams] = useState(scrumTeams);
   const [selectedScrumTeams, setSelectedScrumTeams] = useState(false);
   const [scrumTeamInFocus, setScrumTeamInFocus] = useState(false);
@@ -51,6 +52,8 @@ export const ScrumTeamsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displayScrumTeams,
         setDisplayScrumTeams,
         selectedScrumTeams,

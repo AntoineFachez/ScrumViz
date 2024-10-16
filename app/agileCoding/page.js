@@ -80,7 +80,7 @@ export default function AgileCodingPage({
     spliceIn();
     return () => {};
   }, []);
-  console.log(imageUrlArr);
+  // console.log(imageUrlArr);
 
   const soloWidget = (
     <Box
