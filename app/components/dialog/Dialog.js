@@ -11,6 +11,7 @@ export default function SimpleDialog({ widgetProps }) {
     dialogCustomComponent,
     openDialogueState,
     onCloseDialogue,
+    customMenu,
   } = widgetProps;
   const [renderDialogue, setRenderDialogue] = useState(null);
 
@@ -26,6 +27,7 @@ export default function SimpleDialog({ widgetProps }) {
           <Typography>{dialogTitle}</Typography>
         </DialogTitle>
         {dialogCustomComponent}
+        {customMenu}
       </Dialog>
     );
 

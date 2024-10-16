@@ -1,7 +1,7 @@
 'use client';
-import React, { useContext, useRef } from 'react';
+import React, { Fragment, useContext, useRef, useState } from 'react';
 import SketchWrapper from '../p5/neonText/SketchWrapper';
-import { Box, IconButton, Paper, Typography } from '@mui/material';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Add, WidthWide } from '@mui/icons-material';
 import { useMode } from '../theme/ThemeContext';
 import ProductBackLogsContext from '../widgets/productBacklogs/ProductBackLogsContext';
@@ -13,25 +13,112 @@ import {
   singleItemScheme,
 } from '../widgets/productBacklogs/dataScheme';
 import EnvProductionIcon from '../components/icons/EnvProductionIcon';
+import SimpleDialog from '../components/dialog/Dialog';
+import NewItem from '../uiItems/widgetItems/NewItem';
+import { handleCloseNewItem } from '../widgets/actions';
+import { handleNewProductBackLog } from '../widgets/productBacklogs/functions/dbFunctions';
+import ChatInFocus from '../widgets/chats/Index';
+import AppContext from '@/context/AppContext';
+
 export default function Home() {
   const [theme, colorMode, palette, styled] = useMode();
   const {
+    showNewItem,
+    setShowNewItem,
     optionsVertMenu,
     displayProductBackLogs,
+    setDisplayProductBackLogs,
     selectedProductBackLogs,
     setSelectedProductBackLogs,
+    setProductBackLogInFocus,
     handleSetProductBackLogInFocus,
+    handleNewItem,
+    scheme,
   } = useContext(ProductBackLogsContext);
+  const { setAppContext, setUiGridMapContext } = useContext(AppContext);
 
+  const collection = 'productBackLogs';
   const widgetProps = {
+    collection: collection,
     handleSetItemInFocus: handleSetProductBackLogInFocus,
     data: selectedProductBackLogs,
     selectedData: selectedProductBackLogs,
     setSelectedItem: setSelectedProductBackLogs,
     singleItemScheme: singleItemScheme,
     optionsVertMenu: optionsVertMenu,
+    scheme: scheme,
+    dialogTitle: 'Create new Product',
+
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+    onClick: () => {
+      setAppContext('scrumManager');
+      setUiGridMapContext('userStories');
+    },
+  };
+  const handleClickNewProduct = () => {
+    handleNewItem();
+    console.log('clicked');
+  };
+  const [dataToStore, setDataToStore] = useState({});
+  const handleSaveNewProduct = () => {
+    console.log('handleSaveNewProduct');
+    // handleNewProductBackLog();
+    handleNewProductBackLog(
+      widgetProps,
+      setProductBackLogInFocus,
+      dataToStore,
+      displayProductBackLogs,
+      setDisplayProductBackLogs
+    );
   };
 
+  const newItem = (
+    <NewItem
+      widgetProps={widgetProps}
+      dataToStore={dataToStore}
+      setDataToStore={setDataToStore}
+      styled={styled}
+    />
+  );
+  const newItemDialogue = (
+    <SimpleDialog
+      widgetProps={{
+        ...widgetProps,
+        dialogCustomComponent: (
+          <Box
+            sx={{ height: '100%', display: 'flex', flexFlow: 'column' }}
+            className="widget"
+          >
+            {' '}
+            {newItem}
+            {/* <Box sx={{ width: '100%', maxWidth: '25ch' }}></Box> */}
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexFlow: 'column',
+                overflow: 'scroll',
+              }}
+            >
+              <ChatInFocus startUpWidgetLayout="vertical" />
+              <ChatInFocus startUpWidgetLayout="inputField" />
+            </Box>
+          </Box>
+        ),
+        customMenu: [
+          <Button
+            key="button1"
+            onClick={handleSaveNewProduct}
+            sx={{ display: 'flex' }}
+          >
+            Save
+          </Button>,
+        ],
+      }}
+    />
+  );
   return (
     <Box
       sx={{
@@ -43,19 +130,6 @@ export default function Home() {
         alignItems: 'center',
       }}
     >
-      {' '}
-      {/* <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          // flexFlow: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Header
-      </Box> */}
       <Paper
         className="flexList"
         sx={{
@@ -89,6 +163,7 @@ export default function Home() {
         >
           {' '}
           <IconButton
+            onClick={handleClickNewProduct}
             sx={{
               ...styled?.iconButton?.action,
             }}
@@ -125,7 +200,7 @@ export default function Home() {
             }
             return (
               <>
-                <>
+                <Box onClick={widgetProps.onClick}>
                   <CardItem
                     widgetProps={widgetProps}
                     dataSlug={item.id}
@@ -134,24 +209,12 @@ export default function Home() {
                     // styled={{ ...styled.card.width, width: '10rem' }}
                     styled={{ ...styled }}
                   />
-                </>
+                </Box>
               </>
             );
           })}
       </Paper>
-      {/* <Box
-        sx={{
-          width: '100%',
-          height: '100%',
-          // height: '10rem',
-          display: 'flex',
-          // flexFlow: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        Footer
-      </Box> */}
+      {newItemDialogue}{' '}
     </Box>
   );
 }
