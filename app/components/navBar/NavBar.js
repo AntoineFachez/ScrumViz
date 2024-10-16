@@ -28,6 +28,7 @@ export default function NavBar({ showDev, setShowDev }) {
     setShowPaneMenu,
     userRole,
     navBarWidgetList,
+    toggleBG,
     setToggleBG,
   } = useContext(UIContext);
   const handleClick = () => {
@@ -100,7 +101,7 @@ export default function NavBar({ showDev, setShowDev }) {
         <IconButton
           onClick={() => setToggleBG((prev) => !prev)}
           sx={
-            showWidgetMenus
+            toggleBG
               ? { ...styled.navBarButton.active }
               : { ...styled.navBarButton.inactive }
           }

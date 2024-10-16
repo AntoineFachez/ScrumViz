@@ -1,18 +1,16 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
-import { DateRange, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import { Box } from '@mui/material';
+import { DateRange } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
-import DailiesContext from './AcceptanceCriteriaContext';
 import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import SprintsContext from '../sprints/SprintsContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
+import { singleItemScheme, scheme } from './dataScheme';
 
 import {
   handleSearchTermChange,
@@ -57,6 +55,9 @@ export default function AcceptanceCriteria({
   };
   const widgetProps = {
     iconButton: <DateRange />,
+    tooltipTitle_newItem: 'Create new Acceptance Criteria',
+    collection_context_title: 'Acceptance Criterias',
+    dialogTitle: 'Create new Acceptance Criteria',
     widget: widget,
     appContext: appContext,
     uiContext: uiContext,
@@ -104,17 +105,6 @@ export default function AcceptanceCriteria({
     return () => {};
   }, [dailyInFocus]);
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Daily New Item
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -138,30 +128,15 @@ export default function AcceptanceCriteria({
       Daily Tree
     </Box>
   );
-  const table = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      <StandInTable />
-    </Box>
-  );
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        // menu={menu}
-        newItem={newItem}
         soloWidget={soloWidget}
-        table={table}
         // singleItem={singleItem}
         tree={tree}
-        // flexList={flexList}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

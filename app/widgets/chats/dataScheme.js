@@ -1,9 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-export const context = 'university';
 
-export const ChatScheme = {
+export const scheme = {
   chatId: uuidv4(),
-  title: 'latest  chat',
+  title: '',
   createdAt: new Date(),
   summary: '',
   history: [

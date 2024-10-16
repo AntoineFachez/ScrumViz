@@ -5,6 +5,8 @@ export const scheme = {
   createdAt: new Date(),
   title: '',
   description: '',
+  source_collection: '',
+  target_collection: '',
 };
 export const fieldsAccordion = {
   heading: 'name',

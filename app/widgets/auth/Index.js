@@ -14,7 +14,7 @@ import ThemeContext, { themeSettings, useMode } from '@/app/theme/ThemeContext';
 import CardTemplate from './CardCompiler';
 import { auth } from '@/firebase/firebase';
 
-export default function Index({}) {
+export default function Index({ welcome }) {
   const { log, setLog, alert, setAlert } = useContext(AppContext);
   const { userRole } = useContext(UIContext);
   const session = useSession();
@@ -41,9 +41,10 @@ export default function Index({}) {
   const firebaseContext = 'users';
 
   const handleSubmit = async (e, method) => {
+    welcome(true);
+    setSignInLoading(true);
     e.preventDefault();
     if (method === 'google') {
-      setSignInLoading(true);
       signIn('google');
     } else if (method === 'github') {
       signIn('github');
@@ -61,8 +62,10 @@ export default function Index({}) {
   };
   const onSubmit = (method) => {
     if (method === '') {
+      // welcome(true);
       () => onSubmit('emailPassword');
     } else if (method === 'logIn') {
+      // welcome(true);
       handleLogIn(
         e,
         auth,

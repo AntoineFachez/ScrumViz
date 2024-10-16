@@ -8,6 +8,7 @@ const SprintBackLogsContext = createContext();
 
 export const SprintBackLogsProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displaySprintBackLogs, setDisplaySprintBackLogs] =
     useState(sprintBackLogs);
   const [selectedSprintBackLogs, setSelectedSprintBackLogs] = useState(
@@ -52,6 +53,8 @@ export const SprintBackLogsProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displaySprintBackLogs,
         setDisplaySprintBackLogs,
         selectedSprintBackLogs,

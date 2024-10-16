@@ -12,10 +12,18 @@ import UIContext from '@/context/UIContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { handleSearchTermChange, handleSelectWidgetContext } from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 export default function Persons({
   widget,
@@ -42,34 +50,45 @@ export default function Persons({
   const handleSetPersonInFocus = (item) => {
     handleSetItemInFocus(setPersonInFocus, item, setLatestItemInFocus);
   };
-  const collection = 'persons';
+  const collection = 'profiles';
   const widgetProps = {
     iconButton: <Group />,
-    widget: widget,
+    tooltipTitle_newItem: 'Create new Profile',
+    collection_context_title: 'Profiles',
+    dialogTitle: 'Create new Profile',
+    data: selectedPersons,
+    selectedData: selectedPersons,
+    setSelectedItem: setSelectedPersons,
+    // handleNewItem: () => handleNewPerson(),
+    selector: {
+      selector: 'personsSelector',
+      selected: 'selectedPersons',
+    },
+    itemInFocus: personInFocus,
+    handleSetItemInFocus: handleSetPersonInFocus,
+
     appContext: appContext,
+    collection: collection,
+    scheme: scheme,
     uiContext: uiContext,
+    dropWidgetName: collection,
     uiGridMapContext: uiGridMapContext,
     setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    data: selectedPersons,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
-    selectedData: selectedPersons,
-    setSelectedItem: setSelectedPersons,
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
     singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
     orderedBy: '',
-    itemInFocus: personInFocus,
-    tooltipTitle_newItem: 'Create new Person',
-    handleNewItem: () => handleNewPerson(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -78,18 +97,12 @@ export default function Persons({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selector: {
-      selector: 'personsSelector',
-      selected: 'selectedPersons',
-    },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-
-    handleSetItemInFocus: handleSetPersonInFocus,
   };
 
   const handleSearchTermChange = (e) => {
@@ -144,8 +157,15 @@ export default function Persons({
     </Box>
   );
 
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -153,6 +173,7 @@ export default function Persons({
         soloWidget={soloWidget}
         table={table}
         tree={tree}
+        multiItems={multiItems}
       />
     </>
   );

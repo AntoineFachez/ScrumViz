@@ -15,11 +15,12 @@ export default function Profile({ uiContext }) {
   const { currentSession, setCurrentSession } = useContext(AuthContext);
   const containerRef = useRef();
   const [theme, colorMode, palette, styled] = useMode();
-  const session = useSession();
   const collection = 'profiles';
 
+  const session = useSession();
   if (session?.status === 'loading') {
-    return <div>Loading...</div>;
+    return <Box>...Loading</Box>;
+    // <SketchWrapper containerRef={containerRef} />;
   }
 
   if (session?.status === 'authenticated') {

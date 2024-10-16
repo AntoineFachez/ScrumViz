@@ -32,6 +32,7 @@ import { scheme, singleItemScheme } from './dataScheme';
 import { useMode } from '@/app/theme/ThemeContext';
 import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
 import SprintsContext from '../sprints/SprintsContext';
+import SimpleDialog from '@/app/components/dialog/Dialog';
 
 export default function SprintPlannings({
   widget,
@@ -59,6 +60,8 @@ export default function SprintPlannings({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     displaySprintPlannings,
     setDisplaySprintPlannings,
     selectedSprintPlannings,
@@ -67,6 +70,8 @@ export default function SprintPlannings({
     setSprintPlanningInFocus,
     handleNewSprintPlanning,
     handleFindSprintPlannings,
+    handleOpenNewItem,
+    handleCloseNewItem,
   } = useContext(SprintPlanningsContext);
   const { displayProductBackLogs, setSelectedProductBackLogs } = useContext(
     ProductBackLogsContext
@@ -117,18 +122,9 @@ export default function SprintPlannings({
   const collection = 'sprintPlannings';
   const widgetProps = {
     iconButton: <Schedule />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetSprintPlanningInFocus,
+    tooltipTitle_newItem: 'Create new Sprint Planning',
+    collection_context_title: 'Sprint Planning',
+    dialogTitle: 'Create new Sprint Planning',
     data: selectedSprintPlannings,
     selectedData: selectedSprintPlannings,
     setSelectedItem: setSelectedSprintPlannings,
@@ -136,33 +132,45 @@ export default function SprintPlannings({
       selector: 'sprintPlanningsSelector',
       selected: 'selectedSprintPlanning',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: sprintPlanningInFocus,
+    handleSetItemInFocus: handleSetSprintPlanningInFocus,
+
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
     orderedBy: '',
-    tooltipTitle_newItem: 'Create new Sprint Planning',
-    onClickNewItem: () => handleNewSprintPlanning(),
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-    handleClickCustomArrayItem: handleClickCustomArrayItem,
   };
   // useEffect(() => {
   //   const foundSprintPlannings = displaySprintPlannings.filter(
@@ -249,37 +257,16 @@ export default function SprintPlannings({
       <StandInTable />
     </Box>
   );
-  const flexList = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      {/* UserStory MultiItems */}
 
-      <MultiItems
-        uiContext={uiContext}
-        singleItemScheme={singleItemScheme}
-        selectedWidgetContext={selectedWidgetContext}
-        itemContext={widgetProps?.itemContext}
-        setActiveSearchTerm={setActiveSearchTerm}
-        handleSetItemInFocus={widgetProps?.handleSetItemInFocus}
-        customElement={null}
-        alertElement={null}
-        data={widgetProps?.data}
-        selectedData={widgetProps?.selectedData}
-        setSelectedItem={widgetProps?.setSelectedItem}
-        selector={widgetProps?.selector}
-        itemInFocus={widgetProps?.itemInFocus}
-        styled={styled}
-      />
-    </Box>
-  );
-
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -290,6 +277,7 @@ export default function SprintPlannings({
 
         tree={tree}
         // flexList={flexList}
+        multiItems={multiItems}
       />
     </>
   );

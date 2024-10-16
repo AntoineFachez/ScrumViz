@@ -9,15 +9,18 @@ import QuickMenu from './QuickMenu';
 import { themeSettings, useMode } from '../../theme/ThemeContext';
 import SingleItem from './singleItem/SingleItem';
 import MultiItems from './MultiItems';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import NewItem from './NewItem';
+import StandInTable from '@/app/components/table/StandInTable';
 
 const WidgetIndexTemplate = ({
   widgetProps,
-  newItem,
+  // newItem,
   soloWidget,
-  table,
+  // table,
   // singleItem,
   tree,
-  flexList,
+  // multiItems,
   vertical,
   inputField,
   horizontal,
@@ -44,6 +47,31 @@ const WidgetIndexTemplate = ({
 
   const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   const singleItem = <SingleItem widgetProps={widgetProps} styled={styled} />;
+  const newItem = <NewItem widgetProps={widgetProps} styled={styled} />;
+  const newItemDialogue = (
+    <SimpleDialog
+      widgetProps={{
+        ...widgetProps,
+        dialogCustomComponent: (
+          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
+            <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
+            {newItem}
+          </Box>
+        ),
+      }}
+    />
+  );
+  const table = (
+    <Box
+      className="widget"
+      sx={{
+        ...styled.widget,
+        // backgroundColor: '#555',
+      }}
+    >
+      <StandInTable />
+    </Box>
+  );
   return (
     <>
       {contextToolBar === 'navBar' ? (
@@ -92,12 +120,13 @@ const WidgetIndexTemplate = ({
                       <Box
                         sx={{
                           width: '100%',
+                          height: 'fit-content',
                           display: 'flex',
                           flexFlow: 'row nowrap',
-                          justifyContent: 'space-around',
+                          // justifyContent: 'center',
+                          alignItems: 'center',
                         }}
                       >
-                        {widgetProps.collection}
                         <QuickMenu widgetProps={widgetProps} styled={styled} />
                       </Box>
                     </>
@@ -105,6 +134,12 @@ const WidgetIndexTemplate = ({
                   {widgetProps.hasWidgetMenu && (
                     <WidgetMenu widgetProps={widgetProps} />
                   )}
+                  {/* <Typography
+                    sx={{ paddingLeft: '2rem', backgroundColor: 'black' }}
+                  >
+                    {widgetProps.collection}
+                  </Typography> */}
+                  {newItemDialogue}
                   {isFiltered && (
                     <Button
                       className="widgetMenuButton"
@@ -112,7 +147,7 @@ const WidgetIndexTemplate = ({
                     >
                       Resetter
                     </Button>
-                  )}
+                  )}{' '}
                   {widgetContext === 'horizontal' ? (
                     <>{horizontal}</>
                   ) : widgetContext === 'vertical' ? (

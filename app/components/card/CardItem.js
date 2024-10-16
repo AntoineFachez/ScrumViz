@@ -14,6 +14,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CardItemHeader from './CardItemHeader';
 import { stringAvatar } from '@/utils/colorHelpers';
+import { BookmarkAdd } from '@mui/icons-material';
 // import { getContrastColor } from "../../utils/colorFunctions";
 // import moment from 'moment';
 
@@ -57,7 +58,6 @@ export default function CardItem({
       // handleExpandClick();
     };
   }, [itemInFocus]);
-
   return (
     <Card
       sx={isSelected ? styled.card.selected : { ...styled?.card }}
@@ -67,6 +67,7 @@ export default function CardItem({
       // variant="outlined"
     >
       <CardItemHeader
+        widgetProps={widgetProps}
         item={item}
         itemContext={itemContext}
         isSelected={isSelected}
@@ -135,12 +136,12 @@ export default function CardItem({
       </Collapse>{' '}
       <CardActions disableSpacing sx={{ margin: 0, padding: 0 }}>
         {' '}
-        <IconButton
+        {/* <IconButton
           aria-label="add to favorites"
           sx={styled?.iconButton?.action}
         >
-          <FavoriteIcon />
-        </IconButton>
+          <BookmarkAdd />
+        </IconButton> */}
         <IconButton aria-label="share" sx={styled?.iconButton?.action}>
           <ShareIcon />
         </IconButton>{' '}

@@ -8,6 +8,7 @@ const TeamMembersContext = createContext();
 
 export const TeamMembersProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displayTeamMembers, setDisplayTeamMembers] =
     useState(scrumTeamMembers);
   const [selectedTeamMembers, setSelectedTeamMembers] =
@@ -15,7 +16,16 @@ export const TeamMembersProvider = ({ children }) => {
   const [teamMemberInFocus, setTeamMemberInFocus] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
+  const handleOpenNewItem = async () => {
+    console.log('handleNewTeamMembers');
+    // setSelectedWidgetContext('newItem');
+    setShowNewItem(true);
+  };
+  const handleCloseNewItem = () => {
+    console.log('handleCloseNewTeamMembers');
 
+    setShowNewItem(false);
+  };
   useEffect(() => {
     setSelectedTeamMembers(
       displayTeamMembers.filter((member) =>
@@ -35,6 +45,8 @@ export const TeamMembersProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displayTeamMembers,
         setDisplayTeamMembers,
         selectedTeamMembers,
@@ -43,6 +55,8 @@ export const TeamMembersProvider = ({ children }) => {
         setTeamMemberInFocus,
         searchTerm,
         setSearchTerm,
+        handleOpenNewItem,
+        handleCloseNewItem,
       }}
     >
       {children}

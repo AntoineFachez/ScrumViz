@@ -12,10 +12,18 @@ import UserStoriesContext from '../userStories/UserStoriesContext';
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 import StandInTable from '@/app/components/table/StandInTable';
 
-import { singleItemScheme } from './dataScheme';
-import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
+import { singleItemScheme, scheme } from './dataScheme';
+import {
+  handleSearchTermChange,
+  handleSelectWidgetContext,
+  handleSetItemInFocus,
+  handleOpenNewItem,
+  handleCloseNewItem,
+} from '../actions';
 import { useMode } from '@/app/theme/ThemeContext';
 import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
+import SimpleDialog from '@/app/components/dialog/Dialog';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
 export default function SprintBackLogs({
   widget,
@@ -31,6 +39,8 @@ export default function SprintBackLogs({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     displaySprintBackLogs,
     setDisplaySprintBackLogs,
     selectedSprintBackLogs,
@@ -72,18 +82,9 @@ export default function SprintBackLogs({
   const collection = 'sprintBackLogs';
   const widgetProps = {
     iconButton: <AddToQueue />,
-    widget: widget,
-    appContext: appContext,
-    uiContext: uiContext,
-    uiGridMapContext: uiGridMapContext,
-    setUiGridMapContext: setUiGridMapContext,
-    widgetContext: selectedWidgetContext,
-    contextToolBar: contextToolBar,
-    hasWidgetMenu: true,
-    hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    handleSetItemInFocus: handleSetBackLogInFocus,
+    tooltipTitle_newItem: 'Create new Sprint BackLog',
+    collection_context_title: 'Sprint BackLogs',
+    dialogTitle: 'Create new Sprint BackLog',
     data: selectedSprintBackLogs,
     selectedData: selectedSprintBackLogs,
     setSelectedItem: setSelectedSprintBackLogs,
@@ -91,29 +92,43 @@ export default function SprintBackLogs({
       selector: 'sprintBackLogsSelector',
       selected: 'selectedSprintBackLog',
     },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
     itemInFocus: sprintBackLogInFocus,
-    orderedBy: '',
+    handleSetItemInFocus: handleSetBackLogInFocus,
 
-    onClick: () => {
-      setUiGridMapContext('sprintBackLogs');
-      return;
-    },
+    appContext: appContext,
+    collection: collection,
+    scheme: scheme,
+    uiContext: uiContext,
+    dropWidgetName: collection,
+    uiGridMapContext: uiGridMapContext,
+    setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
+    widgetContext: selectedWidgetContext,
+    contextToolBar: contextToolBar,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
-        // widgetProps: widgetProps,
       },
       functions: {
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
@@ -206,8 +221,15 @@ export default function SprintBackLogs({
     </Box>
   );
 
+  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: multiItems,
+        }}
+      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -215,6 +237,7 @@ export default function SprintBackLogs({
         soloWidget={soloWidget}
         table={table}
         tree={tree}
+        multiItems={multiItems}
       />
     </>
   );
