@@ -5,17 +5,15 @@ import { Add, Backup, Chat } from '@mui/icons-material';
 import AppContext from '@/context/AppContext';
 import ChatsContext from './ChatsContext';
 import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
+import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
 // import UserContext from '@/context/UserContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
+import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 
-import AIModelSelector from './gemini/AIModelSelector';
-import ChatInFocus from './ChatInFocus';
-import ChatMessage from './ChatMessage';
-
+import { singleItemScheme, singleItemSchemeChat, scheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
@@ -23,21 +21,18 @@ import {
   handleOpenNewItem,
   handleCloseNewItem,
 } from '../actions';
-import { useMode } from '@/app/theme/ThemeContext';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-// import SliderComponent from '@/app/components/slider/Slider';
-
-import { singleItemScheme, singleItemSchemeChat, scheme } from './dataScheme';
-import ChatInputField from './ChatInputField';
-import SettingsAndMenu from './SettingsAndMenu';
-
 import { runChat } from './functions/apiFunctions';
 import { handleStoreChat } from './functions/dbFunctions';
 
-import './ChatInFocus.scss';
-import InFocusContext from '@/context/InFocusContext';
-import NewItem from '@/app/uiItems/widgetItems/NewItem';
+import AIModelSelector from './gemini/AIModelSelector';
+import ChatInFocus from './ChatInFocus';
+import ChatInputField from './ChatInputField';
+import ChatMessage from './ChatMessage';
+import SettingsAndMenu from './SettingsAndMenu';
 import SimpleDialog from '@/app/components/dialog/Dialog';
+
+import { useMode } from '@/app/theme/ThemeContext';
+import './ChatInFocus.scss';
 
 export default function ChatsWidget({
   widget,

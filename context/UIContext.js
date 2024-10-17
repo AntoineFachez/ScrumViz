@@ -28,6 +28,7 @@ import {
   widgetListScrumTeams,
   widgetListProductBackLogs,
 } from '@/app/uiItems/navBar/navBarWidgetList';
+import { Box } from '@mui/material';
 const UIContext = createContext();
 
 export const UIProvider = ({ children }) => {
@@ -37,6 +38,15 @@ export const UIProvider = ({ children }) => {
   const [showWidgetMenus, setShowWidgetMenus] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [toggleBG, setToggleBG] = useState(false);
+  const [drawerMenu, setDrawerMenu] = useState(null);
+  const [drawerFloorElement, setDrawerFloorElement] = useState(null);
+  const [orientationDrawer, setOrientationDrawer] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+  console.log(orientationDrawer);
   const [imageUrlArr, setImageUrlArr] = useState([]);
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
@@ -46,7 +56,7 @@ export const UIProvider = ({ children }) => {
     useState(showWidgetMenus);
   const [sliderSize, setSliderSize] = useState('small');
 
-  const toggleDrawer = (anchor, open) => (event) => {
+  const handleToggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === 'keydown' &&
       (event.key === 'Tab' || event.key === 'Shift')
@@ -59,6 +69,10 @@ export const UIProvider = ({ children }) => {
     setShowDialog(false);
     //  setSelectedValue(value);
   };
+  const handleGoBack = () => {
+    console.log('handleGoBack');
+  };
+
   useEffect(() => {
     setNavBarWidgetList(() => {
       switch (appContext) {
@@ -166,6 +180,12 @@ export const UIProvider = ({ children }) => {
         setShowDialog,
         toggleBG,
         setToggleBG,
+        orientationDrawer,
+        setOrientationDrawer,
+        drawerMenu,
+        setDrawerMenu,
+        drawerFloorElement,
+        setDrawerFloorElement,
         // showProductsItemMenu,
         // setShowProductsItemMenu,
         // showUserStoryMenu,
@@ -204,6 +224,8 @@ export const UIProvider = ({ children }) => {
         sliderSize,
         setSliderSize,
         handleCloseDialog,
+        handleToggleDrawer,
+        handleGoBack,
       }}
     >
       {children}
