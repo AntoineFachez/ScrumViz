@@ -1,5 +1,12 @@
 'use client';
-import React, { Fragment, useContext, useRef, useState } from 'react';
+import React, {
+  Fragment,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import SketchWrapper from '../p5/neonText/SketchWrapper';
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { Add, WidthWide } from '@mui/icons-material';
@@ -19,9 +26,13 @@ import { handleCloseNewItem } from '../widgets/actions';
 import { handleNewProductBackLog } from '../widgets/productBacklogs/functions/dbFunctions';
 import ChatInFocus from '../widgets/chats/Index';
 import AppContext from '@/context/AppContext';
+import UIContext from '@/context/UIContext';
+import DefaultPromptsContext from '../widgets/defaultPrompts/DefaultPromptsContext';
 
 export default function Home() {
-  const [theme, colorMode, palette, styled] = useMode();
+  const { setAppContext, setUiGridMapContext } = useContext(AppContext);
+  const { orientationDrawer, setDrawerMenu, setDrawerFloorElement } =
+    useContext(UIContext);
   const {
     showNewItem,
     setShowNewItem,
@@ -35,7 +46,10 @@ export default function Home() {
     handleNewItem,
     scheme,
   } = useContext(ProductBackLogsContext);
-  const { setAppContext, setUiGridMapContext } = useContext(AppContext);
+  const { promptTextInFocus, setPromptTextInFocus } = useContext(
+    DefaultPromptsContext
+  );
+  const [theme, colorMode, palette, styled] = useMode();
 
   const collection = 'productBackLogs';
   const widgetProps = {
@@ -92,63 +106,83 @@ export default function Home() {
       styled={styled}
     />
   );
-  const newItemDialogue = (
-    <SimpleDialog
-      widgetProps={{
-        ...widgetProps,
-        dialogCustomComponent: (
-          <Box
-            sx={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              flexFlow: 'column',
-              paddingRight: '1rem',
-            }}
-            className="widget"
-          >
-            {' '}
-            <Box
-              sx={{
-                width: '100%',
-                height: '100%',
-                // maxHeight: '100%',
-                display: 'flex',
-                flexFlow: 'column',
-                overflow: 'scroll',
-              }}
-            >
-              {newItem}
-            </Box>{' '}
-            {/* <Box sx={{ width: '100%', maxWidth: '25ch' }}></Box> */}
-            <ChatInFocus startUpWidgetLayout="vertical" />{' '}
-            <Box
-              sx={{
-                position: 'sticky',
-                bottom: 0,
-                width: '100%',
-                height: '10rem',
-                display: 'flex',
-                flexFlow: 'column',
-                overflow: 'scroll',
-              }}
-            >
-              <ChatInFocus startUpWidgetLayout="inputField" />
-            </Box>
-          </Box>
-        ),
-        // customMenu: [
-        //   <Button
-        //     key="button1"
-        //     onClick={handleSaveNewProduct}
-        //     sx={{ display: 'flex' }}
-        //   >
-        //     Save
-        //   </Button>,
-        // ],
-      }}
-    />
+  const promptOnNewProduct =
+    "lets talk about scrum management and user stories. Here is a layout for a digital product: <standInForProduct>. Please return the three most common user stories for such a product. Please keep in mind that I will later share my scrum team and ask you to develop sprints for these user stories. Return the three user stories I asked for as an array of json objects. The data structure of these user stories / for the json objects you shall return is as follows (find further instructions in parenthese such as 'generate uniqueUUID'):  <standInForDataScheme>   ";
+  const standInForProduct =
+    'product_name: Mushroom App, product_description: Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article';
+  const standDataScheme =
+    "[{id: 'generate a unique UUiD', userStory_name: 'generate a meaningful name', userStory_short:'generate the story similar to: 'As a user, I … '', acceptanceCriteria: [{acceptanceCriteria_id: 'generate a Unique UUID for each criteria',acceptanceCriteria_description: 'generate meaningful criteria description',}, ],writtenByTeamMember_id: 'ignore',wireFrame_uri:'ignore', },";
+
+  function createPrompt(
+    promptOnNewProduct,
+    standInForProduct,
+    standDataScheme
+  ) {
+    const description = promptOnNewProduct
+      .replace('<standInForProduct>', `**${standInForProduct}**`)
+      .replace('<standInForDataScheme>', `\`${standDataScheme}\``);
+
+    const defaultPrompt = {
+      id: uuidv4(),
+      title: 'develop user stories for this digital product',
+      description: description,
+      source_collection: 'productBackLogs',
+      target_collection: 'userStories',
+    };
+
+    return defaultPrompt;
+  }
+
+  const generatedPrompt = createPrompt(
+    promptOnNewProduct,
+    standInForProduct,
+    standDataScheme
   );
+
+  const dialogCustomComponent = (
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexFlow: 'row',
+        // paddingRight: '1rem',
+      }}
+      className="widget"
+    >
+      <Box
+        sx={{
+          width: '60ch',
+          height: '100%',
+          display: 'flex',
+          flexFlow: 'row',
+          // paddingRight: '1rem',
+        }}
+      >
+        {newItem}
+      </Box>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexFlow: 'column',
+          // paddingRight: '1rem',
+        }}
+      >
+        <ChatInFocus startUpWidgetLayout="vertical" />{' '}
+        <ChatInFocus startUpWidgetLayout="inputField" />
+      </Box>
+    </Box>
+  );
+
+  useEffect(() => {
+    setDrawerMenu(<Box sx={{ width: '100%' }}>drawerMenu</Box>);
+    setDrawerFloorElement(dialogCustomComponent);
+    setPromptTextInFocus(generatedPrompt);
+    return () => {};
+  }, [orientationDrawer]);
+
   return (
     <Box
       sx={{
@@ -255,7 +289,7 @@ export default function Home() {
             );
           })}
       </Paper>
-      {newItemDialogue}{' '}
+      {/* {newItemDialogue}{' '} */}
     </Box>
   );
 }
