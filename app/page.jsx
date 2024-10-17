@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Box, Button, Paper } from '@mui/material';
+import { Box, Button, IconButton, Paper } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ToastContainer } from 'react-toastify';
 import { SessionProvider } from 'next-auth/react';
@@ -22,12 +22,21 @@ import GreetingText from './components/greetingText/GreetingText';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useMode } from './theme/ThemeContext';
+import TemporaryDrawer from './components/drawer/Index';
+import { Menu, ViewSidebar } from '@mui/icons-material';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
   const { appContext } = useContext(AppContext);
   const { signInLoading } = useContext(AuthContext);
-  const { showDialog, setShowDialog } = useContext(UIContext);
+  const {
+    showDialog,
+    setShowDialog,
+    handleToggleDrawer,
+    drawerMenu,
+    drawerFloorElement,
+    handleGoBack,
+  } = useContext(UIContext);
   const [theme, colorMode, palette, styled] = useMode();
 
   const uiElements = () => {
@@ -78,8 +87,7 @@ export default function BasePage({ session }) {
           {user ? (
             <>
               <>
-                <NavBar />
-                {uiElements()}
+                <NavBar /> {uiElements()}
               </>
             </>
           ) : (
@@ -102,7 +110,13 @@ export default function BasePage({ session }) {
                 </Box>
               )}
             </>
-          )}
+          )}{' '}
+          <TemporaryDrawer
+            drawerMenu={drawerMenu}
+            handleGoBack={handleGoBack}
+            drawerFloorElement={drawerFloorElement}
+            styled={styled}
+          />
           <ToastContainer />
         </ThemeProvider>{' '}
       </Box>
