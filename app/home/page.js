@@ -7,32 +7,48 @@ import React, {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import SketchWrapper from '../p5/neonText/SketchWrapper';
-import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
-import { Add, WidthWide } from '@mui/icons-material';
-import { useMode } from '../theme/ThemeContext';
+import { Add, ArrowBack, Close, Menu, WidthWide } from '@mui/icons-material';
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Paper,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+
 import ProductBackLogsContext from '../widgets/productBacklogs/ProductBackLogsContext';
-import CardItem from '../components/card/CardItem';
+import AppContext from '@/context/AppContext';
+import UIContext from '@/context/UIContext';
+import PromptsContext from '../widgets/prompts/PromptsContext';
 // import Profile from '../profile/page';
 // import { useSession } from 'next-auth/react';
+
+import SketchWrapper from '../p5/neonText/SketchWrapper';
+import CardItem from '../components/card/CardItem';
+import ChatInFocus from '../widgets/chats/Index';
+import EnvProductionIcon from '../components/icons/EnvProductionIcon';
+import SimpleDialog from '../components/dialog/Dialog';
+import NewItem from '../uiItems/widgetItems/NewItem';
+
 import {
   scheme,
   singleItemScheme,
 } from '../widgets/productBacklogs/dataScheme';
-import EnvProductionIcon from '../components/icons/EnvProductionIcon';
-import SimpleDialog from '../components/dialog/Dialog';
-import NewItem from '../uiItems/widgetItems/NewItem';
 import { handleCloseNewItem } from '../widgets/actions';
 import { handleNewProductBackLog } from '../widgets/productBacklogs/functions/dbFunctions';
-import ChatInFocus from '../widgets/chats/Index';
-import AppContext from '@/context/AppContext';
-import UIContext from '@/context/UIContext';
-import DefaultPromptsContext from '../widgets/defaultPrompts/DefaultPromptsContext';
+
+import { useMode } from '../theme/ThemeContext';
 
 export default function Home() {
   const { setAppContext, setUiGridMapContext } = useContext(AppContext);
-  const { orientationDrawer, setDrawerMenu, setDrawerFloorElement } =
-    useContext(UIContext);
+  const {
+    orientationDrawer,
+    setDrawerMenu,
+    setDrawerFloorElement,
+    handleToggleDrawer,
+  } = useContext(UIContext);
   const {
     showNewItem,
     setShowNewItem,
@@ -41,19 +57,20 @@ export default function Home() {
     setDisplayProductBackLogs,
     selectedProductBackLogs,
     setSelectedProductBackLogs,
+    productBackLogInFocus,
     setProductBackLogInFocus,
     handleSetProductBackLogInFocus,
     handleNewItem,
     scheme,
   } = useContext(ProductBackLogsContext);
-  const { promptTextInFocus, setPromptTextInFocus } = useContext(
-    DefaultPromptsContext
-  );
+  const { promptInFocus, setPromptInFocus, handleOnChangeAdoptPrompt } =
+    useContext(PromptsContext);
   const [theme, colorMode, palette, styled] = useMode();
 
   const collection = 'productBackLogs';
   const widgetProps = {
     collection: collection,
+    tooltipTitle_clearFields: 'clear fields',
     handleSetItemInFocus: handleSetProductBackLogInFocus,
     data: selectedProductBackLogs,
     selectedData: selectedProductBackLogs,
@@ -70,20 +87,16 @@ export default function Home() {
       setUiGridMapContext('userStories');
     },
     // handleSaveNewProduct: handleSaveNewProduct,
-    itemInFocus: {
-      product_name: 'Mushroom App',
-      status: 'in developement',
-      description:
-        'Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article.',
-      productBackLog_items: '',
-    },
+    itemInFocus: productBackLogInFocus,
   };
   const handleClickNewProduct = () => {
+    // handleToggleDrawer('left', true);
     handleNewItem();
     console.log('clicked');
   };
   const [dataToStore, setDataToStore] = useState({});
   const [formData, setFormData] = useState({});
+
   const handleSaveNewProduct = (dataToStore) => {
     console.log('handleSaveNewProduct', dataToStore);
     // handleNewProductBackLog();
@@ -96,69 +109,61 @@ export default function Home() {
     );
   };
   const newItem = (
-    <NewItem
-      widgetProps={widgetProps}
-      dataToStore={dataToStore}
-      setDataToStore={setDataToStore}
-      formData={formData}
-      setFormData={setFormData}
-      handleSaveNewProduct={handleSaveNewProduct}
-      styled={styled}
-    />
-  );
-  const promptOnNewProduct =
-    "lets talk about scrum management and user stories. Here is a layout for a digital product: <standInForProduct>. Please return the three most common user stories for such a product. Please keep in mind that I will later share my scrum team and ask you to develop sprints for these user stories. Return the three user stories I asked for as an array of json objects. The data structure of these user stories / for the json objects you shall return is as follows (find further instructions in parenthese such as 'generate uniqueUUID'):  <standInForDataScheme>   ";
-  const standInForProduct =
-    'product_name: Mushroom App, product_description: Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article';
-  const standDataScheme =
-    "[{id: 'generate a unique UUiD', userStory_name: 'generate a meaningful name', userStory_short:'generate the story similar to: 'As a user, I … '', acceptanceCriteria: [{acceptanceCriteria_id: 'generate a Unique UUID for each criteria',acceptanceCriteria_description: 'generate meaningful criteria description',}, ],writtenByTeamMember_id: 'ignore',wireFrame_uri:'ignore', },";
-
-  function createPrompt(
-    promptOnNewProduct,
-    standInForProduct,
-    standDataScheme
-  ) {
-    const description = promptOnNewProduct
-      .replace('<standInForProduct>', `**${standInForProduct}**`)
-      .replace('<standInForDataScheme>', `\`${standDataScheme}\``);
-
-    const defaultPrompt = {
-      id: uuidv4(),
-      title: 'develop user stories for this digital product',
-      description: description,
-      source_collection: 'productBackLogs',
-      target_collection: 'userStories',
-    };
-
-    return defaultPrompt;
-  }
-
-  const generatedPrompt = createPrompt(
-    promptOnNewProduct,
-    standInForProduct,
-    standDataScheme
+    <>
+      <NewItem
+        widgetProps={widgetProps}
+        dataToStore={dataToStore}
+        setDataToStore={setDataToStore}
+        formData={formData}
+        setFormData={setFormData}
+        handleOnChangeAdoptPrompt={handleOnChangeAdoptPrompt}
+        handleSaveNewProduct={handleSaveNewProduct}
+        styled={styled}
+      />
+    </>
   );
 
   const dialogCustomComponent = (
     <Box
+      className="widget"
       sx={{
         width: '100%',
         height: '100%',
         display: 'flex',
         flexFlow: 'row',
         // paddingRight: '1rem',
+        backgroundColor: '#333433',
       }}
-      className="widget"
     >
+      {' '}
       <Box
+        className="newItem"
         sx={{
+          // ...styled?.widget,
           width: '60ch',
+
+          // width: '100%',
           height: '100%',
           display: 'flex',
-          flexFlow: 'row',
+          flexFlow: 'column',
           // paddingRight: '1rem',
         }}
       >
+        <Box sx={styled.spacesMenu} className="quickMenu">
+          <Tooltip
+            title={widgetProps.tooltipTitle_clearFields}
+            placement="top"
+            arrow
+          >
+            <IconButton
+              onClick={() => setProductBackLogInFocus({})}
+              sx={{ ...styled?.iconButton?.action }}
+            >
+              <Close />
+            </IconButton>
+          </Tooltip>
+        </Box>
+
         {newItem}
       </Box>
       <Box
@@ -171,15 +176,45 @@ export default function Home() {
         }}
       >
         <ChatInFocus startUpWidgetLayout="vertical" />{' '}
-        <ChatInFocus startUpWidgetLayout="inputField" />
+        <Box
+          sx={{
+            width: '100%',
+            height: 'fit-content',
+            display: 'flex',
+            flexFlow: 'column',
+            // paddingRight: '1rem',
+          }}
+        >
+          <ChatInFocus startUpWidgetLayout="inputField" />
+        </Box>
       </Box>
     </Box>
   );
 
   useEffect(() => {
-    setDrawerMenu(<Box sx={{ width: '100%' }}>drawerMenu</Box>);
+    setDrawerMenu(
+      <Box
+        sx={{ ...styled.spacesMenu, flexFlow: 'row' }}
+        className="widgetMenu"
+      >
+        <Box className="quickMenu" sx={styled.quickMenu}>
+          <IconButton
+            onClick={handleToggleDrawer('right', false)}
+            sx={{ ...styled?.iconButton?.action }}
+          >
+            <Menu />
+          </IconButton>
+          <IconButton
+            onClick={() => handleGoBack('')}
+            sx={{ ...styled?.iconButton?.action }}
+          >
+            <ArrowBack />
+          </IconButton>
+        </Box>
+        <Typography>drawerMenu</Typography>
+      </Box>
+    );
     setDrawerFloorElement(dialogCustomComponent);
-    setPromptTextInFocus(generatedPrompt);
     return () => {};
   }, [orientationDrawer]);
 
@@ -225,12 +260,20 @@ export default function Home() {
               '-1px 0 0 red, 0 1px 0 yellow, 1px 0 0 green, 0 -1px 0 blue',
           }}
         >
-          {' '}
           <IconButton
-            onClick={handleClickNewProduct}
-            sx={{
-              ...styled?.iconButton?.action,
-            }}
+            onClick={
+              // () => {
+              //   toggleDrawer("left", true);
+              //   return toggleDrawer("left", true);
+              // }
+              handleToggleDrawer('right', true)
+            }
+            sx={styled?.iconButton?.action}
+            // sx={
+            //   selectedWidgetContext === 'drawer'
+            //     ? styled?.iconButton?.active
+            //     : styled?.iconButton?.inactive
+            // }
           >
             <Add
               sx={{
@@ -239,6 +282,7 @@ export default function Home() {
               }}
             />
           </IconButton>
+
           <Typography
             sx={{
               ...styled.subTitle,

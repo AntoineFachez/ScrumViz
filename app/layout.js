@@ -22,7 +22,7 @@ import { ChatsProvider } from './widgets/chats/ChatsContext';
 import { UserProvider } from '@/context/UserContext';
 import { NavBarProvider } from './widgets/navBar/NavBarContext';
 import { DefaultValuesProvider } from '@/context/DefaultValuesContext';
-import { DefaultPromptsProvider } from './widgets/defaultPrompts/DefaultPromptsContext';
+import { PromptsProvider } from './widgets/prompts/PromptsContext';
 import { InFocusProvider } from '@/context/InFocusContext';
 import { ProductsProvider } from './widgets/products/ProductsContext';
 import { ImageDropZoneProvider } from './widgets/imageDropZone/ImageDropZoneContext';
@@ -105,12 +105,12 @@ export default function RootLayout({ children, session }) {
                                                   <SprintPlanningsProvider>
                                                     <SprintRetrospectivesProvider>
                                                       <ScrumManagerProvider>
-                                                        <DefaultPromptsProvider>
+                                                        <PromptsProvider>
                                                           <ChatsProvider>
                                                             {' '}
                                                             {children}
                                                           </ChatsProvider>
-                                                        </DefaultPromptsProvider>
+                                                        </PromptsProvider>
                                                       </ScrumManagerProvider>
                                                     </SprintRetrospectivesProvider>
                                                   </SprintPlanningsProvider>

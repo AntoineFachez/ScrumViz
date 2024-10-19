@@ -34,9 +34,9 @@ export default function TemporaryDrawer({
         }}
         role="presentation"
       >
-        <Divider />
+        {/* <Divider /> */}
         {drawerFloorElement}
-        <Divider />
+        {/* <Divider /> */}
       </Box>
     );
   };
@@ -54,7 +54,7 @@ export default function TemporaryDrawer({
 
   return (
     <>
-      {['left'].map((anchor, i) => {
+      {['right'].map((anchor, i) => {
         return (
           <>
             {/* <IconButton
@@ -80,7 +80,7 @@ export default function TemporaryDrawer({
               onClose={handleToggleDrawer(anchor, false)}
               sx={{
                 '& .MuiDrawer-paper': {
-                  width: anchor === 'left' ? 'fit-content' : null,
+                  width: anchor === 'left' ? 'fit-content' : 'fit-content',
                   marginTop: '3rem',
                   paddingBottom: '3rem',
                   height: '100%',
@@ -91,21 +91,7 @@ export default function TemporaryDrawer({
                 },
               }}
             >
-              <Box sx={styled?.widgetMenu}>
-                <IconButton
-                  onClick={handleToggleDrawer(anchor, false)}
-                  sx={styled?.iconButtonMenu?.active}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => handleGoBack('')}
-                  sx={styled?.iconButtonMenu?.active}
-                >
-                  <ArrowBack />
-                </IconButton>
-                {drawerMenu}
-              </Box>
+              {drawerMenu}
               {list(anchor)}
             </Drawer>
           </>
