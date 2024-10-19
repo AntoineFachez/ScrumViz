@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import { DateRange } from '@mui/icons-material';
+import { Add, DateRange } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
@@ -36,6 +36,8 @@ export default function AcceptanceCriteria({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     selectedDailies,
     setSelectedDailies,
     acceptanceCriteriaInFocus,
@@ -58,30 +60,43 @@ export default function AcceptanceCriteria({
     tooltipTitle_newItem: 'Create new Acceptance Criteria',
     collection_context_title: 'Acceptance Criterias',
     dialogTitle: 'Create new Acceptance Criteria',
-    widget: widget,
+    selector: { selector: 'dailiesSelector', selected: 'selectedDailies' },
+    data: selectedDailies,
+    selectedData: selectedDailies,
+    setSelectedItem: setSelectedDailies,
+    itemInFocus: dailyInFocus,
+    handleSetItemInFocus: handlesetDailyInFocus,
+
     appContext: appContext,
+    collection: collection,
+    scheme: scheme,
     uiContext: uiContext,
+    dropWidgetName: collection,
     uiGridMapContext: uiGridMapContext,
     setUiGridMapContext: setUiGridMapContext,
+    widget: widget,
     widgetContext: selectedWidgetContext,
     contextToolBar: contextToolBar,
     hasWidgetMenu: true,
     hasQuickMenu: true,
-    itemContext: '',
-    collection: collection,
-    data: selectedDailies,
-    selectedData: selectedDailies,
-    setSelectedItem: setSelectedDailies,
-    selector: { selector: 'dailiesSelector', selected: 'selectedDailies' },
-    singleItemScheme: singleItemScheme,
-    dropWidgetName: collection,
-    orderedBy: '',
-    itemInFocus: dailyInFocus,
+    selectedWidgetContext: selectedWidgetContext,
+    setSelectedWidgetContext: setSelectedWidgetContext,
 
-    onClick: () => {
-      setUiGridMapContext(collection);
-      return;
-    },
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Acceptance Criteria',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
+    openDialogueState: showNewItem,
+    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
+
+    searchTerm: searchTerm,
+    setActiveSearchTerm: setActiveSearchTerm,
+    singleItemScheme: singleItemScheme,
+    orderedBy: '',
     menuProps: {
       states: {
         showMenu: showWidgetUIMenu,
@@ -90,13 +105,12 @@ export default function AcceptanceCriteria({
         handleShowMenu: setShowWidgetUIMenu,
       },
     },
-    selectedWidgetContext: selectedWidgetContext,
-    setSelectedWidgetContext: setSelectedWidgetContext,
+    onClick: () => setUiGridMapContext(collection),
+    handleSetItemInFocus: handleSetChatInFocus,
     handleSelectWidgetContext: handleSelectWidgetContext,
-    searchTerm: searchTerm,
+    // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
-    handleSetItemInFocus: handlesetDailyInFocus,
   };
 
   useEffect(() => {

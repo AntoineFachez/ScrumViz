@@ -12,7 +12,13 @@ export const DefaultValuesProvider = ({ children }) => {
     useState(7000);
   const [defaultMinPromptToken, setDefaultMinPromptToken] = useState(1000);
   const [defaultMaxPromptToken, setDefaultMaxPromptToken] = useState(20000);
-
+  const [exampleProduct, setExampleProduct] = useState({
+    product_name: 'Mushroom App',
+    status: 'in developement',
+    description:
+      'Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article.',
+    productBackLog_items: '',
+  });
   return (
     <DefaultValuesContext.Provider
       value={{
@@ -24,6 +30,8 @@ export const DefaultValuesProvider = ({ children }) => {
         setDefaultMinPromptToken,
         defaultMaxPromptToken,
         setDefaultMaxPromptToken,
+        exampleProduct,
+        setExampleProduct,
       }}
     >
       {children}

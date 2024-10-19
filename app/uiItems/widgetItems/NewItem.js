@@ -56,7 +56,7 @@ export default function NewItem({
   }, [anchorEl]);
 
   useEffect(() => {
-    handleOnChangeAdoptPrompt(formData);
+    if (handleOnChangeAdoptPrompt) handleOnChangeAdoptPrompt(formData);
 
     return () => {};
   }, [formData]);
@@ -92,23 +92,7 @@ export default function NewItem({
       component="form"
       onSubmit={handleSubmit}
       className="widget"
-      sx={
-        {
-          // ...styled.widget,
-          // width: '100%',
-          // display: 'flex',
-          // flexFlow: 'column nowrap',
-          // justifyContent: 'space-between',
-          // // gap: 1,
-          // p: 1,
-          // '& > :not(style)': { m: 0, width: '100%' },
-          // backgroundColor: '#eee',
-          // '& .MuiDialog-root': { width: '100%' },
-          // '& .MuiTextField-root': { width: '100%' },
-          // '& .MuiInputBase-root': { width: '100%' },
-          // '& .MuiInputBase-input': { width: '100%' },
-        }
-      }
+      sx={{}}
       noValidate
       autoComplete="off"
     >
@@ -120,15 +104,72 @@ export default function NewItem({
           justifyContent: 'space-between',
           gap: 1,
           p: 1,
-          // backgroundColor: '#333',
-          // '& .MuiInputLabel-sizeSmall': {
-          //   width: 'fit-content',
-          //   color: '#c2c2c2',
-          //   // backgroundColor: 'white',
-          // },
         }}
       >
-        {Object.keys(scheme).map((key, index) => (
+        {scheme.map((field, i) => (
+          <Box
+            key={i}
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexFlow: 'row nowrap',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <TextField
+              inputRef={inputRefs.current[i]}
+              required={field.required}
+              id={field.key}
+              label={field.key}
+              value={formData[field.key]}
+              defaultValue={field.content}
+              sx={styled.textFieldLarge}
+              size={styled.textFieldLarge.size}
+              variant={styled.textFieldLarge.variant}
+              multiline={field.key}
+              rows={(() => {
+                switch (field.key) {
+                  case 'description':
+                    return 8;
+                  case 'productBackLog_items':
+                    return 5;
+                  default:
+                    return 1;
+                }
+              })()}
+              onMouseUp={handleMouseUp}
+              onChange={(event) => handleChange(event, field.key)}
+            />{' '}
+            {field.key === 'id' && (
+              <IconButton
+                key="button1"
+                onClick={handleGenerateUUID}
+                sx={{ ...styled.iconButton.action }}
+              >
+                <Autorenew />
+              </IconButton>
+            )}
+            <Popper
+              id={idPoper}
+              open={open}
+              anchorEl={anchorEl}
+              transition
+              placement="bottom-start"
+            >
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps} timeout={350}>
+                  <Paper>
+                    <Typography sx={{ p: 2 }}>
+                      The content of the Popper.
+                    </Typography>
+                  </Paper>
+                </Fade>
+              )}
+            </Popper>
+          </Box>
+        ))}
+        {/* {Object.keys(scheme).map((key, index) => (
           <Box
             key={key}
             sx={{
@@ -139,8 +180,6 @@ export default function NewItem({
               alignItems: 'center',
             }}
           >
-            {' '}
-            {/* Wrap the TextField and Popper in a div */}
             <TextField
               inputRef={inputRefs.current[index]}
               onMouseUp={handleMouseUp}
@@ -192,7 +231,7 @@ export default function NewItem({
               )}
             </Popper>
           </Box>
-        ))}{' '}
+        ))} */}
       </Box>
       <Box sx={styled.signUpLogInCard.footer}>
         {' '}

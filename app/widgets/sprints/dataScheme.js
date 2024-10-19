@@ -8,16 +8,28 @@ export const fieldsAccordion = {
   imageDescr: 'imageDescription',
 };
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  scrum_id: '',
-  team_id: '',
-  sprint_name: '',
-  goal: '',
-  start_date: '',
-  end_date: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   scrum_id: '',
+//   team_id: '',
+//   sprint_name: '',
+//   goal: '',
+//   start_date: '',
+//   end_date: '',
+// };
+
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'scrum_id', required: true, content: '' },
+  { key: 'team_id', required: true, content: '' },
+  { key: 'sprint_name', required: true, content: '' },
+  { key: 'goal', required: true, content: '' },
+  { key: 'start_date', required: true, content: '' },
+  { key: 'end_date', required: true, content: '' },
+];
+
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

@@ -8,15 +8,25 @@ export const fieldsAccordion = {
   imageDescr: 'imageDescription',
 };
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  userStory_name: '',
-  userStory_short: '',
-  acceptanceCriteria: '',
-  writtenByTeamMember_id: '',
-  wireFrame_uri: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   userStory_name: '',
+//   userStory_short: '',
+//   acceptanceCriteria: '',
+//   writtenByTeamMember_id: '',
+//   wireFrame_uri: '',
+// };
+
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'userStory_name', required: true, content: '' },
+  { key: 'userStory_short', required: true, content: '' },
+  { key: 'acceptanceCriteria', required: true, content: '' },
+  { key: 'writtenByTeamMember_id', required: true, content: '' },
+  { key: 'wireFrame_uri', required: true, content: '' },
+];
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 

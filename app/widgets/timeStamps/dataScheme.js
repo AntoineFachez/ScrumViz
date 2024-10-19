@@ -7,12 +7,19 @@ export const fieldsAccordion = {
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
 };
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  start: '',
-  end: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   start: '',
+//   end: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'start', required: true, content: '' },
+  { key: 'end', required: true, content: '' },
+];
+
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

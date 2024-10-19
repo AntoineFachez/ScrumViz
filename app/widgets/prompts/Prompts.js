@@ -35,6 +35,7 @@ export default function DefaultPromptWidget({
     showWidgetUIMenu,
     setShowWidgetUIMenu,
     showNewItem,
+    setShowNewItem,
     selectedWidgetContext,
     setSelectedWidgetContext,
     selectedPrompts,
@@ -82,7 +83,14 @@ export default function DefaultPromptWidget({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Prompt',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
