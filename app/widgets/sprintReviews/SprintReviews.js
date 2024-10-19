@@ -1,6 +1,11 @@
 'use client';
 import { useContext, useState } from 'react';
-import { RateReview, Replay, SportsRugbyOutlined } from '@mui/icons-material';
+import {
+  Add,
+  RateReview,
+  Replay,
+  SportsRugbyOutlined,
+} from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -96,7 +101,14 @@ export default function SprintReviews({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Sprint Review',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

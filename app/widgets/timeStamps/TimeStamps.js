@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useState } from 'react';
-import { AddToQueue } from '@mui/icons-material';
+import { Add, AddToQueue } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -88,7 +88,14 @@ export default function TimeStamps({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Event',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

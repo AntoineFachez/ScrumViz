@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useState } from 'react';
-import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import { Add, Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -39,7 +39,8 @@ export default function Persons({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
-
+    showNewItem,
+    setShowNewItem,
     selectedPersons,
     setSelectedPersons,
     personInFocus,
@@ -81,7 +82,13 @@ export default function Persons({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Profile',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

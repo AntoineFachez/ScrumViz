@@ -47,7 +47,7 @@ export default function Media({ widgetProps, styled }) {
       ref={containerRef}
       sx={{ width: '100%', height: '100%', position: 'relative' }}
     >
-      <QuickMenu widgetProps={widgetProps} styled={styled} />
+      {/* <QuickMenu widgetProps={widgetProps} styled={styled} /> */}
       {itemInFocus[singleItemScheme.img_uri] ? (
         <>
           {' '}

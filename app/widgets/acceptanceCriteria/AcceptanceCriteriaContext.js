@@ -9,6 +9,7 @@ const AcceptanceCriteriaContext = createContext();
 
 export const AcceptanceCriteriaProvider = ({ children }) => {
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
+  const [showNewItem, setShowNewItem] = useState(false);
   const [displayAcceptanceCriteria, setDisplayAcceptanceCriteria] =
     useState(acceptanceCriteria);
   const [selectedAcceptanceCriteria, setSelectedAcceptanceCriteria] = useState(
@@ -58,6 +59,8 @@ export const AcceptanceCriteriaProvider = ({ children }) => {
       value={{
         showWidgetUIMenu,
         setShowWidgetUIMenu,
+        showNewItem,
+        setShowNewItem,
         displayAcceptanceCriteria,
         setDisplayAcceptanceCriteria,
         selectedAcceptanceCriteria,

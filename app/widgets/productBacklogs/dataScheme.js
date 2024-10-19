@@ -10,15 +10,27 @@ export const fieldsAccordion = {
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
-export const scheme = {
-  id: uuidv4(),
-  product_id: uuidv4(),
-  createdAt: new Date(),
-  product_name: '',
-  status: '',
-  description: '',
-  productBackLog_items: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   product_id: uuidv4(),
+//   createdAt: new Date(),
+//   product_name: '',
+//   status: '',
+//   description: '',
+//   productBackLog_items: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'product_id', required: false, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'product_name', required: true, content: '' },
+  { key: 'status', required: false, content: '' },
+  { key: 'description', required: false, content: '' },
+  { key: 'goal', required: false, content: '' },
+  { key: 'target_audience', required: false, content: '' },
+  { key: 'primary_actions', required: false, content: '' },
+  { key: 'productBackLog_items', required: false, content: '' },
+];
 export const singleItemScheme = {
   id: 'product_id',
   title: 'product_name',

@@ -1,21 +1,24 @@
-import { Add } from '@mui/icons-material';
-import { Box, IconButton, Tooltip } from '@mui/material';
 import React from 'react';
+import { Box, IconButton, Tooltip } from '@mui/material';
+import { Add } from '@mui/icons-material';
 
 export default function QuickMenu({ widgetProps, styled }) {
-  const { tooltipTitle_newItem, onClickNewItem } = widgetProps;
-  const quickMenu = (
-    <Box sx={styled.spacesMenu}>
-      <Tooltip title={tooltipTitle_newItem} placement="top" arrow>
-        <IconButton
-          className="widget"
-          sx={styled?.iconButton?.action}
-          onClick={onClickNewItem}
-        >
-          <Add />
-        </IconButton>
-      </Tooltip>
-    </Box>
-  );
+  const { quickMenuButtonArray } = widgetProps;
+
+  const quickMenu = quickMenuButtonArray.map((button, i) => (
+    <>
+      <Box sx={styled.spacesMenu}>
+        <Tooltip title={button.tooltip_title} placement="top" arrow>
+          <IconButton
+            className="widget"
+            sx={styled?.iconButton?.action}
+            onClick={button.onClickHandler}
+          >
+            <Add />
+          </IconButton>
+        </Tooltip>
+      </Box>
+    </>
+  ));
   return quickMenu;
 }

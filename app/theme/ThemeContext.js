@@ -179,6 +179,7 @@ export const themeSettings = (colorMode) => {
           },
           white: 'white',
           black: 'black',
+          placeholder: 'yellowgreen',
           action: colors.greenAccent[500],
           // active: colors.greenAccent[800],
           active: 'hotpink',
@@ -217,6 +218,7 @@ export const themeSettings = (colorMode) => {
           },
           white: 'white',
           black: 'black',
+          placeholder: 'yellowgreen',
           action: colors.greenAccent[500],
           // active: colors.greenAccent[400],
           active: 'hotpink',
@@ -1428,11 +1430,15 @@ const styled = (colorMode) => ({
     //   width: '100%',
     // },
     // '& .MuiInputBase-input': { width: '100%' },
-    // '& .MuiInputLabel-sizeSmall': {
-    //   width: 'fit-content',
-    //   color: 'white',
-    //   // backgroundColor: 'white',
-    // },
+    '& .MuiInputLabel-sizeSmall': {
+      width: 'fit-content',
+      color: themeSettings(colorMode).placeholder,
+      // backgroundColor: 'white',
+    },
+    '& .MuiFormLabel-asterisk': {
+      color: 'red',
+      // backgroundColor: 'white',
+    },
     // '.MuiFormControl:focus': {
     //   width: '100%',
     //   maxWidth: '100%',

@@ -7,14 +7,23 @@ export const fieldsAccordion = {
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
 };
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  userStory_id: '',
-  assignee: '',
-  description: '',
-  estimated_hours: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   userStory_id: '',
+//   assignee: '',
+//   description: '',
+//   estimated_hours: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'userStory_id', required: true, content: '' },
+  { key: 'assignee', required: true, content: '' },
+  { key: 'description', required: true, content: '' },
+  { key: 'estimated_hours', required: true, content: '' },
+];
+
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

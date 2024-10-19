@@ -60,6 +60,7 @@ export default function ChatsWidget({
     showWidgetUIMenu,
     setShowWidgetUIMenu,
     showNewItem,
+    setShowNewItem,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
 
@@ -154,7 +155,15 @@ export default function ChatsWidget({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Chat',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
