@@ -4,7 +4,7 @@ import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import ChatsContext from './ChatsContext';
-import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
+import DefaultPromptsContext from '../prompts/PromptsContext';
 import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
 import UIContext from '@/context/UIContext';
@@ -79,8 +79,8 @@ export default function ChatsWidget({
 
     messageInFocus,
     setMessageInFocus,
-    // promptTextInFocus,
-    // setPromptTextInFocus,
+    // promptInFocus,
+    // setPromptInFocus,
     searchTerm,
     setSearchTerm,
     isFiltered,
@@ -107,9 +107,7 @@ export default function ChatsWidget({
     promptTokenConsumed,
     setPromptTokenConsumed,
   } = useContext(ChatsContext);
-  const { promptTextInFocus, setPromptTextInFocus } = useContext(
-    DefaultPromptsContext
-  );
+  const { promptInFocus, setPromptInFocus } = useContext(DefaultPromptsContext);
   const messageInputRef = useRef();
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -301,8 +299,8 @@ export default function ChatsWidget({
         setStreamedResponse={setStreamedResponse}
         fullResponse={fullResponse}
         setFullResponse={setFullResponse}
-        promptTextInFocus={promptTextInFocus}
-        setPromptTextInFocus={setPromptTextInFocus}
+        promptInFocus={promptInFocus}
+        setPromptInFocus={setPromptInFocus}
         promptTokenConsumed={promptTokenConsumed}
         setPromptTokenConsumed={setPromptTokenConsumed}
         messageInFocus={messageInFocus}
@@ -326,7 +324,8 @@ export default function ChatsWidget({
       messageInputRef={messageInputRef}
       placeholder="Type message here..."
       onChange={handleInputChange}
-      value={promptTextInFocus?.description}
+      value={promptInFocus?.description}
+      // value={promptInFocus}
       sendDisabled={isLoading}
       onSend={(inputText) =>
         runChat(
@@ -345,15 +344,8 @@ export default function ChatsWidget({
     />
   );
 
-  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
-      <SimpleDialog
-        widgetProps={{
-          ...widgetProps,
-          dialogCustomComponent: multiItems,
-        }}
-      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
@@ -367,7 +359,7 @@ export default function ChatsWidget({
         // menu={settingsAndMenu}
         horizontal={settingsAndMenu}
         flexList={chatSelector}
-        multiItems={multiItems}
+        // multiItems={multiItems}
         vertical={chatInFocusWidget}
         selector={modelSelector}
         inputField={promptField}

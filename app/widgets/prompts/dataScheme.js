@@ -4,14 +4,14 @@ export const scheme = {
   id: uuidv4(),
   createdAt: new Date(),
   title: '',
-  description: '',
+  content: '',
   source_collection: '',
   target_collection: '',
 };
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',
-  content: 'description',
+  content: 'content',
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
 };
@@ -22,7 +22,7 @@ export const singleItemScheme = {
   id: 'id',
   title: 'title',
   subTitle: 'text',
-  description: 'prompt_text',
+  description: 'content',
 };
 
 export const sliderMarksToken = [

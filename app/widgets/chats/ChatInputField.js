@@ -17,7 +17,7 @@ export default function ChatInputField({
     html: value,
     plainText: value,
   });
-
+  // console.log('promptInFocus', value);
   const handleInputChange = (htmlContent) => {
     const tempElement = document.createElement('div');
     tempElement.innerHTML = htmlContent;
@@ -28,6 +28,7 @@ export default function ChatInputField({
     onChange(cleanedText);
   };
   useEffect(() => {
+    // console.log(value);
     setInputContent({
       html: value,
       plainText: value,
@@ -143,6 +144,7 @@ export default function ChatInputField({
         ref={messageInputRef}
         placeholder={placeholder}
         value={inputContent.html}
+        // value={value}
         onChange={handleInputChange}
         sendDisabled={sendDisabled}
         onSend={onSend}

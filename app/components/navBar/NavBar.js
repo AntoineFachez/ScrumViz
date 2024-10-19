@@ -52,23 +52,6 @@ export default function NavBar({ showDev, setShowDev }) {
       }}
       square="true"
     >
-      <IconButton
-        onClick={
-          // () => {
-          //   toggleDrawer("left", true);
-          //   return toggleDrawer("left", true);
-          // }
-          handleToggleDrawer('left', true)
-        }
-        sx={styled?.iconButton?.action}
-        // sx={
-        //   selectedWidgetContext === 'drawer'
-        //     ? styled?.iconButton?.active
-        //     : styled?.iconButton?.inactive
-        // }
-      >
-        <ViewSidebar />
-      </IconButton>
       <Tooltip title={'home'} placement="bottom" arrow={true}>
         <IconButton
           onClick={() => {

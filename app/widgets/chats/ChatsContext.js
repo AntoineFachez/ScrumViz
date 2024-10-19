@@ -7,7 +7,7 @@ import DefaultValuesContext from '@/context/DefaultValuesContext';
 
 import { chats } from './mockChats';
 import UIContext from '@/context/UIContext';
-import DefaultPromptsContext from '../defaultPrompts/DefaultPromptsContext';
+import DefaultPromptsContext from '../prompts/PromptsContext';
 
 const ChatsContext = createContext();
 
@@ -23,9 +23,7 @@ export const ChatsProvider = ({ children }) => {
     defaultMaxPromptToken,
     setDefaultMaxPromptToken,
   } = useContext(DefaultValuesContext);
-  const { promptTextInFocus, setPromptTextInFocus } = useContext(
-    DefaultPromptsContext
-  );
+  const { promptInFocus, setPromptInFocus } = useContext(DefaultPromptsContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [showNewItem, setShowNewItem] = useState(false);
@@ -64,16 +62,16 @@ export const ChatsProvider = ({ children }) => {
     setIsFiltered(true);
   };
   // const handleSetDefaultPromptInFocus = (item) => {
-  //   setPromptTextInFocus(item);
+  //   setPromptInFocus(item);
   // };
   const handleSelectMessage = (message) => {
     setMessageInFocus(message);
   };
   const handleInputChange = (textContent) => {
     console.log(textContent);
-    const plainText = textContent.replace(/<[^>]+>/g, '');
+    const plainText = textContent?.replace(/<[^>]+>/g, '');
 
-    setPromptTextInFocus(plainText);
+    setPromptInFocus(plainText);
   };
 
   const handleChangeTokenAmount = (e, newValue) => {
@@ -218,8 +216,8 @@ export const ChatsProvider = ({ children }) => {
 
         messageInFocus,
         setMessageInFocus,
-        // promptTextInFocus,
-        // setPromptTextInFocus,
+        // promptInFocus,
+        // setPromptInFocus,
         searchTerm,
         setSearchTerm,
         isFiltered,

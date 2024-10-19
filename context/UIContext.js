@@ -46,7 +46,6 @@ export const UIProvider = ({ children }) => {
     bottom: false,
     right: false,
   });
-  console.log(orientationDrawer);
   const [imageUrlArr, setImageUrlArr] = useState([]);
   const [defaultWidgetMap, setDefaultWidgetMap] = useState(null);
   const [gridDOMMap, setGridDOMMap] = useState(defaultWidgetMap);
