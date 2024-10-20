@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Message } from '@chatscope/chat-ui-kit-react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Typography } from '@mui/material';
 import ChatMessage from './ChatMessage';
+import useScrollToItem from '@/hooks/useScrollToItem';
 
 export default function ChatMessageList({
   chatInFocus,
+  codeBlockContent,
   handleSelectMessage,
   handleFormatResponse,
   messageInFocus,
@@ -12,8 +14,29 @@ export default function ChatMessageList({
   isLoading,
   styled,
 }) {
+  const { flexListRef, scrollToItem } = useScrollToItem();
+  const latestMessage = chatInFocus.history[chatInFocus.history.length - 1];
+  useEffect(() => {
+    return () => {};
+  }, [chatInFocus]);
+
+  useEffect(() => {
+    if (flexListRef.current && chatInFocus.history.length > 0) {
+      // Scroll to the last message container (Box) in the list
+      const lastMessageContainer = flexListRef.current.lastChild;
+      if (lastMessageContainer) {
+        lastMessageContainer.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end', // Scroll to the end of the container
+          inline: 'nearest',
+        });
+      }
+    }
+  }, [chatInFocus.history, flexListRef]);
+
   return (
     <Box
+      ref={flexListRef}
       sx={{
         // ...styled.widget,
         height: '100%',
@@ -34,12 +57,20 @@ export default function ChatMessageList({
           key={i}
           onClick={() => setMessageInFocus(message)}
         >
-          <ChatMessage
-            data={message}
-            isLoading={isLoading}
-            messageInFocus={messageInFocus}
-            styled={styled}
-          />
+          {isLoading &&
+          message?.role === 'model' &&
+          i === chatInFocus?.history?.length - 1 ? ( // Conditionally render Skeleton for the last message
+            <Skeleton variant="rectangular" width={210} height={118} />
+          ) : (
+            <ChatMessage
+              message={message}
+              codeBlockContent={codeBlockContent}
+              chatInFocus={chatInFocus}
+              isLoading={isLoading}
+              messageInFocus={messageInFocus}
+              styled={styled}
+            />
+          )}
         </Box>
       ))}
     </Box>

@@ -15,6 +15,7 @@ export const PromptsProvider = ({ children }) => {
   const { appContext, setAppContext } = useContext(AppContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
+  const { exampleProduct } = useContext(DefaultValuesContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
@@ -54,7 +55,7 @@ export const PromptsProvider = ({ children }) => {
     setShowNewItem(false);
   };
   const handleOnChangeAdoptPrompt = (dataToAdoptWith) => {
-    console.log('dataToAdoptWith', dataToAdoptWith);
+    // console.log('dataToAdoptWith', dataToAdoptWith);
     const generatedPrompt = createPrompt(
       defaultPromptInFocus.content,
       dataToAdoptWith,
@@ -64,22 +65,15 @@ export const PromptsProvider = ({ children }) => {
 
     setPromptInFocus(generatedPrompt);
   };
-  // const promptOnNewProduct =
-  //   "lets talk about scrum management and user stories. Here is a layout for a digital product: <standInForProduct>. Please return the three most common user stories for such a product. Please keep in mind that I will later share my scrum team and ask you to develop sprints for these user stories. Return the three user stories I asked for as an array of json objects. The data structure of these user stories / for the json objects you shall return is as follows (find further instructions in parenthese such as 'generate uniqueUUID'):  <standInForDataScheme>   ";
-  // const promptOnNewProduct = '';
-  // const standInForProduct =
-  //   'product_name: Mushroom App, product_description: Users of the app can mark locations of where they found a mushroom. Users can shoot an image, upload it to gemini and ask for the according wikipedia article.';
-  // const standInDataScheme =
-  //   "[{id: 'generate a unique UUiD', userStory_name: 'generate a meaningful name', userStory_short:'generate the story similar to: 'As a user, I … '', acceptanceCriteria: [{acceptanceCriteria_id: 'generate a Unique UUID for each criteria',acceptanceCriteria_description: 'generate meaningful criteria description',}, ],writtenByTeamMember_id: 'ignore',wireFrame_uri:'ignore', },";
-
   function createPrompt(defaultPrompt, inputProduct, dataScheme) {
     const description = defaultPrompt
+      .replace('<standInFor_product_Name>', `${inputProduct?.product_name}`)
       .replace(
-        '<standInForProduct>',
-        `**product_name: ${inputProduct?.product_name}** product_description: *${inputProduct?.description}*`
+        '<standInFor_product_description>',
+        `${inputProduct?.description}`
       )
-      .replace('<standInForDataScheme>', `\`${dataScheme}\``);
-
+      .replace('<amountBackLogs>', 3)
+      .replace('<standInForDataScheme>', `${dataScheme}`);
     const prompt = {
       id: uuidv4(),
       title: 'develop user stories for this digital product',
@@ -90,16 +84,6 @@ export const PromptsProvider = ({ children }) => {
 
     return prompt;
   }
-  // useEffect(() => {
-  //   const generatedPrompt = createPrompt(
-  //     promptOnNewProduct,
-  //     standInForProduct,
-  //     standInDataScheme
-  //   );
-  //   setPromptInFocus(generatedPrompt);
-
-  //   return () => {};
-  // }, [promptOnNewProduct, standInForProduct, standInDataScheme]);
 
   useEffect(() => {
     setSelectedPrompts(
@@ -113,6 +97,7 @@ export const PromptsProvider = ({ children }) => {
 
     return () => {};
   }, [displayPrompts]);
+
   return (
     <PromptsContext.Provider
       value={{

@@ -107,7 +107,6 @@ export default function DefaultPromptWidget({
       },
     },
     onClick: () => setUiGridMapContext(collection),
-
     handleSelectWidgetContext: handleSelectWidgetContext,
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>

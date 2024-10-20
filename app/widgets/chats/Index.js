@@ -110,7 +110,7 @@ export default function ChatsWidget({
   } = useContext(ChatsContext);
   const { promptInFocus, setPromptInFocus } = useContext(DefaultPromptsContext);
   const messageInputRef = useRef();
-
+  const [codeBlockContent, setCodeBlockContent] = useState('');
   const [selectedWidgetContext, setSelectedWidgetContext] =
     useState(startUpWidgetLayout);
   useEffect(() => {
@@ -302,6 +302,7 @@ export default function ChatsWidget({
       <ChatInFocus
         maxPromptTokens={maxPromptTokens}
         chatInFocus={chatInFocus}
+        codeBlockContent={codeBlockContent}
         data={selectedChats}
         setData={setSelectedChats}
         streamedResponse={streamedResponse}
@@ -340,6 +341,9 @@ export default function ChatsWidget({
         runChat(
           availablePromptTokensAmount,
           chatInFocus,
+          setChatInFocus,
+          codeBlockContent,
+          setCodeBlockContent,
           inputText,
           setIsLoading,
           setStreamedResponse,
