@@ -4,6 +4,8 @@ export const productBackLogs = [
     product_id: '0831e228-ea97-4502-bee4-328647180b05',
     product_name: 'E-commerce Platform',
     status: 'in developement',
+    safetyGuidelines: '...',
+    expertVerification: '...',
     productBackLog_items: [
       {
         productBackLog_item_id: 'ee540fdd-bfcb-4b89-97ad-d981e6c6c6f0',

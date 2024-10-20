@@ -20,16 +20,23 @@ export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 //   productBackLog_items: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'product_id', required: false, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'product_name', required: true, content: '' },
-  { key: 'status', required: false, content: '' },
-  { key: 'description', required: false, content: '' },
-  { key: 'goal', required: false, content: '' },
-  { key: 'target_audience', required: false, content: '' },
-  { key: 'primary_actions', required: false, content: '' },
-  { key: 'productBackLog_items', required: false, content: '' },
+  { key: 'id', type: '', required: true, content: uuidv4() },
+  { key: 'product_id', type: '', required: false, content: uuidv4() },
+  { key: 'createdAt', type: '', required: true, content: new Date() },
+  { key: 'product_name', type: '', required: true, content: '' },
+  { key: 'status', type: '', required: false, content: '' },
+  { key: 'description', type: '', required: false, content: '' },
+  { key: 'goal', type: '', required: false, content: '' },
+  { key: 'target_audience', type: '', required: false, content: '' },
+  { key: 'primary_actions', type: '', required: false, content: '' },
+  {
+    key: 'productBackLog_items',
+    type: 'objects',
+    required: false,
+    content: '',
+  },
+  { key: 'safetyGuidelines', type: '', required: false, content: '' },
+  { key: 'expertVerification', type: '', required: false, content: '' },
 ];
 export const singleItemScheme = {
   id: 'product_id',

@@ -1,6 +1,7 @@
 import React from 'react';
 import Draggable from './Draggable';
 import DropZone from './DropZone';
+import DropzoneTextField from './DropTextField';
 
 export default function Index({
   listItemRef,
@@ -14,6 +15,8 @@ export default function Index({
   setDataTransfer,
   droppedItemsArray,
   width,
+  onItemsUpdated,
+  zoneType,
   styled,
 }) {
   return (
@@ -32,13 +35,20 @@ export default function Index({
         </>
       ) : (
         <>
-          <DropZone
-            droppedItemsArray={droppedItemsArray}
-            dataTransfer={dataTransfer}
-            setDataTransfer={setDataTransfer}
-            handleDrop={handleDrop} //when drop into Space: components/grid/Space
-            styled={styled}
-          />
+          {zoneType === 'textField' ? (
+            <DropzoneTextField
+              onItemsUpdated={onItemsUpdated}
+              styled={styled}
+            />
+          ) : (
+            <DropZone
+              droppedItemsArray={droppedItemsArray}
+              dataTransfer={dataTransfer}
+              setDataTransfer={setDataTransfer}
+              handleDrop={handleDrop} //when drop into Space: components/grid/Space
+              styled={styled}
+            />
+          )}
         </>
       )}
     </>

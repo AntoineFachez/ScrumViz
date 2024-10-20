@@ -4,6 +4,7 @@ import CardItem from '../../components/card/Index';
 import { useEffect, useRef } from 'react';
 import ChipComponent from '../../components/chip/Chip';
 import CustomSubList from './CustomSubList';
+import useScrollToItem from '@/hooks/useScrollToItem';
 
 export default function MultiItems({ widgetProps, alertElement, styled }) {
   const {
@@ -17,24 +18,10 @@ export default function MultiItems({ widgetProps, alertElement, styled }) {
     selectedWidgetContext,
   } = widgetProps;
   let array = [];
-  const flexListRef = useRef();
-  const scrollToPiece = (listItemRef) => {
-    if (listItemRef) {
-      listItemRef.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center', // Adjust as needed
-        inline: 'nearest', // Adjust as needed
-      });
-    }
-  };
+  const { flexListRef, scrollToItem } = useScrollToItem();
 
   useEffect(() => {
-    if (itemInFocus) {
-      const listItemRef = flexListRef.current.querySelector(
-        `[data-slug="${itemInFocus.id}"]`
-      );
-      scrollToPiece(listItemRef);
-    }
+    scrollToItem(itemInFocus);
   }, [itemInFocus]);
 
   if (data?.length > 200) return;

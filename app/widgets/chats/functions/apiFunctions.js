@@ -1,12 +1,17 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 import { vertexAI, model } from '@/firebase/firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { notify } from '@/utils/utils';
 
 const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_GEN_AI_KEY;
 
 export const runChat = async (
   availablePromptTokensAmount,
   chatInFocus,
+  setChatInFocus,
+  codeBlockContent,
+  setCodeBlockContent,
   inputText,
   setIsLoading,
   setStreamedResponse,
@@ -14,53 +19,87 @@ export const runChat = async (
   setError
 ) => {
   try {
-    console.log(availablePromptTokensAmount);
-
     if (!inputText) {
       alert('Please enter text!');
       return;
     }
+
     setIsLoading(true);
-    chatInFocus?.history?.push({
-      role: 'user',
-      parts: [{ text: inputText }],
-    });
+
+    chatInFocus.history.push({ role: 'user', parts: [{ text: inputText }] });
+
     const chat = model.startChat({
-      history: chatInFocus?.history,
-      generationConfig: {
-        max_output_tokens: availablePromptTokensAmount,
-      },
+      history: chatInFocus.history,
+      generationConfig: { max_output_tokens: availablePromptTokensAmount },
     });
 
     const { totalTokens, totalBillableCharacters } = await model.countTokens(
       inputText
     );
-    setPromptTokenConsumed({
-      totalTokens: totalTokens,
-      totalBillableCharacters: totalBillableCharacters,
-    });
-    // console.log(
-    //   `Total tokens: ${totalTokens}, total billable characters: ${totalBillableCharacters}`
-    // );
+    setPromptTokenConsumed({ totalTokens, totalBillableCharacters });
 
     let response = '';
     const result = await chat.sendMessageStream(inputText);
-    for await (const chunk of result.stream) {
-      const chunkText = chunk.candidates[0].content.parts[0].text;
-      response += chunkText;
-
-      // setStreamedResponse(response);
-    }
 
     chatInFocus?.history?.push({
       role: 'model',
       parts: [{ text: response }],
     });
-    console.log('chatInFocus', chatInFocus.history);
+    for await (const chunk of result.stream) {
+      try {
+        if (chunk.candidates?.[0]?.content) {
+          setIsLoading(false);
+          const chunkText = chunk.candidates[0].content.parts[0].text;
 
-    // setStreamedResponse();
+          if (chunkText.includes('```')) {
+            // Start or end of code block
+            if (codeBlockContent) {
+              // Closing "```" encountered
+              setCodeBlockContent(''); // Reset for next code block
+            } else {
+              // Opening "```" encountered
+              setCodeBlockContent(chunkText);
+            }
+          } else if (codeBlockContent) {
+            // Accumulate code block content
+            setCodeBlockContent((prevContent) => prevContent + chunkText);
+          }
+          response += chunk.candidates[0].content.parts[0].text;
+
+          setChatInFocus((prevChat) => ({
+            ...prevChat,
+            history: [
+              ...prevChat.history.slice(0, -1),
+              { role: 'model', parts: [{ text: response }] },
+            ],
+          }));
+        } else {
+          setIsLoading(false);
+          // Check for safety ratings and blocked status
+          const safetyRatings = chunk.candidates?.[0]?.safetyRatings;
+          if (safetyRatings) {
+            const blockedRating = safetyRatings.find(
+              (rating) => rating.blocked
+            );
+            if (blockedRating) {
+              console.warn('Response blocked due to safety:', blockedRating);
+              notify({
+                state: 'error',
+                note: 'Response blocked due to safety concerns.',
+              });
+            } else {
+              console.warn('Unexpected response format:', chunk);
+            }
+          } else {
+            console.warn('Unexpected response format:', chunk);
+          }
+        }
+      } catch (error) {
+        console.error('Error processing chunk:', error);
+      }
+    }
+
     // getTextGemini(prompt, 0.5);
-    setIsLoading(false);
   } catch (error) {
     setIsLoading(false);
     // setError(error);

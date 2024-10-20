@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const chats = [
   {
     id: uuidv4(),
-    title: 'Mushroom App',
+    title: 'Edible Fungus App',
     createdAt: new Date(),
     summary: '',
     history: [
@@ -11,7 +11,7 @@ export const chats = [
         role: 'user',
         parts: [
           {
-            text: 'in the next prompt you will receive further instructions to generate user stories for a webApp',
+            text: 'In the next prompt you will receive further instructions to generate product backLogs of user stories for a webApp',
           },
         ],
       },

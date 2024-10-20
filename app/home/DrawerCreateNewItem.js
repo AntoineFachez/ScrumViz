@@ -1,48 +1,24 @@
 'use client';
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useContext, useEffect, useState } from 'react';
 import { Add, ArrowBack, Close, Menu, WidthWide } from '@mui/icons-material';
-import {
-  Box,
-  Button,
-  Divider,
-  IconButton,
-  Paper,
-  Tooltip,
-  Typography,
-} from '@mui/material';
+import { Box, Paper } from '@mui/material';
 
 import ProductBackLogsContext from '../widgets/productBacklogs/ProductBackLogsContext';
 import AppContext from '@/context/AppContext';
 import UIContext from '@/context/UIContext';
 import PromptsContext from '../widgets/prompts/PromptsContext';
-// import Profile from '../profile/page';
-// import { useSession } from 'next-auth/react';
 
-import SketchWrapper from '../p5/neonText/SketchWrapper';
-import CardItem from '../components/card/CardItem';
 import ChatInFocus from '../widgets/chats/Index';
-import EnvProductionIcon from '../components/icons/EnvProductionIcon';
-import SimpleDialog from '../components/dialog/Dialog';
 import NewItem from '../uiItems/widgetItems/NewItem';
+import QuickMenu from '../uiItems/widgetItems/QuickMenu';
+import ProductsList from './ProductsList';
+import TileNewItem from './TileNewItem';
 
-import {
-  scheme,
-  singleItemScheme,
-} from '../widgets/productBacklogs/dataScheme';
+import { singleItemScheme } from '../widgets/productBacklogs/dataScheme';
 import { handleCloseNewItem } from '../widgets/actions';
 import { handleNewProductBackLog } from '../widgets/productBacklogs/functions/dbFunctions';
 
 import { useMode } from '../theme/ThemeContext';
-import ProductsList from './ProductsList';
-import TileNewItem from './TileNewItem';
-import QuickMenu from '../uiItems/widgetItems/QuickMenu';
 
 export default function DrawerCreateNewItem() {
   const { setAppContext, setUiGridMapContext } = useContext(AppContext);
@@ -65,6 +41,7 @@ export default function DrawerCreateNewItem() {
     handleSetProductBackLogInFocus,
     handleNewItem,
     scheme,
+    handleSetExampleProduct,
   } = useContext(ProductBackLogsContext);
   const { promptInFocus, setPromptInFocus, handleOnChangeAdoptPrompt } =
     useContext(PromptsContext);
@@ -78,10 +55,13 @@ export default function DrawerCreateNewItem() {
     data: selectedProductBackLogs,
     selectedData: selectedProductBackLogs,
     setSelectedItem: setSelectedProductBackLogs,
+    itemInFocus: productBackLogInFocus,
+
     singleItemScheme: singleItemScheme,
     optionsVertMenu: optionsVertMenu,
     scheme: scheme,
     dialogTitle: 'Create new Product',
+    handleSetExample: handleSetExampleProduct,
 
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
@@ -90,7 +70,6 @@ export default function DrawerCreateNewItem() {
       setUiGridMapContext('userStories');
     },
     // handleSaveNewProduct: handleSaveNewProduct,
-    itemInFocus: productBackLogInFocus,
     quickMenuButtonArray: [
       {
         tooltip_title: 'clear fields',
@@ -118,6 +97,20 @@ export default function DrawerCreateNewItem() {
       setDisplayProductBackLogs
     );
   };
+  const drawerMenuProps = {
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new User Story',
+        onClickHandler: handleToggleDrawer('right', false),
+        icon: <Menu />,
+      },
+      {
+        tooltip_title: 'Create new User Story',
+        onClickHandler: () => handleGoBack(''),
+        icon: <ArrowBack />,
+      },
+    ],
+  };
   const newItem = (
     <>
       <NewItem
@@ -135,14 +128,14 @@ export default function DrawerCreateNewItem() {
 
   const dialogCustomComponent = (
     <Box
-      className="widget"
+      className="drawer-content-container"
       sx={{
+        ...styled.widget,
         width: '100%',
         height: '100%',
         display: 'flex',
         flexFlow: 'row',
         // paddingRight: '1rem',
-        backgroundColor: '#333433',
       }}
     >
       {' '}
@@ -160,20 +153,6 @@ export default function DrawerCreateNewItem() {
         }}
       >
         <QuickMenu widgetProps={widgetProps} styled={styled} />
-        {/* <Box sx={styled.spacesMenu} className="quickMenu">
-          <Tooltip
-            title={widgetProps.tooltipTitle_clearFields}
-            placement="top"
-            arrow
-          >
-            <IconButton
-              onClick={() => setProductBackLogInFocus({})}
-              sx={{ ...styled?.iconButton?.action }}
-            >
-              <Close />
-            </IconButton>
-          </Tooltip>
-        </Box> */}
 
         {newItem}
       </Box>
@@ -184,9 +163,21 @@ export default function DrawerCreateNewItem() {
           display: 'flex',
           flexFlow: 'column',
           // paddingRight: '1rem',
+          overflow: 'hidden',
         }}
       >
-        <ChatInFocus startUpWidgetLayout="vertical" />{' '}
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexFlow: 'column',
+            // paddingRight: '1rem',
+            overflow: 'scroll',
+          }}
+        >
+          <ChatInFocus startUpWidgetLayout="vertical" />{' '}
+        </Box>
         <Box
           sx={{
             width: '100%',
@@ -196,6 +187,7 @@ export default function DrawerCreateNewItem() {
             // paddingRight: '1rem',
           }}
         >
+          {' '}
           <ChatInFocus startUpWidgetLayout="inputField" />
         </Box>
       </Box>
@@ -204,30 +196,20 @@ export default function DrawerCreateNewItem() {
 
   useEffect(() => {
     setDrawerMenu(
-      <Box
-        sx={{ ...styled.spacesMenu, flexFlow: 'row' }}
-        className="widgetMenu"
-      >
-        <Box className="quickMenu" sx={styled.quickMenu}>
-          <IconButton
-            onClick={handleToggleDrawer('right', false)}
-            sx={{ ...styled?.iconButton?.action }}
-          >
-            <Menu />
-          </IconButton>
-          <IconButton
-            onClick={() => handleGoBack('')}
-            sx={{ ...styled?.iconButton?.action }}
-          >
-            <ArrowBack />
-          </IconButton>
-        </Box>
-        <Typography>drawerMenu</Typography>
-      </Box>
+      <QuickMenu
+        widgetProps={drawerMenuProps}
+        styled={{
+          ...styled,
+          // spacesMenu: {
+          ...styled.spacesMenu, // Spread the existing spacesMenu styles
+          justifyContent: 'flex-start', // Override justifyContent
+          // },
+        }}
+      />
     );
     setDrawerFloorElement(dialogCustomComponent);
     return () => {};
-  }, [orientationDrawer]);
+  }, [orientationDrawer, widgetProps.itemInFocus]);
 
   return (
     <Paper

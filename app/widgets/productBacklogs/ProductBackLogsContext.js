@@ -10,6 +10,7 @@ import InFocusContext from '@/context/InFocusContext';
 import ProductsContext from '../products/ProductsContext';
 
 import { scheme } from './dataScheme';
+import DefaultValuesContext from '@/context/DefaultValuesContext';
 
 const BackLogsContext = createContext();
 
@@ -17,6 +18,7 @@ export const BackLogsProvider = ({ children }) => {
   const { setShowDialog } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { displayProducts, setProductInFocus } = useContext(ProductsContext);
+  const { exampleProduct } = useContext(DefaultValuesContext);
   const { displayUserStories, setSelectedUserStories } =
     useContext(UserStoriesContext);
 
@@ -64,6 +66,9 @@ export const BackLogsProvider = ({ children }) => {
     );
     setProductInFocus(foundProducts[0]);
   };
+  const handleSetExampleProduct = () => {
+    setProductBackLogInFocus(exampleProduct);
+  };
   useEffect(() => {
     setSelectedProductBackLogs(
       displayProductBackLogs.filter((product) =>
@@ -103,6 +108,7 @@ export const BackLogsProvider = ({ children }) => {
         // handleSearchTermChange,
         handleResetFiltered,
         handleSetProductBackLogInFocus,
+        handleSetExampleProduct,
       }}
     >
       {children}
