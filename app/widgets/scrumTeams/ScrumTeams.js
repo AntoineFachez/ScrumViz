@@ -1,7 +1,7 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
-import { Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import { Add, Group, StoreMallDirectoryOutlined } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
@@ -119,7 +119,14 @@ export default function ScrumTeam({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Scrum Team',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

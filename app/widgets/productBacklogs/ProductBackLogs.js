@@ -124,8 +124,14 @@ export default function Products({
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
     customSubTitleItem: customSubTitleItem,
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Product BackLog',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
 
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

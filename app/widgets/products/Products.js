@@ -1,7 +1,12 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { AddToQueue, BackupOutlined, ShoppingBag } from '@mui/icons-material';
+import {
+  Add,
+  AddToQueue,
+  BackupOutlined,
+  ShoppingBag,
+} from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import SearchContext from '@/context/SearchContext';
@@ -41,6 +46,8 @@ export default function Products({
   const {
     showWidgetUIMenu,
     setShowWidgetUIMenu,
+    showNewItem,
+    setShowNewItem,
     // selectedWidgetContext,
     // setSelectedWidgetContext,
     displayProducts,
@@ -103,9 +110,15 @@ export default function Products({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Product',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
-    onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
     searchTerm: searchTerm,
     setActiveSearchTerm: setActiveSearchTerm,

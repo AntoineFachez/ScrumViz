@@ -1,38 +1,24 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
 import { Box, IconButton, Tooltip, Typography } from '@mui/material';
-import {
-  Add,
-  Replay,
-  Schedule,
-  SportsRugbyOutlined,
-} from '@mui/icons-material';
+import { Add, Schedule } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import InFocusContext from '@/context/InFocusContext';
 import ProductBackLogsContext from '../productBacklogs/ProductBackLogsContext';
-import ScrumManagerContext from '@/app/scrumManager/ScrumManagerContext';
 import SearchContext from '@/context/SearchContext';
+import SprintsContext from '../sprints/SprintsContext';
 import SprintBackLogsContext from '../sprintBackLogs/SprintBackLogsContext';
 import SprintPlanningsContext from './SprintPlanningsContext';
 import UserStoriesContext from '../userStories/UserStoriesContext';
 import UIContext from '@/context/UIContext';
 
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
-import WidgetMenu from '@/app/uiItems/widgetItems/WidgetMenu';
-import StandInTable from '@/app/components/table/StandInTable';
-import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
-import SingleItem from '@/app/uiItems/widgetItems/singleItem/SingleItem';
-import NewItem from '@/app/uiItems/widgetItems/NewItem';
 
 import { handleSelectWidgetContext, handleSetItemInFocus } from '../actions';
 import { scheme, singleItemScheme } from './dataScheme';
 
 import { useMode } from '@/app/theme/ThemeContext';
-import AcceptanceCriteriaContext from '../acceptanceCriteria/AcceptanceCriteriaContext';
-import SprintsContext from '../sprints/SprintsContext';
-import SimpleDialog from '@/app/components/dialog/Dialog';
 
 export default function SprintPlannings({
   widget,
@@ -149,7 +135,14 @@ export default function SprintPlannings({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Sprint Planning',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 
@@ -186,43 +179,6 @@ export default function SprintPlannings({
     setActiveSearchTerm(e.target.value);
   };
 
-  const newItem = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-      }}
-    >
-      {' '}
-      <Box
-        sx={{ width: '100%', height: '100%', display: 'flex', flexFlow: 'row' }}
-        className="widget"
-      >
-        {/* <Box sx={{ width: '40%', maxWidth: '25ch' }}>
-          {defaultPromptSelector}
-        </Box> */}
-        <NewItem
-          component="form"
-          sxStyle={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#eee',
-            '& .MuiDialog-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiTextField-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-root': { m: 1, width: '100%', height: '100%' },
-            '& .MuiInputBase-input': { m: 1, width: '100%', height: '100%' },
-          }}
-          autoComplete="off"
-          size={'small'}
-          id="outlined-multiline-static"
-          label={collection}
-          rows={14}
-          data={sprintPlanningInFocus}
-          scheme={scheme}
-        />
-      </Box>
-    </Box>
-  );
   const soloWidget = (
     <Box
       className="widget"
@@ -253,31 +209,19 @@ export default function SprintPlannings({
         ...styled.widget,
         // backgroundColor: '#555',
       }}
-    >
-      <StandInTable />
-    </Box>
+    ></Box>
   );
 
-  const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   return (
     <>
-      <SimpleDialog
-        widgetProps={{
-          ...widgetProps,
-          dialogCustomComponent: multiItems,
-        }}
-      />
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        newItem={newItem}
+        // newItem={newItem}
         soloWidget={soloWidget}
         table={table}
-        // singleItem={singleItem}
-
         tree={tree}
-        // flexList={flexList}
-        multiItems={multiItems}
+        // multiItems={multiItems}
       />
     </>
   );

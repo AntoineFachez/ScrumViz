@@ -1,6 +1,7 @@
 'use client';
 import { useContext, useState } from 'react';
 import {
+  Add,
   Group,
   GroupAdd,
   StoreMallDirectoryOutlined,
@@ -86,7 +87,14 @@ export default function Persons({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Person',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

@@ -1,6 +1,6 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
-import { Replay } from '@mui/icons-material';
+import { Add, Replay } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
 import AppContext from '@/context/AppContext';
@@ -105,7 +105,14 @@ export default function Sprints({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Sprint',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

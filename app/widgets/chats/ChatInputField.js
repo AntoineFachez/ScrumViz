@@ -1,5 +1,6 @@
 import { MessageInput } from '@chatscope/chat-ui-kit-react';
-import { Paper } from '@mui/material';
+import { Send } from '@mui/icons-material';
+import { IconButton, Paper, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 export default function ChatInputField({
@@ -17,7 +18,7 @@ export default function ChatInputField({
     html: value,
     plainText: value,
   });
-
+  // console.log('promptInFocus', value);
   const handleInputChange = (htmlContent) => {
     const tempElement = document.createElement('div');
     tempElement.innerHTML = htmlContent;
@@ -28,6 +29,7 @@ export default function ChatInputField({
     onChange(cleanedText);
   };
   useEffect(() => {
+    // console.log(value);
     setInputContent({
       html: value,
       plainText: value,
@@ -47,8 +49,10 @@ export default function ChatInputField({
         // position: 'relative !important',
         // overflow: 'scroll',
         // backgroundColor: '#111',
+        backgroundColor: 'transparent',
         paddingBottom: '0.5rem',
         '& .cs-chat-container .cs-message-input': {
+          // ...styled?.widget,
           width: '100%',
           height: '100%',
           // height: 'fit-content',
@@ -58,6 +62,7 @@ export default function ChatInputField({
           padding: 0,
         },
         '& .cs-message-input': {
+          // ...styled?.widget,
           width: '100%',
           height: '100%',
           marginTop: '1rem',
@@ -70,6 +75,7 @@ export default function ChatInputField({
           borderRadius: '0px',
         },
         '& .cs-message-input >*': {
+          // ...styled?.widget,
           // width: '100%',
           // height: 'fit-content',
           height: '100%',
@@ -79,6 +85,7 @@ export default function ChatInputField({
           borderRadius: '0px',
         },
         '& .cs-message-input__content-editor-wrapper': {
+          // ...styled?.widget,
           width: '100%',
           // height: 'fit-content',
           height: '100%',
@@ -103,11 +110,11 @@ export default function ChatInputField({
           height: '100%',
           textAlign: 'start',
           border: '1px solid #666',
-          borderRadius: '5px',
+          // borderRadius: '5px',
           padding: '0.5rem 1rem 1rem 1rem',
           backgroundColor: 'transparent',
-          backgroundColor: '#eee',
-          color: '#000',
+          // backgroundColor: '#eee',
+          color: '#fff',
           overflow: 'auto',
         },
         // '& .cs-message-input__content-editor >*': {
@@ -126,7 +133,8 @@ export default function ChatInputField({
           width: '3rem',
           height: '3rem',
           border: 'none',
-          backgroundColor: '#111',
+          // backgroundColor: '#111',
+          backgroundColor: 'transparent',
           // '&:hover': styled.iconButton.action,
         },
         '& .cs-button--send': {
@@ -134,7 +142,8 @@ export default function ChatInputField({
           width: '3rem',
           height: '3rem',
           border: 'none',
-          backgroundColor: '#111',
+          // backgroundColor: '#111',
+          backgroundColor: 'transparent',
           // '&:hover': styled.iconButton.action,
         },
       }}
@@ -143,12 +152,29 @@ export default function ChatInputField({
         ref={messageInputRef}
         placeholder={placeholder}
         value={inputContent.html}
+        // value={value}
         onChange={handleInputChange}
         sendDisabled={sendDisabled}
         onSend={onSend}
         fancyScroll={fancyScroll}
         // onAttachClick={onAttachClick}
       />
+      {/* <IconButton sx={styled.iconButton.action} onClick={onSend}>
+        <Send />
+      </IconButton>
+      <TextField
+        ref={messageInputRef}
+        label={placeholder}
+        value={inputContent.html}
+        defaultValue={inputContent.html}
+        sx={styled.textFieldLarge}
+        size={styled.textFieldLarge.size}
+        variant={styled.textFieldLarge.variant}
+        multiline
+        rows={15}
+        // onMouseUp={handleMouseUp}
+        onChange={handleInputChange}
+      /> */}
     </Paper>
   );
 }

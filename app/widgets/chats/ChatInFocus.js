@@ -11,6 +11,7 @@ import { handleFormatResponse } from '@/utils/formatters';
 
 export default function ChatInFocus({
   chatInFocus,
+  codeBlockContent,
   messageInFocus,
   setMessageInFocus,
   handleSelectMessage,
@@ -19,26 +20,27 @@ export default function ChatInFocus({
 }) {
   return (
     <Paper
+      className="widget"
       sx={{
-        width: '100%',
+        ...styled.widget,
+        backgroundColor: 'transparent',
         height: '100%',
-        position: 'relative !important',
         overflow: 'scroll',
       }}
-      className="widget"
     >
       <MainContainer>
         <ChatContainer>
           <MessageList>
             <ChatMessageList
               chatInFocus={chatInFocus}
+              codeBlockContent={codeBlockContent}
               handleSelectMessage={handleSelectMessage}
               handleFormatResponse={handleFormatResponse}
               messageInFocus={messageInFocus}
               setMessageInFocus={setMessageInFocus}
               isLoading={isLoading}
               styled={styled}
-            />
+            />{' '}
           </MessageList>
         </ChatContainer>
       </MainContainer>
