@@ -27,7 +27,6 @@ export default function LongMenu({ options }) {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleClick}
-        aria-label="settings"
         sx={styled?.iconButton?.action}
       >
         <MoreVertIcon />
