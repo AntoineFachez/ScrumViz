@@ -8,13 +8,13 @@ export const handleNewProductBackLog = async (
   displayProductBackLogs,
   setDisplayProductBackLogs
 ) => {
-  console.log(
-    widgetProps.collection,
-    setProductBackLogInFocus,
-    data,
-    displayProductBackLogs,
-    setDisplayProductBackLogs
-  );
+  // console.log(
+  //   widgetProps.collection,
+  //   setProductBackLogInFocus,
+  //   data,
+  //   displayProductBackLogs,
+  //   setDisplayProductBackLogs
+  // );
 
   submitToFirestore({
     //firestoreContext, data, setItemInFocus, setter, setSetter

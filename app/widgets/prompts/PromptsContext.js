@@ -8,6 +8,7 @@ import DefaultValuesContext from '@/context/DefaultValuesContext';
 
 import { defaultPrompts } from './mockDefaultPrompts';
 import UIContext from '@/context/UIContext';
+import ScrumTeamsContext from '../scrumTeams/ScrumTeamsContext';
 
 const PromptsContext = createContext();
 
@@ -16,6 +17,8 @@ export const PromptsProvider = ({ children }) => {
   const { setActiveSearchTerm } = useContext(SearchContext);
   const { showDialog, setShowDialog } = useContext(UIContext);
   const { exampleProduct } = useContext(DefaultValuesContext);
+  const { scrumTeamInFocus, setScrumTeamInFocus } =
+    useContext(ScrumTeamsContext);
   const [showWidgetUIMenu, setShowWidgetUIMenu] = useState(false);
   const [showNewItem, setShowNewItem] = useState(false);
   const [selectedWidgetContext, setSelectedWidgetContext] = useState(null);
@@ -65,6 +68,34 @@ export const PromptsProvider = ({ children }) => {
 
     setPromptInFocus(generatedPrompt);
   };
+  function transformScrumTeamData(data) {
+    console.log(data.members);
+    if (data.members) {
+      // const members = data?.members.map((member) => {
+      // const { id, ...memberWithoutId } = member; // Remove the member's id
+      return `
+      <div class="team">
+        <div class="members">
+          ${data?.members
+            .map(
+              (member) => `
+                <div class="member" style="display:flex;flex-flow:row">
+                <div class="member-role">${member.role}: </div>
+                  <div class="member-name">${member.name}</div>
+                </div>
+              `
+            )
+            .join('')} 
+        </div>
+      </div>
+    `;
+    } else {
+      return [];
+    }
+  }
+
+  const transformedData = transformScrumTeamData(scrumTeamInFocus);
+
   function createPrompt(defaultPrompt, inputProduct, dataScheme) {
     const description = defaultPrompt
       .replace('<standInFor_product_Name>', `${inputProduct?.product_name}`)
@@ -72,6 +103,7 @@ export const PromptsProvider = ({ children }) => {
         '<standInFor_product_description>',
         `${inputProduct?.description}`
       )
+      .replace('<standInFor_scrumTeam>', `${transformedData}`)
       .replace('<amountBackLogs>', 3)
       .replace('<standInForDataScheme>', `${dataScheme}`);
     const prompt = {
