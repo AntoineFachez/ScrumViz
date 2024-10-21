@@ -48,7 +48,7 @@ export default function LongMenu({ options }) {
           },
         }}
       >
-        {options?.map((option) => (
+        {/* {options?.map((option) => (
           <MenuItem
             key={option}
             selected={option === 'Pyxis'}
@@ -56,7 +56,7 @@ export default function LongMenu({ options }) {
           >
             {option}
           </MenuItem>
-        ))}
+        ))} */}
       </Menu>
     </>
   );
