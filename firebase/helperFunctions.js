@@ -284,7 +284,7 @@ export const listAllBuckets = async (setSetter) => {
     const result = await listAll(storageRef);
 
     const downloadURLs = await Promise.all(
-      result.items.map((itemRef) => getDownloadURL(itemRef))
+      result?.items?.map((itemRef) => getDownloadURL(itemRef))
     );
 
     // setSetter(downloadURLs);
@@ -310,7 +310,7 @@ async function listAllItemsRecursively(folderRef, setSetter) {
 
     // Process files in the current folder
     const urlsInFolder = await Promise.all(
-      result.items.map((itemRef) => getDownloadURL(itemRef))
+      result?.items?.map((itemRef) => getDownloadURL(itemRef))
     );
 
     return urlsInFolder;
