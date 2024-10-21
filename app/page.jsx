@@ -13,7 +13,7 @@ import UIContext from '@/context/UIContext';
 import NavBar from './components/navBar/Index';
 import SignupLogin from './widgets/auth/Index';
 import ScrumManagerPage from './scrumManager/page';
-import AgileCodingPage from './agileCoding/page';
+// import AgileCodingPage from './agileCoding/page';
 import Home from './home/page';
 import Profile from './profile/page';
 
@@ -41,8 +41,8 @@ export default function BasePage({ session }) {
 
   const uiElements = () => {
     switch (appContext) {
-      case 'agileCoding':
-        return <AgileCodingPage />;
+      // case 'agileCoding':
+      //   return <AgileCodingPage />;
       case 'scrumManager':
         return <ScrumManagerPage />;
       case 'home':
