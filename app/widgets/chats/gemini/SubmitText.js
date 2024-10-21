@@ -5,6 +5,9 @@ import { fetchDataFromGeminiProAPI, runChat } from '../functions/apiFunctions';
 
 function SubmitText({
   chatInFocus,
+  setChatInFocus,
+  codeBlockContent,
+  setCodeBlockContent,
   inputText,
   setInputText,
   data,
@@ -55,6 +58,9 @@ function SubmitText({
                 runChat(
                   availablePromptTokensAmount,
                   chatInFocus,
+                  setChatInFocus,
+                  codeBlockContent,
+                  setCodeBlockContent,
                   inputText,
                   setIsLoading,
                   setStreamedResponse,

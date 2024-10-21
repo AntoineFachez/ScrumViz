@@ -2,28 +2,26 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Avatar,
   Box,
-  Button,
   IconButton,
-  Paper,
   Skeleton,
-  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import {
-  docco,
-  vs2015,
-  a11yDark,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { Message } from '@chatscope/chat-ui-kit-react';
 import { ContentCopy } from '@mui/icons-material';
 import { handleCopyToClipBoard, notify } from '@/utils/utils';
 import AuthContext from '../auth/AuthContext';
 import AppContext from '@/context/AppContext';
-import { useSession } from 'next-auth/react';
 
-const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
+const ChatMessage = ({
+  codeBlockContent,
+  isLoading,
+  message,
+  messageInFocus,
+  styled,
+}) => {
   const { setAlert } = useContext(AppContext);
   const { currentSession } = useContext(AuthContext);
   const { user } = currentSession;
@@ -35,7 +33,8 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
   };
   return (
     <>
-      {data ? (
+      {' '}
+      {message ? (
         <Box
           className="chat-response widget"
           sx={{
@@ -49,7 +48,7 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
           {' '}
           <Avatar
             src={
-              data?.role === 'model'
+              message?.role === 'model'
                 ? 'https://play-lh.googleusercontent.com/Pkwn0AbykyjSuCdSYCbq0dvOqHP-YXcbBLTZ8AOUZhvnRuhUnZ2aJrw_YCf6kVMcZ4PM=w240-h480'
                 : image
             }
@@ -57,51 +56,44 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
           />
           <Box
             sx={{
-              // backgroundColor: data === messageInFocus ? 'green' : '',
-              // padding: '1rem',
-              // display: 'flex',
-              width: '100%',
               height: '100%',
               flexFlow: 'column',
               borderRadius: '5px',
               textAlign: 'start',
-
-              // backgroundColor: '#111',
-              // '&  >*': {
-              //   width: '100%',
-              // },
             }}
             elevation={10}
             // variant="elevation"
           >
-            {data?.parts?.map((part, i) => {
-              return (
-                <Message
-                  key={i}
-                  model={{
-                    message: part?.content,
-                    sentTime: 'just now',
-                    sender: data?.role,
-                    // direction: data?.role === 'model' ? 'incoming' : 'outgoing',
-                  }}
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    width: '100%',
-                    // height: '100%',
-                  }}
-                >
-                  <Message.CustomContent>
-                    <CodeBlock
-                      key={i}
-                      part={part}
-                      handleClickCopyToClipBoard={handleClickCopyToClipBoard}
-                      styled={styled}
-                    />
-                  </Message.CustomContent>
-                </Message>
-              );
-            })}
+            <>
+              {message?.parts?.map((part, i) => {
+                return (
+                  <Message
+                    key={i}
+                    model={{
+                      message: part?.content,
+                      sentTime: 'just now',
+                      sender: message?.role,
+                    }}
+                    style={{
+                      position: 'relative',
+                      display: 'inline-block',
+                      width: '100%',
+                    }}
+                  >
+                    <Message.CustomContent>
+                      <CodeBlock
+                        key={i}
+                        codeBlockContent={codeBlockContent}
+                        data={message}
+                        part={part}
+                        handleClickCopyToClipBoard={handleClickCopyToClipBoard}
+                        styled={styled}
+                      />
+                    </Message.CustomContent>
+                  </Message>
+                );
+              })}
+            </>
           </Box>
         </Box>
       ) : (
@@ -111,52 +103,97 @@ const ChatMessage = ({ isLoading, data, messageInFocus, styled }) => {
   );
 };
 export default ChatMessage;
-function CodeBlock({ part, styled, handleClickCopyToClipBoard }) {
+function CodeBlock({
+  codeBlockContent,
+  data,
+  part,
+  styled,
+  handleClickCopyToClipBoard,
+}) {
   const codeFenceRegex = /```(\w+)\n([\s\S]*?)```/;
-  const match = part?.text.match(codeFenceRegex);
+  const match = part?.text?.match(codeFenceRegex);
+  const [beforeCode, codeBlock, afterCode] = part?.text?.split(
+    codeFenceRegex
+  ) || ['', '', '']; // Split the string
 
   if (match) {
     const language = match[1];
     const code = match[2];
     return (
       <Box
-        sx={{ position: 'relative', paddingLeft: '1rem', borderRadius: '5px' }}
+        sx={{
+          position: 'relative',
+          width: '100%',
+          paddingLeft: '1rem',
+          borderRadius: '5px',
+        }}
       >
-        <SyntaxHighlighter
-          language={language}
-          style={{
-            ...a11yDark,
-            '& pre, & code': {
-              // height: '100%',
-              fontSize: '1rem',
-              backgroundColor: '#f8f8f8',
-            },
-          }}
-          wrapLongLines={true}
-        >
-          {code}
-        </SyntaxHighlighter>
-        <Box
+        {' '}
+        <Typography // Render text before code block
           sx={{
-            position: 'sticky',
-            // top: 0,
-            bottom: 0,
+            ...styled.textBody,
             width: '100%',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            borderRadius: '5px',
-            backgroundColor: 'rgb(43, 43, 43)',
+            height: '100%',
+            paddingLeft: '1rem',
           }}
-        >
-          <Tooltip title="copy code">
-            <IconButton
-              onClick={() => handleClickCopyToClipBoard(code)}
-              sx={styled.iconButton.action}
+          dangerouslySetInnerHTML={{ __html: beforeCode }}
+        />
+        {match && ( // Conditionally render code block
+          <Box
+            sx={{
+              position: 'relative',
+              paddingLeft: '1rem',
+              borderRadius: '5px',
+            }}
+          >
+            <SyntaxHighlighter
+              language={match[1]}
+              style={{
+                ...a11yDark,
+                '& pre, & code': {
+                  fontSize: '1rem',
+                  backgroundColor: '#f8f8f8',
+                },
+              }}
+              wrapLongLines={true}
             >
-              <ContentCopy />
-            </IconButton>
-          </Tooltip>
-        </Box>
+              {match[2]}
+              {/* {codeBlockContent} */}
+            </SyntaxHighlighter>{' '}
+          </Box>
+        )}
+        {/* <Typography // Render text after code block
+          sx={{
+            ...styled.textBody,
+            width: '100%',
+            height: '100%',
+            paddingLeft: '1rem',
+          }}
+          dangerouslySetInnerHTML={{ __html: afterCode }}
+        /> */}
+        {data?.role === 'model' && (
+          <Box
+            sx={{
+              position: 'sticky',
+              // top: 0,
+              bottom: 0,
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              borderRadius: '5px',
+              backgroundColor: 'rgb(43, 43, 43)',
+            }}
+          >
+            <Tooltip title="copy code">
+              <IconButton
+                onClick={() => handleClickCopyToClipBoard(code)}
+                sx={styled.iconButton.action}
+              >
+                <ContentCopy />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        )}
       </Box>
     );
   }
@@ -169,8 +206,7 @@ function CodeBlock({ part, styled, handleClickCopyToClipBoard }) {
         height: '100%',
         paddingLeft: '1rem',
       }}
-    >
-      {part.text}
-    </Typography>
+      dangerouslySetInnerHTML={{ __html: part?.text }}
+    />
   );
 }

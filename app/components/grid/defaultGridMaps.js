@@ -16,7 +16,7 @@ import SprintReviews from '@/app/widgets/sprintReviews/SprintReviews';
 import SprintRetrospectives from '@/app/widgets/sprintRetrospectives/SprintRetrospectives';
 import AgileItem from '@/app/widgets/agileItem/AgileItem';
 import Chats from '@/app/widgets/chats/Index';
-import DefaultPrompts from '@/app/widgets/defaultPrompts/DefaultPrompts';
+import Prompts from '@/app/widgets/prompts/Prompts';
 
 export const scrumManagerMap = [
   // {
@@ -1117,12 +1117,12 @@ export const chatsMap = [
     y: 4,
   },
   {
-    widget: DefaultPrompts,
-    widgetName: 'DefaultPrompts',
+    widget: Prompts,
+    widgetName: 'Prompts',
     id: uuidv4(),
-    collection: 'defaultPrompts',
+    collection: 'Prompts',
     active: true,
-    uiContext: 'defaultPromptsSelector',
+    uiContext: 'PromptsSelector',
     startUpWidgetLayout: 'flexList',
     w: 6,
     h: 10,

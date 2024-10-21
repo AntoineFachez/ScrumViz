@@ -1,28 +1,24 @@
-'use client';
-import { useContext, useState } from 'react';
-import { Box } from '@mui/material';
-import { Add, History } from '@mui/icons-material';
+import React, { memo, useContext, useEffect, useRef, useState } from 'react';
+import { Box, IconButton, Paper, Tooltip, Typography } from '@mui/material';
+import { Add, Backup, Chat } from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
+import PromptsContext from './PromptsContext';
 import InFocusContext from '@/context/InFocusContext';
 import SearchContext from '@/context/SearchContext';
-import SprintRetrospectivesContext from './SprintRetrospectivesContext';
-import UIContext from '@/context/UIContext';
-
 import WidgetIndexTemplate from '../../uiItems/widgetItems/WidgetIndexTemplate';
 
-import { singleItemScheme, scheme } from './dataScheme';
+import { scheme, singleItemScheme } from './dataScheme';
 import {
   handleSearchTermChange,
   handleSelectWidgetContext,
   handleSetItemInFocus,
   handleOpenNewItem,
-  handleCloseNewItem,
 } from '../actions';
 
 import { useMode } from '@/app/theme/ThemeContext';
 
-export default function SprintRetrospectives({
+export default function DefaultPromptWidget({
   widget,
   uiContext,
   startUpWidgetLayout,
@@ -31,6 +27,7 @@ export default function SprintRetrospectives({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
+
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -39,38 +36,38 @@ export default function SprintRetrospectives({
     setShowWidgetUIMenu,
     showNewItem,
     setShowNewItem,
-    selectedSprintRetrospectives,
-    setSelectedSprintRetrospectives,
-    isFiltered,
-    sprintRetrospectiveInFocus,
-    setSprintRetrospectiveInFocus,
+    selectedWidgetContext,
+    setSelectedWidgetContext,
+    selectedPrompts,
+    promptInFocus,
+    setPromptInFocus,
     searchTerm,
+    setSearchTerm,
+    isFiltered,
     handleResetFiltered,
-  } = useContext(SprintRetrospectivesContext);
-  const [selectedWidgetContext, setSelectedWidgetContext] =
-    useState(startUpWidgetLayout);
-  const handleSetSprintRetrospectiveInFocus = (item) => {
-    handleSetItemInFocus(
-      setSprintRetrospectiveInFocus,
-      item,
-      setLatestItemInFocus
-    );
+    handleCloseNewItem,
+  } = useContext(PromptsContext);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const handleSetPromptInFocus = (item) => {
+    handleSetItemInFocus(setPromptInFocus, item, setLatestItemInFocus);
   };
-  const collection = 'sprintRetrospectives';
+  const collection = 'prompts';
+
   const widgetProps = {
-    iconButton: <History />,
-    tooltipTitle_newItem: 'Create new Sprint Retrospective',
-    collection_context_title: 'Sprint Retrospectives',
-    dialogTitle: 'Create new Sprint Retrospective',
-    data: selectedSprintRetrospectives,
-    selectedData: selectedSprintRetrospectives,
-    setSelectedItem: setSelectedSprintRetrospectives,
+    iconButton: <Chat />,
+    tooltipTitle_newItem: 'Create new Prompt',
+    collection_context_title: ' Prompts',
+    dialogTitle: 'Create new Prompt',
+    data: selectedPrompts,
+    selectedData: selectedPrompts,
     selector: {
-      selector: 'sprintRetrospectiveSelector',
-      selected: 'selectedSprintRetrospectives',
+      selector: 'promptsSelector',
+      selected: 'selectedPrompts',
     },
-    itemInFocus: sprintRetrospectiveInFocus,
-    handleSetItemInFocus: handleSetSprintRetrospectiveInFocus,
+    itemInFocus: promptInFocus,
+    handleSetItemInFocus: handleSetPromptInFocus,
 
     appContext: appContext,
     collection: collection,
@@ -88,7 +85,7 @@ export default function SprintRetrospectives({
     setSelectedWidgetContext: setSelectedWidgetContext,
     quickMenuButtonArray: [
       {
-        tooltip_title: 'Create new Sprint Retrospective',
+        tooltip_title: 'Create new Prompt',
         onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
         icon: <Add />,
       },
@@ -110,47 +107,26 @@ export default function SprintRetrospectives({
       },
     },
     onClick: () => setUiGridMapContext(collection),
-
     handleSelectWidgetContext: handleSelectWidgetContext,
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
   };
 
-  const soloWidget = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Sprint Retrospective SoloWidget
-    </Box>
-  );
-
-  const tree = (
-    <Box
-      className="widget"
-      sx={{
-        ...styled.widget,
-        // backgroundColor: '#555',
-      }}
-    >
-      Sprint Retrospective Tree
-    </Box>
-  );
+  useEffect(() => {
+    setSelectedWidgetContext(startUpWidgetLayout);
+    if (!isLoading) setPromptInFocus('');
+    return () => {};
+  }, []);
 
   return (
     <>
       <WidgetIndexTemplate
         widget={widget}
         widgetProps={widgetProps}
-        soloWidget={soloWidget}
-        // singleItem={singleItem}
-        // chip={chip}
-        tree={tree}
-        // flexList={flexList}
+        uiContext={uiContext}
+        widgetContext={selectedWidgetContext}
+        multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

@@ -1,13 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  userName: '',
-  email: '',
-  image: '',
-  description: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   userName: '',
+//   email: '',
+//   image: '',
+//   description: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'userName', required: true, content: '' },
+  { key: 'email', required: true, content: '' },
+  { key: 'image', required: true, content: '' },
+  { key: 'description', required: true, content: '' },
+];
 
 export const fieldsAccordion = {
   heading: 'name',

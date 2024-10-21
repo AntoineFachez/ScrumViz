@@ -10,15 +10,85 @@ export const fieldsAccordion = {
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
-export const scheme = {
-  id: uuidv4(),
-  product_id: uuidv4(),
-  createdAt: new Date(),
-  product_name: '',
-  status: '',
-  description: '',
-  productBackLog_items: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   product_id: uuidv4(),
+//   createdAt: new Date(),
+//   product_name: '',
+//   status: '',
+//   description: '',
+//   productBackLog_items: '',
+// };
+export const scheme = [
+  {
+    domain: 'frontend',
+    key: 'product_name',
+    type: '',
+    required: true,
+    content: '',
+  },
+  { domain: 'backend', key: 'id', type: '', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'product_id',
+    type: '',
+    required: false,
+    content: uuidv4(),
+  },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    type: '',
+    required: true,
+    content: new Date(),
+  },
+
+  { domain: 'frontend', key: 'status', type: '', required: false, content: '' },
+  {
+    domain: 'frontend',
+    key: 'description',
+    type: '',
+    required: false,
+    content: '',
+  },
+  { domain: 'frontend', key: 'goal', type: '', required: false, content: '' },
+  {
+    domain: 'frontend',
+    key: 'target_audience',
+    type: '',
+    required: false,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'primary_actions',
+    type: '',
+    required: false,
+    content: '',
+  },
+
+  {
+    domain: 'frontend',
+    key: 'safetyGuidelines',
+    type: '',
+    required: false,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'expertVerification',
+    type: '',
+    required: false,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'productBackLog_items',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
+];
 export const singleItemScheme = {
   id: 'product_id',
   title: 'product_name',

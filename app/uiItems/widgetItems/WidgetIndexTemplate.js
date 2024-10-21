@@ -47,7 +47,13 @@ const WidgetIndexTemplate = ({
 
   const multiItems = <MultiItems widgetProps={widgetProps} styled={styled} />;
   const singleItem = <SingleItem widgetProps={widgetProps} styled={styled} />;
-  const newItem = <NewItem widgetProps={widgetProps} styled={styled} />;
+  const newItem = (
+    <NewItem
+      widgetProps={widgetProps}
+      styled={styled}
+      handleOnChangeAdoptPrompt={null}
+    />
+  );
   const newItemDialogue = (
     <SimpleDialog
       widgetProps={{
@@ -117,18 +123,9 @@ const WidgetIndexTemplate = ({
                 <Box className="widgetContainer" sx={styled.widgetContainer}>
                   {widgetProps.hasQuickMenu && (
                     <>
-                      <Box
-                        sx={{
-                          width: '100%',
-                          height: 'fit-content',
-                          display: 'flex',
-                          flexFlow: 'row nowrap',
-                          // justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <QuickMenu widgetProps={widgetProps} styled={styled} />
-                      </Box>
+                      {/* <Box className="quickMenu" sx={styled.quickMenu}> */}
+                      <QuickMenu widgetProps={widgetProps} styled={styled} />
+                      {/* </Box> */}
                     </>
                   )}
                   {widgetProps.hasWidgetMenu && (

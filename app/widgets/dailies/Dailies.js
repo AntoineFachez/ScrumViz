@@ -1,7 +1,11 @@
 'use client';
 import { useContext, useEffect, useState } from 'react';
 import { Avatar, Box, Typography } from '@mui/material';
-import { DateRange, StoreMallDirectoryOutlined } from '@mui/icons-material';
+import {
+  Add,
+  DateRange,
+  StoreMallDirectoryOutlined,
+} from '@mui/icons-material';
 
 import AppContext from '@/context/AppContext';
 import DailiesContext from './DailiesContext';
@@ -87,7 +91,14 @@ export default function Dailies({
     hasQuickMenu: true,
     selectedWidgetContext: selectedWidgetContext,
     setSelectedWidgetContext: setSelectedWidgetContext,
-    onClickNewItem: () => handleOpenNewItem(setShowNewItem, collection),
+    quickMenuButtonArray: [
+      {
+        tooltip_title: 'Create new Daily',
+        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        icon: <Add />,
+      },
+    ],
+
     openDialogueState: showNewItem,
     onCloseDialogue: () => handleCloseNewItem(setShowNewItem, collection),
 

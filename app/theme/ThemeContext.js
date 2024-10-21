@@ -179,6 +179,7 @@ export const themeSettings = (colorMode) => {
           },
           white: 'white',
           black: 'black',
+          placeholder: 'yellowgreen',
           action: colors.greenAccent[500],
           // active: colors.greenAccent[800],
           active: 'hotpink',
@@ -217,6 +218,7 @@ export const themeSettings = (colorMode) => {
           },
           white: 'white',
           black: 'black',
+          placeholder: 'yellowgreen',
           action: colors.greenAccent[500],
           // active: colors.greenAccent[400],
           active: 'hotpink',
@@ -399,10 +401,12 @@ const styled = (colorMode) => ({
   spacesMenu: {
     width: '100%',
     display: 'flex',
+    flexFlow: 'row nowrap',
     justifyContent: 'flex-end',
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
     // backgroundColor: () => themeSettings(colorMode).transparent,
     // backgroundColor: () => themeSettings(colorMode).alpha1,
+    backgroundColor: () => themeSettings(colorMode).neutral.dark,
     // padding: '0 1rem 0 0',
     transition: 'width 1s',
     '&:hover': {
@@ -427,6 +431,15 @@ const styled = (colorMode) => ({
 
     boxShadow:
       '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+  },
+
+  quickMenu: {
+    width: '100%',
+    height: 'fit-content',
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   widgetMenu: {
     width: '100%',
@@ -1268,8 +1281,8 @@ const styled = (colorMode) => ({
     textAlign: 'justify',
     overflow: 'scroll',
     // padding: '0 1.5rem',
-    noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
-    alignStart: { textAlign: 'start' },
+    nolinebreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
+    alignstart: { textAlign: 'start' },
     // color: () => themeSettings(colorMode).neutral.light,
     contrast: {
       color: 'white',
@@ -1283,8 +1296,8 @@ const styled = (colorMode) => ({
       textAlign: 'justify',
       overflow: 'scroll',
       // padding: '0 1.5rem',
-      noLineBreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
-      alignStart: { textAlign: 'start' },
+      nolinebreak: { whiteSpace: 'nowrap', padding: '0.2rem' },
+      alignstart: { textAlign: 'start' },
       color: () => themeSettings(colorMode).white,
     },
   },
@@ -1383,31 +1396,65 @@ const styled = (colorMode) => ({
     // height: "1rem",
     size: 'small',
     // fontSize: "0.2rem",
-    variant: 'outlined', //outlined, filled, and standard
-    color: 'white',
-    backgroundColor: () => themeSettings(colorMode).neutral.alpha1,
+    variant: 'filled', //outlined, filled, and standard
+    // color: 'white',
+    // backgroundColor: () => themeSettings(colorMode).white,
     display: 'flex',
     flexGrow: 2,
     flexShrink: 2,
-    '&:focus': {
+    // borderRadius: '5px',
+    '& > :not(style)': {
+      // m: 0,
       width: '100%',
-      maxWidth: '100%',
-      height: '100%',
-      maxHeight: '100%',
-      color: 'white',
+      color: themeSettings(colorMode).white,
+      // backgroundColor: themeSettings(colorMode).neutral.dark,
     },
-    '.MuiInputBase-input': {
-      width: '100%',
-      height: '1rem',
-      color: 'white',
+    // '.MuiInputBase-input:focus': {
+    //   width: '100%',
+    //   maxWidth: '100%',
+    //   height: '100%',
+    //   maxHeight: '100%',
+
+    //   color: themeSettings(colorMode).white,
+    //   // backgroundColor: themeSettings(colorMode).neutral.dark,
+    // },
+    // '&:focus': {
+    //   width: '100%',
+    //   maxWidth: '100%',
+    //   height: '100%',
+    //   maxHeight: '100%',
+    //   color: themeSettings(colorMode).white,
+    //   backgroundColor: themeSettings(colorMode).neutral.dark,
+    // },
+    // '& .MuiDialog-root': { width: '100%' },
+    // '& .MuiTextField-root': { width: '100%' },
+    // '& .MuiInputBase-root': {
+    //   width: '100%',
+    // },
+    // '& .MuiInputBase-input': { width: '100%' },
+    '& .MuiInputLabel-sizeSmall': {
+      width: 'fit-content',
+      color: themeSettings(colorMode).placeholder,
+      // backgroundColor: 'white',
     },
-    '.MuiInputBase-input:focus': {
-      width: '100%',
-      maxWidth: '100%',
-      height: '100%',
-      maxHeight: '100%',
-      color: 'white',
+    '& .MuiFormLabel-asterisk': {
+      color: 'red',
+      // backgroundColor: 'white',
     },
+    // '.MuiFormControl:focus': {
+    //   width: '100%',
+    //   maxWidth: '100%',
+    //   height: '100%',
+    //   maxHeight: '100%',
+    //   color: themeSettings(colorMode).white,
+    //   backgroundColor: themeSettings(colorMode).neutral.dark,
+    // },
+    // '.MuiInputBase-input': {
+    //   width: '100%',
+    //   height: '1rem',
+    //   color: 'white',
+    // },
+
     // backgroundColor: "red",
   },
   iconButton: {

@@ -23,6 +23,7 @@ import { db, storage } from './firebase';
 import { getAuth } from 'firebase/auth';
 
 import { v4 as uuidv4 } from 'uuid';
+import { notify } from '@/utils/utils';
 
 const storageRef = ref(storage);
 export const submitToFirestore = async ({ dataPack }) => {
@@ -48,6 +49,11 @@ export const submitToFirestore = async ({ dataPack }) => {
 
     return arrayToPushOnTo;
   } catch (error) {
+    const errorMessage = `Firestore error: ${error.message || 'Unknown error'}`;
+    notify({
+      state: 'error',
+      note: errorMessage,
+    });
     console.error('Error writing document: ', error);
     // Handle error as needed
   }

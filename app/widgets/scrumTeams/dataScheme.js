@@ -9,12 +9,20 @@ export const fieldsAccordion = {
   imageDescr: 'imageDescription',
 };
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  scrumTeam_name: '',
-  members: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   scrumTeam_name: '',
+//   members: '',
+// };
+
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'scrumTeam_name', required: true, content: '' },
+  { key: 'members', required: true, content: '' },
+];
+
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
 export const singleItemScheme = {

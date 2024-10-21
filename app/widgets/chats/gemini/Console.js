@@ -204,8 +204,9 @@ export default function Console({ inputField, setInputField, styled }) {
                         </Button>
                         <SubmitText
                           chatInFocus={chatInFocus}
-                          promptInputText={promptInputText}
-                          setPromppromptInputText={setPromppromptInputText}
+                          setChatInFocus={setChatInFocus}
+                          inputText={inputText}
+                          setInputText={setInputText}
                           data={data}
                           setData={setData}
                           streamedResponse={streamedResponse}

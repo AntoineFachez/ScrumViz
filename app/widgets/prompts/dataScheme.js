@@ -1,17 +1,26 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  title: '',
-  description: '',
-  source_collection: '',
-  target_collection: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   title: '',
+//   content: '',
+//   source_collection: '',
+//   target_collection: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'title', required: true, content: '' },
+  { key: 'content', required: true, content: '' },
+  { key: 'source_collection', required: true, content: '' },
+  { key: 'target_collection', required: true, content: '' },
+];
+
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',
-  content: 'description',
+  content: 'content',
   imageUrl: 'imageurl',
   imageDescr: 'imageDescription',
 };
@@ -22,7 +31,7 @@ export const singleItemScheme = {
   id: 'id',
   title: 'title',
   subTitle: 'text',
-  description: 'prompt_text',
+  description: 'content',
 };
 
 export const sliderMarksToken = [

@@ -1,21 +1,41 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const scheme = {
-  chatId: uuidv4(),
-  title: '',
-  createdAt: new Date(),
-  summary: '',
-  history: [
-    {
-      role: 'user',
-      parts: [{ text: '' }],
-    },
-    {
-      role: 'model',
-      parts: [{ text: '' }],
-    },
-  ],
-};
+// export const scheme = {
+//   chatId: uuidv4(),
+//   title: '',
+//   createdAt: new Date(),
+//   summary: '',
+//   history: [
+//     {
+//       role: 'user',
+//       parts: [{ text: '' }],
+//     },
+//     {
+//       role: 'model',
+//       parts: [{ text: '' }],
+//     },
+//   ],
+// };
+export const scheme = [
+  { key: 'chatId', required: true, content: uuidv4() },
+  { key: 'title', required: true, content: '' },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'summary', required: true, content: '' },
+  {
+    key: 'history',
+    required: true,
+    content: [
+      {
+        role: 'user',
+        parts: [{ text: '' }],
+      },
+      {
+        role: 'model',
+        parts: [{ text: '' }],
+      },
+    ],
+  },
+];
 export const fieldsAccordion = {
   heading: 'name',
   subHeading: 'date.start',

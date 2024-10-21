@@ -1,15 +1,25 @@
 import { v4 as uuidv4 } from 'uuid';
 
-export const scheme = {
-  id: uuidv4(),
-  createdAt: new Date(),
-  sprint_id: '',
-  date: '',
-  duration: '',
-  attendees: '',
-  selected_product_backlog_items: '',
-  sprintBackLog_items: '',
-};
+// export const scheme = {
+//   id: uuidv4(),
+//   createdAt: new Date(),
+//   sprint_id: '',
+//   date: '',
+//   duration: '',
+//   attendees: '',
+//   selected_product_backlog_items: '',
+//   sprintBackLog_items: '',
+// };
+export const scheme = [
+  { key: 'id', required: true, content: uuidv4() },
+  { key: 'createdAt', required: true, content: new Date() },
+  { key: 'sprint_id', required: true, content: '' },
+  { key: 'date', required: true, content: '' },
+  { key: 'duration', required: true, content: '' },
+  { key: 'attendees', required: true, content: '' },
+  { key: 'selected_product_backlog_items', required: true, content: '' },
+  { key: 'sprintBackLog_items', required: true, content: '' },
+];
 
 export const fieldsAccordion = {
   heading: 'name',
