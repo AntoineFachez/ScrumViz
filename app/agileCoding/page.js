@@ -13,7 +13,7 @@ import { Code } from '@mui/icons-material';
 
 export default function AgileCodingPage({
   uiContext,
-  // startUpWidgetLayout,
+  startUpWidgetLayout,
   // contextToolBar,
 }) {
   const containerRef = useRef(null);
@@ -27,24 +27,24 @@ export default function AgileCodingPage({
     useState(startUpWidgetLayout);
 
   const collection = 'agileCoding';
-  // const widgetProps = {
-  //   appContext: appContext,
-  //   hasWidgetMenu: true,
-  //   hasQuickMenu: true,
-  //   iconButton: <Code />,
-  //   collection: collection,
-  //   uiContext: uiContext,
-  //   // contextToolBar: contextToolBar,
-  //   widgetContext: selectedWidgetContext,
-  //   itemContext: '',
-  //   dropWidgetName: collection,
-  //   orderedBy: '',
-  //   onClick: () => {
-  //     setAppContext(collection);
-  //     setUiGridMapContext(collection);
-  //     return;
-  //   },
-  // };
+  const widgetProps = {
+    appContext: appContext,
+    hasWidgetMenu: true,
+    hasQuickMenu: true,
+    iconButton: <Code />,
+    collection: collection,
+    uiContext: uiContext,
+    // contextToolBar: contextToolBar,
+    widgetContext: selectedWidgetContext,
+    itemContext: '',
+    dropWidgetName: collection,
+    orderedBy: '',
+    onClick: () => {
+      setAppContext(collection);
+      setUiGridMapContext(collection);
+      return;
+    },
+  };
 
   const spliceIn = () => {
     listAllBuckets(setImageUrlArr);
@@ -66,13 +66,13 @@ export default function AgileCodingPage({
         position: 'relative',
       }}
     >
-      {/* <GridComponent styled={styled} /> */}
+      <GridComponent styled={styled} />
     </Box>
   );
 
   return (
     <>
-      {/* <WidgetIndexTemplate widgetProps={widgetProps} soloWidget={soloWidget} /> */}
+      <WidgetIndexTemplate widgetProps={widgetProps} soloWidget={soloWidget} />
     </>
   );
 }
