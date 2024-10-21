@@ -14,13 +14,13 @@ import { Code } from '@mui/icons-material';
 export default function AgileCodingPage({
   uiContext,
   startUpWidgetLayout,
-  // contextToolBar,
+  contextToolBar,
 }) {
   const containerRef = useRef(null);
 
   const [theme, colorMode, palette, styled] = useMode();
-  // const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
-  //   useContext(AppContext);
+  const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
+    useContext(AppContext);
   const { setImageUrlArr } = useContext(UIContext);
 
   const [selectedWidgetContext, setSelectedWidgetContext] =
@@ -34,7 +34,7 @@ export default function AgileCodingPage({
     iconButton: <Code />,
     collection: collection,
     uiContext: uiContext,
-    // contextToolBar: contextToolBar,
+    contextToolBar: contextToolBar,
     widgetContext: selectedWidgetContext,
     itemContext: '',
     dropWidgetName: collection,
