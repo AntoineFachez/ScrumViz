@@ -8,6 +8,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import Popper from '@mui/material/Popper';
 
 import { Autorenew, Save } from '@mui/icons-material';
@@ -28,9 +33,11 @@ export default function NewItem({
   const [open, setOpen] = useState(false);
   const previousAnchorElPosition = useRef(null);
   const idPoper = open ? 'virtual-element-popper' : undefined;
-
+  const [productBacklogItems, setProductBacklogItems] = useState([]);
   const handleSubmit = () => {
     // console.log(formData);
+    formData.productBackLog_items = productBacklogItems;
+    console.log(formData.productBackLog_items);
     handleSaveNewProduct(formData);
   };
   const handleChange = (event, fieldId) => {
@@ -102,87 +109,116 @@ export default function NewItem({
 
     return () => {};
   }, [formData]);
-  const [productBacklogItems, setProductBacklogItems] = useState([]);
 
   const handleItemsUpdated = (newItems) => {
     setProductBacklogItems(newItems);
   };
+
+  const renderField = (field, i) => {
+    if (field.type === 'objects') {
+      return (
+        <DropzoneTextField
+          key={i}
+          onItemsUpdated={handleItemsUpdated}
+          zoneType="textField"
+          // getRootProps={getRootProps}
+          // getInputProps={getInputProps}
+          styled={styled}
+        />
+      );
+    } else {
+      return (
+        <Box
+          key={i}
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexFlow: 'row nowrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            key={i}
+            inputRef={inputRefs.current[i]}
+            required={field.required}
+            id={field.key}
+            label={field.key}
+            value={formData[field.key]}
+            defaultValue={field.content}
+            sx={styled.textFieldLarge}
+            size={styled.textFieldLarge.size}
+            variant={styled.textFieldLarge.variant}
+            multiline={field.key}
+            rows={(() => {
+              switch (field.key) {
+                case 'description':
+                  return 3;
+                case 'productBackLog_items':
+                  return 3;
+                default:
+                  return 1;
+              }
+            })()}
+            onMouseUp={handleMouseUp}
+            onChange={(event) => handleChange(event, field.key)}
+          />{' '}
+          {field.key === 'id' && (
+            <IconButton
+              onClick={handleGenerateUUID}
+              sx={{ ...styled.iconButton.action }}
+            >
+              <Autorenew />
+            </IconButton>
+          )}
+        </Box>
+      );
+    }
+  };
+
   return (
     <Box
-      className="widget"
-      onMouseLeave={handleClose}
-      component="form"
-      onSubmit={handleSubmit}
-      // sx={{ ...styled.widget }}
-      noValidate
-      autoComplete="off"
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexFlow: 'column nowrap',
+        justifyContent: 'space-between',
+        gap: 1,
+        p: 1,
+      }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexFlow: 'column nowrap',
-          justifyContent: 'space-between',
-          gap: 1,
-          p: 1,
-        }}
-      >
-        {scheme.map((field, i) => (
-          <Box
-            key={i}
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexFlow: 'row nowrap',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            {field.type === 'objects' ? (
-              <>
-                <DropzoneTextField
-                  onItemsUpdated={handleItemsUpdated}
-                  zoneType="textField"
-                  // getRootProps={getRootProps}
-                  // getInputProps={getInputProps}
-                  styled={styled}
-                />
-              </>
-            ) : (
-              <TextField
-                inputRef={inputRefs.current[i]}
-                required={field.required}
-                id={field.key}
-                label={field.key}
-                value={formData[field.key]}
-                defaultValue={field.content}
-                sx={styled.textFieldLarge}
-                size={styled.textFieldLarge.size}
-                variant={styled.textFieldLarge.variant}
-                multiline={field.key}
-                rows={(() => {
-                  switch (field.key) {
-                    case 'description':
-                      return 8;
-                    case 'productBackLog_items':
-                      return 5;
-                    default:
-                      return 1;
-                  }
-                })()}
-                onMouseUp={handleMouseUp}
-                onChange={(event) => handleChange(event, field.key)}
-              />
-            )}{' '}
-            {field.key === 'id' && (
-              <IconButton
-                key="button1"
-                onClick={handleGenerateUUID}
-                sx={{ ...styled.iconButton.action }}
-              >
-                <Autorenew />
-              </IconButton>
-            )}
+      {' '}
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>Backend Fields</Typography>
+        </AccordionSummary>
+        <AccordionDetails
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexFlow: 'column nowrap',
+            justifyContent: 'space-between',
+            gap: 1,
+            p: 1,
+          }}
+        >
+          {scheme
+            .filter((field) => field.domain === 'backend')
+            .map((field, i) => (
+              <> {renderField(field, i)}</>
+            ))}
+        </AccordionDetails>
+      </Accordion>
+      {scheme
+        .filter((field) => field.domain === 'frontend')
+        .map((field, i) => (
+          <>
+            {renderField(field, i)}
+
             <Popper
               id={idPoper}
               open={open}
@@ -200,9 +236,8 @@ export default function NewItem({
                 </Fade>
               )}
             </Popper>
-          </Box>
+          </>
         ))}
-      </Box>
       <Box sx={styled.signUpLogInCard.footer}>
         {' '}
         <Button
@@ -215,7 +250,7 @@ export default function NewItem({
         </Button>
         <Button
           key="button1"
-          onClick={() => handleSaveNewProduct(formData)}
+          onClick={handleSubmit}
           startIcon={<Save sx={{ ...styled.menuButtonText.action }} />}
           sx={{ ...styled.menuButtonText.action, color: 'white' }}
         >
