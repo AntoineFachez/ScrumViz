@@ -13,16 +13,63 @@ import { v4 as uuidv4 } from 'uuid';
 //   customArrayKey: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'name', required: true, content: '' },
-  { key: 'firstName', required: true, content: '' },
-  { key: 'lastName', required: true, content: '' },
-  { key: 'birthDate', required: true, content: '' },
-  { key: 'education', required: true, content: '' },
-  { key: 'location', required: true, content: '' },
-  { key: 'customArray', required: true, content: '' },
-  { key: 'customArrayKey', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'frontend',
+    key: 'name',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'firstName',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'lastName',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'birthDate',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'education',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
+  {
+    domain: 'frontend',
+    key: 'location',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'customArray',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
+  {
+    domain: 'frontend',
+    key: 'customArrayKey',
+    required: true,
+    content: '',
+  },
 ];
 
 export const fieldsAccordion = {

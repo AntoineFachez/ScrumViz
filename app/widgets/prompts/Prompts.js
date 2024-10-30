@@ -38,22 +38,35 @@ export default function DefaultPromptWidget({
     setShowNewItem,
     selectedWidgetContext,
     setSelectedWidgetContext,
+
+    defaultPrompts,
+    displayPrompts,
+    setDisplayPrompts,
     selectedPrompts,
+    setSelectedPrompts,
+    defaultPromptInFocus,
+    setDefaultPromptInFocus,
     promptInFocus,
     setPromptInFocus,
     searchTerm,
     setSearchTerm,
     isFiltered,
+    setIsFiltered,
     handleResetFiltered,
-    handleCloseNewItem,
-  } = useContext(PromptsContext);
+    handleSearchTermChange,
 
+    handleNewDefaultPrompt,
+    handleCloseNewItem,
+    handleOnChangeAdoptPrompt,
+  } = useContext(PromptsContext);
+  console.log('selectedPrompts', selectedPrompts);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const handleSetPromptInFocus = (item) => {
     handleSetItemInFocus(setPromptInFocus, item, setLatestItemInFocus);
   };
   const collection = 'prompts';
+  console.log('selectedPrompts', selectedPrompts);
 
   const widgetProps = {
     iconButton: <Chat />,
@@ -111,6 +124,7 @@ export default function DefaultPromptWidget({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   useEffect(() => {
@@ -126,7 +140,7 @@ export default function DefaultPromptWidget({
         widgetProps={widgetProps}
         uiContext={uiContext}
         widgetContext={selectedWidgetContext}
-        multiItems={multiItems}
+        // multiItems={multiItems}
         isFiltered={isFiltered}
         onResetFiltered={handleResetFiltered}
       />

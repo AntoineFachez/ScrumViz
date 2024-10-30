@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useMode } from './theme/ThemeContext';
 import TemporaryDrawer from './components/drawer/Index';
 import { Menu, ViewSidebar } from '@mui/icons-material';
+import DrawerCreateNewItem from './uiItems/newItem/DrawerCreateNewItem';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
@@ -117,9 +118,10 @@ export default function BasePage({ session }) {
             drawerFloorElement={drawerFloorElement}
             styled={styled}
           />
-          <ToastContainer />
+          <DrawerCreateNewItem />
         </ThemeProvider>{' '}
       </Box>
+      <ToastContainer />
     </SessionProvider>
   );
 }
