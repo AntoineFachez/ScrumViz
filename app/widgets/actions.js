@@ -26,10 +26,15 @@ export const handleSearchTermChange = (
   setSearchTerm(e.target.value);
   setActiveSearchTerm(e.target.value);
 };
-export const handleOpenNewItem = async (setShowNewItem, collection) => {
+export const handleOpenNewItem = async (
+  setShowNewItem,
+  collection
+  // handleToggleDrawer
+) => {
   console.log(collection);
   // setSelectedWidgetContext('newItem');
   setShowNewItem(true);
+  // handleToggleDrawer('right', true);
 };
 export const handleCloseNewItem = (setShowNewItem, collection) => {
   console.log(collection);

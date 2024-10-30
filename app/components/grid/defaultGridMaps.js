@@ -1122,7 +1122,7 @@ export const chatsMap = [
     id: uuidv4(),
     collection: 'Prompts',
     active: true,
-    uiContext: 'PromptsSelector',
+    uiContext: 'promptsSelector',
     startUpWidgetLayout: 'flexList',
     w: 6,
     h: 10,

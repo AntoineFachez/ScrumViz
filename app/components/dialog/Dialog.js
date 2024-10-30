@@ -4,8 +4,67 @@ import { useState, useEffect } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
+import Drawer from '@mui/material/Drawer';
+import { Box, IconButton } from '@mui/material';
+import { Close } from '@mui/icons-material';
+import { useMode } from '@/app/theme/ThemeContext';
+
+// export default function TemporaryDrawer({
+//   drawerMenu,
+//   drawerFloorElement,
+//   handleToggleDrawer,
+//   orientationDrawer,
+//   styled,
+// }) {
+//   const list = (anchor) => {
+//     return (
+//       <Box
+//         sx={{
+//           width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 'auto',
+//           height: '100%',
+//           overflowY: 'auto',
+//         }}
+//         role="presentation"
+//       >
+//         {drawerFloorElement}
+//       </Box>
+//     );
+//   };
+
+//   return (
+//     <>
+//       {['right'].map((anchor, i) => {
+//         return (
+//           <Drawer
+//             key={i}
+//             anchor={anchor}
+//             open={orientationDrawer[anchor]}
+//             onClose={handleToggleDrawer(anchor, false)}
+//             sx={{
+//               // ...styled.widget,
+//               '& .MuiDrawer-paper': {
+//                 width: anchor === 'left' ? 'fit-content' : 'fit-content',
+//                 height: '100%',
+//                 display: 'flex',
+//                 justifyContent: 'flex-start',
+//                 marginTop: '3rem',
+//                 paddingBottom: '3rem',
+//                 // bottom: 0,
+//                 overflowY: 'hidden',
+//               },
+//             }}
+//           >
+//             {drawerMenu}
+//             {list(anchor)}
+//           </Drawer>
+//         );
+//       })}
+//     </>
+//   );
+// }
 
 export default function SimpleDialog({ widgetProps }) {
+  const [theme, colorMode, palette, styled] = useMode();
   const {
     dialogTitle,
     dialogCustomComponent,
@@ -16,24 +75,31 @@ export default function SimpleDialog({ widgetProps }) {
   const [renderDialogue, setRenderDialogue] = useState(null);
 
   useEffect(() => {
+    // setRenderDialogue(dialogCustomComponent);
     setRenderDialogue(
       <Dialog
         open={openDialogueState}
         onClose={onCloseDialogue}
         sx={{
-          width: '100%',
-          height: '100%',
+          // backgroundColor: 'black',
           '& .MuiDialog': {
+            width: '100%',
+            height: '80vh',
             maxWidth: '100%',
           },
         }}
         className="widget"
+        fullScreen
+        // fullWidth={true}
       >
+        <IconButton sx={styled.iconButton.action} onClick={onCloseDialogue}>
+          <Close />
+        </IconButton>
         <DialogTitle>
           <Typography>{dialogTitle}</Typography>
         </DialogTitle>
         {dialogCustomComponent}
-        {customMenu}
+        {/* {customMenu} */}
       </Dialog>
     );
 

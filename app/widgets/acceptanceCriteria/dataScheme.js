@@ -15,11 +15,31 @@ export const fieldsAccordion = {
 //   acceptanceCriteria_description: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'useStory_id', required: true, content: '' },
-  { key: 'subTitle', required: true, content: '' },
-  { key: 'acceptanceCriteria_description', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'backend',
+    key: 'useStory_id',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'subTitle',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'acceptanceCriteria_description',
+    required: true,
+    content: '',
+  },
 ];
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];
 
