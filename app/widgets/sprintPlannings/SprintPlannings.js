@@ -164,7 +164,9 @@ export default function SprintPlannings({
     handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
+
   // useEffect(() => {
   //   const foundSprintPlannings = displaySprintPlannings.filter(
   //     (planning) => planning.sprint_id === sprintInFocus.id

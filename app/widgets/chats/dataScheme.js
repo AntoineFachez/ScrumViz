@@ -17,10 +17,30 @@ import { v4 as uuidv4 } from 'uuid';
 //   ],
 // };
 export const scheme = [
-  { key: 'chatId', required: true, content: uuidv4() },
-  { key: 'title', required: true, content: '' },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'summary', required: true, content: '' },
+  {
+    domain: 'frontend',
+    key: 'chatId',
+    required: true,
+    content: uuidv4(),
+  },
+  {
+    domain: 'frontend',
+    key: 'title',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'frontend',
+    key: 'summary',
+    required: true,
+    content: '',
+  },
   {
     key: 'history',
     required: true,
@@ -34,6 +54,7 @@ export const scheme = [
         parts: [{ text: '' }],
       },
     ],
+    type: 'objects',
   },
 ];
 export const fieldsAccordion = {

@@ -16,11 +16,32 @@ export const fieldsAccordion = {
 //   productBackLogs: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'product_name', required: true, content: '' },
-  { key: 'status', required: true, content: '' },
-  { key: 'productBackLogs', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'frontend',
+    key: 'product_name',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'status',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'productBackLogs',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
 ];
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];

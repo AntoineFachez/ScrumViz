@@ -25,7 +25,7 @@ import {
 import {} from './functions/dbFunctions';
 
 import { useMode } from '@/app/theme/ThemeContext';
-import NewItem from '@/app/uiItems/widgetItems/NewItem';
+import NewItem from '@/app/uiItems/newItem/NewItem';
 import SimpleDialog from '@/app/components/dialog/Dialog';
 import MultiItems from '@/app/uiItems/widgetItems/MultiItems';
 import EnvProductionIcon from '@/app/components/icons/EnvProductionIcon';
@@ -156,6 +156,7 @@ export default function Products({
     handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   const soloWidget = (

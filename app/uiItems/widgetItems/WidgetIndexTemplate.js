@@ -10,8 +10,13 @@ import { themeSettings, useMode } from '../../theme/ThemeContext';
 import SingleItem from './singleItem/SingleItem';
 import MultiItems from './MultiItems';
 import SimpleDialog from '@/app/components/dialog/Dialog';
-import NewItem from './NewItem';
+import NewItem from '../newItem/NewItem';
 import StandInTable from '@/app/components/table/StandInTable';
+import DrawerCreateNewItem from '../newItem/DrawerCreateNewItem';
+import DrawerChat from '../newItem/DrawerChat';
+import TemporaryDrawer from '@/app/components/drawer/Index';
+import { useContext } from 'react';
+import UIContext from '@/context/UIContext';
 
 const WidgetIndexTemplate = ({
   widgetProps,
@@ -29,7 +34,16 @@ const WidgetIndexTemplate = ({
   onResetFiltered,
 }) => {
   const [theme, colorMode, palette, styled] = useMode();
-
+  const {
+    showDialog,
+    setShowDialog,
+    handleToggleDrawer,
+    drawerMenu,
+    drawerFloorElement,
+    handleGoBack,
+    orientationDrawer,
+    setOrientationDrawer,
+  } = useContext(UIContext);
   const {
     uiGridMapContext,
     collection,
@@ -54,18 +68,55 @@ const WidgetIndexTemplate = ({
       handleOnChangeAdoptPrompt={null}
     />
   );
+  console.log(widgetProps.collection);
+
   const newItemDialogue = (
-    <SimpleDialog
-      widgetProps={{
-        ...widgetProps,
-        dialogCustomComponent: (
-          <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
-            <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
-            {newItem}
-          </Box>
-        ),
-      }}
-    />
+    <>
+      {/* <DrawerCreateNewItem
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: (
+            <Box sx={{ display: 'flex', flexFlow: 'row' }} className="widget">
+              <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
+              {newItem}
+            </Box>
+          ),
+        }}
+      /> */}
+      <SimpleDialog
+        widgetProps={{
+          ...widgetProps,
+          dialogCustomComponent: (
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexFlow: 'row',
+                backgroundColor: 'black',
+              }}
+              className="widget"
+            >
+              <Box sx={{ width: '30%', maxWidth: '25ch' }}>{multiItems}</Box>
+              {newItem} <DrawerChat />
+            </Box>
+          ),
+        }}
+      />{' '}
+      {/* <SimpleDialog
+        drawerMenu={drawerMenu}
+        drawerFloorElement={newItem}
+        handleToggleDrawer={handleToggleDrawer}
+        orientationDrawer={orientationDrawer}
+        styled={styled}
+      />{' '} */}
+      {/* <TemporaryDrawer
+        // drawerMenu={drawerMenu}
+        // handleGoBack={handleGoBack}
+        drawerFloorElement={newItem}
+        styled={styled}
+      /> */}
+    </>
   );
   const table = (
     <Box
