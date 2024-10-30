@@ -50,6 +50,7 @@ export default function ChatsWidget({
     sliderSize,
     showDialog,
     handleCloseDialog,
+    handleToggleDrawer,
   } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
@@ -159,7 +160,8 @@ export default function ChatsWidget({
     quickMenuButtonArray: [
       {
         tooltip_title: 'Create new Chat',
-        onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        // onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        onClickHandler: handleToggleDrawer('right', true),
         icon: <Add />,
       },
     ],
@@ -185,6 +187,7 @@ export default function ChatsWidget({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   useEffect(() => {

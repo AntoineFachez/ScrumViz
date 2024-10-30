@@ -11,14 +11,52 @@ import { v4 as uuidv4 } from 'uuid';
 //   sprintBackLog_items: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'sprint_id', required: true, content: '' },
-  { key: 'date', required: true, content: '' },
-  { key: 'duration', required: true, content: '' },
-  { key: 'attendees', required: true, content: '' },
-  { key: 'selected_product_backlog_items', required: true, content: '' },
-  { key: 'sprintBackLog_items', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'backend',
+    key: 'sprint_id',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'date',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'duration',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'attendees',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
+  {
+    domain: 'frontend',
+    key: 'selected_product_backlog_items',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
+  {
+    domain: 'frontend',
+    key: 'sprintBackLog_items',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
 ];
 
 export const fieldsAccordion = {
