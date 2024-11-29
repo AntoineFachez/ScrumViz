@@ -31,8 +31,10 @@ export const submitToFirestore = async ({ dataPack }) => {
 
   try {
     const docRef = await addDoc(collection(db, firestoreContext), data);
-    console.log('Document written with ID: ', firestoreContext, docRef.id);
-
+    notify({
+      state: 'success',
+      note: `Document written in ${firestoreContext} with ID: ${docRef.id}`,
+    });
     const docSnap = await getDoc(doc(db, firestoreContext, docRef.id));
 
     if (docSnap.exists()) {
@@ -43,9 +45,11 @@ export const submitToFirestore = async ({ dataPack }) => {
         arrayToPushOnTo?.push(docData);
       }
     } else {
-      //    console.log("No such document!");
+      notify({
+        state: 'warning',
+        note: `No such document in ${firestoreContext}!`,
+      });
     }
-    console.log(arrayToPushOnTo);
 
     return arrayToPushOnTo;
   } catch (error) {
@@ -55,7 +59,6 @@ export const submitToFirestore = async ({ dataPack }) => {
       note: errorMessage,
     });
     console.error('Error writing document: ', error);
-    // Handle error as needed
   }
 };
 
@@ -284,7 +287,7 @@ export const listAllBuckets = async (setSetter) => {
     const result = await listAll(storageRef);
 
     const downloadURLs = await Promise.all(
-      result.items.map((itemRef) => getDownloadURL(itemRef))
+      result?.items?.map((itemRef) => getDownloadURL(itemRef))
     );
 
     // setSetter(downloadURLs);
@@ -310,7 +313,7 @@ async function listAllItemsRecursively(folderRef, setSetter) {
 
     // Process files in the current folder
     const urlsInFolder = await Promise.all(
-      result.items.map((itemRef) => getDownloadURL(itemRef))
+      result?.items?.map((itemRef) => getDownloadURL(itemRef))
     );
 
     return urlsInFolder;

@@ -110,6 +110,7 @@ export default function Persons({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   const handleSearchTermChange = (e) => {

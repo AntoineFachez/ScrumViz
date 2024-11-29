@@ -116,6 +116,7 @@ export default function TeamMembers({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   const handleSearchTermChange = (e) => {

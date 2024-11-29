@@ -17,13 +17,44 @@ export const fieldsAccordion = {
 //   blockers: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'sprint_id', required: true, content: '' },
-  { key: 'date', required: true, content: '' },
-  { key: 'done', required: true, content: '' },
-  { key: 'planned', required: true, content: '' },
-  { key: 'blockers', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'backend',
+    key: 'sprint_id',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'date',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'done',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'planned',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'blockers',
+    type: 'objects',
+    required: false,
+    content: [],
+  },
 ];
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];

@@ -13,11 +13,11 @@ export const widgetListHome = {
         widget: 'ScrumTeams',
         name: 'ScrumTeams',
       },
-      {
-        _uid: uuidv4(),
-        widget: 'AgileCodingPage',
-        name: 'AgileCodingPage',
-      },
+      // {
+      //   _uid: uuidv4(),
+      //   widget: 'AgileCodingPage',
+      //   name: 'AgileCodingPage',
+      // },
       // {
       //   _uid: uuidv4(),
       //   widget: 'Profile',
@@ -26,23 +26,23 @@ export const widgetListHome = {
     ],
   },
 };
-export const widgetListAgileCoding = {
-  content: {
-    body: [
-      {
-        _uid: uuidv4(),
-        widget: 'AgileCodingPage',
-        name: 'AgileCodingPage',
-      },
+// export const widgetListAgileCoding = {
+//   content: {
+//     body: [
+//       {
+//         _uid: uuidv4(),
+//         widget: 'AgileCodingPage',
+//         name: 'AgileCodingPage',
+//       },
 
-      // {
-      //   _uid: uuidv4(),
-      //   widget: 'Persons',
-      //   name: 'Persons',
-      // },
-    ],
-  },
-};
+//       // {
+//       //   _uid: uuidv4(),
+//       //   widget: 'Persons',
+//       //   name: 'Persons',
+//       // },
+//     ],
+//   },
+// };
 export const widgetListScrumManager = {
   content: {
     body: [

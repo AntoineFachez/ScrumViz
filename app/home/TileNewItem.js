@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Box, IconButton, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
-export default function TileNewItem({ styled, handleToggleDrawer }) {
+import UIContext from '@/context/UIContext';
+
+export default function TileNewItem({ styled }) {
+  const { handleToggleDrawer } = useContext(UIContext);
   return (
     <Box
       sx={{

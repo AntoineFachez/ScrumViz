@@ -138,6 +138,7 @@ export default function Products({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   const handleClickCustomArrayItem = (e) => {

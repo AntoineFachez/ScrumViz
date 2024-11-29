@@ -9,12 +9,37 @@ import { v4 as uuidv4 } from 'uuid';
 //   description: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'userName', required: true, content: '' },
-  { key: 'email', required: true, content: '' },
-  { key: 'image', required: true, content: '' },
-  { key: 'description', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'frontend',
+    key: 'userName',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'email',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'image',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'description',
+    required: true,
+    content: '',
+  },
 ];
 
 export const fieldsAccordion = {
