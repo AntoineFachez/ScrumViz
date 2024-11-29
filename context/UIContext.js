@@ -20,7 +20,7 @@ import {
 } from '@/app/components/grid/defaultGridMaps';
 import {
   widgetListHome,
-  widgetListAgileCoding,
+  // widgetListAgileCoding,
   widgetListScrumManager,
   widgetListProducts,
   widgetListUserStories,
@@ -90,8 +90,8 @@ export const UIProvider = ({ children }) => {
       switch (uiGridMapContext) {
         case 'home':
           return widgetListHome;
-        case 'agileCoding':
-          return widgetListAgileCoding;
+        // case 'agileCoding':
+        //   return widgetListAgileCoding;
         case 'scrumManager':
           return widgetListScrumManager;
         case 'products':
@@ -132,8 +132,8 @@ export const UIProvider = ({ children }) => {
     setTimeout(() => {
       setDefaultWidgetMap(() => {
         switch (uiGridMapContext) {
-          case 'agileCoding':
-            return agileCodingMap;
+          // case 'agileCoding':
+          //   return agileCodingMap;
           case 'scrumManager':
             return scrumManagerMap;
           case 'products':

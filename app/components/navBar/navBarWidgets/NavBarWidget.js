@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Box } from '@mui/material';
 
-import AgileCodingPage from '../../../agileCoding/page';
+// import AgileCodingPage from '../../../agileCoding/page';
 import ScrumManagerPage from '../../../scrumManager/page';
 import Profile from '../../../profile/page';
 
@@ -20,7 +20,7 @@ import SprintRetrospectives from '../../../widgets/sprintRetrospectives/SprintRe
 import ImageDropzone from '../../../widgets/imageDropZone/Index';
 
 const Components = {
-  AgileCodingPage: AgileCodingPage,
+  // AgileCodingPage: AgileCodingPage,
   ScrumManagerPage: ScrumManagerPage,
   Products: Products,
   Profile: Profile,

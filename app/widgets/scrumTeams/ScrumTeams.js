@@ -148,6 +148,7 @@ export default function ScrumTeam({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   // const handleSearchTermChange = (e) => {

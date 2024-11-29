@@ -36,7 +36,7 @@ export default function UserStory({
   const [theme, colorMode, palette, styled] = useMode();
   const { appContext, setAppContext, uiGridMapContext, setUiGridMapContext } =
     useContext(AppContext);
-  const {} = useContext(UIContext);
+  const { handleToggleDrawer } = useContext(UIContext);
   const { setLatestItemInFocus } = useContext(InFocusContext);
   const { setActiveSearchTerm } = useContext(SearchContext);
 
@@ -115,6 +115,7 @@ export default function UserStory({
       {
         tooltip_title: 'Create new User Story',
         onClickHandler: () => handleOpenNewItem(setShowNewItem, collection),
+        // onClickHandler: handleToggleDrawer('right', true),
         icon: <Add />,
       },
     ],
@@ -140,6 +141,7 @@ export default function UserStory({
     handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   useEffect(() => {

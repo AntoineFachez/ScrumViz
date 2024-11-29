@@ -115,6 +115,7 @@ export default function SprintRetrospectives({
     // handleClickCustomArrayItem: handleClickCustomArrayItem,
     handleSearchTermChange: (e) =>
       handleSearchTermChange(e, setSearchTerm, setActiveSearchTerm),
+    styled: styled,
   };
 
   const soloWidget = (

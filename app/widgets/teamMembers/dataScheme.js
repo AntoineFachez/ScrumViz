@@ -16,12 +16,37 @@ export const fieldsAccordion = {
 //   profession: '',
 // };
 export const scheme = [
-  { key: 'id', required: true, content: uuidv4() },
-  { key: 'createdAt', required: true, content: new Date() },
-  { key: 'person_id', required: true, content: '' },
-  { key: 'name', required: true, content: '' },
-  { key: 'scrumRole', required: true, content: '' },
-  { key: 'profession', required: true, content: '' },
+  { domain: 'backend', key: 'id', required: true, content: uuidv4() },
+  {
+    domain: 'backend',
+    key: 'createdAt',
+    required: true,
+    content: new Date(),
+  },
+  {
+    domain: 'frontend',
+    key: 'person_id',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'name',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'scrumRole',
+    required: true,
+    content: '',
+  },
+  {
+    domain: 'frontend',
+    key: 'profession',
+    required: true,
+    content: '',
+  },
 ];
 
 export const keysTable = ['id', 'item_name', 'user_story', 'author'];

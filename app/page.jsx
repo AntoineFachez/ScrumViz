@@ -13,7 +13,7 @@ import UIContext from '@/context/UIContext';
 import NavBar from './components/navBar/Index';
 import SignupLogin from './widgets/auth/Index';
 import ScrumManagerPage from './scrumManager/page';
-import AgileCodingPage from './agileCoding/page';
+// import AgileCodingPage from './agileCoding/page';
 import Home from './home/page';
 import Profile from './profile/page';
 
@@ -24,6 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useMode } from './theme/ThemeContext';
 import TemporaryDrawer from './components/drawer/Index';
 import { Menu, ViewSidebar } from '@mui/icons-material';
+import DrawerCreateNewItem from './uiItems/newItem/DrawerCreateNewItem';
 
 export default function BasePage({ session }) {
   const { user } = useContext(AuthContext);
@@ -41,8 +42,8 @@ export default function BasePage({ session }) {
 
   const uiElements = () => {
     switch (appContext) {
-      case 'agileCoding':
-        return <AgileCodingPage />;
+      // case 'agileCoding':
+      //   return <AgileCodingPage />;
       case 'scrumManager':
         return <ScrumManagerPage />;
       case 'home':
@@ -117,9 +118,10 @@ export default function BasePage({ session }) {
             drawerFloorElement={drawerFloorElement}
             styled={styled}
           />
-          <ToastContainer />
+          <DrawerCreateNewItem />
         </ThemeProvider>{' '}
       </Box>
+      <ToastContainer />
     </SessionProvider>
   );
 }

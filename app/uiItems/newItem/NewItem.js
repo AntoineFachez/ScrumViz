@@ -27,7 +27,7 @@ export default function NewItem({
 }) {
   const inputRefs = useRef([]);
   // const { getRootProps, getInputProps } = useDropzone({ onDrop });
-  const { itemInFocus, scheme } = widgetProps;
+  const { itemInFocus, scheme = [] } = widgetProps;
   const [formData, setFormData] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -86,7 +86,7 @@ export default function NewItem({
   // }, [itemInFocus, scheme]);
   useEffect(() => {
     const initialFormData = {};
-    scheme.forEach((field) => {
+    scheme?.forEach((field) => {
       initialFormData[field.key] = itemInFocus?.[field.key] || field.content;
     });
     setFormData(initialFormData);
@@ -216,7 +216,7 @@ export default function NewItem({
       {scheme
         .filter((field) => field.domain === 'frontend')
         .map((field, i) => (
-          <>
+          <Box key={i}>
             {renderField(field, i)}
 
             <Popper
@@ -236,7 +236,7 @@ export default function NewItem({
                 </Fade>
               )}
             </Popper>
-          </>
+          </Box>
         ))}
       <Box sx={styled.signUpLogInCard.footer}>
         {' '}
