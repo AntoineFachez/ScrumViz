@@ -87,9 +87,7 @@ export default function BasePage({ session }) {
         <ThemeProvider theme={theme}>
           {user ? (
             <>
-              <>
-                <NavBar /> {uiElements()}
-              </>
+              <>{/* <NavBar /> {uiElements()} */}</>
             </>
           ) : (
             <>
