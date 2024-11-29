@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export',
+  distDir: 'out',
+  // public: 'out/static',
+
   compiler: {
     // styleds: true,
   },
